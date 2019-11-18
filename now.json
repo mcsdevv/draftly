@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "env": {
+    "AUTH0_DOMAIN": "@tr-auth0_domain",
+    "AUTH0_CLIENT_ID": "@tr-auth0_client_id",
+    "AUTH0_CLIENT_SECRET": "@tr-auth0_client_secret",
+    "AUTH0_AUDIENCE": "@tr-auth0_audience",
+    "AUTH0_REDIRECT_URI": "@tr-auth0_redirect_uri",
+    "ENCRYPTION_KEY": "@tr-encryption_key"
+  }
+}
