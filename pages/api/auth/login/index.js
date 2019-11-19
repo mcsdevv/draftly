@@ -18,3 +18,5 @@ module.exports = async (req, res) => {
   // send response
   res.end();
 };
+
+// ! If localhost appears in callback URL on Auth0, consent skipping will not work.
