@@ -36,7 +36,10 @@ export default () => {
     setHandle(e.target.value);
   };
   const connectTwitter = () => {
-    console.log(handle);
+    // fetch(`/api/auth/twitter/${handle}`, {
+    //   method: "POST"
+    // });
+    window.location = "http://localhost:3000/api/auth/twitter/handle";
   };
   return (
     <>
