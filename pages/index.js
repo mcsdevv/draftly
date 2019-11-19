@@ -6,6 +6,7 @@ import parseJwt from "../lib/parseJwt";
 
 export default () => {
   const [isAuth, setAuth] = useState(false);
+  const [handle, setHandle] = useState("");
   const [profile, setProfile] = useState(null);
   useEffect(() => {
     function getAuth() {
@@ -30,6 +31,12 @@ export default () => {
       setAuth(false);
       setProfile(null);
     }
+  };
+  const updateHandle = e => {
+    setHandle(e.target.value);
+  };
+  const connectTwitter = () => {
+    console.log(handle);
   };
   return (
     <>
@@ -56,11 +63,21 @@ export default () => {
           )}
         </div>
         {profile && profile.secret && <p>{profile.secret}</p>}
+        <div className="handle">
+          <label>Twitter Handle</label>
+          <input value={handle} onChange={updateHandle} />
+          <button onClick={connectTwitter}>Connect Twitter</button>
+        </div>
       </main>
       <style jsx>{`
         .buttons {
           display: flex;
           justify-content: space-between;
+        }
+        .handle {
+          display: flex;
+          flex-direction: column;
+          margin-top: 16px;
         }
       `}</style>
     </>
