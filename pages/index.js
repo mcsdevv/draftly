@@ -36,11 +36,11 @@ export default () => {
     setHandle(e.target.value);
   };
   const connectTwitter = () => {
-    // fetch(`/api/auth/twitter/${handle}`, {
-    //   method: "POST"
-    // });
-    window.location = "http://localhost:3000/api/auth/twitter/handle";
+    window.location = "http://localhost:3000/api/auth/twitter/connect";
   };
+  // const postUpdate = async () => {
+  //   const res = fetch
+  // }
   return (
     <>
       <Head>
@@ -70,6 +70,7 @@ export default () => {
           <label>Twitter Handle</label>
           <input value={handle} onChange={updateHandle} />
           <button onClick={connectTwitter}>Connect Twitter</button>
+          {/* <button onClick={postUpdate}>Post Update</button> */}
         </div>
       </main>
       <style jsx>{`
