@@ -28,20 +28,19 @@ module.exports = async (req, res) => {
       const id_token = jwt.decode(auth.id_token);
       //  confirm nonce match to mitigate token replay attack
       if (req.cookies.nonce === id_token.nonce) {
-        // encrypt access token
         const existsOptions = {
           method: "GET",
           url: `${process.env.AUTH0_REDIRECT_URI}/api/user/exists/${id_token.email}`,
           json: true
         };
         try {
+          // check if user exists in db - errors 500 if not
           await request(existsOptions);
         } catch (e) {
-          console.log("ERROR", e.message);
+          // if error, no user existing, create in db
           const createOptions = {
             method: "POST",
             url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create`,
-            headers: { "content-type": "application/json" },
             body: {
               email: id_token.email,
               name: id_token.name,
@@ -49,11 +48,8 @@ module.exports = async (req, res) => {
             },
             json: true
           };
-          const create = await request(createOptions);
-          console.log("CREATE", create);
+          await request(createOptions);
         }
-        // TODO: If it doesn't exist, create...
-
         // add id_token (browser) as cookie
         res.setHeader("Set-Cookie", [
           cookie.serialize(
