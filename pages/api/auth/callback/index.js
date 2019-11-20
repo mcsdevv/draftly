@@ -2,13 +2,12 @@ const request = require("request-promise");
 const cookie = require("cookie");
 const cookieOptions = require("../../_util/cookie/options");
 const jwt = require("jsonwebtoken");
-const { client, q } = require("../../_util/fauna");
 
 module.exports = async (req, res) => {
   //  confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
     // prepare options for token exchange
-    const options = {
+    const authOptions = {
       method: "POST",
       url: `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
       headers: { "content-type": "application/x-www-form-urlencoded" },
@@ -22,19 +21,39 @@ module.exports = async (req, res) => {
       json: true
     };
     // send request for token exchange
-    const auth = await request(options);
+    const auth = await request(authOptions);
     // check no error on token exchange
     if (!auth.error) {
       res.setHeader("Location", "/");
+      const id_token = jwt.decode(auth.id_token);
       //  confirm nonce match to mitigate token replay attack
-      if (req.cookies.nonce === jwt.decode(auth.id_token).nonce) {
+      if (req.cookies.nonce === id_token.nonce) {
         // encrypt access token
-        // TODO: Store email, name, picture in database
-        client
-          .query(
-            q.Get(q.Match(q.Index("all_users_by_email"), "matthew@zeit.co"))
-          )
-          .then(ret => console.log("ret", ret));
+        const existsOptions = {
+          method: "GET",
+          url: `${process.env.AUTH0_REDIRECT_URI}/api/user/exists/${id_token.email}`,
+          json: true
+        };
+        try {
+          await request(existsOptions);
+        } catch (e) {
+          console.log("ERROR", e.message);
+          const createOptions = {
+            method: "POST",
+            url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create`,
+            headers: { "content-type": "application/json" },
+            body: {
+              email: id_token.email,
+              name: id_token.name,
+              picture: id_token.picture
+            },
+            json: true
+          };
+          const create = await request(createOptions);
+          console.log("CREATE", create);
+        }
+        // TODO: If it doesn't exist, create...
+
         // add id_token (browser) as cookie
         res.setHeader("Set-Cookie", [
           cookie.serialize(
