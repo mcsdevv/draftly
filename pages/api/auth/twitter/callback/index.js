@@ -25,10 +25,10 @@ export default (req, res) => {
       //     if (error) throw error;
       //     console.log(tweet); // Tweet body.
       //   });
-      //   res.writeHead(301, {
-      //     Location: "/?worked=true"
-      //   });
-      //   res.end();
+      res.writeHead(301, {
+        Location: `/?accessToken=${oauthAccessToken}&accessTokenSecret=${oauthAccessTokenSecret}`
+      });
+      res.end();
     }
   );
 };

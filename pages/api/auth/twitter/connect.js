@@ -1,6 +1,7 @@
 const oauth = require("../../_util/oauth");
 
 export default (req, res) => {
+  console.log("CALLBACK", process.env.TWITTER_OAUTH_CALLBACK);
   oauth.get(
     "https://api.twitter.com/oauth/request_token",
     process.env.TWITTER_ACCESS_TOKEN,
