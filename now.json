@@ -6,6 +6,8 @@
     "AUTH0_CLIENT_SECRET": "@tr-auth0_client_secret",
     "AUTH0_AUDIENCE": "@tr-auth0_audience",
     "AUTH0_REDIRECT_URI": "@tr-auth0_redirect_uri",
-    "ENCRYPTION_KEY": "@tr-encryption_key"
+    "ENCRYPTION_KEY": "@tr-encryption_key",
+    "TWITTER_OAUTH_CALLBACK": "@tr-twitter_oauth_callback",
+    "TWITTER_CONSUMER_KEY": "@tr-twitter_consumer_key"
   }
 }
