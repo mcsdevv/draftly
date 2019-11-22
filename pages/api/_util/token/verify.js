@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const jwksClient = require('jwks-rsa');
-const { decrypt } = require('../token/encryption');
+const jwt = require("jsonwebtoken");
+const jwksClient = require("jwks-rsa");
+const { decrypt } = require("../token/encryption");
 
 module.exports = (token, callback) => {
   // create a client to retrieve secret keys
@@ -16,8 +16,8 @@ module.exports = (token, callback) => {
   }
   // provide additional options to verify the JWT with
   const options = {
-    algorithms: ['RS256'],
-    maxAge: '1 day'
+    algorithms: ["RS256"],
+    maxAge: "1 day"
   };
   // check token length != false,
   if (!!token.length) {

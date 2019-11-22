@@ -1,7 +1,8 @@
 const request = require("request-promise");
 const cookie = require("cookie");
-const cookieOptions = require("../../_util/cookie/options");
 const jwt = require("jsonwebtoken");
+const cookieOptions = require("../../_util/cookie/options");
+const { encrypt } = require("../../_util/token/encryption");
 
 module.exports = async (req, res) => {
   //  confirm state match to mitigate CSRF
@@ -56,6 +57,14 @@ module.exports = async (req, res) => {
             cookieOptions(false, true)
           )
         ]);
+        // encrypt access token
+        const accessEncrypted = encrypt(auth.access_token);
+        // add access_token (httpOnly + encrypted) as cookie
+        cookie.serialize(
+          "access_token",
+          String(accessEncrypted),
+          cookieOptions(true, true)
+        );
         // send response
         res.status(302).end();
       } else {
