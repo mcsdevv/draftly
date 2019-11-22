@@ -33,11 +33,9 @@ module.exports = async (req, res) => {
           url: `${process.env.AUTH0_REDIRECT_URI}/api/user/exists/${id_token.email}`,
           json: true
         };
-        try {
-          // check if user exists in db - errors 500 if not
-          await request(existsOptions);
-        } catch (e) {
-          // if error, no user existing, create in db
+        const exists = await request(existsOptions);
+        // if user does not exist, create in db
+        if (!exists) {
           const createOptions = {
             method: "POST",
             url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create`,
