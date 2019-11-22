@@ -49,22 +49,21 @@ module.exports = async (req, res) => {
           };
           await request(createOptions);
         }
-        // add id_token (browser) as cookie
+        // encrypt access token
+        const accessEncrypted = encrypt(auth.access_token);
+        // add id_token (browser) + access_token (httpOnly + encrypted) as cookies
         res.setHeader("Set-Cookie", [
           cookie.serialize(
             "id_token",
             String(auth.id_token),
             cookieOptions(false, true)
+          ),
+          cookie.serialize(
+            "access_token",
+            String(accessEncrypted),
+            cookieOptions(true, true)
           )
         ]);
-        // encrypt access token
-        const accessEncrypted = encrypt(auth.access_token);
-        // add access_token (httpOnly + encrypted) as cookie
-        cookie.serialize(
-          "access_token",
-          String(accessEncrypted),
-          cookieOptions(true, true)
-        );
         // send response
         res.status(302).end();
       } else {

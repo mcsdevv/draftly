@@ -8,7 +8,7 @@ export default async (req, res) => {
     );
     console.log("Does user exist?", exists);
     // ok
-    res.status(200).json({ existss });
+    res.status(200).json({ exists });
   } catch (e) {
     // something went wrong
     res.status(500).json({ error: e.message });
