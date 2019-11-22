@@ -6,7 +6,7 @@ export default async (req, res) => {
     const dbs = await client.query(
       q.Exists(q.Match(q.Index("all_users_by_email"), email))
     );
-    console.log("DBS", dbs);
+    console.log("Does user exists?", dbs);
     // ok
     res.status(200).json({ exists: dbs });
   } catch (e) {
