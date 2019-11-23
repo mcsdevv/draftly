@@ -23,6 +23,7 @@ module.exports = async (req, res) => {
     };
     // send request for token exchange
     const auth = await request(authOptions);
+    console.log("AUTH", auth);
     // check no error on token exchange
     if (!auth.error) {
       res.setHeader("Location", "/");

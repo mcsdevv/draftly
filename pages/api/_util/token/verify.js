@@ -2,9 +2,12 @@ const jwt = require("jsonwebtoken");
 const jwksClient = require("jwks-rsa");
 const { decrypt } = require("../token/encryption");
 
-module.exports = (token, callback) => {
+module.exports = async (token, callback) => {
   // create a client to retrieve secret keys
   const client = jwksClient({
+    cache: true,
+    cacheMaxEntries: 10,
+    cacheMaxAge: 86400000, // 24 hours
     jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
   });
   // create a function that uses the secret keys
@@ -26,6 +29,9 @@ module.exports = (token, callback) => {
     try {
       // verify JWT using about methods
       jwt.verify(tokenDecrypted, getKey, options, callback);
+      console.log("TEST", tokenDecrypted);
+      // TODO - https://auth0.com/docs/tokens/guides/access-token/validate-access-token#custom-api-access-tokens
+      // TODO - Check claims and scopes
     } catch (err) {
       callback(err);
     }
