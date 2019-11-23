@@ -29,9 +29,11 @@ module.exports = async (token, callback) => {
     try {
       // verify JWT using about methods
       jwt.verify(tokenDecrypted, getKey, options, callback);
+      // verify audience correct
+      tokenDecrypted.includes(process.env.AUTH0_AUDIENCE);
       console.log("TEST", tokenDecrypted);
       // TODO - https://auth0.com/docs/tokens/guides/access-token/validate-access-token#custom-api-access-tokens
-      // TODO - Check claims and scopes
+      // TODO - Check scopes - may not be applicable due to teams
     } catch (err) {
       callback(err);
     }
