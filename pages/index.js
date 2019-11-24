@@ -6,34 +6,34 @@ import parseJwt from "../lib/parseJwt";
 
 export default () => {
   const [isAuth, setAuth] = useState(false);
-  const [handle, setHandle] = useState("");
-  const [profile, setProfile] = useState(null);
+  const [user, setUser] = useState(null);
   useEffect(() => {
-    function getAuth() {
+    async function getUser() {
       if (Cookies.get("id_token")) {
+        const { email } = parseJwt(Cookies.get("id_token"));
+        const res = await fetch(`/api/user/details/${email}`);
+        const user = await res.json();
+        console.log("USER", user);
+        setUser(user);
         setAuth(true);
-        setProfile(parseJwt(Cookies.get("id_token")));
         return null;
       }
     }
-    getAuth();
+    getUser();
   }, []);
   const getSecret = async () => {
     const res = await fetch("/api/data/secret");
     const secret = await res.text();
-    const newProfile = { ...profile, secret };
-    setProfile(newProfile);
+    const newUser = { ...user, secret };
+    setUser(newUser);
   };
   const logout = async () => {
     const res = await fetch("/api/auth/logout");
     if (res.status === 200) {
       Cookies.remove("id_token");
       setAuth(false);
-      setProfile(null);
+      setUser(null);
     }
-  };
-  const updateHandle = e => {
-    setHandle(e.target.value);
   };
   const connectTwitter = () => {
     window.location = "http://localhost:3000/api/auth/twitter/connect";
@@ -65,23 +65,14 @@ export default () => {
             <button onClick={logout}>Logout</button>
           )}
         </div>
-        {profile && profile.secret && <p>{profile.secret}</p>}
-        <div className="handle">
-          <label>Twitter Handle</label>
-          <input value={handle} onChange={updateHandle} />
-          <button onClick={connectTwitter}>Connect Twitter</button>
-          {/* <button onClick={postUpdate}>Post Update</button> */}
-        </div>
+        {user && user.secret && <p>{user.secret}</p>}
+        <button onClick={connectTwitter}>Connect Twitter</button>
+        {/* <button onClick={postUpdate}>Post Update</button> */}
       </main>
       <style jsx>{`
         .buttons {
           display: flex;
           justify-content: space-between;
-        }
-        .handle {
-          display: flex;
-          flex-direction: column;
-          margin-top: 16px;
         }
       `}</style>
     </>
