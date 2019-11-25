@@ -2,7 +2,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
-export default ({ loggedIn }) => {
+export default ({ loggedIn, next }) => {
   const router = useRouter();
   const logout = async () => {
     const res = await fetch("/api/auth/logout");
@@ -14,7 +14,7 @@ export default ({ loggedIn }) => {
     }
   };
   return !loggedIn ? (
-    <Link href={"/api/auth/login"}>
+    <Link href={`/api/auth/login/${next || "dashboard"}`}>
       <a>
         <button>Login</button>
       </a>

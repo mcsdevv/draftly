@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
     console.log("AUTH", auth);
     // check no error on token exchange
     if (!auth.error) {
-      res.setHeader("Location", "/");
+      res.setHeader("Location", `/${req.cookies.next}`);
       const id_token = jwt.decode(auth.id_token);
       //  confirm nonce match to mitigate token replay attack
       if (req.cookies.nonce === id_token.nonce) {

@@ -1,3 +1,9 @@
 import Header from "../components/header";
 
-export default () => <Header />;
+export default () => {
+  return (
+    <>
+      <Header />
+    </>
+  );
+};
