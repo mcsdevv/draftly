@@ -7,16 +7,28 @@ import Header from "../components/header";
 
 export default () => {
   const [isAuth, setAuth] = useState(false);
-  const [profile, setProfile] = useState(null);
+  const [user, setuser] = useState(null);
   useEffect(() => {
-    function getAuth() {
-      if (Cookies.get("id_token")) {
+    async function getUser() {
+      const idLocal = Cookies.get("id_token");
+      const userLocal = localStorage.getItem("user");
+      if (idLocal && userLocal) {
+        console.log("Existing user logged in:", userLocal);
+        setUser(JSON.parse(userLocal));
         setAuth(true);
-        setProfile(parseJwt(Cookies.get("id_token")));
-        return null;
       }
+      if (idLocal && !userLocal) {
+        const { email } = parseJwt(Cookies.get("id_token"));
+        const res = await fetch(`/api/user/details/${email}`);
+        const user = await res.json();
+        localStorage.setItem("user", JSON.stringify(user));
+        console.log("New user logged in:", user);
+        setUser(user);
+        setAuth(true);
+      }
+      return null;
     }
-    getAuth();
+    getUser();
   }, []);
   //   const getSecret = async () => {
   //     const res = await fetch("/api/data/secret");
@@ -39,7 +51,7 @@ export default () => {
       </Head>
       <main>
         <Header loggedIn={isAuth} />
-        {profile && profile.secret && <p>{profile.secret}</p>}
+        {user && user.secret && <p>{user.secret}</p>}
         <div className="handle">
           <label>Twitter Handle</label>
           <button onClick={connectTwitter}>Connect Twitter</button>
