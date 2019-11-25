@@ -4,7 +4,9 @@ export default async (req, res) => {
   const { email, name, picture } = req.body;
   try {
     const dbs = await client.query(
-      q.Create(q.Collection("users"), { data: { email, name, picture } })
+      q.Create(q.Collection("users"), {
+        data: { email, name, picture, plan: "free", teams: [] }
+      })
     );
     // ok
     res.status(200).json(dbs.data);

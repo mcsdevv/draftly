@@ -27,11 +27,13 @@ module.exports = async (token, callback) => {
     // decrypt token
     const tokenDecrypted = decrypt(token);
     try {
+      // verify audience correct
+      if (!tokenDecrypted.includes(process.env.AUTH0_AUDIENCE)) {
+        const err = "Incorrect audience.";
+        callback(err);
+      }
       // verify JWT using about methods
       jwt.verify(tokenDecrypted, getKey, options, callback);
-      console.log("TEST", tokenDecrypted);
-      // TODO - https://auth0.com/docs/tokens/guides/access-token/validate-access-token#custom-api-access-tokens
-      // TODO - Check claims and scopes
     } catch (err) {
       callback(err);
     }

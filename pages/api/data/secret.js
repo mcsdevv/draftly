@@ -14,3 +14,5 @@ module.exports = (req, res) => {
     res.send("Log in so I can tell you my secret!");
   }
 };
+
+// TODO pass scope required to `verify`, check as part of JWT validation

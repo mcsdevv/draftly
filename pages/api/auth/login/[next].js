@@ -16,10 +16,11 @@ module.exports = async (req, res) => {
   ]);
   // write redirect
   res.writeHead(302, {
-    Location: `https://${process.env.AUTH0_DOMAIN}/authorize?response_type=code&audience=${process.env.AUTH0_AUDIENCE}&client_id=${process.env.AUTH0_CLIENT_ID}&redirect_uri=${process.env.AUTH0_REDIRECT_URI}/api/auth/callback&scope=openid%20profile%20email%20read:users&state=${state}&nonce=${nonce}&teststuff=teststuff`
+    Location: `https://${process.env.AUTH0_DOMAIN}/authorize?response_type=code&audience=${process.env.AUTH0_AUDIENCE}&client_id=${process.env.AUTH0_CLIENT_ID}&redirect_uri=${process.env.AUTH0_REDIRECT_URI}/api/auth/callback&scope=openid%20profile%20email%20create:teams&state=${state}&nonce=${nonce}`
   });
   // send response
   res.end();
 };
 
 // ! If localhost appears in callback URL on Auth0, consent skipping will not work.
+// ! API audience used to allow for custom scopes/roles - may not be of use with teams.
