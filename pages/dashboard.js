@@ -6,8 +6,7 @@ import parseJwt from "../lib/parseJwt";
 import Header from "../components/header";
 
 export default () => {
-  const [isAuth, setAuth] = useState(false);
-  const [user, setuser] = useState(null);
+  const [user, setUser] = useState(null);
   useEffect(() => {
     async function getUser() {
       const idLocal = Cookies.get("id_token");
@@ -15,7 +14,6 @@ export default () => {
       if (idLocal && userLocal) {
         console.log("Existing user logged in:", userLocal);
         setUser(JSON.parse(userLocal));
-        setAuth(true);
       }
       if (idLocal && !userLocal) {
         const { email } = parseJwt(Cookies.get("id_token"));
@@ -24,7 +22,6 @@ export default () => {
         localStorage.setItem("user", JSON.stringify(user));
         console.log("New user logged in:", user);
         setUser(user);
-        setAuth(true);
       }
       return null;
     }
@@ -50,7 +47,7 @@ export default () => {
         />
       </Head>
       <main>
-        <Header loggedIn={isAuth} />
+        <Header loggedIn={user} />
         {user && user.secret && <p>{user.secret}</p>}
         <div className="handle">
           <label>Twitter Handle</label>
