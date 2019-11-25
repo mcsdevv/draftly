@@ -1,7 +1,7 @@
 import AuthButton from "../buttons/auth";
 import LinkButton from "../buttons/link";
 
-export default ({ loggedIn, next }) => {
+export default function Header({ loggedIn, next }) {
   return (
     <header>
       <h2>Tweet Review</h2>
@@ -15,4 +15,4 @@ export default ({ loggedIn, next }) => {
       `}</style>
     </header>
   );
-};
+}
