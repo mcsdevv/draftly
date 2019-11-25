@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Head from "next/head";
 import Cookies from "js-cookie";
 import parseJwt from "../lib/parseJwt";
 
@@ -38,21 +37,11 @@ export default () => {
   };
   return (
     <>
-      <Head>
-        <title>Tweet Review</title>
-        <link
-          rel="stylesheet"
-          href="https://css.zeit.sh/v1.css"
-          type="text/css"
-        />
-      </Head>
       <main>
         <Header loggedIn={user} />
         {user && user.secret && <p>{user.secret}</p>}
         <div className="handle">
-          <label>Twitter Handle</label>
           <button onClick={connectTwitter}>Connect Twitter</button>
-          {/* <button onClick={postUpdate}>Post Update</button> */}
         </div>
       </main>
       <style jsx>{`
