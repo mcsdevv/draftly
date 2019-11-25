@@ -9,15 +9,23 @@ export default () => {
   const [user, setUser] = useState(null);
   useEffect(() => {
     async function getUser() {
-      if (Cookies.get("id_token")) {
+      const idLocal = Cookies.get("id_token");
+      const userLocal = localStorage.getItem("user");
+      if (idLocal && userLocal) {
+        console.log("Existing user logged in:", userLocal);
+        setUser(JSON.parse(userLocal));
+        setAuth(true);
+      }
+      if (idLocal && !userLocal) {
         const { email } = parseJwt(Cookies.get("id_token"));
         const res = await fetch(`/api/user/details/${email}`);
         const user = await res.json();
-        console.log("USER", user);
+        localStorage.setItem("user", JSON.stringify(user));
+        console.log("New user logged in:", user);
         setUser(user);
         setAuth(true);
-        return null;
       }
+      return null;
     }
     getUser();
   }, []);
@@ -31,6 +39,8 @@ export default () => {
     const res = await fetch("/api/auth/logout");
     if (res.status === 200) {
       Cookies.remove("id_token");
+      localStorage.removeItem("user");
+      console.log("User logged out successfully.");
       setAuth(false);
       setUser(null);
     }
