@@ -15,8 +15,8 @@ export default function Dashboard() {
   };
   return (
     <>
+      <Header />
       <main>
-        <Header loggedIn={user} />
         {user && user.secret && <p>{user.secret}</p>}
         <div className="handle">
           <button onClick={connectTwitter}>Connect Twitter</button>

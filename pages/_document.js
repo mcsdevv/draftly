@@ -5,7 +5,6 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <title>Tweet Review</title>
           <link
             rel="stylesheet"
             href="https://css.zeit.sh/v1.css"

@@ -5,7 +5,19 @@ export default async (req, res) => {
   try {
     const dbs = await client.query(
       q.Create(q.Collection("users"), {
-        data: { email, name, picture, plan: "free", teams: [] }
+        data: {
+          email,
+          name,
+          picture,
+          plan: "free",
+          contexts: [
+            {
+              name,
+              role: "owner",
+              type: "account"
+            }
+          ]
+        }
       })
     );
     // ok
