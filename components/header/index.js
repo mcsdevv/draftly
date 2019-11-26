@@ -19,7 +19,7 @@ export default function Header({ next }) {
   return (
     <header>
       <h2>Tweet Review</h2>
-      {!landing && <ContextPicker contextList={user && user.contexts} />}
+      {!landing && <ContextPicker />}
       {landing && <LinkButton text="Dashboard" to="/dashboard" />}
       {!landing && <LinkButton text="Settings" to="/settings" />}
       <AuthButton loggedIn={!!user} next={next || "dashboard"} />

@@ -1,15 +1,29 @@
 import { useEffect, useState } from "react";
+import { useUserState } from "./useUserState";
 
-export const useContextState = contextList => {
-  const [context, setContextState] = useState(undefined);
+export const useContextState = () => {
+  const user = useUserState();
+  const [contexts, setContextState] = useState(undefined);
   useEffect(() => {
-    function getContext() {
-      if (contextList && contextList.length > 0) {
-        setContextState(contextList[0]);
+    async function getContexts() {
+      const existingContext = localStorage.getItem("contexts");
+      if (existingContext) {
+        const state = JSON.parse(existingContext);
+        setContextState({ ...state });
+      }
+      if (user && user.contexts.length > 0) {
+        const state = { selected: user.contexts[0], list: user.contexts };
+        localStorage.setItem("contexts", JSON.stringify(state));
+        setContextState({ ...state });
       }
     }
-    getContext();
-  }, []);
-  const setContext = e => setContextState(e.target.value);
-  return { context, setContext };
+    getContexts();
+  }, [user]);
+  const setContext = e => {
+    const state = { ...contexts, selected: e.target.value };
+    localStorage.setItem("contexts", JSON.stringify(state));
+    setContextState({ ...state });
+  };
+  console.log("NEW", contexts);
+  return { contexts, setContext };
 };
