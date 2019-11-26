@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import UserContext from "../../context/UserContext";
 
 import AuthButton from "../buttons/auth";
@@ -7,21 +8,20 @@ import ContextPicker from "../scope/picker";
 
 export default function Header({ next }) {
   const { user } = useContext(UserContext);
-  const [landing, setLandingState] = useState(undefined);
+  const [isLanding, setLandingState] = useState(undefined);
+  const router = useRouter();
   useEffect(() => {
     function getLandingState() {
-      if (window.location.pathname === "/") {
-        setLandingState(true);
-      }
+      setLandingState(router.pathname === "/");
     }
     getLandingState();
-  }, []);
+  }, [router.pathname]);
   return (
     <header>
       <h2>Tweet Review</h2>
-      {!landing && <ContextPicker />}
-      {landing && <LinkButton text="Dashboard" to="/dashboard" />}
-      {!landing && <LinkButton text="Settings" to="/settings" />}
+      {!isLanding && <ContextPicker />}
+      {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
+      {!isLanding && <LinkButton text="Settings" to="/settings" />}
       <AuthButton loggedIn={!!user} next={next || "dashboard"} />
       <style jsx>{`
         header {

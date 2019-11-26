@@ -4,6 +4,8 @@ import UserContext from "../context/UserContext";
 import Cookies from "js-cookie";
 import parseJwt from "../lib/parseJwt";
 
+import Header from "../components/header";
+
 export default class MyApp extends App {
   state = {
     user: null,
@@ -57,6 +59,7 @@ export default class MyApp extends App {
           updateUser
         }}
       >
+        <Header />
         <Component {...pageProps} />
       </UserContext.Provider>
     );

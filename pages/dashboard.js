@@ -1,8 +1,6 @@
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
 
-import Header from "../components/header";
-
 export default function Dashboard() {
   const { user } = useContext(UserContext);
   //   const getSecret = async () => {
@@ -16,7 +14,6 @@ export default function Dashboard() {
   };
   return (
     <>
-      <Header />
       <main>
         {user && user.secret && <p>{user.secret}</p>}
         <div className="handle">
