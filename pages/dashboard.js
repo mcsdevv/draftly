@@ -1,9 +1,10 @@
-import { useUserState } from "../hooks/useUserState";
+import { useContext } from "react";
+import UserContext from "../context/UserContext";
 
 import Header from "../components/header";
 
 export default function Dashboard() {
-  const user = useUserState();
+  const { user } = useContext(UserContext);
   //   const getSecret = async () => {
   //     const res = await fetch("/api/data/secret");
   //     const secret = await res.text();
