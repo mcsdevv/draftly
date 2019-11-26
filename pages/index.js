@@ -7,7 +7,7 @@ export default function Landing() {
   console.log("USER", user);
   return (
     <>
-      <Header loggedIn={user} />
+      <Header />
       <h1>Really great marketing content...</h1>
     </>
   );

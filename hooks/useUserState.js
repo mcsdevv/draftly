@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import parseJwt from "../lib/parseJwt";
 
 export const useUserState = () => {
   const [user, setUser] = useState(null);

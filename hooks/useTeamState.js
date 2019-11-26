@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 
 export const useTeamState = teamsList => {
-  const [team, setTeamState] = useState(null);
+  const [team, setTeamState] = useState(undefined);
   useEffect(() => {
     function getTeam() {
-      if (teamsList.length > 0) {
+      if (teamsList && teamsList.length > 0) {
         setTeamState(teamsList[0]);
       }
     }
     getTeam();
   }, []);
-  const setTeam = newTeam => setTeamState(newTeam);
+  const setTeam = e => setTeamState(e.target.value);
   return { team, setTeam };
 };
