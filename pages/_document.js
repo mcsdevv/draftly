@@ -9,7 +9,6 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://css.zeit.sh/v1.css"
             type="text/css"
-            preload
           />
         </Head>
         <body>
