@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
-class MyDocument extends Document {
+export default class MyDocument extends Document {
   render() {
     return (
       <Html>
@@ -9,6 +9,7 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://css.zeit.sh/v1.css"
             type="text/css"
+            preload
           />
         </Head>
         <body>
@@ -19,5 +20,3 @@ class MyDocument extends Document {
     );
   }
 }
-
-export default MyDocument;

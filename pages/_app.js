@@ -1,21 +1,23 @@
 import React from "react";
 import App from "next/app";
-// import Router from "next/router";
 import UserContext from "../context/UserContext";
 import Cookies from "js-cookie";
 import parseJwt from "../lib/parseJwt";
 
 export default class MyApp extends App {
   state = {
-    user: null
+    user: null,
+    scope: null
   };
-
   componentDidMount = async () => {
     const idLocal = Cookies.get("id_token");
     const userLocal = localStorage.getItem("user");
-    if (idLocal && userLocal) {
+    const scopeLocal = localStorage.getItem("scope");
+    if (idLocal && userLocal && scopeLocal) {
       console.log("Existing user logged in:", userLocal);
-      this.setState(JSON.parse(userLocal));
+      const user = JSON.parse(userLocal);
+      const scope = scopeLocal;
+      this.setState({ scope, user });
     }
     if (idLocal && !userLocal) {
       const { email } = parseJwt(Cookies.get("id_token"));
@@ -23,46 +25,36 @@ export default class MyApp extends App {
       const user = await res.json();
       localStorage.setItem("user", JSON.stringify(user));
       console.log("New user logged in:", user);
-      this.setState(user);
+      const scope = user.scopes[0].name;
+      this.setState({ scope, user });
     }
-    // if (user) {
-    //   this.setState({
-    //     user
-    //   });
-    // } else {
-    //   Router.push("/");
-    // }
   };
-
-  //   signIn = (username, password) => {
-  //     localStorage.setItem("coolapp-user", username);
-
-  //     this.setState(
-  //       {
-  //         user: username
-  //       },
-  //       () => {
-  //         Router.push("/");
-  //       }
-  //     );
-  //   };
-
-  //   signOut = () => {
-  //     localStorage.removeItem("coolapp-user");
-  //     this.setState({
-  //       user: null
-  //     });
-  //     Router.push("/signin");
-  //   };
-
+  updateUser = user => {
+    localStorage.setItem("user", user);
+    this.setState(prevState => ({
+      ...prevState,
+      user
+    }));
+  };
+  updateScope = e => {
+    const scope = e.target.value;
+    localStorage.setItem("scope", scope);
+    this.setState(prevState => ({
+      ...prevState,
+      scope
+    }));
+  };
   render() {
     const { Component, pageProps } = this.props;
+    const { scope, user } = this.state;
+    const { updateScope, updateUser } = this;
     return (
       <UserContext.Provider
         value={{
-          user: this.state.user
-          //   signIn: this.signIn,
-          //   signOut: this.signOut
+          scope,
+          user,
+          updateScope,
+          updateUser
         }}
       >
         <Component {...pageProps} />
