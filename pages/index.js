@@ -1,9 +1,10 @@
-import { useUserState } from "../hooks/useUserState";
+import { useContext } from "react";
+import UserContext from "../context/UserContext";
 
 import Header from "../components/header";
 
 export default function Landing() {
-  const user = useUserState();
+  const { user } = useContext(UserContext);
   console.log("USER", user);
   return (
     <>

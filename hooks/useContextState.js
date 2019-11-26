@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useUserState } from "./useUserState";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../context/UserContext";
 
 export const useContextState = () => {
-  const user = useUserState();
+  const { user } = useContext(UserContext);
   const [contexts, setContextState] = useState(undefined);
   useEffect(() => {
     async function getContexts() {

@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { useUserState } from "../../hooks/useUserState";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../../context/UserContext";
 
 import AuthButton from "../buttons/auth";
 import LinkButton from "../buttons/link";
-import ContextPicker from "../context/picker";
+import ContextPicker from "../scope/picker";
 
 export default function Header({ next }) {
-  const user = useUserState();
+  const { user } = useContext(UserContext);
   const [landing, setLandingState] = useState(undefined);
   useEffect(() => {
     function getLandingState() {
