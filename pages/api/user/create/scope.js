@@ -1,22 +1,16 @@
 import { client, q } from "../../_util/fauna";
 
 export default async (req, res) => {
-  const { email, name, picture } = req.body;
+  const { email, name } = req.body;
   try {
     const dbs = await client.query(
-      q.Create(q.Collection("users"), {
+      q.Update(q.Index("all_users_by_email"), email, {
         data: {
-          email,
-          name,
-          picture,
-          plan: "free",
-          scopes: [
-            {
-              name,
-              role: "owner",
-              type: "account"
-            }
-          ]
+          scopes: {
+            name,
+            role: "owner",
+            type: "team"
+          }
         }
       })
     );
