@@ -2,12 +2,7 @@ const oauth = require("../../_util/oauth");
 
 export default (req, res) => {
   // TODO Stop request from getting cached, causes 'old request token' error.
-  oauth.getOAuthRequestToken(function(
-    error,
-    oauthToken,
-    oauthTokenSecret,
-    results
-  ) {
+  oauth.getOAuthRequestToken(function(error, oauthToken) {
     if (error) {
       res.send(
         "Error getting OAuth request token : " + util.inspect(error),

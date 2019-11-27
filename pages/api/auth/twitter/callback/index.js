@@ -3,14 +3,18 @@ const Twitter = require("twitter");
 
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
+  console.log(req);
   console.log("TOKEN", oauth_token);
   console.log("VERIFIER", oauth_verifier);
   oauth.getOAuthAccessToken(
     oauth_token,
     process.env.TWITTER_ACCESS_TOKEN_SECRET,
     oauth_verifier,
-    function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
+    async function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
       // TODO: store access tokens in DB to use when required.
+      // try {
+      //   const
+      // }
       //   const client = new Twitter({
       //     consumer_key: process.env.TWITTER_CONSUMER_KEY,
       //     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
