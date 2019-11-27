@@ -1,7 +1,6 @@
 const oauth = require("../../_util/oauth");
 
 export default (req, res) => {
-  console.log("COOKIE TIME", req.cookies);
   // TODO Stop request from getting cached, causes 'old request token' error.
   oauth.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret) {
     if (error) {

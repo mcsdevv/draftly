@@ -22,7 +22,6 @@ export default (req, res) => {
             res.send("Error getting twitter screen name : " + error);
           } else {
             const accountData = JSON.parse(data);
-            console.log(accountData);
             // check if the team exists currently
             const existsOptions = {
               method: "GET",
@@ -46,6 +45,7 @@ export default (req, res) => {
               await request(updateTokenOptions);
             } else {
               console.log("CREATING NEW TEAM");
+              // get email from id_token to set team owner
               const { email } = jwt.decode(req.cookies.id_token);
               const createTeamOptions = {
                 method: "POST",
