@@ -3,18 +3,31 @@ const Twitter = require("twitter");
 
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
-  console.log(req);
-  console.log("TOKEN", oauth_token);
-  console.log("VERIFIER", oauth_verifier);
   oauth.getOAuthAccessToken(
     oauth_token,
     process.env.TWITTER_ACCESS_TOKEN_SECRET,
     oauth_verifier,
     async function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
       // TODO: store access tokens in DB to use when required.
-      // try {
-      //   const
-      // }
+      oauth.get(
+        "https://api.twitter.com/1.1/account/verify_credentials.json",
+        oauthAccessToken,
+        oauthAccessTokenSecret,
+        function(error, data, response) {
+          if (error) {
+            console.log(error);
+            res.send("Error getting twitter screen name : " + error);
+          } else {
+            console.log("data is %j", data);
+            data = JSON.parse(data);
+            res.writeHead(301, {
+              Location: `/?accessToken=${oauthAccessToken}&accessTokenSecret=${oauthAccessTokenSecret}&name=${data.screen_name}`
+            });
+            res.end();
+          }
+        }
+      );
+
       //   const client = new Twitter({
       //     consumer_key: process.env.TWITTER_CONSUMER_KEY,
       //     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -29,10 +42,6 @@ export default (req, res) => {
       //     if (error) throw error;
       //     console.log(tweet); // Tweet body.
       //   });
-      res.writeHead(301, {
-        Location: `/?accessToken=${oauthAccessToken}&accessTokenSecret=${oauthAccessTokenSecret}`
-      });
-      res.end();
     }
   );
 };
