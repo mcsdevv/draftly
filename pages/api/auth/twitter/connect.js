@@ -2,6 +2,7 @@ const oauth = require("../../_util/oauth");
 
 export default (req, res) => {
   console.log("CALLBACK", process.env.TWITTER_OAUTH_CALLBACK);
+  // TODO Find another library, because this one seems sketchy... forever getting 'token too old' at this step.
   oauth.get(
     "https://api.twitter.com/oauth/request_token",
     process.env.TWITTER_ACCESS_TOKEN,
@@ -13,7 +14,7 @@ export default (req, res) => {
         prev[decodeURIComponent(p[0])] = decodeURIComponent(p[1]);
         return prev;
       }, {});
-      // console.log("OBJ", obj);
+      console.log("OBJ", obj);
       res.writeHead(301, {
         Location: `https://api.twitter.com/oauth/authorize?oauth_token=${obj.oauth_token}`
       });
