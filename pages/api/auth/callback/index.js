@@ -23,7 +23,6 @@ module.exports = async (req, res) => {
     };
     // send request for token exchange
     const auth = await request(authOptions);
-    console.log("AUTH", auth);
     // check no error on token exchange
     if (!auth.error) {
       res.setHeader("Location", `/${req.cookies.next}`);
@@ -57,7 +56,7 @@ module.exports = async (req, res) => {
           cookie.serialize(
             "id_token",
             String(auth.id_token),
-            cookieOptions(false, true)
+            cookieOptions(false, false)
           ),
           cookie.serialize(
             "access_token",

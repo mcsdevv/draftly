@@ -1,16 +1,73 @@
 const oauth = require("../../../_util/oauth");
-const Twitter = require("twitter");
+const request = require("request-promise");
+const jwt = require("jsonwebtoken");
+
+// const Twitter = require("twitter");
 
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
-  console.log("TOKEN", oauth_token);
-  console.log("VERIFIER", oauth_verifier);
+  // get users access tokens
   oauth.getOAuthAccessToken(
     oauth_token,
     process.env.TWITTER_ACCESS_TOKEN_SECRET,
     oauth_verifier,
-    function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
-      // TODO: store access tokens in DB to use when required.
+    async function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
+      // verify credentials prior to saving in the database
+      oauth.get(
+        "https://api.twitter.com/1.1/account/verify_credentials.json",
+        oauthAccessToken,
+        oauthAccessTokenSecret,
+        async function(error, data, response) {
+          if (error) {
+            res.send("Error getting twitter screen name : " + error);
+          } else {
+            const accountData = JSON.parse(data);
+            // check if the team exists currently
+            const existsOptions = {
+              method: "GET",
+              url: `${process.env.AUTH0_REDIRECT_URI}/api/team/exists/${accountData.screen_name}`,
+              json: true
+            };
+            const { exists } = await request(existsOptions);
+            // if it exists, update tokens, else create team
+            if (exists) {
+              console.log("UPDATING TEAM TOKENS");
+              const updateTokenOptions = {
+                method: "PATCH",
+                url: `${process.env.AUTH0_REDIRECT_URI}/api/team/tokens/update`,
+                body: {
+                  name: accountData.screen_name,
+                  tokenKey: oauthAccessToken,
+                  tokenSecret: oauthAccessTokenSecret
+                },
+                json: true
+              };
+              await request(updateTokenOptions);
+            } else {
+              console.log("CREATING NEW TEAM");
+              // get email from id_token to set team owner
+              const { email } = jwt.decode(req.cookies.id_token);
+              const createTeamOptions = {
+                method: "POST",
+                url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create`,
+                body: {
+                  data: accountData,
+                  email,
+                  tokenKey: oauthAccessToken,
+                  tokenSecret: oauthAccessTokenSecret
+                },
+                json: true
+              };
+              await request(createTeamOptions);
+              res.writeHead(301, {
+                Location: `/?accessToken=${oauthAccessToken}&accessTokenSecret=${oauthAccessTokenSecret}&name=${accountData.screen_name}`
+              });
+              res.end();
+            }
+          }
+        }
+      );
+
       //   const client = new Twitter({
       //     consumer_key: process.env.TWITTER_CONSUMER_KEY,
       //     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -25,10 +82,6 @@ export default (req, res) => {
       //     if (error) throw error;
       //     console.log(tweet); // Tweet body.
       //   });
-      res.writeHead(301, {
-        Location: `/?accessToken=${oauthAccessToken}&accessTokenSecret=${oauthAccessTokenSecret}`
-      });
-      res.end();
     }
   );
 };
