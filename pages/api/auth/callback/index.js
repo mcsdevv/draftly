@@ -57,7 +57,7 @@ module.exports = async (req, res) => {
           cookie.serialize(
             "id_token",
             String(auth.id_token),
-            cookieOptions(false, true)
+            cookieOptions(false, false)
           ),
           cookie.serialize(
             "access_token",

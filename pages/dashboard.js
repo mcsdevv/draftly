@@ -17,7 +17,7 @@ export default function Dashboard() {
       <main>
         {user && user.secret && <p>{user.secret}</p>}
         <div className="handle">
-          <button onClick={connectTwitter}>Connect Twitter</button>
+          <button onClick={connectTwitter}>Add Team</button>
         </div>
       </main>
       <style jsx>{`
