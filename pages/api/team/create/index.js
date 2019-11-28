@@ -26,6 +26,7 @@ export default async (req, res) => {
         }
       })
     );
+    // * Update user with the added team also
     const scopeOptions = {
       method: "POST",
       url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create/scope`,
@@ -35,10 +36,9 @@ export default async (req, res) => {
       },
       json: true
     };
-    await request(scopeOptions);
-    // TODO: Update user with the added team also
+    const { update } = await request(scopeOptions);
     // ok
-    res.status(200).json(dbs.data);
+    res.status(200).json({ update });
   } catch (e) {
     // something went wrong
     res.status(500).json({ error: e.message });

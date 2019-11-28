@@ -1,18 +1,20 @@
 const oauth = require("../../../_util/oauth");
 const request = require("request-promise");
 const jwt = require("jsonwebtoken");
+const cookie = require("cookie");
+const cookieOptions = require("../../../_util/cookie/options");
 
 // const Twitter = require("twitter");
 
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
-  // get users access tokens
+  // * Get users access tokens
   oauth.getOAuthAccessToken(
     oauth_token,
     process.env.TWITTER_ACCESS_TOKEN_SECRET,
     oauth_verifier,
     async function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
-      // verify credentials prior to saving in the database
+      // * Verify credentials prior to saving in the database
       oauth.get(
         "https://api.twitter.com/1.1/account/verify_credentials.json",
         oauthAccessToken,
@@ -22,15 +24,16 @@ export default (req, res) => {
             res.send("Error getting twitter screen name : " + error);
           } else {
             const accountData = JSON.parse(data);
-            // check if the team exists currently
+            // * Check if the team exists currently
             const existsOptions = {
               method: "GET",
               url: `${process.env.AUTH0_REDIRECT_URI}/api/team/exists/${accountData.screen_name}`,
               json: true
             };
             const { exists } = await request(existsOptions);
-            // if it exists, update tokens, else create team
+            // * If it exists, update tokens, else create team
             if (exists) {
+              // TODO Implement endpoint and logic
               console.log("UPDATING TEAM TOKENS");
               const updateTokenOptions = {
                 method: "PATCH",
@@ -45,7 +48,7 @@ export default (req, res) => {
               await request(updateTokenOptions);
             } else {
               console.log("CREATING NEW TEAM");
-              // get email from id_token to set team owner
+              // * Get email from id_token to set team owner
               const { email } = jwt.decode(req.cookies.id_token);
               const createTeamOptions = {
                 method: "POST",
@@ -58,9 +61,20 @@ export default (req, res) => {
                 },
                 json: true
               };
-              await request(createTeamOptions);
+              const { update } = await request(createTeamOptions);
+              // * If update is true, team + scope updated, set cookie for client context refresh
+              if (update) {
+                console.log("USER SCOPES UPDATED");
+                res.setHeader("Set-Cookie", [
+                  cookie.serialize(
+                    "update",
+                    String("user"),
+                    cookieOptions(false, false)
+                  )
+                ]);
+              }
               res.writeHead(301, {
-                Location: `/?accessToken=${oauthAccessToken}&accessTokenSecret=${oauthAccessTokenSecret}&name=${accountData.screen_name}`
+                Location: "/"
               });
               res.end();
             }
