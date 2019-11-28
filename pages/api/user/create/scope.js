@@ -14,7 +14,9 @@ export default async (req, res) => {
   const newScope = { name, role: "owner", type: "team" };
   // * Checks for existing scope
   if (oldScopes.filter(s => s.name === name).length > 0) {
-    res.status(200).json(oldScopes);
+    console.log("EXISTING SCOPE");
+    res.status(200).json({ update: false });
+    return;
   }
   const scopes = [...oldScopes, newScope];
   try {
@@ -29,7 +31,7 @@ export default async (req, res) => {
       )
     );
     // ok
-    res.status(200).json(dbs.data);
+    res.status(200).json({ update: true });
   } catch (e) {
     // something went wrong
     res.status(500).json({ error: e.message });

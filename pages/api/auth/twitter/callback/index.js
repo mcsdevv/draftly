@@ -1,6 +1,8 @@
 const oauth = require("../../../_util/oauth");
 const request = require("request-promise");
 const jwt = require("jsonwebtoken");
+const cookie = require("cookie");
+const cookieOptions = require("../../../_util/cookie/options");
 
 // const Twitter = require("twitter");
 
@@ -59,9 +61,20 @@ export default (req, res) => {
                 },
                 json: true
               };
-              await request(createTeamOptions);
+              const { update } = await request(createTeamOptions);
+              // * If update is true, team + scope updated, set cookie for client context refresh
+              if (update) {
+                console.log("USER SCOPES UPDATED");
+                res.setHeader("Set-Cookie", [
+                  cookie.serialize(
+                    "update",
+                    String("user"),
+                    cookieOptions(false, false)
+                  )
+                ]);
+              }
               res.writeHead(301, {
-                Location: `/?accessToken=${oauthAccessToken}&accessTokenSecret=${oauthAccessTokenSecret}&name=${accountData.screen_name}`
+                Location: "/"
               });
               res.end();
             }

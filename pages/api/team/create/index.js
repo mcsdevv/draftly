@@ -36,9 +36,9 @@ export default async (req, res) => {
       },
       json: true
     };
-    await request(scopeOptions);
+    const { update } = await request(scopeOptions);
     // ok
-    res.status(200).json(dbs.data);
+    res.status(200).json({ update });
   } catch (e) {
     // something went wrong
     res.status(500).json({ error: e.message });

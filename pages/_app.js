@@ -12,19 +12,27 @@ export default class MyApp extends App {
     scope: null
   };
   componentDidMount = async () => {
-    // TODO Add hook to get new user data and reload
-    // TODO Use cookie as flag to refetch
-    // TODO Fetch, update, then remove cookie
-    console.log("MOUNTED");
     const updateLocal = Cookies.get("update");
     const idLocal = Cookies.get("id_token");
     const userLocal = localStorage.getItem("user");
     const scopeLocal = localStorage.getItem("scope");
-    if (idLocal && userLocal && scopeLocal) {
+    if (updateLocal) {
+      const { email } = parseJwt(Cookies.get("id_token"));
+      const res = await fetch(`/api/user/details/${email}`);
+      const user = await res.json();
+      Cookies.remove("update");
+      localStorage.setItem("user", JSON.stringify(user));
+      console.log("Existing user updated:", user);
+      const scope = scopeLocal || user.scopes[0].name;
+      this.setState({ scope, user });
+      return;
+    }
+    if (idLocal && userLocal) {
       console.log("Existing user logged in:", userLocal);
       const user = JSON.parse(userLocal);
-      const scope = scopeLocal;
+      const scope = scopeLocal || user.scopes[0].name;
       this.setState({ scope, user });
+      return;
     }
     if (idLocal && !userLocal) {
       const { email } = parseJwt(Cookies.get("id_token"));
@@ -32,8 +40,9 @@ export default class MyApp extends App {
       const user = await res.json();
       localStorage.setItem("user", JSON.stringify(user));
       console.log("New user logged in:", user);
-      const scope = user.scopes[0].name;
+      const scope = scopeLocal || user.scopes[0].name;
       this.setState({ scope, user });
+      return;
     }
   };
   updateUser = user => {
