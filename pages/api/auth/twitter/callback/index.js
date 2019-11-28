@@ -39,7 +39,7 @@ export default (req, res) => {
                 method: "PATCH",
                 url: `${process.env.AUTH0_REDIRECT_URI}/api/team/tokens/update`,
                 body: {
-                  name: accountData.screen_name,
+                  handle: accountData.screen_name,
                   tokenKey: oauthAccessToken,
                   tokenSecret: oauthAccessTokenSecret
                 },
