@@ -16,6 +16,7 @@ export default class MyApp extends App {
     const idLocal = Cookies.get("id_token");
     const userLocal = localStorage.getItem("user");
     const scopeLocal = localStorage.getItem("scope");
+    console.log("derp");
     if (updateLocal) {
       const { email } = parseJwt(Cookies.get("id_token"));
       const res = await fetch(`/api/user/details/${email}`);

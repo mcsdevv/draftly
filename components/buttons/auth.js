@@ -15,9 +15,7 @@ export default ({ loggedIn, next }) => {
   };
   return !loggedIn ? (
     <Link href={`/api/auth/login/${next || "dashboard"}`}>
-      <a>
-        <button>Login</button>
-      </a>
+      <button>Login</button>
     </Link>
   ) : (
     <button onClick={logout}>Logout</button>
