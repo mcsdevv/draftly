@@ -12,6 +12,11 @@ export default class MyApp extends App {
     scope: null
   };
   componentDidMount = async () => {
+    // TODO Add hook to get new user data and reload
+    // TODO Use cookie as flag to refetch
+    // TODO Fetch, update, then remove cookie
+    console.log("MOUNTED");
+    const updateLocal = Cookies.get("update");
     const idLocal = Cookies.get("id_token");
     const userLocal = localStorage.getItem("user");
     const scopeLocal = localStorage.getItem("scope");

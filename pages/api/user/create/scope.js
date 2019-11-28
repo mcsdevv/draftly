@@ -11,15 +11,12 @@ export default async (req, res) => {
   };
   const user = await request(detailsOptions);
   const oldScopes = user.scopes;
-  console.log("OLD", oldScopes);
   const newScope = { name, role: "owner", type: "team" };
-  console.log("NEW", newScope);
-  //   TODO Check new scope is not existing
-  //   if (oldScopes.includes(newScope)) {
-  //     res.status(500).json({ error: "Scope already exists." });
-  //   }
+  // * Checks for existing scope
+  if (oldScopes.filter(s => s.name === name).length > 0) {
+    res.status(200).json(oldScopes);
+  }
   const scopes = [...oldScopes, newScope];
-  console.log("SCOPES", scopes);
   try {
     const dbs = await client.query(
       q.Update(
