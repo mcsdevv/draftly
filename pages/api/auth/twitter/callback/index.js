@@ -29,6 +29,9 @@ export default (req, res) => {
             const existsOptions = {
               method: "GET",
               url: `${process.env.AUTH0_REDIRECT_URI}/api/team/exists/${accountData.screen_name}`,
+              headers: {
+                Authorization: req.cookies.access_token
+              },
               json: true
             };
             const { exists } = await request(existsOptions);
@@ -78,11 +81,11 @@ export default (req, res) => {
                   )
                 ]);
               }
-              res.writeHead(301, {
-                Location: "/"
-              });
-              res.end();
             }
+            res.writeHead(301, {
+              Location: "/"
+            });
+            res.end();
           }
         }
       );
