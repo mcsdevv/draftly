@@ -47,6 +47,9 @@ export default (req, res) => {
                   tokenKey: oauthAccessToken,
                   tokenSecret: oauthAccessTokenSecret
                 },
+                headers: {
+                  Authorization: req.cookies.access_token
+                },
                 json: true
               };
               await request(updateTokenOptions);
