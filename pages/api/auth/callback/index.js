@@ -27,15 +27,21 @@ module.exports = async (req, res) => {
     if (!auth.error) {
       res.setHeader("Location", `/${req.cookies.next}`);
       const id_token = jwt.decode(auth.id_token);
+      // encrypt access token
+      const access_token = encrypt(auth.access_token);
       //  confirm nonce match to mitigate token replay attack
       if (req.cookies.nonce === id_token.nonce) {
         const existsOptions = {
           method: "GET",
           url: `${process.env.AUTH0_REDIRECT_URI}/api/user/exists/${id_token.email}`,
+          headers: {
+            Authorization: access_token
+          },
           json: true
         };
         const exists = await request(existsOptions);
         // if user does not exist, create in db
+        console.log("HEADERS", req.cookies);
         if (!exists) {
           const createOptions = {
             method: "POST",
@@ -45,13 +51,14 @@ module.exports = async (req, res) => {
               name: id_token.name,
               picture: id_token.picture
             },
+            headers: {
+              Authorization: access_token
+            },
             json: true
           };
           await request(createOptions);
         }
-        // encrypt access token
-        const accessEncrypted = encrypt(auth.access_token);
-        // add id_token (browser) + access_token (httpOnly + encrypted) as cookies
+        // add id_token (browser) + access_token (httpOnly) as cookies
         res.setHeader("Set-Cookie", [
           cookie.serialize(
             "id_token",
@@ -60,8 +67,8 @@ module.exports = async (req, res) => {
           ),
           cookie.serialize(
             "access_token",
-            String(accessEncrypted),
-            cookieOptions(true, true)
+            String(access_token),
+            cookieOptions(true, false)
           )
         ]);
         // send response

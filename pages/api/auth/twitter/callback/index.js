@@ -7,6 +7,7 @@ const cookieOptions = require("../../../_util/cookie/options");
 // const Twitter = require("twitter");
 
 export default (req, res) => {
+  console.log("HEADERS", req.headers);
   const { oauth_token, oauth_verifier } = req.query;
   // * Get users access tokens
   oauth.getOAuthAccessToken(
@@ -28,6 +29,9 @@ export default (req, res) => {
             const existsOptions = {
               method: "GET",
               url: `${process.env.AUTH0_REDIRECT_URI}/api/team/exists/${accountData.screen_name}`,
+              headers: {
+                Authorization: req.cookies.access_token
+              },
               json: true
             };
             const { exists } = await request(existsOptions);
@@ -43,12 +47,16 @@ export default (req, res) => {
                   tokenKey: oauthAccessToken,
                   tokenSecret: oauthAccessTokenSecret
                 },
+                headers: {
+                  Authorization: req.cookies.access_token
+                },
                 json: true
               };
               await request(updateTokenOptions);
             } else {
               console.log("CREATING NEW TEAM");
               // * Get email from id_token to set team owner
+              console.log("TOKEN", req.cookies.access_token);
               const { email } = jwt.decode(req.cookies.id_token);
               const createTeamOptions = {
                 method: "POST",
@@ -58,6 +66,9 @@ export default (req, res) => {
                   email,
                   tokenKey: oauthAccessToken,
                   tokenSecret: oauthAccessTokenSecret
+                },
+                headers: {
+                  Authorization: req.cookies.access_token
                 },
                 json: true
               };
@@ -73,11 +84,11 @@ export default (req, res) => {
                   )
                 ]);
               }
-              res.writeHead(301, {
-                Location: "/"
-              });
-              res.end();
             }
+            res.writeHead(301, {
+              Location: "/"
+            });
+            res.end();
           }
         }
       );
