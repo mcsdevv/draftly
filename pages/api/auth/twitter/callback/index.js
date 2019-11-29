@@ -7,6 +7,7 @@ const cookieOptions = require("../../../_util/cookie/options");
 // const Twitter = require("twitter");
 
 export default (req, res) => {
+  console.log("HEADERS", req.headers);
   const { oauth_token, oauth_verifier } = req.query;
   // * Get users access tokens
   oauth.getOAuthAccessToken(
@@ -49,6 +50,7 @@ export default (req, res) => {
             } else {
               console.log("CREATING NEW TEAM");
               // * Get email from id_token to set team owner
+              console.log("TOKEN", req.cookies.access_token);
               const { email } = jwt.decode(req.cookies.id_token);
               const createTeamOptions = {
                 method: "POST",
@@ -58,6 +60,9 @@ export default (req, res) => {
                   email,
                   tokenKey: oauthAccessToken,
                   tokenSecret: oauthAccessTokenSecret
+                },
+                headers: {
+                  Authorization: req.cookies.access_token
                 },
                 json: true
               };

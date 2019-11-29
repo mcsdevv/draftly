@@ -61,7 +61,7 @@ module.exports = async (req, res) => {
           cookie.serialize(
             "access_token",
             String(accessEncrypted),
-            cookieOptions(true, true)
+            cookieOptions(true, false)
           )
         ]);
         // send response

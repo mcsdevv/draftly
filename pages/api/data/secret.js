@@ -1,6 +1,6 @@
 const verify = require("../_util/token/verify");
 
-module.exports = (req, res) => {
+export default (req, res) => {
   const isVerified = err => {
     if (!err) {
       res.send("You're logged in via Auth0!");

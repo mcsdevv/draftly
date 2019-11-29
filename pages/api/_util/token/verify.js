@@ -31,14 +31,17 @@ module.exports = async (token, callback) => {
       if (!tokenDecrypted.includes(process.env.AUTH0_AUDIENCE)) {
         const err = "Incorrect audience.";
         callback(err);
+        return;
       }
       // verify JWT using about methods
       jwt.verify(tokenDecrypted, getKey, options, callback);
     } catch (err) {
       callback(err);
+      return;
     }
   } else {
     // supply callback with error if token length != true
     callback(true);
+    return;
   }
 };
