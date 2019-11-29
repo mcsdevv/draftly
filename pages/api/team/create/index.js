@@ -4,6 +4,7 @@ const verify = require("../../_util/token/verify");
 
 export default (req, res) => {
   verify(req.headers.authorization, async error => {
+    console.log("TOKEN", req.headers.authorization);
     if (error) res.status(400).json({ error });
     const { data, email, tokenKey, tokenSecret } = req.body;
     const { name, screen_name, profile_image_url } = data;
@@ -36,6 +37,9 @@ export default (req, res) => {
         body: {
           email,
           name: screen_name
+        },
+        headers: {
+          Authorization: req.headers.authorization
         },
         json: true
       };

@@ -1,39 +1,50 @@
 import { client, q } from "../../_util/fauna";
 const request = require("request-promise");
+const verify = require("../../_util/token/verify");
 
 export default async (req, res) => {
-  const { email, name } = req.body;
-  console.log("CREATING SCOPE...");
-  const detailsOptions = {
-    method: "GET",
-    url: `${process.env.AUTH0_REDIRECT_URI}/api/user/details/${email}`,
-    json: true
-  };
-  const user = await request(detailsOptions);
-  const oldScopes = user.scopes;
-  const newScope = { name, role: "owner", type: "team" };
-  // * Checks for existing scope
-  if (oldScopes.filter(s => s.name === name).length > 0) {
-    console.log("EXISTING SCOPE");
-    res.status(200).json({ update: false });
-    return;
-  }
-  const scopes = [...oldScopes, newScope];
-  try {
-    const dbs = await client.query(
-      q.Update(
-        q.Select(["ref"], q.Get(q.Match(q.Index("all_users_by_email"), email))),
-        {
-          data: {
-            scopes
+  verify(req.headers.authorization, async error => {
+    console.log("CREATE SCOPE TOKEN", req.headers.authorization);
+    if (error) res.status(400).json({ error });
+    const { email, name } = req.body;
+    console.log("CREATING SCOPE...");
+    const detailsOptions = {
+      method: "GET",
+      url: `${process.env.AUTH0_REDIRECT_URI}/api/user/details/${email}`,
+      headers: {
+        Authorization: req.headers.authorization
+      },
+      json: true
+    };
+    const user = await request(detailsOptions);
+    const oldScopes = user.scopes;
+    const newScope = { name, role: "owner", type: "team" };
+    // * Checks for existing scope
+    if (oldScopes.filter(s => s.name === name).length > 0) {
+      console.log("EXISTING SCOPE");
+      res.status(200).json({ update: false });
+      return;
+    }
+    const scopes = [...oldScopes, newScope];
+    try {
+      await client.query(
+        q.Update(
+          q.Select(
+            ["ref"],
+            q.Get(q.Match(q.Index("all_users_by_email"), email))
+          ),
+          {
+            data: {
+              scopes
+            }
           }
-        }
-      )
-    );
-    // ok
-    res.status(200).json({ update: true });
-  } catch (e) {
-    // something went wrong
-    res.status(500).json({ error: e.message });
-  }
+        )
+      );
+      // ok
+      res.status(200).json({ update: true });
+    } catch (e) {
+      // something went wrong
+      res.status(500).json({ error: e.message });
+    }
+  });
 };
