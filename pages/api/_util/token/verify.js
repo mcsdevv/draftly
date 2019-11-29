@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const jwksClient = require("jwks-rsa");
 const { decrypt } = require("../token/encryption");
 
+// TODO Accept scope parameter, check as part of JWT validation
+
 module.exports = async (token, callback) => {
   // create a client to retrieve secret keys
   const client = jwksClient({
