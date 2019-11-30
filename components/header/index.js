@@ -8,7 +8,7 @@ import ContextPicker from "../scope/picker";
 
 export default function Header() {
   // TODO Move AuthButton into its own login page
-  const { user } = useContext(UserContext);
+  const { logoutUser, user } = useContext(UserContext);
   const [isLanding, setLandingState] = useState(undefined);
   const router = useRouter();
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function Header() {
       {!isLanding && <LinkButton text="Tweets" to="/tweets" />}
       {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
       {!isLanding && <LinkButton text="Settings" to="/settings" />}
-      <AuthButton loggedIn={!!user} next="dashboard" />
+      <AuthButton loggedIn={!!user} logout={logoutUser} next="dashboard" />
       <style jsx>{`
         header {
           display: flex;
