@@ -1,19 +1,33 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../context/UserContext";
 
-import PersonalSettings from "../components/settings/personal";
-import TeamSettings from "../components/settings/team";
+import Tabs from "../components/tabs";
+import Account from "../components/settings/account";
+import Reviews from "../components/settings/reviews";
+import Team from "../components/settings/team";
 
 export default function Settings() {
   const { scope, user } = useContext(UserContext);
-  console.log(scope, user);
-  const scopeType = user.scopes.filter(s => s.name === scope)[0].type;
-  console.log("typee", scopeType);
+  const scopeType = user && user.scopes.filter(s => s.name === scope)[0].type;
+  const isOwner =
+    user && user.scopes.filter(s => s.name === scope)[0] === "owner";
+  const [tab, setTab] = useState("Schedule");
+  const renderTab = tabName => {
+    switch (tabName) {
+      case "Account":
+        return <Account />;
+      case "Reviews":
+        return <Reviews />;
+      case "Team":
+        return <Team />;
+    }
+  };
   return (
     <>
+      <Tabs tabNames={["Account", "Reviews", "Team"]} setTab={setTab} />
       <main>
         <h1>Settings Page</h1>
-        {scopeType === "personal" ? <PersonalSettings /> : <TeamSettings />}
+        {renderTab(tab)}
       </main>
       <style jsx>{``}</style>
     </>

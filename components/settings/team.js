@@ -1,1 +1,1 @@
-export default () => <h1>Team Account</h1>;
+export default () => <h1>Team</h1>;
