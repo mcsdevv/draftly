@@ -67,12 +67,15 @@ export default withRouter(
     };
     updateScope = e => {
       const scope = e.target.value;
-      if (scope === "new") window.location = "/api/auth/twitter/connect";
-      localStorage.setItem("scope", scope);
-      this.setState(prevState => ({
-        ...prevState,
-        scope
-      }));
+      if (scope === "new") {
+        window.location = "/api/auth/twitter/connect";
+      } else {
+        localStorage.setItem("scope", scope);
+        this.setState(prevState => ({
+          ...prevState,
+          scope
+        }));
+      }
     };
     render() {
       const { Component, pageProps } = this.props;
