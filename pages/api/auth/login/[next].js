@@ -1,6 +1,6 @@
-const cookie = require("cookie");
-const uuidv4 = require("uuid/v4");
-const cookieOptions = require("../../_util/cookie/options");
+import cookie from "cookie";
+import uuidv4 from "uuid/v4";
+import cookieOptions from "../../_util/cookie/options";
 
 module.exports = async (req, res) => {
   // get next page for redirect

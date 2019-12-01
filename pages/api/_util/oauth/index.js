@@ -1,4 +1,4 @@
-const OAuth = require("oauth");
+import OAuth from "oauth";
 
 const oauth = new OAuth.OAuth(
   "https://api.twitter.com/oauth/request_token",

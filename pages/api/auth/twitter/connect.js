@@ -1,4 +1,4 @@
-const oauth = require("../../_util/oauth");
+import oauth from "../../_util/oauth";
 
 export default (req, res) => {
   console.log(

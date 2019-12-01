@@ -1,5 +1,5 @@
-const request = require("request-promise");
-const cookie = require("cookie");
+import request from "request-promise";
+import cookie from "cookie";
 
 export default async (req, res) => {
   const options = {

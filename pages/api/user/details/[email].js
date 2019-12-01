@@ -1,5 +1,5 @@
 import { client, q } from "../../_util/fauna";
-const verify = require("../../_util/token/verify");
+import verify from "../../_util/token/verify";
 
 export default async (req, res) => {
   console.log("HEADERRRR", req.cookies.access_token);

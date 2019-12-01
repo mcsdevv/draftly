@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
-const jwksClient = require("jwks-rsa");
-const { decrypt } = require("../token/encryption");
+import jwt from "jsonwebtoken";
+import jwksClient from "jwks-rsa";
+import { decrypt } from "../token/encryption";
 
 // TODO Accept scope parameter, check as part of JWT validation
 

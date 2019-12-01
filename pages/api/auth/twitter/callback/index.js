@@ -1,8 +1,8 @@
-const oauth = require("../../../_util/oauth");
-const request = require("request-promise");
-const jwt = require("jsonwebtoken");
-const cookie = require("cookie");
-const cookieOptions = require("../../../_util/cookie/options");
+import oauth from "../../../_util/oauth";
+import request from "request-promise";
+import jwt from "jsonwebtoken";
+import cookie from "cookie";
+import cookieOptions from "../../../_util/cookie/options";
 
 // const Twitter = require("twitter");
 

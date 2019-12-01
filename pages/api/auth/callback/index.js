@@ -1,8 +1,8 @@
-const request = require("request-promise");
-const cookie = require("cookie");
-const jwt = require("jsonwebtoken");
-const cookieOptions = require("../../_util/cookie/options");
-const { encrypt } = require("../../_util/token/encryption");
+import request from "request-promise";
+import cookie from "cookie";
+import jwt from "jsonwebtoken";
+import cookieOptions from "../../_util/cookie/options";
+import { encrypt } from "../../_util/token/encryption";
 
 module.exports = async (req, res) => {
   //  confirm state match to mitigate CSRF

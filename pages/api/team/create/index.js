@@ -1,6 +1,6 @@
 import { client, q } from "../../_util/fauna";
-const request = require("request-promise");
-const verify = require("../../_util/token/verify");
+import request from "request-promise";
+import verify from "../../_util/token/verify";
 
 export default (req, res) => {
   verify(req.headers.authorization, async error => {
