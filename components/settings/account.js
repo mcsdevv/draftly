@@ -4,6 +4,7 @@ import Form from "../form";
 import Input from "../input";
 
 export default function Account({
+  isOwner,
   scope,
   scopeType,
   teams,
@@ -26,7 +27,13 @@ export default function Account({
     const key = e.target.name;
     setAccount({ ...account, [key]: e.target.value });
   };
-  const handleOnSubmit = e => {
+  const handleOnSubmitName = e => {
+    e.preventDefault();
+    // TODO Make API call to update the user or team
+    updateTeams();
+    console.log(account);
+  };
+  const handleOnSubmitDelete = e => {
     e.preventDefault();
     // TODO Make API call to update the user or team
     updateTeams();
@@ -35,15 +42,38 @@ export default function Account({
   return (
     <>
       <h1>Account Settings</h1>
-      <Form onSubmit={handleOnSubmit}>
+      <Form onSubmit={handleOnSubmitName}>
         <Input
-          label="Display Name"
+          label={
+            scopeType === "personal"
+              ? "Change Display Name"
+              : "Change Team Name"
+          }
           name="name"
           onChange={handleOnChange}
           type="text"
           value={account.name || ""}
         />
       </Form>
+      {isOwner && (
+        <Form
+          buttonText="Delete"
+          disabled={account.name !== account.deleteName}
+          onSubmit={handleOnSubmitDelete}
+        >
+          <Input
+            label={scopeType === "personal" ? "Delete Account" : "Delete Team"}
+            name="deleteName"
+            onChange={handleOnChange}
+            onSubmit
+            text={`Enter your ${
+              scopeType === "personal" ? "display" : "team"
+            } name before clicking delete.`}
+            type="text"
+            value={account.deleteName || ""}
+          />
+        </Form>
+      )}
     </>
   );
 }

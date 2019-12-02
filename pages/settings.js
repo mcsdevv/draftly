@@ -25,6 +25,7 @@ export default function Settings() {
       case "Account":
         return (
           <Account
+            isOwner={isOwner}
             scope={scope}
             scopeType={scopeType}
             teams={teams}

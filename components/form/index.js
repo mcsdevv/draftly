@@ -1,8 +1,10 @@
-export default function Form({ children, onSubmit }) {
+export default function Form({ buttonText, children, disabled, onSubmit }) {
   return (
     <form onSubmit={onSubmit}>
       {children}
-      <button type="submit">Update</button>
+      <button disabled={disabled} type="submit">
+        {buttonText || "Update"}
+      </button>
     </form>
   );
 }
