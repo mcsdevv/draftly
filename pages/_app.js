@@ -94,7 +94,6 @@ export default withRouter(
         if (!teams[scope]) {
           const res = await fetch(`/api/team/details/${scope}`);
           const team = await res.json();
-          delete team.auth;
           const newTeams = { ...teams, [scope]: team };
           console.log("NEW", newTeams);
           localStorage.setItem("teams", JSON.stringify({ ...newTeams }));
@@ -103,7 +102,6 @@ export default withRouter(
       } else {
         const res = await fetch(`/api/team/details/${scope}`);
         const team = await res.json();
-        delete team.auth;
         const newTeams = { ...teams, [scope]: team };
         console.log("NEW", newTeams);
         localStorage.setItem("teams", JSON.stringify(newTeams));
@@ -112,13 +110,14 @@ export default withRouter(
     };
     render() {
       const { Component, pageProps } = this.props;
-      const { scope, user } = this.state;
+      const { scope, teams, user } = this.state;
       const { logoutUser, updateScope, updateUser } = this;
       return (
         <UserContext.Provider
           value={{
             logoutUser,
             scope,
+            teams,
             user,
             updateScope,
             updateUser

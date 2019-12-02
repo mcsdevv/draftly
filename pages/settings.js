@@ -7,7 +7,7 @@ import Reviews from "../components/settings/reviews";
 import Team from "../components/settings/team";
 
 export default function Settings() {
-  const { scope, updateTeams, user } = useContext(UserContext);
+  const { scope, teams, updateTeams, user } = useContext(UserContext);
   const [tab, setTab] = useState("Account");
   const scopeDetails = user && user.scopes.filter(s => s.name === scope)[0];
   const scopeType = user && scopeDetails.type;
@@ -27,6 +27,7 @@ export default function Settings() {
           <Account
             scope={scope}
             scopeType={scopeType}
+            teams={teams}
             updateTeams={updateTeams}
             user={user}
           />

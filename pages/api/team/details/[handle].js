@@ -14,6 +14,8 @@ export default async (req, res) => {
       const dbs = await client.query(
         q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
       );
+      // * Delete keys before sending response
+      delete dbs.data.auth;
       console.log("Team details:", dbs);
       // ok
       res.status(200).json({ ...dbs.data });

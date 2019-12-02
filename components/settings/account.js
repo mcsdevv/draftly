@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import Form from "../form";
 import Input from "../input";
 
-export default function Account({ scope, scopeType, updateTeams, user }) {
+export default function Account({
+  scope,
+  scopeType,
+  teams,
+  updateTeams,
+  user
+}) {
   // TODO Account for the changing of scope to a team
   const [account, setAccount] = useState({});
   useEffect(() => {
@@ -11,11 +17,11 @@ export default function Account({ scope, scopeType, updateTeams, user }) {
       if (scopeType === "personal") {
         user && setAccount({ name: user.name });
       } else {
-        console.log("get team");
+        teams && setAccount({ name: teams[scope].name });
       }
     }
     getAccount();
-  }, [scope, user]);
+  }, [scope, teams, user]);
   const handleOnChange = e => {
     const key = e.target.name;
     setAccount({ ...account, [key]: e.target.value });
