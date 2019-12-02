@@ -17,7 +17,7 @@ export default function Account({
       if (scopeType === "personal") {
         user && setAccount({ name: user.name });
       } else {
-        teams && setAccount({ name: teams[scope].name });
+        teams && teams[scope] && setAccount({ name: teams[scope].name });
       }
     }
     getAccount();

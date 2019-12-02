@@ -90,22 +90,20 @@ export default withRouter(
       console.log("NEW TEAM", scope);
       const localTeams = localStorage.getItem("teams");
       const teams = JSON.parse(localTeams);
-      if (teams !== null) {
-        if (!teams[scope]) {
-          const res = await fetch(`/api/team/details/${scope}`);
-          const team = await res.json();
-          const newTeams = { ...teams, [scope]: team };
-          console.log("NEW", newTeams);
-          localStorage.setItem("teams", JSON.stringify({ ...newTeams }));
-          this.setState(prevState => ({ ...prevState, teams: newTeams }));
-        }
-      } else {
+      const updateLocalTeams = async () => {
         const res = await fetch(`/api/team/details/${scope}`);
         const team = await res.json();
         const newTeams = { ...teams, [scope]: team };
         console.log("NEW", newTeams);
-        localStorage.setItem("teams", JSON.stringify(newTeams));
+        localStorage.setItem("teams", JSON.stringify({ ...newTeams }));
         this.setState(prevState => ({ ...prevState, teams: newTeams }));
+      };
+      if (teams !== null) {
+        if (!teams[scope]) {
+          await updateLocalTeams();
+        }
+      } else {
+        await updateLocalTeams();
       }
     };
     render() {
