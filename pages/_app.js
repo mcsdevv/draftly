@@ -10,15 +10,16 @@ import Header from "../components/header";
 export default withRouter(
   class MyApp extends App {
     state = {
-      user: null,
-      scope: null
+      scope: null,
+      teams: null,
+      user: null
     };
     componentDidMount = async () => {
       const updateLocal = Cookies.get("update");
       const idLocal = Cookies.get("id_token");
       const userLocal = localStorage.getItem("user");
       const scopeLocal = localStorage.getItem("scope");
-      console.log("UPDATE LOCAL");
+      const teamsLocal = localStorage.getItem("teams");
       if (updateLocal) {
         const { email } = parseJwt(Cookies.get("id_token"));
         const res = await fetch(`/api/user/details/${email}`);
@@ -27,14 +28,18 @@ export default withRouter(
         localStorage.setItem("user", JSON.stringify(user));
         console.log("Existing user updated:", user);
         const scope = scopeLocal || user.scopes[0].name;
-        this.setState({ scope, user });
+        const teams = JSON.parse(teamsLocal);
+        console.log(teams);
+        this.setState({ scope, teams, user });
         return;
       }
       if (idLocal && userLocal) {
         console.log("Existing user logged in:", userLocal);
         const user = JSON.parse(userLocal);
         const scope = scopeLocal || user.scopes[0].name;
-        this.setState({ scope, user });
+        const teams = JSON.parse(teamsLocal);
+        console.log(teams);
+        this.setState({ scope, teams, user });
         return;
       }
       if (idLocal && !userLocal) {
@@ -44,7 +49,9 @@ export default withRouter(
         localStorage.setItem("user", JSON.stringify(user));
         console.log("New user logged in:", user);
         const scope = scopeLocal || user.scopes[0].name;
-        this.setState({ scope, user });
+        const teams = JSON.parse(teamsLocal);
+        console.log(teams);
+        this.setState({ scope, teams, user });
         return;
       }
     };
@@ -67,6 +74,7 @@ export default withRouter(
     };
     updateScope = e => {
       const scope = e.target.value;
+      const personalScope = this.state.user.scopes[0].name;
       if (scope === "new") {
         window.location = "/api/auth/twitter/connect";
       } else {
@@ -75,6 +83,31 @@ export default withRouter(
           ...prevState,
           scope
         }));
+      }
+      if (scope !== personalScope) this.updateTeams(scope);
+    };
+    updateTeams = async scope => {
+      console.log("NEW TEAM", scope);
+      const localTeams = localStorage.getItem("teams");
+      const teams = JSON.parse(localTeams);
+      if (teams !== null) {
+        if (!teams[scope]) {
+          const res = await fetch(`/api/team/details/${scope}`);
+          const team = await res.json();
+          delete team.auth;
+          const newTeams = { ...teams, [scope]: team };
+          console.log("NEW", newTeams);
+          localStorage.setItem("teams", JSON.stringify({ ...newTeams }));
+          this.setState(prevState => ({ ...prevState, teams: newTeams }));
+        }
+      } else {
+        const res = await fetch(`/api/team/details/${scope}`);
+        const team = await res.json();
+        delete team.auth;
+        const newTeams = { ...teams, [scope]: team };
+        console.log("NEW", newTeams);
+        localStorage.setItem("teams", JSON.stringify(newTeams));
+        this.setState(prevState => ({ ...prevState, teams: newTeams }));
       }
     };
     render() {

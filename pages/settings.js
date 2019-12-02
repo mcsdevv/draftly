@@ -7,28 +7,40 @@ import Reviews from "../components/settings/reviews";
 import Team from "../components/settings/team";
 
 export default function Settings() {
-  const { scope, user } = useContext(UserContext);
-  const scopeType = user && user.scopes.filter(s => s.name === scope)[0].type;
-  const isOwner =
-    user && user.scopes.filter(s => s.name === scope)[0] === "owner";
-  const [tab, setTab] = useState("Schedule");
+  const { scope, updateTeams, user } = useContext(UserContext);
+  const [tab, setTab] = useState("Account");
+  const scopeDetails = user && user.scopes.filter(s => s.name === scope)[0];
+  const scopeType = user && scopeDetails.type;
+  const isOwner = user && scopeDetails.role === "owner";
+  const userTabs = ["Account"];
+  const teamTabs = ["Account", "Reviews", "Team"];
+  const teamOwnerTabs = ["Account", "Reviews", "Team"];
+  const getTabs = () => {
+    if (scopeType === "user") return userTabs;
+    if (isOwner) return teamOwnerTabs;
+    return teamTabs;
+  };
   const renderTab = tabName => {
     switch (tabName) {
       case "Account":
-        return <Account />;
+        return (
+          <Account
+            scope={scope}
+            scopeType={scopeType}
+            updateTeams={updateTeams}
+            user={user}
+          />
+        );
       case "Reviews":
-        return <Reviews />;
+        return <Reviews user={user} />;
       case "Team":
-        return <Team />;
+        return <Team user={user} />;
     }
   };
   return (
     <>
-      <Tabs tabNames={["Account", "Reviews", "Team"]} setTab={setTab} />
-      <main>
-        <h1>Settings Page</h1>
-        {renderTab(tab)}
-      </main>
+      <Tabs tabNames={getTabs()} setTab={setTab} />
+      {renderTab(tab)}
       <style jsx>{``}</style>
     </>
   );
