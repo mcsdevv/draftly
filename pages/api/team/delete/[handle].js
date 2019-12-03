@@ -1,4 +1,5 @@
 import { client, q } from "../../_util/fauna";
+import request from "request-promise";
 import verify from "../../_util/token/verify";
 
 export default async (req, res) => {
@@ -21,7 +22,21 @@ export default async (req, res) => {
       );
       const { members } = await dbs.data;
       console.log("MEMBERS", members);
+      const emails = members.map(m => m.email);
+      console.log("MEMBER EMAILS", emails);
       // TODO Delete team from all members
+      const deleteOptions = {
+        method: "PATCH",
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/users/delete/team/${handle}`,
+        body: {
+          emails
+        },
+        headers: {
+          Authorization: req.headers.authorization
+        },
+        json: true
+      };
+      const res = await request(deleteOptions);
       console.log("Deleted team:", dbs);
       // ok
       res.status(200).json({ ...dbs.data });
