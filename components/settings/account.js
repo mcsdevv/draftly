@@ -27,16 +27,23 @@ export default function Account({
     const key = e.target.name;
     setAccount({ ...account, [key]: e.target.value });
   };
-  const handleOnSubmitName = e => {
+  const handleOnSubmitName = async e => {
     e.preventDefault();
     // TODO Make API call to update the user or team
     updateTeams();
     console.log(account);
   };
-  const handleOnSubmitDelete = e => {
+  const handleOnSubmitDelete = async e => {
     e.preventDefault();
+    const url =
+      scopeType === "personal"
+        ? `api/user/delete/${user.email}`
+        : `api/team/delete/${teams[scope].handle}`;
+    const res = await fetch(url);
+    const { status } = await res;
+    console.log("STATUS", status);
     // TODO Make API call to update the user or team
-    updateTeams();
+    updateTeams("delete");
     console.log(account);
   };
   return (
@@ -74,6 +81,7 @@ export default function Account({
           />
         </Form>
       )}
+      <style jsx>{``}</style>
     </>
   );
 }

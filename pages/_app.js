@@ -60,8 +60,9 @@ export default withRouter(
       if (res.status === 200) {
         Cookies.remove("id_token");
         Cookies.remove("access_token");
+        localStorage.removeItem("teams");
         localStorage.removeItem("user");
-        this.setState({ user: false });
+        this.setState({ teams: null, user: null });
         this.props.router.push("/");
       }
     };
@@ -98,6 +99,12 @@ export default withRouter(
         localStorage.setItem("teams", JSON.stringify({ ...newTeams }));
         this.setState(prevState => ({ ...prevState, teams: newTeams }));
       };
+      if (scope === "delete") {
+        delete teams[this.state.scope];
+        localStorage.setItem("teams", JSON.stringify(teams));
+        this.setState(prevState => ({ ...prevState, teams }));
+        return;
+      }
       if (teams !== null) {
         if (!teams[scope]) {
           await updateLocalTeams();
@@ -109,7 +116,7 @@ export default withRouter(
     render() {
       const { Component, pageProps } = this.props;
       const { scope, teams, user } = this.state;
-      const { logoutUser, updateScope, updateUser } = this;
+      const { logoutUser, updateScope, updateTeams, updateUser } = this;
       return (
         <UserContext.Provider
           value={{
@@ -118,6 +125,7 @@ export default withRouter(
             teams,
             user,
             updateScope,
+            updateTeams,
             updateUser
           }}
         >

@@ -7,7 +7,9 @@ export default function Dashboard() {
   return (
     <>
       <h1>Dashboard</h1>
-      <h3>Hello {user.name}, the following items need your attention:</h3>
+      <h3>
+        Hello {user && user.name}, the following items need your attention:
+      </h3>
       <ul>
         <li>New Scheduled Tweets</li>
         <li>New Drafts</li>
