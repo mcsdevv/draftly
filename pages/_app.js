@@ -96,7 +96,7 @@ export default withRouter(
         const team = await res.json();
         const newTeams = { ...teams, [scope]: team };
         console.log("NEW", newTeams);
-        localStorage.setItem("teams", JSON.stringify({ ...newTeams }));
+        localStorage.setItem("teams", JSON.stringify(newTeams));
         this.setState(prevState => ({ ...prevState, teams: newTeams }));
       };
       if (scope === "delete") {

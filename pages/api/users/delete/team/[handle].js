@@ -17,11 +17,13 @@ export default async (req, res) => {
     try {
       const { emails } = req.body;
       const { handle } = req.query;
+      console.log("HANDLE", handle);
+      console.log("EMAILS", emails);
       const dbs = await client.query(
         q.Foreach(
           q.Paginate(
             q.Union(
-              Map(
+              q.Map(
                 emails,
                 q.Lambda(
                   "x",
@@ -38,7 +40,7 @@ export default async (req, res) => {
                   q.Select(["data", "scopes"], q.Get(q.Var("u"))),
                   q.Lambda(
                     "s",
-                    q.Not(q.Equals(handle, q.Select(["handle"], q.Var("s"))))
+                    q.Not(q.Equals(handle, q.Select(["name"], q.Var("s"))))
                   )
                 )
               }
@@ -46,9 +48,11 @@ export default async (req, res) => {
           )
         )
       );
+      console.log("NEW DATA", dbs);
       // ok
       res.status(200).json(dbs.data);
     } catch (e) {
+      console.log(("ERROR", e));
       // something went wrong
       res.status(500).json({ error: e.message });
     }
