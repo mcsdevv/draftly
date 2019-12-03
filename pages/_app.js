@@ -29,7 +29,6 @@ export default withRouter(
         console.log("Existing user updated:", user);
         const scope = scopeLocal || user.scopes[0].name;
         const teams = JSON.parse(teamsLocal);
-        console.log(teams);
         this.setState({ scope, teams, user });
         return;
       }
@@ -38,7 +37,6 @@ export default withRouter(
         const user = JSON.parse(userLocal);
         const scope = scopeLocal || user.scopes[0].name;
         const teams = JSON.parse(teamsLocal);
-        console.log(teams);
         this.setState({ scope, teams, user });
         return;
       }
@@ -50,7 +48,6 @@ export default withRouter(
         console.log("New user logged in:", user);
         const scope = scopeLocal || user.scopes[0].name;
         const teams = JSON.parse(teamsLocal);
-        console.log(teams);
         this.setState({ scope, teams, user });
         return;
       }
@@ -78,6 +75,7 @@ export default withRouter(
       const personalScope = this.state.user.scopes[0].name;
       if (scope === "new") {
         window.location = "/api/auth/twitter/connect";
+        return;
       } else {
         localStorage.setItem("scope", scope);
         this.setState(prevState => ({
@@ -85,7 +83,9 @@ export default withRouter(
           scope
         }));
       }
-      if (scope !== personalScope) this.updateTeams(scope);
+      if (scope !== personalScope) {
+        this.updateTeams(scope);
+      }
     };
     updateTeams = async scope => {
       console.log("NEW TEAM", scope);
@@ -100,9 +100,17 @@ export default withRouter(
         this.setState(prevState => ({ ...prevState, teams: newTeams }));
       };
       if (scope === "delete") {
+        // TODO Update user also
         delete teams[this.state.scope];
+        const scope = this.state.user.scopes[0].name;
+        const scopes = this.state.user.scopes.filter(
+          s => s.name !== this.state.scope
+        );
+        const user = { ...this.state.user, scopes };
+        console.log("USER UPDATED", user);
         localStorage.setItem("teams", JSON.stringify(teams));
-        this.setState(prevState => ({ ...prevState, teams }));
+        localStorage.setItem("scope", scope);
+        this.setState({ scope, teams, user });
         return;
       }
       if (teams !== null) {

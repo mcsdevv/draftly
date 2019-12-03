@@ -10,7 +10,6 @@ export default async (req, res) => {
     );
     if (error) res.status(400).json({ error });
     const { handle } = req.query;
-    // TODO Get team members first to remove team from all users
     try {
       const dbs = await client.query(
         q.Delete(
@@ -20,6 +19,9 @@ export default async (req, res) => {
           )
         )
       );
+      const { members } = await dbs.data;
+      console.log("MEMBERS", members);
+      // TODO Delete team from all members
       console.log("Deleted team:", dbs);
       // ok
       res.status(200).json({ ...dbs.data });
