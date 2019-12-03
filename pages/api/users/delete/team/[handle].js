@@ -4,11 +4,10 @@
 // * Use Lambda to remove team from array
 // * https://docs.fauna.com/fauna/current/api/fql/functions/foreach#examples
 
-import { client, q } from "../../_util/fauna";
-import verify from "../../_util/token/verify";
+import { client, q } from "../../../_util/fauna";
+import verify from "../../../_util/token/verify";
 
 export default async (req, res) => {
-  console.log("HEADERRRR", req.cookies.access_token);
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     console.log(
       "USERS DELETE TEAMS",
@@ -39,7 +38,7 @@ export default async (req, res) => {
                   q.Select(["data", "scopes"], q.Get(q.Var("u"))),
                   q.Lambda(
                     "s",
-                    q.Not(q.Equals(handle, q.Select(["name"], q.Var("s"))))
+                    q.Not(q.Equals(handle, q.Select(["handle"], q.Var("s"))))
                   )
                 )
               }

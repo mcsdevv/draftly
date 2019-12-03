@@ -32,7 +32,7 @@ export default async (req, res) => {
           emails
         },
         headers: {
-          Authorization: req.headers.authorization
+          Authorization: req.headers.authorization || req.cookies.access_token
         },
         json: true
       };
