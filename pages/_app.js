@@ -4,6 +4,7 @@ import UserContext from "../context/UserContext";
 import Cookies from "js-cookie";
 import parseJwt from "../lib/parseJwt";
 import { withRouter } from "next/router";
+import { SWRConfig } from "swr";
 
 import Header from "../components/header";
 
@@ -126,20 +127,27 @@ export default withRouter(
       const { scope, teams, user } = this.state;
       const { logoutUser, updateScope, updateTeams, updateUser } = this;
       return (
-        <UserContext.Provider
+        <SWRConfig
           value={{
-            logoutUser,
-            scope,
-            teams,
-            user,
-            updateScope,
-            updateTeams,
-            updateUser
+            refreshInterval: 3000,
+            fetcher: (...args) => fetch(...args).then(res => res.json())
           }}
         >
-          <Header />
-          <Component {...pageProps} />
-        </UserContext.Provider>
+          <UserContext.Provider
+            value={{
+              logoutUser,
+              scope,
+              teams,
+              user,
+              updateScope,
+              updateTeams,
+              updateUser
+            }}
+          >
+            <Header />
+            <Component {...pageProps} />
+          </UserContext.Provider>
+        </SWRConfig>
       );
     }
   }

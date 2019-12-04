@@ -1,9 +1,7 @@
-import { useContext } from "react";
-import UserContext from "../context/UserContext";
+import { useUser } from "../hooks/useUser";
 
 export default function Dashboard() {
-  const { user } = useContext(UserContext);
-
+  const user = useUser();
   return (
     <>
       <h1>Dashboard</h1>
