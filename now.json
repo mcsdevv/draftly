@@ -9,7 +9,7 @@
     "ENCRYPTION_KEY": "@tr-encryption_key",
     "TWITTER_OAUTH_CALLBACK": "@tr-twitter_oauth_callback",
     "TWITTER_CONSUMER_KEY": "@tr-twitter_consumer_key",
-    "TWITTER_CONSUMER_SECRET": "@tr-twitter_consumer_key",
+    "TWITTER_CONSUMER_SECRET": "@tr-twitter_consumer_secret",
     "TWITTER_ACCESS_TOKEN": "@tr-twitter_access_token",
     "TWITTER_ACCESS_SECRET": "@tr-twitter_access_secret",
     "FAUNADB_SECRET_KEY": "@tr-faunadb_secret_key"
@@ -24,7 +24,7 @@
       "ENCRYPTION_KEY": "@tr-encryption_key",
       "TWITTER_OAUTH_CALLBACK": "@tr-twitter_oauth_callback",
       "TWITTER_CONSUMER_KEY": "@tr-twitter_consumer_key",
-      "TWITTER_CONSUMER_SECRET": "@tr-twitter_consumer_key",
+      "TWITTER_CONSUMER_SECRET": "@tr-twitter_consumer_secret",
       "TWITTER_ACCESS_TOKEN": "@tr-twitter_access_token",
       "TWITTER_ACCESS_SECRET": "@tr-twitter_access_secret",
       "FAUNADB_SECRET_KEY": "@tr-faunadb_secret_key"
