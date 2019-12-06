@@ -9,7 +9,6 @@ export const useUser = () => {
     const { data: user } = useSWR(
       `/api/user/details/${encodeURIComponent(email)}`
     );
-    console.log(user);
     return user;
   } else {
     return undefined;

@@ -15,6 +15,6 @@ export const useScope = () => {
         role: details.role
       });
     }
-  }, [scope]);
+  }, [scope, user]);
   return [scope, scopeDetails];
 };

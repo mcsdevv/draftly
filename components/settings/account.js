@@ -32,8 +32,8 @@ export default function Account({ isOwner, isPersonal, scope, team, user }) {
       ? `api/user/delete/${user.email}`
       : `api/team/delete/${team.handle}`;
     const res = await fetch(url);
-    const der = await res;
-    console.log(account);
+    const { status } = await res;
+    console.log(status);
   };
   return (
     <>
