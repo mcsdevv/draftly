@@ -1,10 +1,13 @@
 import { useContext } from "react";
-import UserContext from "../../context/UserContext";
+import ScopeContext from "../../context/scopeContext";
+import { useUser } from "../../hooks/useUser";
 
-export default function ScopetPicker() {
-  const { scope, user, updateScope } = useContext(UserContext);
+export default function ScopePicker() {
+  const { scope, updateScope } = useContext(ScopeContext);
+  console.log("SCOPEYYYYY", scope);
+  const user = useUser();
   return user && user.scopes ? (
-    <select value={scope} onChange={updateScope}>
+    <select value={scope || user.scopes[0].name} onChange={updateScope}>
       {user.scopes.map(c => (
         <option key={c.name} value={c.name}>
           {c.name}

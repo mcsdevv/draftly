@@ -1,9 +1,7 @@
-import { useContext } from "react";
-import UserContext from "../context/UserContext";
+import { useUser } from "../hooks/useUser";
 
 export default function Landing() {
-  const { user } = useContext(UserContext);
-  console.log("USER", user);
+  const user = useUser();
   return (
     <>
       <h1>Really great marketing content...</h1>
