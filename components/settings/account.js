@@ -11,9 +11,19 @@ export default function Account({ isOwner, isPersonal, scope, team, user }) {
   useEffect(() => {
     function getAccount() {
       if (isPersonal) {
-        user && setAccount({ name: user.name });
+        user &&
+          setAccount({
+            name: user.name,
+            deleteName: "",
+            updateName: user.name
+          });
       } else {
-        team && setAccount({ name: team.name });
+        team &&
+          setAccount({
+            name: team.name,
+            deleteName: "",
+            updateName: team.name
+          });
       }
     }
     getAccount();
@@ -42,13 +52,16 @@ export default function Account({ isOwner, isPersonal, scope, team, user }) {
   return (
     <>
       <h1>Account Settings</h1>
-      <Form onSubmit={handleOnSubmitName}>
+      <Form
+        onSubmit={handleOnSubmitName}
+        disabled={account.name === account.updateName}
+      >
         <Input
           label={isPersonal ? "Change Display Name" : "Change Team Name"}
-          name="name"
+          name="updateName"
           onChange={handleOnChange}
           type="text"
-          value={account ? account.name : ""}
+          value={account ? account.updateName : ""}
         />
       </Form>
       {isOwner && (
