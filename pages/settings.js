@@ -19,14 +19,14 @@ export default function Settings() {
     function getScopeDetails() {
       if (user) {
         const details = user.scopes.filter(s => s.name === scope)[0];
-        if (details.type === "personal") {
-          setScopeDetails({ personal: true, role: details.role });
-        }
+        setScopeDetails({
+          personal: details.type === "personal",
+          role: details.role
+        });
       }
     }
     getScopeDetails();
-  }, [user]);
-  console.log("SCOPE DETAILS", scopeDetails);
+  }, [scope]);
   const userTabs = ["Account"];
   const teamTabs = ["Account", "Reviews", "Team"];
   const teamOwnerTabs = ["Account", "Reviews", "Team"];

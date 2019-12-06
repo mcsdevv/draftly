@@ -17,6 +17,7 @@ export default withRouter(
     };
     updateScope = e => {
       const scope = e.target.value;
+      localStorage.setItem("scope", scope);
       if (scope === "new") {
         window.location = "/api/auth/twitter/connect";
         return;

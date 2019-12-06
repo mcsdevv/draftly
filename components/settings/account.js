@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Form from "../form";
 import Input from "../input";
 
-export default function Account({ isOwner, isPersonal, team, user }) {
+export default function Account({ isOwner, isPersonal, scope, team, user }) {
   // TODO Account for the changing of scope to a team
   const [account, setAccount] = useState(team || user);
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function Account({ isOwner, isPersonal, team, user }) {
       }
     }
     getAccount();
-  }, [team, user]);
+  }, [scope, team, user]);
   const handleOnChange = e => {
     const key = e.target.name;
     setAccount({ ...account, [key]: e.target.value });
@@ -33,7 +33,6 @@ export default function Account({ isOwner, isPersonal, team, user }) {
       : `api/team/delete/${team.handle}`;
     const res = await fetch(url);
     const der = await res;
-    console.log("STATUS", der);
     console.log(account);
   };
   return (
