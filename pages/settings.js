@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState } from "react";
-import ScopeContext from "../context/scopeContext";
-import { useUser } from "../hooks/useUser";
+import { useState } from "react";
+
+import { useScope } from "../hooks/useScope";
 import { useTeam } from "../hooks/useTeam";
+import { useUser } from "../hooks/useUser";
 
 import Tabs from "../components/tabs";
 import Account from "../components/settings/account";
@@ -9,24 +10,10 @@ import Reviews from "../components/settings/reviews";
 import Team from "../components/settings/team";
 
 export default function Settings() {
-  const { scope } = useContext(ScopeContext);
   const user = useUser();
+  const [scope, scopeDetails] = useScope();
   const team = useTeam(scope);
   const [tab, setTab] = useState("Account");
-  const [scopeDetails, setScopeDetails] = useState(undefined);
-  // TODO Make this a hook that uses scope context
-  useEffect(() => {
-    function getScopeDetails() {
-      if (user) {
-        const details = user.scopes.filter(s => s.name === scope)[0];
-        setScopeDetails({
-          personal: details.type === "personal",
-          role: details.role
-        });
-      }
-    }
-    getScopeDetails();
-  }, [scope]);
   const userTabs = ["Account"];
   const teamTabs = ["Account", "Reviews", "Team"];
   const teamOwnerTabs = ["Account", "Reviews", "Team"];
