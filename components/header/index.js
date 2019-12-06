@@ -1,6 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import UserContext from "../../context/UserContext";
+import { useUser } from "../../hooks/useUser";
+
+import Cookies from "js-cookie";
 
 import AuthButton from "../buttons/auth";
 import LinkButton from "../buttons/link";
@@ -8,9 +10,19 @@ import ScopePicker from "../scope/picker";
 
 export default function Header() {
   // TODO Move AuthButton into its own login page
-  const { logoutUser, user } = useContext(UserContext);
-  const [isLanding, setLandingState] = useState(undefined);
+  const user = useUser();
   const router = useRouter();
+  const logoutUser = async () => {
+    const res = await fetch("/api/auth/logout");
+    if (res.status === 200) {
+      Cookies.remove("id_token");
+      Cookies.remove("access_token");
+      localStorage.removeItem("teams");
+      localStorage.removeItem("user");
+      router.push("/");
+    }
+  };
+  const [isLanding, setLandingState] = useState(undefined);
   useEffect(() => {
     function getLandingState() {
       setLandingState(router.pathname === "/");

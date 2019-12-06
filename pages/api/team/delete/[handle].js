@@ -36,7 +36,7 @@ export default async (req, res) => {
         },
         json: true
       };
-      const res = await request(deleteOptions);
+      await request(deleteOptions);
       console.log("Deleted team:", dbs);
       // ok
       res.status(200).json({ ...dbs.data });
