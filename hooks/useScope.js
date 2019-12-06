@@ -10,10 +10,12 @@ export const useScope = () => {
   useEffect(() => {
     if (user) {
       const details = user.scopes.filter(s => s.name === scope)[0];
-      setScopeDetails({
-        personal: details.type === "personal",
-        role: details.role
-      });
+      if (details) {
+        setScopeDetails({
+          personal: details.type === "personal",
+          role: details.role
+        });
+      }
     }
   }, [scope, user]);
   return [scope, scopeDetails];

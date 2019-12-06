@@ -13,12 +13,17 @@ export default withRouter(
     };
     componentDidMount = () => {
       const scope = localStorage.getItem("scope");
+      this.setScope(scope);
+    };
+    setScope = scope => {
+      localStorage.setItem("scope", scope);
       this.setState({ scope });
     };
     updateScope = e => {
       const scope = e.target.value;
       localStorage.setItem("scope", scope);
       if (scope === "new") {
+        localStorage.removeItem("scope");
         window.location = "/api/auth/twitter/connect";
         return;
       } else {
@@ -37,6 +42,7 @@ export default withRouter(
           <ScopeContext.Provider
             value={{
               scope: this.state.scope,
+              setScope: this.setScope,
               updateScope: this.updateScope
             }}
           >

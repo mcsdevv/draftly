@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import ScopeContext from "../../context/scopeContext";
 
 import Form from "../form";
 import Input from "../input";
 
 export default function Account({ isOwner, isPersonal, scope, team, user }) {
   // TODO Account for the changing of scope to a team
+  const { setScope } = useContext(ScopeContext);
   const [account, setAccount] = useState(team || user);
   useEffect(() => {
     function getAccount() {
@@ -33,7 +35,9 @@ export default function Account({ isOwner, isPersonal, scope, team, user }) {
       : `api/team/delete/${team.handle}`;
     const res = await fetch(url);
     const { status } = await res;
-    console.log(status);
+    if (status === 200) {
+      setScope(user.name);
+    }
   };
   return (
     <>
