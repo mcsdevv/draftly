@@ -3,16 +3,12 @@ import verify from "../../../_util/token/verify";
 
 export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
-    console.log(
-      "USERS DELETE TEAMS",
-      req.headers.authorization || req.cookies.access_token
-    );
     if (error) res.status(400).json({ error });
     try {
-      const { emails } = req.body;
+      const { emails } = JSON.parse(req.body);
       const { handle } = req.query;
       console.log("HANDLE", handle);
-      console.log("EMAILS", emails);
+      console.log("NEWNAME", newName);
       const dbs = await client.query(
         q.Foreach(
           q.Paginate(
@@ -30,11 +26,17 @@ export default async (req, res) => {
             "u",
             q.Update(q.Var("u"), {
               data: {
-                scopes: q.Filter(
+                scopes: q.Map(
                   q.Select(["data", "scopes"], q.Get(q.Var("u"))),
                   q.Lambda(
                     "s",
-                    q.Not(q.Equals(handle, q.Select(["handle"], q.Var("s"))))
+                    q.If(
+                      q.Equals(handle, q.Select(["handle"], q.Var("s"))),
+                      q.Replace(q.Select(["name"], q.Var("s")), {
+                        data: { name: newName }
+                      }),
+                      "nope"
+                    )
                   )
                 )
               }

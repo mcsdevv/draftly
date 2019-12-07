@@ -6,6 +6,7 @@ export default function ScopePicker() {
   const { scope, setScope, updateScope } = useContext(ScopeContext);
   const user = useUser();
   useEffect(() => {
+    console.log(user);
     if (!scope && user) {
       setScope(user.scopes[0].name);
     }
@@ -13,7 +14,7 @@ export default function ScopePicker() {
   return user && user.scopes ? (
     <select value={scope || user.scopes[0].name} onChange={updateScope}>
       {user.scopes.map(c => (
-        <option key={c.name} value={c.name}>
+        <option key={c.name} value={c.handle || c.name}>
           {c.name}
         </option>
       ))}

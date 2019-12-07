@@ -12,14 +12,15 @@ import Team from "../components/settings/team";
 export default function Settings() {
   const user = useUser();
   const [scope, scopeDetails] = useScope();
-  const team = useTeam(scope);
+  // const team = useTeam(scope);
+  const team = useTeam();
   const [tab, setTab] = useState("Account");
   const userTabs = ["Account"];
   const teamTabs = ["Account", "Reviews", "Team"];
   const teamOwnerTabs = ["Account", "Reviews", "Team"];
   const getTabs = () => {
     if (scopeDetails.personal) return userTabs;
-    if (scopeDetails.role) return teamOwnerTabs;
+    if (scopeDetails.role === "owner") return teamOwnerTabs;
     return teamTabs;
   };
   const renderTab = tabName => {

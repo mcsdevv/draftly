@@ -36,7 +36,8 @@ export default (req, res) => {
         url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create/scope`,
         body: {
           email,
-          name: screen_name
+          handle: screen_name,
+          name
         },
         headers: {
           Authorization: req.headers.authorization

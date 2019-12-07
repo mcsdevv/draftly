@@ -34,8 +34,20 @@ export default function Account({ isOwner, isPersonal, scope, team, user }) {
   };
   const handleOnSubmitName = async e => {
     e.preventDefault();
-    // TODO Make API call to update the user or team
-    // updateTeams();
+    const url = isPersonal
+      ? `api/user/update/name/${user.email}`
+      : `api/team/update/name/${team.handle}`;
+    console.log(url);
+    const res = await fetch(url, {
+      method: "PATCH",
+      body: JSON.stringify({
+        newName: account.updateName
+      })
+    });
+    const { status } = await res;
+    if (status === 200) {
+      setScope(account.updateName);
+    }
     console.log(account);
   };
   const handleOnSubmitDelete = async e => {
@@ -46,7 +58,8 @@ export default function Account({ isOwner, isPersonal, scope, team, user }) {
     const res = await fetch(url);
     const { status } = await res;
     if (status === 200) {
-      setScope(user.name);
+      console.log(res);
+      // setScope(user.name);
     }
   };
   return (
