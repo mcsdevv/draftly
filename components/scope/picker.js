@@ -3,7 +3,7 @@ import ScopeContext from "../../context/scopeContext";
 import { useUser } from "../../hooks/useUser";
 
 export default function ScopePicker() {
-  const { scope, setScope, updateScope } = useContext(ScopeContext);
+  const { scope, setScope } = useContext(ScopeContext);
   const user = useUser();
   useEffect(() => {
     console.log(user);
@@ -12,6 +12,14 @@ export default function ScopePicker() {
       setScope({ name, role, type });
     }
   }, [user]);
+  const updateScope = e => {
+    // TODO Split logic for user and team
+    const name = e.target.value;
+    const details = user.scopes.filter(s => s.handle === name)[0];
+    console.log("DETAILS", details);
+    const { role, type } = details;
+    setScope({ name, role, type });
+  };
   return user && user.scopes ? (
     <select value={scope || user.scopes[0].name} onChange={updateScope}>
       {user.scopes.map(c => (

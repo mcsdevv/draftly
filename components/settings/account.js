@@ -7,7 +7,12 @@ import Input from "../input";
 export default function Account({ isOwner, isPersonal, scope, team, user }) {
   // TODO Account for the changing of scope to a team
   const { setScope } = useContext(ScopeContext);
-  const [account, setAccount] = useState(team || user);
+  const [account, setAccount] = useState({
+    deleteName: null,
+    name: "",
+    type: "personal",
+    updateName: undefined
+  });
   useEffect(() => {
     function getAccount() {
       if (isPersonal) {

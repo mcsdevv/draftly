@@ -28,7 +28,7 @@ export default function Settings() {
       case "Account":
         return (
           <Account
-            isOwner={scopeDetails && scopeDetails.role}
+            isOwner={scopeDetails && scopeDetails.role === "owner"}
             isPersonal={scopeDetails && scopeDetails.personal}
             scope={scope}
             team={team}
