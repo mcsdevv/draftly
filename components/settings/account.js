@@ -13,15 +13,17 @@ export default function Account({ isOwner, isPersonal, scope, team, user }) {
       if (isPersonal) {
         user &&
           setAccount({
-            name: user.name,
             deleteName: "",
+            name: user.name,
+            type: "personal",
             updateName: user.name
           });
       } else {
         team &&
           setAccount({
-            name: team.name,
             deleteName: "",
+            name: team.name,
+            type: "team",
             updateName: team.name
           });
       }
@@ -46,7 +48,12 @@ export default function Account({ isOwner, isPersonal, scope, team, user }) {
     });
     const { status } = await res;
     if (status === 200) {
-      setScope(account.updateName);
+      const details = user.scopes.filter(s => s.name === account.name)[0];
+      setScope({
+        name: account.updateName,
+        role: details.role,
+        type: account.type
+      });
     }
     console.log(account);
   };
@@ -58,8 +65,9 @@ export default function Account({ isOwner, isPersonal, scope, team, user }) {
     const res = await fetch(url);
     const { status } = await res;
     if (status === 200) {
-      console.log(res);
-      // setScope(user.name);
+      console.log(status);
+      // TODO Handle user deletion...
+      setScope({ name: user.name, role: "owner", type: "personal" });
     }
   };
   return (

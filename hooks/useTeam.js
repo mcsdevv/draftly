@@ -5,7 +5,8 @@ import ScopeContext from "../context/scopeContext";
 export const useTeam = () => {
   const { scope } = useContext(ScopeContext);
   if (scope !== undefined) {
-    const { data: team } = useSWR(`/api/team/details/${scope}`);
+    const { name } = scope;
+    const { data: team } = useSWR(`/api/team/details/${name}`);
     return { ...team, scope };
   }
   return undefined;

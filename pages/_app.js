@@ -9,17 +9,18 @@ import Header from "../components/header";
 export default withRouter(
   class MyApp extends App {
     state = {
-      scope: null
+      scope: undefined
     };
     componentDidMount = () => {
-      const scope = localStorage.getItem("scope");
+      const scope = JSON.parse(localStorage.getItem("scope"));
       this.setScope(scope);
     };
     setScope = scope => {
-      localStorage.setItem("scope", scope);
+      localStorage.setItem("scope", JSON.stringify(scope));
       this.setState({ scope });
     };
     updateScope = e => {
+      // TODO UPDATE FOR NEW SCOPE OBJECT
       const scope = e.target.value;
       localStorage.setItem("scope", scope);
       if (scope === "new") {

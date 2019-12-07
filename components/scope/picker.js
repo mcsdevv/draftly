@@ -8,7 +8,8 @@ export default function ScopePicker() {
   useEffect(() => {
     console.log(user);
     if (!scope && user) {
-      setScope(user.scopes[0].name);
+      const { name, role, type } = user.scopes[0];
+      setScope({ name, role, type });
     }
   }, [user]);
   return user && user.scopes ? (
