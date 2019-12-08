@@ -7,5 +7,19 @@ export const useTeam = () => {
   const { data: team } = useSWR(
     `/api/team/details/${(scope && scope.name) || "tets"}`
   );
-  return { ...team, scope };
+  return team;
 };
+
+// yarn add eslint-plugin-react-hooks --dev
+
+// const { scope } = useContext(ScopeContext);
+// const { data: team } = useSWR(
+//   `/api/team/details/${(scope && scope.name) || "tets"}`
+// );
+// return { ...team, scope };
+
+// const { scope } = useContext(ScopeContext);
+// if (scope && scope.type !== "personal") {
+//   const { data: team } = useSWR(`/api/team/details/${scope.name}`);
+//   return { ...team, scope };
+// }

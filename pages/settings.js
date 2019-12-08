@@ -11,8 +11,7 @@ import Team from "../components/settings/team";
 
 export default function Settings() {
   const user = useUser();
-  const [scope, scopeDetails] = useScope();
-  // const team = useTeam(scope);
+  const { scopeDetails } = useScope();
   const team = useTeam();
   const [tab, setTab] = useState("Account");
   const userTabs = ["Account"];
@@ -26,19 +25,11 @@ export default function Settings() {
   const renderTab = tabName => {
     switch (tabName) {
       case "Account":
-        return (
-          <Account
-            isOwner={scopeDetails && scopeDetails.role === "owner"}
-            isPersonal={scopeDetails && scopeDetails.personal}
-            scope={scope}
-            team={team}
-            user={user}
-          />
-        );
+        return <Account />;
       case "Reviews":
-        return <Reviews user={user} />;
+        return <Reviews />;
       case "Team":
-        return <Team user={user} />;
+        return <Team />;
     }
   };
   return (

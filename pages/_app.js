@@ -19,18 +19,6 @@ export default withRouter(
       localStorage.setItem("scope", JSON.stringify(scope));
       this.setState({ scope });
     };
-    updateScope = e => {
-      // TODO UPDATE FOR NEW SCOPE OBJECT
-      const scope = e.target.value;
-      localStorage.setItem("scope", scope);
-      if (scope === "new") {
-        localStorage.removeItem("scope");
-        window.location = "/api/auth/twitter/connect";
-        return;
-      } else {
-        this.setState({ scope });
-      }
-    };
     render() {
       const { Component, pageProps } = this.props;
       return (
@@ -43,8 +31,7 @@ export default withRouter(
           <ScopeContext.Provider
             value={{
               scope: this.state.scope,
-              setScope: this.setScope,
-              updateScope: this.updateScope
+              setScope: this.setScope
             }}
           >
             <Header />
