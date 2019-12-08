@@ -1,4 +1,5 @@
 import { client, q } from "../../../_util/fauna";
+import request from "request-promise";
 import verify from "../../../_util/token/verify";
 
 export default async (req, res) => {

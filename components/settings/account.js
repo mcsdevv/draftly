@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { useScope } from "../../hooks/useScope";
-import { useTeam } from "../../hooks/useTeam";
-import { useUser } from "../../hooks/useUser";
+// import { useScope } from "../../hooks/useScope";
+// import { useTeam } from "../../hooks/useTeam";
+// import { useUser } from "../../hooks/useUser";
 
 import Form from "../form";
 import Input from "../input";

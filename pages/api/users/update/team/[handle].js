@@ -44,6 +44,7 @@ export default async (req, res) => {
           )
         )
       );
+      // TODO Fix updating team name in scopes
       console.log("NEW DATA", dbs);
       // ok
       res.status(200).json(dbs.data);
