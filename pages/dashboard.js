@@ -1,7 +1,7 @@
 import { useUser } from "../hooks/useUser";
 
 export default function Dashboard() {
-  const user = useUser();
+  const { user } = useUser();
   return (
     <>
       <h1>Dashboard</h1>

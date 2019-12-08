@@ -7,7 +7,7 @@ export const useTeam = () => {
   const { data: team } = useSWR(
     `/api/team/details/${(scope && scope.name) || "tets"}`
   );
-  return team;
+  return { team };
 };
 
 // yarn add eslint-plugin-react-hooks --dev

@@ -7,11 +7,11 @@ import { useUser } from "../../hooks/useUser";
 import Form from "../form";
 import Input from "../input";
 
-export default function Account() {
+export default function Account({ scope, scopeDetails, setScope, team, user }) {
   // TODO Account for the changing of scope to a team
-  const { scope, scopeDetails, setScope } = useScope();
-  const team = useTeam();
-  const user = useUser();
+  // const { scope, scopeDetails, setScope } = useScope();
+  // const team = useTeam();
+  // const user = useUser();
   const [account, setAccount] = useState({
     deleteName: null,
     name: "",
@@ -19,12 +19,11 @@ export default function Account() {
     updateName: undefined
   });
   useEffect(() => {
-    // console.log("update");
+    console.log("scope", scope);
+    console.log("details", scopeDetails);
+    console.log("team", team);
+    console.log("user", user);
     function getAccount() {
-      // console.log("scope", scope);
-      // console.log("scope details", scopeDetails);
-      // console.log("user", user);
-      // console.log("team", team);
       if (scopeDetails && scopeDetails.personal && user) {
         setAccount({
           deleteName: "",
@@ -43,7 +42,7 @@ export default function Account() {
       }
     }
     getAccount();
-  }, [scope, team, user]);
+  }, [scope, scopeDetails, team, user]);
   const handleOnChange = e => {
     const key = e.target.name;
     setAccount({ ...account, [key]: e.target.value });

@@ -4,7 +4,7 @@ import { useUser } from "../../hooks/useUser";
 
 export default function ScopePicker() {
   const { scope, updateScope } = useScope();
-  const user = useUser();
+  const { user } = useUser();
   useEffect(() => {
     if (!scope && user) {
       const { name, role, type } = user.scopes[0];

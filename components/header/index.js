@@ -10,7 +10,7 @@ import ScopePicker from "../scope/picker";
 
 export default function Header() {
   // TODO Move AuthButton into its own login page
-  const user = useUser();
+  const { user } = useUser();
   const router = useRouter();
   const logoutUser = async () => {
     const res = await fetch("/api/auth/logout");

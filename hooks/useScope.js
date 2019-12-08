@@ -5,18 +5,14 @@ import { useUser } from "../hooks/useUser";
 
 export const useScope = () => {
   const { scope, setScope } = useContext(ScopeContext);
-  const user = useUser();
+  const { user } = useUser();
   const [scopeDetails, setScopeDetails] = useState(undefined);
   useEffect(() => {
-    console.log("user", user);
-    console.log("scope", scope);
     if (user) {
       const isPersonal = user.scopes[0].name === scope.name;
-      console.log("personal", isPersonal);
       const details = isPersonal
         ? user.scopes[0]
         : user.scopes.find(s => s.handle === scope.name);
-      console.log("details", details);
       if (details) {
         setScopeDetails({
           personal: details.type === "personal",

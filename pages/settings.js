@@ -10,9 +10,9 @@ import Reviews from "../components/settings/reviews";
 import Team from "../components/settings/team";
 
 export default function Settings() {
-  const user = useUser();
-  const { scopeDetails } = useScope();
-  const team = useTeam();
+  const { user } = useUser();
+  const { scope, scopeDetails, setScope } = useScope();
+  const { team } = useTeam();
   const [tab, setTab] = useState("Account");
   const userTabs = ["Account"];
   const teamTabs = ["Account", "Reviews", "Team"];
@@ -25,7 +25,15 @@ export default function Settings() {
   const renderTab = tabName => {
     switch (tabName) {
       case "Account":
-        return <Account />;
+        return (
+          <Account
+            scope={scope}
+            scopeDetails={scopeDetails}
+            setScope={setScope}
+            team={team}
+            user={user}
+          />
+        );
       case "Reviews":
         return <Reviews />;
       case "Team":
