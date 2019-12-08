@@ -13,7 +13,9 @@ export default withRouter(
     };
     componentDidMount = () => {
       const scope = JSON.parse(localStorage.getItem("scope"));
-      this.setScope(scope);
+      if (scope) {
+        this.setScope(scope);
+      }
     };
     setScope = scope => {
       localStorage.setItem("scope", JSON.stringify(scope));

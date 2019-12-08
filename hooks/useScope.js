@@ -9,6 +9,14 @@ export const useScope = () => {
   const [scopeDetails, setScopeDetails] = useState(undefined);
   useEffect(() => {
     if (user) {
+      if (!scope) {
+        const { role, type } = user.scopes[0];
+        setScopeDetails({
+          personal: type === "personal",
+          role
+        });
+        return;
+      }
       const isPersonal = user.scopes[0].name === scope.name;
       const details = isPersonal
         ? user.scopes[0]
@@ -35,5 +43,5 @@ export const useScope = () => {
     const { role, type } = details;
     setScope({ name, role, type });
   };
-  return { scope, scopeDetails, updateScope };
+  return { scope, scopeDetails, setScope, updateScope };
 };
