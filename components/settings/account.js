@@ -55,6 +55,7 @@ export default function Account({
       })
     });
     if (status === 200) {
+      // TODO Handle user update...
       revalidateTeam();
     }
   };
@@ -64,8 +65,7 @@ export default function Account({
       scopeDetails && scopeDetails.personal
         ? `api/user/delete/${user.email}`
         : `api/team/delete/${team.handle}`;
-    const res = await fetch(url);
-    const { status } = await res;
+    const { status } = await fetch(url);
     if (status === 200) {
       // TODO Handle user deletion...
       setScope({ name: user.name, role: "owner", type: "personal" });
