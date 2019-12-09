@@ -8,7 +8,7 @@ import Drafts from "../components/drafts";
 import Reviews from "../components/reviews";
 
 export default function Tweets() {
-  const user = useUser();
+  const { user } = useUser();
   const { scope } = useContext(ScopeContext);
   const [tab, setTab] = useState("Schedule");
   const renderTab = tabName => {

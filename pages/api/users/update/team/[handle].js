@@ -5,10 +5,10 @@ export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
     try {
-      const { emails } = JSON.parse(req.body);
+      const { emails, name } = req.body;
       const { handle } = req.query;
       console.log("HANDLE", handle);
-      console.log("NEWNAME", newName);
+      console.log("NEWNAME", name);
       const dbs = await client.query(
         q.Foreach(
           q.Paginate(
@@ -32,8 +32,8 @@ export default async (req, res) => {
                     "s",
                     q.If(
                       q.Equals(handle, q.Select(["handle"], q.Var("s"))),
-                      q.Replace(q.Select(["name"], q.Var("s")), {
-                        data: { name: newName }
+                      q.Update(q.Select(["name"], q.Var("s")), {
+                        data: { name }
                       }),
                       "nope"
                     )
@@ -44,6 +44,7 @@ export default async (req, res) => {
           )
         )
       );
+      // TODO Fix updating team name in scopes
       console.log("NEW DATA", dbs);
       // ok
       res.status(200).json(dbs.data);

@@ -1,18 +1,18 @@
-import { useEffect, useContext } from "react";
-import ScopeContext from "../../context/scopeContext";
+import { useEffect } from "react";
+import { useScope } from "../../hooks/useScope";
 import { useUser } from "../../hooks/useUser";
 
 export default function ScopePicker() {
-  const { scope, setScope, updateScope } = useContext(ScopeContext);
-  const user = useUser();
+  const { scope, setScope, updateScope } = useScope();
+  const { user } = useUser();
   useEffect(() => {
-    console.log(user);
     if (!scope && user) {
-      setScope(user.scopes[0].name);
+      const { name, role, type } = user.scopes[0];
+      setScope({ name, role, type });
     }
   }, [user]);
-  return user && user.scopes ? (
-    <select value={scope || user.scopes[0].name} onChange={updateScope}>
+  return scope && user && user.scopes ? (
+    <select value={scope.name || user.scopes[0].name} onChange={updateScope}>
       {user.scopes.map(c => (
         <option key={c.name} value={c.handle || c.name}>
           {c.name}

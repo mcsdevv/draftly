@@ -4,9 +4,10 @@ import ScopeContext from "../context/scopeContext";
 
 export const useTeam = () => {
   const { scope } = useContext(ScopeContext);
-  if (scope !== undefined) {
-    const { data: team } = useSWR(`/api/team/details/${scope}`);
-    return { ...team, scope };
-  }
-  return undefined;
+  const { data: team, revalidate } = useSWR(() =>
+    scope.type !== "personal"
+      ? `/api/team/details/${scope.handle || scope.name}`
+      : null
+  );
+  return { revalidate, team };
 };

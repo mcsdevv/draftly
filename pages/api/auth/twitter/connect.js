@@ -1,14 +1,6 @@
 import oauth from "../../_util/oauth";
 
 export default (req, res) => {
-  console.log(
-    "consumer key",
-    process.env.TWITTER_CONSUMER_KEY,
-    "consumer secret",
-    process.env.TWITTER_CONSUMER_SECRET,
-    "oauth callback",
-    process.env.TWITTER_OAUTH_CALLBACK
-  );
   // TODO Stop request from getting cached, causes 'old request token' error.
   oauth.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret) {
     if (error) {

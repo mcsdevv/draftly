@@ -1,4 +1,5 @@
 import { client, q } from "../../../_util/fauna";
+import request from "request-promise";
 import verify from "../../../_util/token/verify";
 
 export default async (req, res) => {
@@ -7,6 +8,7 @@ export default async (req, res) => {
     try {
       const { newName } = JSON.parse(req.body);
       const { handle } = req.query;
+      console.log("NEW NAME", newName);
       const dbs = await client.query(
         q.Update(
           q.Select(
@@ -21,19 +23,20 @@ export default async (req, res) => {
         )
       );
       console.log("Team name updated:", dbs);
-      const emails = dbs.data.members.map(m => m.email);
-      const deleteOptions = {
-        method: "PATCH",
-        url: `${process.env.AUTH0_REDIRECT_URI}/api/users/update/team/${handle}`,
-        body: {
-          emails
-        },
-        headers: {
-          Authorization: req.headers.authorization || req.cookies.access_token
-        },
-        json: true
-      };
-      const res = await request(deleteOptions);
+      // const emails = dbs.data.members.map(m => m.email);
+      // const deleteOptions = {
+      //   method: "PATCH",
+      //   url: `${process.env.AUTH0_REDIRECT_URI}/api/users/update/team/${handle}`,
+      //   body: {
+      //     emails,
+      //     name: newName
+      //   },
+      //   headers: {
+      //     Authorization: req.headers.authorization || req.cookies.access_token
+      //   },
+      //   json: true
+      // };
+      // const res = await request(deleteOptions);
       // ok;
       res.status(200).json(dbs.data);
     } catch (e) {

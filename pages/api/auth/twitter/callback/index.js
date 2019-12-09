@@ -7,7 +7,6 @@ import cookieOptions from "../../../_util/cookie/options";
 // const Twitter = require("twitter");
 
 export default (req, res) => {
-  console.log("HEADERS", req.headers);
   const { oauth_token, oauth_verifier } = req.query;
   // * Get users access tokens
   oauth.getOAuthAccessToken(
@@ -37,8 +36,6 @@ export default (req, res) => {
             const { exists } = await request(existsOptions);
             // * If it exists, update tokens, else create team
             if (exists) {
-              // TODO Implement endpoint and logic
-              console.log("UPDATING TEAM TOKENS");
               const updateTokenOptions = {
                 method: "PATCH",
                 url: `${process.env.AUTH0_REDIRECT_URI}/api/team/tokens/update`,
@@ -54,9 +51,7 @@ export default (req, res) => {
               };
               await request(updateTokenOptions);
             } else {
-              console.log("CREATING NEW TEAM");
               // * Get email from id_token to set team owner
-              console.log("TOKEN", req.cookies.access_token);
               const { email } = jwt.decode(req.cookies.id_token);
               const createTeamOptions = {
                 method: "POST",
@@ -75,7 +70,6 @@ export default (req, res) => {
               const { update } = await request(createTeamOptions);
               // * If update is true, team + scope updated, set cookie for client context refresh
               if (update) {
-                console.log("USER SCOPES UPDATED");
                 res.setHeader("Set-Cookie", [
                   cookie.serialize(
                     "update",

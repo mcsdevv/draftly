@@ -41,7 +41,6 @@ module.exports = async (req, res) => {
         };
         const exists = await request(existsOptions);
         // if user does not exist, create in db
-        console.log("HEADERS", req.cookies);
         if (!exists) {
           const createOptions = {
             method: "POST",

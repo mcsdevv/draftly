@@ -3,16 +3,10 @@ import verify from "../../../_util/token/verify";
 
 export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
-    console.log(
-      "USERS DELETE TEAMS",
-      req.headers.authorization || req.cookies.access_token
-    );
     if (error) res.status(400).json({ error });
     try {
       const { emails } = req.body;
       const { handle } = req.query;
-      console.log("HANDLE", handle);
-      console.log("EMAILS", emails);
       const dbs = await client.query(
         q.Foreach(
           q.Paginate(

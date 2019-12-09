@@ -10,10 +10,9 @@ import Reviews from "../components/settings/reviews";
 import Team from "../components/settings/team";
 
 export default function Settings() {
-  const user = useUser();
-  const [scope, scopeDetails] = useScope();
-  // const team = useTeam(scope);
-  const team = useTeam();
+  const { user } = useUser();
+  const { scope, scopeDetails, setScope } = useScope();
+  const { revalidate: revalidateTeam, team } = useTeam();
   const [tab, setTab] = useState("Account");
   const userTabs = ["Account"];
   const teamTabs = ["Account", "Reviews", "Team"];
@@ -28,17 +27,18 @@ export default function Settings() {
       case "Account":
         return (
           <Account
-            isOwner={scopeDetails && scopeDetails.role}
-            isPersonal={scopeDetails && scopeDetails.personal}
+            revalidateTeam={revalidateTeam}
             scope={scope}
+            scopeDetails={scopeDetails}
+            setScope={setScope}
             team={team}
             user={user}
           />
         );
       case "Reviews":
-        return <Reviews user={user} />;
+        return <Reviews />;
       case "Team":
-        return <Team user={user} />;
+        return <Team />;
     }
   };
   return (
