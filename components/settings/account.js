@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 
-// import { useScope } from "../../hooks/useScope";
-// import { useTeam } from "../../hooks/useTeam";
-// import { useUser } from "../../hooks/useUser";
-
 import Form from "../form";
 import Input from "../input";
 
-export default function Account({ scope, scopeDetails, setScope, team, user }) {
-  // TODO Account for the changing of scope to a team
-  // const { scope, scopeDetails, setScope } = useScope();
-  // const team = useTeam();
-  // const user = useUser();
+export default function Account({
+  revalidateTeam,
+  scope,
+  scopeDetails,
+  setScope,
+  team,
+  user
+}) {
   const [account, setAccount] = useState({
     deleteName: null,
     name: "",
@@ -19,10 +18,6 @@ export default function Account({ scope, scopeDetails, setScope, team, user }) {
     updateName: undefined
   });
   useEffect(() => {
-    console.log("scope", scope);
-    console.log("details", scopeDetails);
-    console.log("team", team);
-    console.log("user", user);
     function getAccount() {
       if (scopeDetails && scopeDetails.personal && user) {
         setAccount({
@@ -53,23 +48,15 @@ export default function Account({ scope, scopeDetails, setScope, team, user }) {
       scopeDetails && scopeDetails.personal
         ? `api/user/update/name/${user.email}`
         : `api/team/update/name/${team.handle}`;
-    console.log(url);
-    const res = await fetch(url, {
+    const { status } = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
         newName: account.updateName
       })
     });
-    const { status } = await res;
     if (status === 200) {
-      const details = user.scopes.find(s => s.name === account.name);
-      setScope({
-        name: account.updateName,
-        role: details.role,
-        type: account.type
-      });
+      revalidateTeam();
     }
-    console.log(account);
   };
   const handleOnSubmitDelete = async e => {
     e.preventDefault();
@@ -80,7 +67,6 @@ export default function Account({ scope, scopeDetails, setScope, team, user }) {
     const res = await fetch(url);
     const { status } = await res;
     if (status === 200) {
-      console.log(status);
       // TODO Handle user deletion...
       setScope({ name: user.name, role: "owner", type: "personal" });
     }

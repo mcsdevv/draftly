@@ -3,10 +3,8 @@ import verify from "../../_util/token/verify";
 
 export default async (req, res) => {
   verify(req.headers.authorization, async error => {
-    console.log("TOKEN", req.headers.authorization);
     if (error) res.status(400).json({ error });
     const { handle, tokenKey, tokenSecret } = req.body;
-    console.log(handle, tokenKey, tokenSecret);
     try {
       const dbs = await client.query(
         q.Update(
@@ -25,7 +23,7 @@ export default async (req, res) => {
         )
       );
       // ok
-      console.log("TOKENS UPDATED FOR", handle);
+      console.log("Tokens updated for:", handle);
       res.status(200).json(dbs.data);
     } catch (e) {
       // something went wrong

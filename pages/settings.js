@@ -12,7 +12,7 @@ import Team from "../components/settings/team";
 export default function Settings() {
   const { user } = useUser();
   const { scope, scopeDetails, setScope } = useScope();
-  const { team } = useTeam();
+  const { revalidate: revalidateTeam, team } = useTeam();
   const [tab, setTab] = useState("Account");
   const userTabs = ["Account"];
   const teamTabs = ["Account", "Reviews", "Team"];
@@ -27,6 +27,7 @@ export default function Settings() {
       case "Account":
         return (
           <Account
+            revalidateTeam={revalidateTeam}
             scope={scope}
             scopeDetails={scopeDetails}
             setScope={setScope}

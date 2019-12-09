@@ -4,10 +4,8 @@ import verify from "../../_util/token/verify";
 
 export default async (req, res) => {
   verify(req.headers.authorization, async error => {
-    console.log("CREATE SCOPE TOKEN", req.headers.authorization);
     if (error) res.status(400).json({ error });
     const { email, handle, name } = req.body;
-    console.log("CREATING SCOPE...");
     const detailsOptions = {
       method: "GET",
       url: `${process.env.AUTH0_REDIRECT_URI}/api/user/details/${email}`,
@@ -21,7 +19,6 @@ export default async (req, res) => {
     const newScope = { name, handle, role: "owner", type: "team" };
     // * Checks for existing scope
     if (oldScopes.filter(s => s.name === name).length > 0) {
-      console.log("EXISTING SCOPE");
       res.status(200).json({ update: false });
       return;
     }
