@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../context/scopeContext";
-import { useUser } from "../hooks/useUser";
+import { useUser } from "../hooks";
 
 import Tabs from "../components/tabs";
 import Schedule from "../components/schedule";
@@ -26,7 +26,7 @@ export default function Tweets() {
       <Tabs tabNames={["Schedule", "Drafts", "Reviews"]} setTab={setTab} />
       <main>
         <h1>Tweets Page</h1>
-        {scope}
+        {scope.name}
         {renderTab(tab)}
       </main>
       <style jsx>{``}</style>

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import ScopeContext from "../context/scopeContext";
 
-import { useUser } from "../hooks/useUser";
+import { useUser } from "../hooks/";
 
 export const useScope = () => {
   const { scope, setScope } = useContext(ScopeContext);

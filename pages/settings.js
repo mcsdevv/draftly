@@ -1,8 +1,6 @@
 import { useState } from "react";
 
-import { useScope } from "../hooks/useScope";
-import { useTeam } from "../hooks/useTeam";
-import { useUser } from "../hooks/useUser";
+import { useScope, useTeam, useUser } from "../hooks/";
 
 import Tabs from "../components/tabs";
 import Account from "../components/settings/account";
