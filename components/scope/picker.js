@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import { useScope } from "../../hooks/useScope";
-import { useTeam } from "../../hooks/useTeam";
-import { useUser } from "../../hooks/useUser";
+import { useScope, useTeam, useUser } from "../../hooks/";
 
 export default function ScopePicker() {
   const { scope, setScope, updateScope } = useScope();

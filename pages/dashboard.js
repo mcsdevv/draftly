@@ -1,4 +1,4 @@
-import { useUser } from "../hooks/useUser";
+import { useUser } from "../hooks";
 
 export default function Dashboard() {
   const { user } = useUser();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useUser } from "../../hooks/useUser";
+import { useUser } from "../../hooks/";
 
 import Cookies from "js-cookie";
 
