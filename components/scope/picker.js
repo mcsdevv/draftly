@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useScope, useTeam, useUser } from "../../hooks/";
 
 export default function ScopePicker() {
+  const [savedTeam, setSavedTeam] = useState(undefined);
   const { scope, setScope, updateScope } = useScope();
   const { team } = useTeam();
   const { user } = useUser();
@@ -11,12 +12,16 @@ export default function ScopePicker() {
       setScope({ name, role, type });
     }
   }, [user]);
-  console.log(user && user.scopes);
+  useEffect(() => {
+    if (team !== undefined) {
+      setSavedTeam(team);
+    }
+  }, [team]);
   return scope && user && user.scopes ? (
     <select value={scope.name || user.scopes[0].name} onChange={updateScope}>
       {user.scopes.map(c => (
         <option key={c.name} value={c.handle || c.name}>
-          {team && c.type === "team" ? team.name : c.name}
+          {savedTeam && c.type === "team" ? savedTeam.name : c.name}
         </option>
       ))}
       <option value="new">+ Add New Team</option>
