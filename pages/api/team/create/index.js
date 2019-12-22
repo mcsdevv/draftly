@@ -15,12 +15,8 @@ export default (req, res) => {
             handle: screen_name,
             avatar: profile_image_url,
             plan: "free",
-            members: [
-              {
-                email,
-                role: "owner"
-              }
-            ],
+            members: [],
+            owners: [email],
             auth: {
               tokenKey,
               tokenSecret

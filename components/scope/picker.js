@@ -6,10 +6,12 @@ export default function ScopePicker() {
   const { scope, setScope, updateScope } = useScope();
   const { team } = useTeam();
   const { user } = useUser();
+  console.log("user", user);
   useEffect(() => {
     if (!scope && user) {
-      const { name, role, type } = user.scopes[0];
-      setScope({ name, role, type });
+      console.log("user", user);
+      const { name } = user;
+      setScope({ name, type: "personal" });
     }
   }, [user]);
   useEffect(() => {
@@ -17,9 +19,9 @@ export default function ScopePicker() {
       setSavedTeam(team);
     }
   }, [team]);
-  return scope && user && user.scopes ? (
-    <select value={scope.name || user.scopes[0].name} onChange={updateScope}>
-      {user.scopes.map(c => (
+  return scope && user && user.teams ? (
+    <select value={scope.name || user.name} onChange={updateScope}>
+      {user.teams.map(c => (
         <option key={c.name} value={c.handle || c.name}>
           {savedTeam && c.type === "team" ? savedTeam.name : c.name}
         </option>

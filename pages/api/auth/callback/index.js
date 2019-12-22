@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
           },
           json: true
         };
-        const exists = await request(existsOptions);
+        const { exists } = await request(existsOptions);
         // if user does not exist, create in db
         if (!exists) {
           const createOptions = {

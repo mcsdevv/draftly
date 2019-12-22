@@ -7,28 +7,28 @@ export const useScope = () => {
   const { scope, setScope } = useContext(ScopeContext);
   const { user } = useUser();
   const [scopeDetails, setScopeDetails] = useState(undefined);
-  useEffect(() => {
-    if (user) {
-      if (!scope) {
-        const { role, type } = user.scopes[0];
-        setScopeDetails({
-          personal: type === "personal",
-          role
-        });
-        return;
-      }
-      const isPersonal = user.scopes[0].name === scope.name;
-      const details = isPersonal
-        ? user.scopes[0]
-        : user.scopes.find(s => s.handle === scope.name);
-      if (details) {
-        setScopeDetails({
-          personal: details.type === "personal",
-          role: details.role
-        });
-      }
-    }
-  }, [scope, user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     if (!scope) {
+  //       console.log(user);
+  //       setScopeDetails({
+  //         personal: type === "personal",
+  //         role
+  //       });
+  //       return;
+  //     }
+  //     const isPersonal = user.scopes[0].name === scope.name;
+  //     const details = isPersonal
+  //       ? user.scopes[0]
+  //       : user.scopes.find(s => s.handle === scope.name);
+  //     if (details) {
+  //       setScopeDetails({
+  //         personal: details.type === "personal",
+  //         role: details.role
+  //       });
+  //     }
+  //   }
+  // }, [scope, user]);
   const updateScope = e => {
     const name = e.target.value;
     if (name === "new") {
