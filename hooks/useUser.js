@@ -6,11 +6,9 @@ export const useUser = () => {
   const id = Cookies.get("id_token");
   if (id) {
     const { email } = parseJwt(id);
-    const { data: user } = useSWR(
-      `/api/user/details/${encodeURIComponent(email)}`
-    );
-    console.log("usrrrrr", user);
-    return { user };
+    const { data } = useSWR(`/api/user/details/${encodeURIComponent(email)}`);
+    console.log("usrrrrr", data);
+    return { ...data };
   } else {
     return {};
   }
