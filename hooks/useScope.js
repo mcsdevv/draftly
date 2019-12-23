@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import ScopeContext from "../context/scopeContext";
 
 import { useUser } from "../hooks/";
@@ -14,9 +14,8 @@ export const useScope = () => {
       return;
     }
     const isPersonal = user.name === name;
-    const scopeDetails = isPersonal
-      ? user.name
-      : teams.find(t => t.handle === name);
+    console.log("isperss", isPersonal);
+    const scopeDetails = isPersonal ? user : teams.find(t => t.handle === name);
     setScope(scopeDetails);
   };
   return { scope, setScope, updateScope };

@@ -12,9 +12,9 @@ export default withRouter(
       scope: undefined
     };
     componentDidMount = () => {
-      const scope = JSON.parse(localStorage.getItem("scope"));
-      console.log(scope);
-      if (scope) {
+      const scopeStored = localStorage.getItem("scope");
+      if (scopeStored !== undefined) {
+        const scope = JSON.parse(scopeStored);
         this.setScope(scope);
       }
     };
