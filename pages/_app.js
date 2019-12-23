@@ -5,7 +5,7 @@ import { withRouter } from "next/router";
 import { SWRConfig } from "swr";
 
 import Header from "../components/header";
-// TODO Change scope to object with role and type
+
 export default withRouter(
   class MyApp extends App {
     state = {
@@ -13,6 +13,7 @@ export default withRouter(
     };
     componentDidMount = () => {
       const scope = JSON.parse(localStorage.getItem("scope"));
+      console.log(scope);
       if (scope) {
         this.setScope(scope);
       }

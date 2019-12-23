@@ -5,30 +5,7 @@ import { useUser } from "../hooks/";
 
 export const useScope = () => {
   const { scope, setScope } = useContext(ScopeContext);
-  const { user } = useUser();
-  const [scopeDetails, setScopeDetails] = useState(undefined);
-  // useEffect(() => {
-  //   if (user) {
-  //     if (!scope) {
-  //       console.log(user);
-  //       setScopeDetails({
-  //         personal: type === "personal",
-  //         role
-  //       });
-  //       return;
-  //     }
-  //     const isPersonal = user.scopes[0].name === scope.name;
-  //     const details = isPersonal
-  //       ? user.scopes[0]
-  //       : user.scopes.find(s => s.handle === scope.name);
-  //     if (details) {
-  //       setScopeDetails({
-  //         personal: details.type === "personal",
-  //         role: details.role
-  //       });
-  //     }
-  //   }
-  // }, [scope, user]);
+  const { teams, user } = useUser();
   const updateScope = e => {
     const name = e.target.value;
     if (name === "new") {
@@ -36,12 +13,11 @@ export const useScope = () => {
       window.location = "/api/auth/twitter/connect";
       return;
     }
-    const isPersonal = user.scopes[0].name === name;
-    const details = isPersonal
-      ? user.scopes[0]
-      : user.scopes.find(s => s.handle === name);
-    const { role, type } = details;
-    setScope({ name, role, type });
+    const isPersonal = user.name === name;
+    const scopeDetails = isPersonal
+      ? user.name
+      : teams.find(t => t.handle === name);
+    setScope(scopeDetails);
   };
-  return { scope, scopeDetails, setScope, updateScope };
+  return { scope, setScope, updateScope };
 };

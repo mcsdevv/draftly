@@ -7,7 +7,6 @@ export const useUser = () => {
   if (id) {
     const { email } = parseJwt(id);
     const { data } = useSWR(`/api/user/details/${encodeURIComponent(email)}`);
-    console.log("usrrrrr", data);
     return { ...data };
   } else {
     return {};

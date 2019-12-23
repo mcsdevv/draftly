@@ -1,27 +1,19 @@
-import { useEffect, useState } from "react";
 import { useScope, useUser } from "../../hooks/";
 
 export default function ScopePicker() {
-  const [savedTeam, setSavedTeam] = useState(undefined);
-  const { scope, setScope, updateScope } = useScope();
-  const { user, teams } = useUser();
-  console.log("user", user);
-  useEffect(() => {
-    if (!scope && user) {
-      console.log("user", user);
-      const { name } = user;
-      setScope({ name, type: "personal" });
-    }
-  }, [user]);
-  console.log(user);
-  // console.log(user.name);
-  return scope && user ? (
-    <select value={scope.name || user.name} onChange={updateScope}>
-      <option value={user.name}>{user.name}</option>
-      {user.teams &&
-        user.teams.map(c => (
-          <option key={c.name} value={c.handle || c.name}>
-            {savedTeam && c.type === "team" ? savedTeam.name : c.name}
+  const { scope, updateScope } = useScope();
+  const { teams, user } = useUser();
+  console.log("SCOPE", scope, user);
+  return user ? (
+    <select
+      value={scope ? scope.handle || scope.name : user.name}
+      onChange={updateScope}
+    >
+      <option value={user.email}>{user.name}</option>
+      {teams &&
+        teams.map(t => (
+          <option key={t.name} value={t.handle}>
+            {t.name}
           </option>
         ))}
       <option value="new">+ Add New Team</option>
