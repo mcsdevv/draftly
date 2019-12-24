@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 
-import { useScope, useTeam, useUser } from "../../hooks";
+import { useScope, useUser } from "../../hooks";
 
 import Tabs from "../../components/tabs";
 import Form from "../../components/form";
 import Input from "../../components/input";
 
 export default function Account({}) {
-  const { user } = useUser();
-  const { scope, scopeDetails, setScope } = useScope();
-  const { revalidate: revalidateTeam, team } = useTeam();
+  const { teams, user } = useUser();
+  const { scope, setScope } = useScope();
   const [account, setAccount] = useState({
     deleteName: null,
     name: "",
@@ -18,25 +17,18 @@ export default function Account({}) {
   });
   useEffect(() => {
     function getAccount() {
-      if (scopeDetails && scopeDetails.personal && user) {
+      if (scope && user) {
+        const isPersonal = user.name === name;
         setAccount({
           deleteName: "",
-          name: user.name,
-          type: "personal",
-          updateName: user.name
-        });
-      }
-      if (scopeDetails && !scopeDetails.personal && team) {
-        setAccount({
-          deleteName: "",
-          name: team.name,
-          type: "team",
-          updateName: team.name
+          name: scope.name,
+          type: isPersonal ? "personal" : "team",
+          updateName: scope.name
         });
       }
     }
     getAccount();
-  }, [scope, scopeDetails, team, user]);
+  }, [scope, teams, user]);
   const handleOnChange = e => {
     const key = e.target.name;
     setAccount({ ...account, [key]: e.target.value });
@@ -44,7 +36,7 @@ export default function Account({}) {
   const handleOnSubmitName = async e => {
     e.preventDefault();
     const url =
-      scopeDetails && scopeDetails.personal
+      scope && scope.personal
         ? `api/user/update/name/${user.email}`
         : `api/team/update/name/${team.handle}`;
     const { status } = await fetch(url, {
@@ -61,7 +53,7 @@ export default function Account({}) {
   const handleOnSubmitDelete = async e => {
     e.preventDefault();
     const url =
-      scopeDetails && scopeDetails.personal
+      scope && scope.personal
         ? `api/user/delete/${user.email}`
         : `api/team/delete/${team.handle}`;
     const { status } = await fetch(url);
@@ -70,6 +62,7 @@ export default function Account({}) {
       setScope({ name: user.name, role: "owner", type: "personal" });
     }
   };
+  const isOwner = scope && scope.owners && scope.owners.includes(user.email);
   return (
     <>
       <Tabs />
@@ -80,9 +73,7 @@ export default function Account({}) {
       >
         <Input
           label={
-            scopeDetails && scopeDetails.personal
-              ? "Change Display Name"
-              : "Change Team Name"
+            scope && scope.personal ? "Change Display Name" : "Change Team Name"
           }
           name="updateName"
           onChange={handleOnChange}
@@ -90,23 +81,19 @@ export default function Account({}) {
           value={account ? account.updateName : ""}
         />
       </Form>
-      {scopeDetails && scopeDetails.role === "owner" && (
+      {isOwner && (
         <Form
           buttonText="Delete"
           disabled={account.name !== account.deleteName}
           onSubmit={handleOnSubmitDelete}
         >
           <Input
-            label={
-              scopeDetails && scopeDetails.personal
-                ? "Delete Account"
-                : "Delete Team"
-            }
+            label={scope && scope.personal ? "Delete Account" : "Delete Team"}
             name="deleteName"
             onChange={handleOnChange}
             onSubmit
             text={`Enter your ${
-              scopeDetails && scopeDetails.personal ? "display" : "team"
+              scope && scope.personal ? "display" : "team"
             } name before clicking delete.`}
             type="text"
             value={account.deleteName || ""}

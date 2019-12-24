@@ -4,12 +4,9 @@ import { useScope, useUser } from "../../hooks/";
 export default function ScopePicker() {
   const { scope, setScope, updateScope } = useScope();
   const { teams, user } = useUser();
-  console.log("SCOPE", scope, user);
   useEffect(() => {
     if (!scope && user) {
-      console.log("user", user);
-      const { name } = user;
-      setScope({ name, type: "personal" });
+      setScope({ ...user, personal: true });
     }
   }, [user]);
   return user ? (

@@ -14,9 +14,8 @@ export const useScope = () => {
       return;
     }
     const isPersonal = user.name === name;
-    console.log("isperss", isPersonal);
     const scopeDetails = isPersonal ? user : teams.find(t => t.handle === name);
-    setScope(scopeDetails);
+    setScope({ ...scopeDetails, personal: isPersonal });
   };
   return { scope, setScope, updateScope };
 };
