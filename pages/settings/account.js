@@ -47,7 +47,6 @@ export default function Account({}) {
       })
     });
     if (res.status === 200) {
-      // TODO Handle user update...
       revalidateProfile();
       const newScope = await res.json();
       setScope({ ...newScope, personal: scope.personal });
@@ -61,9 +60,17 @@ export default function Account({}) {
         : `/api/team/delete/${scope.handle}`;
     const { status } = await fetch(url);
     if (status === 200) {
-      // TODO Handle user deletion...
+      // TODO Handle user deletion API...
+      if (scope.personal) {
+        Cookies.remove("id_token");
+        Cookies.remove("access_token");
+        localStorage.removeItem("teams");
+        localStorage.removeItem("user");
+        router.push("/");
+      } else {
+        setScope({ ...user, personal: true });
+      }
       revalidateProfile();
-      setScope({ ...user, personal: true });
     }
   };
   const isOwner =
