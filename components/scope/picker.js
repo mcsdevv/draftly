@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useScope, useUser } from "../../hooks/";
+import { useScope, useProfile } from "../../hooks/";
 
 export default function ScopePicker() {
   const { scope, setScope, updateScope } = useScope();
-  const { teams, user } = useUser();
+  const { teams, user } = useProfile();
   useEffect(() => {
     if (!scope && user) {
       setScope({ ...user, personal: true });

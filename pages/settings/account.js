@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { useScope, useUser } from "../../hooks";
+import { useScope, useProfile } from "../../hooks";
 
 import Tabs from "../../components/tabs";
 import Form from "../../components/form";
 import Input from "../../components/input";
 
 export default function Account({}) {
-  const { teams, user } = useUser();
+  const { revalidateProfile, teams, user } = useProfile();
   const { scope, setScope } = useScope();
   const [account, setAccount] = useState({
     deleteName: null,
@@ -16,6 +16,7 @@ export default function Account({}) {
     updateName: undefined
   });
   useEffect(() => {
+    console.log("updating", scope, teams, user);
     function getAccount() {
       if (scope && user) {
         const isPersonal = user.name === name;
@@ -37,32 +38,36 @@ export default function Account({}) {
     e.preventDefault();
     const url =
       scope && scope.personal
-        ? `api/user/update/name/${user.email}`
-        : `api/team/update/name/${team.handle}`;
-    const { status } = await fetch(url, {
+        ? `/api/user/update/name/${scope.email}`
+        : `/api/team/update/name/${scope.handle}`;
+    const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
         newName: account.updateName
       })
     });
-    if (status === 200) {
+    if (res.status === 200) {
       // TODO Handle user update...
-      revalidateTeam();
+      revalidateProfile();
+      const newScope = await res.json();
+      setScope({ ...newScope, personal: scope.personal });
     }
   };
   const handleOnSubmitDelete = async e => {
     e.preventDefault();
     const url =
       scope && scope.personal
-        ? `api/user/delete/${user.email}`
-        : `api/team/delete/${team.handle}`;
+        ? `/api/user/delete/${scope.email}`
+        : `/api/team/delete/${scope.handle}`;
     const { status } = await fetch(url);
     if (status === 200) {
       // TODO Handle user deletion...
-      setScope({ name: user.name, role: "owner", type: "personal" });
+      revalidateProfile();
+      setScope({ ...user, personal: true });
     }
   };
-  const isOwner = scope && scope.owners && scope.owners.includes(user.email);
+  const isOwner =
+    user && scope && scope.owners && scope.owners.includes(user.email);
   return (
     <>
       <Tabs />
@@ -81,7 +86,7 @@ export default function Account({}) {
           value={account ? account.updateName : ""}
         />
       </Form>
-      {isOwner && (
+      {isOwner || (scope && scope.personal) ? (
         <Form
           buttonText="Delete"
           disabled={account.name !== account.deleteName}
@@ -99,7 +104,7 @@ export default function Account({}) {
             value={account.deleteName || ""}
           />
         </Form>
-      )}
+      ) : null}
       <style jsx>{``}</style>
     </>
   );

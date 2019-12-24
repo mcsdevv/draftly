@@ -1,2 +1,2 @@
 export { useScope } from "./useScope";
-export { useUser } from "./useUser";
+export { useProfile } from "./useProfile";

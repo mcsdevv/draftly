@@ -6,7 +6,9 @@ export default async (req, res) => {
     if (error) res.status(400).json({ error });
     try {
       const { emails } = req.body;
-      const { handle } = req.query;
+      const { ref } = req.query;
+      console.log("emails", emails);
+      console.log("ref", ref);
       const dbs = await client.query(
         q.Foreach(
           q.Paginate(
@@ -24,12 +26,9 @@ export default async (req, res) => {
             "u",
             q.Update(q.Var("u"), {
               data: {
-                scopes: q.Filter(
-                  q.Select(["data", "scopes"], q.Get(q.Var("u"))),
-                  q.Lambda(
-                    "s",
-                    q.Not(q.Equals(handle, q.Select(["handle"], q.Var("s"))))
-                  )
+                teams: q.Filter(
+                  q.Select(["data", "teams"], q.Get(q.Var("u"))),
+                  q.Lambda("s", q.Not(q.Equals(ref, q.Var("s"))))
                 )
               }
             })

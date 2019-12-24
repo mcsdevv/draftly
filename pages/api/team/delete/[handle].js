@@ -15,11 +15,14 @@ export default async (req, res) => {
           )
         )
       );
-      const { members } = await dbs.data;
-      const emails = members.map(m => m.email);
+      const { data, ref } = await dbs;
+      const refString = ref.toString();
+      const refNums = refString.match(/\d/g);
+      const refJoined = refNums.join("");
+      const emails = [...data.members, ...data.owners];
       const deleteOptions = {
         method: "PATCH",
-        url: `${process.env.AUTH0_REDIRECT_URI}/api/users/delete/team/${handle}`,
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/users/delete/team/${refJoined}`,
         body: {
           emails
         },
@@ -28,7 +31,7 @@ export default async (req, res) => {
         },
         json: true
       };
-      const res = await request(deleteOptions);
+      await request(deleteOptions);
       console.log("Deleted team:", dbs.data.name);
       // ok
       res.status(200).json({ ...dbs.data });

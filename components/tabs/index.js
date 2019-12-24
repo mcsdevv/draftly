@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useScope, useUser } from "../../hooks";
+import { useScope, useProfile } from "../../hooks";
 
 export default function Tabs() {
   const [tabs, setTabs] = useState();
-  const { user } = useUser();
+  const { user } = useProfile();
   const { scope } = useScope();
   const router = useRouter();
   const userTabs = ["Account"];
