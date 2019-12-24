@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { useScope, useProfile } from "../../hooks";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 import Tabs from "../../components/tabs";
 import Form from "../../components/form";
@@ -15,6 +17,7 @@ export default function Account({}) {
     type: "personal",
     updateName: undefined
   });
+  const router = useRouter();
   useEffect(() => {
     console.log("updating", scope, teams, user);
     function getAccount() {
@@ -58,7 +61,12 @@ export default function Account({}) {
       scope && scope.personal
         ? `/api/user/delete/${scope.email}`
         : `/api/team/delete/${scope.handle}`;
-    const { status } = await fetch(url);
+    const { status } = await fetch(url, {
+      method: "DELETE",
+      body: JSON.stringify({
+        teams
+      })
+    });
     if (status === 200) {
       // TODO Handle user deletion API...
       if (scope.personal) {
