@@ -26,7 +26,7 @@ export default function Tweets() {
       <Tabs tabNames={["Schedule", "Drafts", "Reviews"]} setTab={setTab} />
       <main>
         <h1>Tweets Page</h1>
-        {scope.name}
+        {scope && scope.name}
         {renderTab(tab)}
       </main>
       <style jsx>{``}</style>
