@@ -16,7 +16,6 @@ export default function Account({}) {
     type: "personal",
     updateName: undefined
   });
-  const router = useRouter();
   useEffect(() => {
     console.log("updating", scope, teams, user);
     function getAccount() {
