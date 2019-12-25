@@ -5,26 +5,28 @@ import verify from "../../_util/token/verify";
 export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
-    const { handle } = req.query;
+    const { teams } = JSON.parse(req.body);
+    const { email } = req.query;
     try {
       const dbs = await client.query(
         q.Delete(
           q.Select(
             ["ref"],
-            q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+            q.Get(q.Match(q.Index("all_users_by_email"), email))
           )
         )
       );
-      const { data, ref } = await dbs;
-      const refString = ref.toString();
-      const refNums = refString.match(/\d/g);
-      const refJoined = refNums.join("");
-      const emails = [...data.members, ...data.owners];
+      const teamsToDelete = [];
+      teams.forEach(t => {
+        if (t.owners.length <= 1 && t.owners.includes(email)) {
+          teamsToDelete.push(t.handle);
+        }
+      });
       const deleteOptions = {
-        method: "PATCH",
-        url: `${process.env.AUTH0_REDIRECT_URI}/api/users/delete/team/${refJoined}`,
+        method: "DELETE",
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/teams/delete`,
         body: {
-          emails
+          teams: teamsToDelete
         },
         headers: {
           Authorization: req.headers.authorization || req.cookies.access_token
@@ -32,7 +34,7 @@ export default async (req, res) => {
         json: true
       };
       await request(deleteOptions);
-      console.log("Deleted team:", dbs.data.name);
+      console.log("Deleted user:", dbs.data.name);
       // ok
       res.status(200).json({ ...dbs.data });
     } catch (e) {

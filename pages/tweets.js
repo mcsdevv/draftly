@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../context/scopeContext";
-import { useUser } from "../hooks";
+import { useProfile } from "../hooks";
 
 import Tabs from "../components/tabs";
 import Schedule from "../components/schedule";
@@ -8,7 +8,7 @@ import Drafts from "../components/drafts";
 import Reviews from "../components/reviews";
 
 export default function Tweets() {
-  const { user } = useUser();
+  const { user } = useProfile();
   const { scope } = useContext(ScopeContext);
   const [tab, setTab] = useState("Schedule");
   const renderTab = tabName => {

@@ -5,15 +5,16 @@ import { withRouter } from "next/router";
 import { SWRConfig } from "swr";
 
 import Header from "../components/header";
-// TODO Change scope to object with role and type
+
 export default withRouter(
   class MyApp extends App {
     state = {
       scope: undefined
     };
     componentDidMount = () => {
-      const scope = JSON.parse(localStorage.getItem("scope"));
-      if (scope) {
+      const scopeStored = localStorage.getItem("scope");
+      if (scopeStored !== undefined) {
+        const scope = JSON.parse(scopeStored);
         this.setScope(scope);
       }
     };

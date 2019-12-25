@@ -13,16 +13,11 @@ export default async (req, res) => {
             name,
             picture,
             plan: "free",
-            scopes: [
-              {
-                name,
-                role: "owner",
-                type: "account"
-              }
-            ]
+            teams: []
           }
         })
       );
+      console.log("User created:", dbs.data);
       // ok
       res.status(200).json(dbs.data);
     } catch (e) {

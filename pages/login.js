@@ -1,7 +1,7 @@
-import { useUser } from "../hooks";
+import { useProfile } from "../hooks";
 
 export default function Landing() {
-  const { user } = useUser();
+  const { user } = useProfile();
   console.log("USER", user);
   return (
     <>

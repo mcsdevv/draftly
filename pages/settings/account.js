@@ -1,42 +1,37 @@
 import { useEffect, useState } from "react";
 
-import { useScope, useTeam, useUser } from "../../hooks";
+import { useScope, useProfile } from "../../hooks";
+import Cookies from "js-cookie";
 
 import Tabs from "../../components/tabs";
 import Form from "../../components/form";
 import Input from "../../components/input";
 
 export default function Account({}) {
-  const { user } = useUser();
-  const { scope, scopeDetails, setScope } = useScope();
-  const { revalidate: revalidateTeam, team } = useTeam();
+  const { revalidateProfile, teams, user } = useProfile();
+  const { scope, setScope } = useScope();
   const [account, setAccount] = useState({
     deleteName: null,
     name: "",
     type: "personal",
     updateName: undefined
   });
+  const router = useRouter();
   useEffect(() => {
+    console.log("updating", scope, teams, user);
     function getAccount() {
-      if (scopeDetails && scopeDetails.personal && user) {
+      if (scope && user) {
+        const isPersonal = user.name === name;
         setAccount({
           deleteName: "",
-          name: user.name,
-          type: "personal",
-          updateName: user.name
-        });
-      }
-      if (scopeDetails && !scopeDetails.personal && team) {
-        setAccount({
-          deleteName: "",
-          name: team.name,
-          type: "team",
-          updateName: team.name
+          name: scope.name,
+          type: isPersonal ? "personal" : "team",
+          updateName: scope.name
         });
       }
     }
     getAccount();
-  }, [scope, scopeDetails, team, user]);
+  }, [scope, teams, user]);
   const handleOnChange = e => {
     const key = e.target.name;
     setAccount({ ...account, [key]: e.target.value });
@@ -44,32 +39,50 @@ export default function Account({}) {
   const handleOnSubmitName = async e => {
     e.preventDefault();
     const url =
-      scopeDetails && scopeDetails.personal
-        ? `api/user/update/name/${user.email}`
-        : `api/team/update/name/${team.handle}`;
-    const { status } = await fetch(url, {
+      scope && scope.personal
+        ? `/api/user/update/name/${scope.email}`
+        : `/api/team/update/name/${scope.handle}`;
+    const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
         newName: account.updateName
       })
     });
-    if (status === 200) {
-      // TODO Handle user update...
-      revalidateTeam();
+    if (res.status === 200) {
+      revalidateProfile();
+      const newScope = await res.json();
+      setScope({ ...newScope, personal: scope.personal });
     }
   };
   const handleOnSubmitDelete = async e => {
     e.preventDefault();
     const url =
-      scopeDetails && scopeDetails.personal
-        ? `api/user/delete/${user.email}`
-        : `api/team/delete/${team.handle}`;
-    const { status } = await fetch(url);
+      scope && scope.personal
+        ? `/api/user/delete/${scope.email}`
+        : `/api/team/delete/${scope.handle}`;
+    const { status } = await fetch(url, {
+      method: "DELETE",
+      body: JSON.stringify({
+        teams
+      })
+    });
     if (status === 200) {
-      // TODO Handle user deletion...
-      setScope({ name: user.name, role: "owner", type: "personal" });
+      // TODO Handle user deletion API...
+      revalidateProfile();
+      if (scope.personal) {
+        setScope(null);
+        Cookies.remove("id_token");
+        Cookies.remove("access_token");
+        localStorage.removeItem("teams");
+        localStorage.removeItem("user");
+        window.location = "/";
+      } else {
+        setScope({ ...user, personal: true });
+      }
     }
   };
+  const isOwner =
+    user && scope && scope.owners && scope.owners.includes(user.email);
   return (
     <>
       <Tabs />
@@ -80,9 +93,7 @@ export default function Account({}) {
       >
         <Input
           label={
-            scopeDetails && scopeDetails.personal
-              ? "Change Display Name"
-              : "Change Team Name"
+            scope && scope.personal ? "Change Display Name" : "Change Team Name"
           }
           name="updateName"
           onChange={handleOnChange}
@@ -90,29 +101,25 @@ export default function Account({}) {
           value={account ? account.updateName : ""}
         />
       </Form>
-      {scopeDetails && scopeDetails.role === "owner" && (
+      {isOwner || (scope && scope.personal) ? (
         <Form
           buttonText="Delete"
           disabled={account.name !== account.deleteName}
           onSubmit={handleOnSubmitDelete}
         >
           <Input
-            label={
-              scopeDetails && scopeDetails.personal
-                ? "Delete Account"
-                : "Delete Team"
-            }
+            label={scope && scope.personal ? "Delete Account" : "Delete Team"}
             name="deleteName"
             onChange={handleOnChange}
             onSubmit
             text={`Enter your ${
-              scopeDetails && scopeDetails.personal ? "display" : "team"
+              scope && scope.personal ? "display" : "team"
             } name before clicking delete.`}
             type="text"
             value={account.deleteName || ""}
           />
         </Form>
-      )}
+      ) : null}
       <style jsx>{``}</style>
     </>
   );
