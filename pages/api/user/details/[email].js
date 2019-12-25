@@ -13,16 +13,26 @@ export default async (req, res) => {
           2,
           q.Union(
             q.ToArray(q.Get(q.Match(q.Index("all_users_by_email"), email))),
-            q.Map(
-              q.Select(
-                ["data", "teams"],
-                q.Get(q.Match(q.Index("all_users_by_email"), email))
+            q.If(
+              q.IsNonEmpty(
+                q.Select(
+                  ["data", "teams"],
+                  q.Get(q.Match(q.Index("all_users_by_email"), email))
+                )
               ),
-              q.Lambda("s", q.Get(q.Ref(q.Collection("teams"), q.Var("s"))))
+              q.Map(
+                q.Select(
+                  ["data", "teams"],
+                  q.Get(q.Match(q.Index("all_users_by_email"), email))
+                ),
+                q.Lambda("s", q.Get(q.Ref(q.Collection("teams"), q.Var("s"))))
+              ),
+              []
             )
           )
         )
       );
+      console.log("db resp", dbs);
       const userData = dbs[0];
       const teamsData = dbs.slice(1);
       userData.shift();

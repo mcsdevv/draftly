@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { useScope, useProfile } from "../../hooks";
-import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
 import Tabs from "../../components/tabs";
@@ -69,16 +68,17 @@ export default function Account({}) {
     });
     if (status === 200) {
       // TODO Handle user deletion API...
+      revalidateProfile();
       if (scope.personal) {
+        setScope(null);
         Cookies.remove("id_token");
         Cookies.remove("access_token");
         localStorage.removeItem("teams");
         localStorage.removeItem("user");
-        router.push("/");
+        window.location = "/";
       } else {
         setScope({ ...user, personal: true });
       }
-      revalidateProfile();
     }
   };
   const isOwner =

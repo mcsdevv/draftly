@@ -18,7 +18,7 @@ export default async (req, res) => {
       );
       const teamsToDelete = [];
       teams.forEach(t => {
-        if (t.owners.length <= 1) {
+        if (t.owners.length <= 1 && t.owners.includes(email)) {
           teamsToDelete.push(t.handle);
         }
       });
