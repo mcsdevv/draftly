@@ -7,7 +7,9 @@ import Tabs from "../../components/tabs";
 import Form from "../../components/form";
 import Input from "../../components/input";
 
-export default function Account({}) {
+import RequireLogin from "../../lib/requireLogin";
+
+function Account() {
   const { revalidateProfile, teams, user } = useProfile();
   const { scope, setScope } = useScope();
   const [account, setAccount] = useState({
@@ -123,3 +125,5 @@ export default function Account({}) {
     </>
   );
 }
+
+export default () => RequireLogin(Account);

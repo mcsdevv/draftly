@@ -9,7 +9,6 @@ export const useProfile = () => {
     const { data, revalidate } = useSWR(
       `/api/user/details/${encodeURIComponent(email)}`
     );
-    console.log("new stuff", data);
     return { ...data, revalidateProfile: revalidate };
   } else {
     return {};

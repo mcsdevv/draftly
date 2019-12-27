@@ -7,7 +7,9 @@ import Schedule from "../components/schedule";
 import Drafts from "../components/drafts";
 import Reviews from "../components/reviews";
 
-export default function Tweets() {
+import RequireLogin from "../lib/requireLogin";
+
+function Tweets() {
   const { user } = useProfile();
   const { scope } = useContext(ScopeContext);
   const [tab, setTab] = useState("Schedule");
@@ -33,3 +35,5 @@ export default function Tweets() {
     </>
   );
 }
+
+export default () => RequireLogin(Tweets);
