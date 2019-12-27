@@ -25,7 +25,8 @@ module.exports = async (req, res) => {
     const auth = await request(authOptions);
     // check no error on token exchange
     if (!auth.error) {
-      res.setHeader("Location", `/${req.cookies.next}`);
+      res.setHeader("Location", `${req.cookies.next}`);
+      console.log("CALLBACK NEXT", req.cookies.next);
       const id_token = jwt.decode(auth.id_token);
       // encrypt access token
       const access_token = encrypt(auth.access_token);

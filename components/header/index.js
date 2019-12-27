@@ -17,9 +17,10 @@ export default function Header() {
     if (res.status === 200) {
       Cookies.remove("id_token");
       Cookies.remove("access_token");
+      Cookies.remove("next");
       localStorage.removeItem("teams");
       localStorage.removeItem("user");
-      router.push("/");
+      window.location = "/";
     }
   };
   const [isLanding, setLandingState] = useState(undefined);
@@ -36,7 +37,7 @@ export default function Header() {
       {!isLanding && <LinkButton text="Tweets" to="/tweets" />}
       {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
       {!isLanding && <LinkButton text="Settings" to="/settings" />}
-      <AuthButton loggedIn={!!user} logout={logoutUser} next="dashboard" />
+      <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
       <style jsx>{`
         header {
           display: flex;

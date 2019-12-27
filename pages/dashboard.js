@@ -1,6 +1,7 @@
 import { useProfile } from "../hooks";
+import RequireLogin from "../lib/requireLogin";
 
-export default function Dashboard() {
+function Dashboard() {
   const { user } = useProfile();
   return (
     <>
@@ -17,3 +18,5 @@ export default function Dashboard() {
     </>
   );
 }
+
+export default () => RequireLogin(Dashboard);

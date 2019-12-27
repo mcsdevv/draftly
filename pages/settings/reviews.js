@@ -4,7 +4,9 @@ import Tabs from "../../components/tabs";
 import Form from "../../components/form";
 import Input from "../../components/input";
 
-export default function Account({
+import RequireLogin from "../../lib/requireLogin";
+
+function Reviews({
   revalidateTeam,
   scope,
   scopeDetails,
@@ -82,3 +84,5 @@ export default function Account({
     </>
   );
 }
+
+export default () => RequireLogin(Reviews);

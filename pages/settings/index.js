@@ -1,6 +1,8 @@
 import Tabs from "../../components/tabs";
 
-export default function Settings() {
+import RequireLogin from "../../lib/requireLogin";
+
+function Settings() {
   console.log("setttt");
   return (
     <>
@@ -10,3 +12,5 @@ export default function Settings() {
     </>
   );
 }
+
+export default () => RequireLogin(Settings);

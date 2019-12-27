@@ -2,17 +2,17 @@ import cookie from "cookie";
 import uuidv4 from "uuid/v4";
 import cookieOptions from "../../_util/cookie/options";
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   // get next page for redirect
-  const { next } = req.query;
+  const { next } = req.cookies;
+  console.log("NEXT", next);
   // generate random opaque value for state and nonce
   const state = uuidv4();
   const nonce = uuidv4();
   // add state and nonce as httpOnly cookie for callback to check
   res.setHeader("Set-Cookie", [
     cookie.serialize("state", String(state), cookieOptions(true, false)),
-    cookie.serialize("nonce", String(nonce), cookieOptions(true, false)),
-    cookie.serialize("next", String(next), cookieOptions(true, false))
+    cookie.serialize("nonce", String(nonce), cookieOptions(true, false))
   ]);
   // write redirect
   res.writeHead(302, {
