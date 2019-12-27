@@ -3,6 +3,7 @@ import request from "request-promise";
 import verify from "../../_util/token/verify";
 
 export default async (req, res) => {
+  // TODO Update to account for teams rather than scopes
   verify(req.headers.authorization, async error => {
     if (error) res.status(400).json({ error });
     const { email, handle, name } = req.body;

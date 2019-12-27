@@ -5,8 +5,6 @@ export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
     const { email } = req.query;
-    // TODO Throws if no teams present - big problem...
-    // If teams length > 0 - get teams, else empty object
     try {
       const dbs = await client.query(
         q.Drop(
@@ -32,7 +30,6 @@ export default async (req, res) => {
           )
         )
       );
-      console.log("db resp", dbs);
       const userData = dbs[0];
       const teamsData = dbs.slice(1);
       userData.shift();

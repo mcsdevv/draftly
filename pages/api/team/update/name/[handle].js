@@ -7,7 +7,6 @@ export default async (req, res) => {
     try {
       const { newName } = JSON.parse(req.body);
       const { handle } = req.query;
-      console.log("NEW NAME", newName);
       const dbs = await client.query(
         q.Update(
           q.Select(

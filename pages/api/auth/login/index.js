@@ -3,9 +3,6 @@ import uuidv4 from "uuid/v4";
 import cookieOptions from "../../_util/cookie/options";
 
 export default async (req, res) => {
-  // get next page for redirect
-  const { next } = req.cookies;
-  console.log("NEXT", next);
   // generate random opaque value for state and nonce
   const state = uuidv4();
   const nonce = uuidv4();

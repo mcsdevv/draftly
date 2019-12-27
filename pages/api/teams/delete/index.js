@@ -6,7 +6,6 @@ export default async (req, res) => {
     if (error) res.status(400).json({ error });
     try {
       const { teams } = req.body;
-      console.log("teams", teams);
       const dbs = await client.query(
         q.Foreach(
           q.Paginate(

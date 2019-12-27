@@ -7,8 +7,6 @@ export default async (req, res) => {
     try {
       const { emails } = req.body;
       const { ref } = req.query;
-      console.log("emails", emails);
-      console.log("ref", ref);
       const dbs = await client.query(
         q.Foreach(
           q.Paginate(

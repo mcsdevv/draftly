@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import cookieOptions from "../../_util/cookie/options";
 import { encrypt } from "../../_util/token/encryption";
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   //  confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
     // prepare options for token exchange
