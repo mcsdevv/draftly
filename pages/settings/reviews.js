@@ -17,7 +17,7 @@ function Reviews({}) {
   });
   useEffect(() => {
     function getReviews() {
-      if (scope && teams) {
+      if (scope && !scope.personal && teams) {
         setReviews({
           reviewsRequired: scope.reviewsRequired.toString(),
           updateReviewsRequired: scope.reviewsRequired.toString()
