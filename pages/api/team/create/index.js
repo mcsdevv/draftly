@@ -8,7 +8,7 @@ export default (req, res) => {
     const { data, email, tokenKey, tokenSecret } = req.body;
     const { name, screen_name, profile_image_url } = data;
     try {
-      await client.query(
+      const dbs = await client.query(
         q.Create(q.Collection("teams"), {
           data: {
             name,
@@ -24,21 +24,23 @@ export default (req, res) => {
           }
         })
       );
+      const { ref } = await dbs;
+      const refString = ref.toString();
+      const refNums = refString.match(/\d/g);
+      const refJoined = refNums.join("");
       // * Update user with the added team also
-      const scopeOptions = {
+      const teamOptions = {
         method: "POST",
-        url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create/scope`,
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create/team/${refJoined}`,
         body: {
-          email,
-          handle: screen_name,
-          name
+          email
         },
         headers: {
           Authorization: req.headers.authorization
         },
         json: true
       };
-      const { update } = await request(scopeOptions);
+      const { update } = await request(teamOptions);
       // ok
       res.status(200).json({ update });
     } catch (e) {

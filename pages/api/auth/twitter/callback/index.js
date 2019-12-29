@@ -67,17 +67,7 @@ export default (req, res) => {
                 },
                 json: true
               };
-              const { update } = await request(createTeamOptions);
-              // * If update is true, team + scope updated, set cookie for client context refresh
-              if (update) {
-                res.setHeader("Set-Cookie", [
-                  cookie.serialize(
-                    "update",
-                    String("user"),
-                    cookieOptions(false, false)
-                  )
-                ]);
-              }
+              await request(createTeamOptions);
             }
             res.writeHead(301, {
               Location: "/"
