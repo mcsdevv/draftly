@@ -7,16 +7,22 @@ import Form from "../../components/form";
 import Input from "../../components/input";
 
 import RequireLogin from "../../lib/requireLogin";
+import { useRouter } from "next/router";
 
 function Reviews({}) {
   const { revalidateProfile, teams, user } = useProfile();
   const { scope, setScope } = useScope();
+  const router = useRouter();
   const [reviews, setReviews] = useState({
     reviewsRequired: 0,
     updateReviewsRequired: 0
   });
   useEffect(() => {
     function getReviews() {
+      if (scope && scope.personal) {
+        router.push("/settings/account");
+        return;
+      }
       if (scope && !scope.personal && teams) {
         setReviews({
           reviewsRequired: scope.reviewsRequired.toString(),
