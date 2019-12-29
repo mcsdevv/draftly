@@ -17,6 +17,7 @@ export default (req, res) => {
             plan: "free",
             members: [],
             owners: [email],
+            reviewsRequired: 0,
             auth: {
               tokenKey,
               tokenSecret

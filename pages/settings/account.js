@@ -15,18 +15,14 @@ function Account() {
   const [account, setAccount] = useState({
     deleteName: null,
     name: "",
-    type: "personal",
     updateName: undefined
   });
   useEffect(() => {
-    console.log("updating", scope, teams, user);
     function getAccount() {
       if (scope && user) {
-        const isPersonal = user.name === name;
         setAccount({
           deleteName: "",
           name: scope.name,
-          type: isPersonal ? "personal" : "team",
           updateName: scope.name
         });
       }

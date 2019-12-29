@@ -1,8 +1,6 @@
 import oauth from "../../../_util/oauth";
 import request from "request-promise";
 import jwt from "jsonwebtoken";
-import cookie from "cookie";
-import cookieOptions from "../../../_util/cookie/options";
 
 // const Twitter = require("twitter");
 
@@ -70,7 +68,7 @@ export default (req, res) => {
               await request(createTeamOptions);
             }
             res.writeHead(301, {
-              Location: "/"
+              Location: "/dashboard"
             });
             res.end();
           }

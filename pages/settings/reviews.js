@@ -1,65 +1,48 @@
 import { useEffect, useState } from "react";
 
+import { useScope, useProfile } from "../../hooks";
+
 import Tabs from "../../components/tabs";
 import Form from "../../components/form";
 import Input from "../../components/input";
 
 import RequireLogin from "../../lib/requireLogin";
 
-function Reviews({
-  revalidateTeam,
-  scope,
-  scopeDetails,
-  setScope,
-  team,
-  user
-}) {
-  const [account, setAccount] = useState({
-    deleteName: null,
-    name: "",
-    type: "personal",
-    updateName: undefined
+function Reviews({}) {
+  const { revalidateProfile, teams, user } = useProfile();
+  const { scope, setScope } = useScope();
+  const [reviews, setReviews] = useState({
+    reviewsRequired: 0,
+    updateReviewsRequired: 0
   });
   useEffect(() => {
-    function getAccount() {
-      if (scopeDetails && scopeDetails.personal && user) {
-        setAccount({
-          deleteName: "",
-          name: user.name,
-          type: "personal",
-          updateName: user.name
-        });
-      }
-      if (scopeDetails && !scopeDetails.personal && team) {
-        setAccount({
-          deleteName: "",
-          name: team.name,
-          type: "team",
-          updateName: team.name
+    function getReviews() {
+      if (scope && teams) {
+        setReviews({
+          reviewsRequired: scope.reviewsRequired.toString(),
+          updateReviewsRequired: scope.reviewsRequired.toString()
         });
       }
     }
-    getAccount();
-  }, [scope, scopeDetails, team, user]);
+    getReviews();
+  }, [scope, teams, user]);
   const handleOnChange = e => {
     const key = e.target.name;
-    setAccount({ ...account, [key]: e.target.value });
+    setReviews({ ...reviews, [key]: e.target.value });
   };
   const handleOnSubmitReviews = async e => {
     e.preventDefault();
-    const url =
-      scopeDetails && scopeDetails.personal
-        ? `api/user/update/name/${user.email}`
-        : `api/team/update/name/${team.handle}`;
-    const { status } = await fetch(url, {
+    const url = `/api/team/update/reviews/${scope.handle}`;
+    const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
-        newName: account.updateName
+        reviews: reviews.updateReviewsRequired
       })
     });
-    if (status === 200) {
-      // TODO Handle user update...
-      revalidateTeam();
+    if (res.status === 200) {
+      revalidateProfile();
+      const newScope = await res.json();
+      setScope({ ...newScope, personal: false });
     }
   };
   return (
@@ -68,16 +51,16 @@ function Reviews({
       <h1>Review Settings</h1>
       <Form
         onSubmit={handleOnSubmitReviews}
-        disabled={account.name === account.updateName}
+        disabled={reviews.reviewsRequired === reviews.updateReviewsRequired}
       >
         <Input
           label="Reviews Required to Publish"
           max={3}
           min={0}
-          name="updateName"
+          name="updateReviewsRequired"
           onChange={handleOnChange}
           type="number"
-          value={account ? account.updateName : ""}
+          value={reviews.updateReviewsRequired}
         />
       </Form>
       <style jsx>{``}</style>
