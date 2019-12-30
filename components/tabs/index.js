@@ -8,14 +8,10 @@ export default function Tabs() {
   const { scope } = useScope();
   const router = useRouter();
   const userTabs = ["Account"];
-  const teamTabs = ["Account", "Reviews", "Team"];
-  const teamOwnerTabs = ["Account", "Reviews", "Team"];
+  const teamTabs = ["Account", "Reviews", "Plan", "Members"];
   const getTabs = () => {
-    if (scope && user) {
-      if (scope.personal) return setTabs(userTabs);
-      const isOwner = scope.owners.includes(user.email);
-      if (isOwner) return setTabs(teamOwnerTabs);
-      return setTabs(teamTabs);
+    if (user) {
+      return setTabs(scope.personal ? userTabs : teamTabs);
     }
   };
   useEffect(() => {

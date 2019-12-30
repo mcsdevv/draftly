@@ -34,8 +34,8 @@ export default function Header() {
     <header>
       <h2>Tweet Review</h2>
       {!isLanding && <ScopePicker />}
+      {!isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
       {!isLanding && <LinkButton text="Tweets" to="/tweets" />}
-      {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
       {!isLanding && <LinkButton text="Settings" to="/settings" />}
       <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
       <style jsx>{`
