@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useScope, useProfile } from "../../hooks";
 import Cookies from "js-cookie";
 
-import Tabs from "../../components/tabs";
+import SettingsTabs from "../../components/tabs/settings";
 import Form from "../../components/form";
 import Input from "../../components/input";
 
@@ -82,7 +82,7 @@ function Account() {
     user && scope && scope.owners && scope.owners.includes(user.email);
   return (
     <>
-      <Tabs />
+      <SettingsTabs />
       <h1>Account Settings</h1>
       <Form
         onSubmit={handleOnSubmitName}

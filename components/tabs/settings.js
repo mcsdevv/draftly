@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useScope, useProfile } from "../../hooks";
 
-export default function Tabs() {
+export default function SettingsTabs() {
   const [tabs, setTabs] = useState();
   const { user } = useProfile();
   const { scope } = useScope();

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useScope, useProfile } from "../../hooks";
 
-import Tabs from "../../components/tabs";
+import SettingsTabs from "../../components/tabs/settings";
 import Form from "../../components/form";
 import Input from "../../components/input";
 
@@ -53,7 +53,7 @@ function Reviews({}) {
   };
   return (
     <>
-      <Tabs />
+      <SettingsTabs />
       <h1>Review Settings</h1>
       <Form
         onSubmit={handleOnSubmitReviews}
