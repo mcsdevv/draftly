@@ -1,16 +1,13 @@
-import Tabs from "../../components/tabs";
+import { useRouter } from "next/router";
+
+import SettingsTabs from "../../components/tabs/settings";
 
 import RequireLogin from "../../lib/requireLogin";
 
 function Settings() {
-  console.log("setttt");
-  return (
-    <>
-      <Tabs />
-      <h1>Settings Page</h1>
-      <style jsx>{``}</style>
-    </>
-  );
+  const router = useRouter();
+  router.push("/settings/account");
+  return <SettingsTabs />;
 }
 
 export default () => RequireLogin(Settings);

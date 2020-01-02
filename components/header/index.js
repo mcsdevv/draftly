@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useProfile } from "../../hooks/";
+import { useProfile, useScope } from "../../hooks/";
 
 import Cookies from "js-cookie";
 
@@ -11,6 +11,7 @@ import ScopePicker from "../scope/picker";
 export default function Header() {
   // TODO Move AuthButton into its own login page
   const { user } = useProfile();
+  const { scope } = useScope();
   const router = useRouter();
   const logoutUser = async () => {
     const res = await fetch("/api/auth/logout");
@@ -34,8 +35,10 @@ export default function Header() {
     <header>
       <h2>Tweet Review</h2>
       {!isLanding && <ScopePicker />}
-      {!isLanding && <LinkButton text="Tweets" to="/tweets" />}
-      {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
+      {!isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
+      {!isLanding && scope && !scope.personal && (
+        <LinkButton text="Tweets" to="/tweets" />
+      )}
       {!isLanding && <LinkButton text="Settings" to="/settings" />}
       <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
       <style jsx>{`
