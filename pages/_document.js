@@ -4,14 +4,8 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>
-          <link
-            rel="stylesheet"
-            href="https://css.zeit.sh/v1.css"
-            type="text/css"
-          />
-        </Head>
-        <body>
+        <Head />
+        <body className="container mx-auto px-8">
           <Main />
           <NextScript />
         </body>

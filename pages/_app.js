@@ -3,6 +3,7 @@ import App from "next/app";
 import ScopeContext from "../context/scopeContext";
 import { withRouter } from "next/router";
 import { SWRConfig } from "swr";
+import "../styles/tailwind.css";
 
 import Header from "../components/header";
 
