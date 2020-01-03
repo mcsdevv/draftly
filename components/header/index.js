@@ -33,7 +33,7 @@ export default function Header() {
   }, [router.pathname]);
   return (
     <header>
-      <h1 className="text-4xl">Tweet Review</h1>
+      <h1 className="text-4xl">T/R</h1>
       {!isLanding && <ScopePicker />}
       {!isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
       {!isLanding && scope && !scope.personal && (

@@ -9,13 +9,21 @@ export default function TweetsTabs() {
     router.push(`/tweets/${tab.toLowerCase()}`);
   };
   return (
-    <div>
+    <ul className="flex border-b">
       {tabs &&
         tabs.map(t => (
-          <button key={t} onClick={() => selectTab(t)}>
+          <li
+            key={t}
+            onClick={() => selectTab(t)}
+            className={`mr-1 py-2 px-4 text-blue-500 ${
+              router.pathname.includes(t.toLowerCase())
+                ? "border-l border-t border-r rounded-t -mb-px text-blue-700"
+                : undefined
+            }`}
+          >
             {t}
-          </button>
+          </li>
         ))}
-    </div>
+    </ul>
   );
 }
