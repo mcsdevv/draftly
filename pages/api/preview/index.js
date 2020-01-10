@@ -7,7 +7,6 @@ export default (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
     const { url } = JSON.parse(req.body);
-    console.log("BODY", url);
     try {
       const siteOptions = {
         method: "GET",
