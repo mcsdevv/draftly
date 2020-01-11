@@ -35,7 +35,10 @@ export default async (req, res) => {
       userData.shift();
       const user = userData.shift();
       console.log("User details:", user);
-      const teams = teamsData.map(t => t.data);
+      const teams = teamsData.map(t => {
+        delete t.data.auth;
+        return t.data;
+      });
       console.log("Teams details", teams);
       // ok
       res.status(200).json({ user, teams });
