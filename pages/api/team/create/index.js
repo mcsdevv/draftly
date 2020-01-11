@@ -1,4 +1,5 @@
 import { client, q } from "../../_util/fauna";
+import getRef from "../../_util/getRef";
 import request from "request-promise";
 import verify from "../../_util/token/verify";
 
@@ -26,13 +27,11 @@ export default (req, res) => {
         })
       );
       const { ref } = await dbs;
-      const refString = ref.toString();
-      const refNums = refString.match(/\d/g);
-      const refJoined = refNums.join("");
+      const refTrimmed = getRef(ref);
       // * Update user with the added team also
       const teamOptions = {
         method: "POST",
-        url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create/team/${refJoined}`,
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create/team/${refTrimmed}`,
         body: {
           email
         },

@@ -3,6 +3,7 @@ import ScopeContext from "../../context/scopeContext";
 import { useProfile } from "../../hooks";
 
 import TweetsTabs from "../../components/tabs/tweets";
+import ComposeTweet from "../../components/tweets/compose";
 
 import RequireLogin from "../../lib/requireLogin";
 
@@ -17,18 +18,18 @@ function Drafts() {
     const res = await fetch("/api/preview", {
       method: "POST",
       body: JSON.stringify({
-        url: "https://twitter.com"
+        url: "https://zeit.co"
       })
     });
-    const resParse = await res.json();
-    console.log(resParse);
+    const json = await res.json();
+    console.log(json);
   };
   return (
     <>
       <TweetsTabs />
       <h1 onClick={getPreview}>Drafts</h1>
       <button onClick={startDraft}>Create Draft</button>
-      {draft.active && <textarea placeholder="Draft your tweet..." />}
+      {draft.active && <ComposeTweet />}
       <h2>Current Drafts:</h2>
       <style jsx>{``}</style>
     </>
