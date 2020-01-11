@@ -15,9 +15,8 @@ export default function ComposeTweet() {
       })
     });
     if (res.status === 200) {
-      revalidateProfile();
-      const newScope = await res.json();
-      setScope({ ...newScope, personal: scope.personal });
+      setSaving(false);
+      console.log("ressssy", res);
     }
   };
   const handleOnChange = e => {

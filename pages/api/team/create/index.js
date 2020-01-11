@@ -1,5 +1,5 @@
 import { client, q } from "../../_util/fauna";
-import getRef from "../../_util/getRef";
+import { getRef } from "../../_util/getRef";
 import request from "request-promise";
 import verify from "../../_util/token/verify";
 
@@ -19,6 +19,9 @@ export default (req, res) => {
             members: [],
             owners: [email],
             reviewsRequired: 0,
+            drafts: [],
+            reviews: [],
+            published: [],
             auth: {
               tokenKey,
               tokenSecret
