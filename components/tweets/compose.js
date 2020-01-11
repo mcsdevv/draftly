@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 
-export default function ComposeTweet() {
+export default function ComposeTweet({ revalidate, setDrafting }) {
   const [tweet, setTweet] = useState();
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
@@ -15,8 +15,10 @@ export default function ComposeTweet() {
       })
     });
     if (res.status === 200) {
+      setDrafting(false);
       setSaving(false);
-      console.log("ressssy", res);
+      setTweet("");
+      revalidate();
     }
   };
   const handleOnChange = e => {

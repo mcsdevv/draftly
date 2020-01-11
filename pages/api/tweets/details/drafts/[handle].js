@@ -1,4 +1,5 @@
 import { client, q } from "../../../_util/fauna";
+import { getRef } from "../../../_util/getRef";
 import verify from "../../../_util/token/verify";
 
 export default async (req, res) => {
@@ -15,7 +16,12 @@ export default async (req, res) => {
           q.Lambda("s", q.Get(q.Ref(q.Collection("tweets"), q.Var("s"))))
         )
       );
-      const drafts = dbs.map(d => d.data);
+      const drafts = dbs.map(d => {
+        return {
+          ...d.data,
+          ref: getRef(d.ref)
+        };
+      });
       console.log("Drafts for:", handle);
       console.log("Drafts:", drafts);
       // ok

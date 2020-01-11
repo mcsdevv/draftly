@@ -30,7 +30,9 @@ function Drafts() {
       <TweetsTabs />
       <h1 onClick={getPreview}>Drafts</h1>
       <button onClick={startDraft}>Create Draft</button>
-      {drafting && <ComposeTweet />}
+      {drafting && (
+        <ComposeTweet revalidate={revalidateDrafts} setDrafting={setDrafting} />
+      )}
       <h2>Current Drafts:</h2>
       {(drafts && drafts.map(d => <h3>{d.text}</h3>)) || "tets"}
       <style jsx>{``}</style>
