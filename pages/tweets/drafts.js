@@ -8,11 +8,11 @@ import ComposeTweet from "../../components/tweets/compose";
 import RequireLogin from "../../lib/requireLogin";
 
 function Drafts() {
-  const [draft, setDraft] = useState({ active: false, content: "" });
+  const [drafting, setDrafting] = useState(false);
   const { user } = useProfile();
   const { scope } = useContext(ScopeContext);
   const startDraft = () => {
-    setDraft({ ...draft, active: true });
+    setDrafting(true);
   };
   const getPreview = async () => {
     const res = await fetch("/api/preview", {
@@ -29,7 +29,7 @@ function Drafts() {
       <TweetsTabs />
       <h1 onClick={getPreview}>Drafts</h1>
       <button onClick={startDraft}>Create Draft</button>
-      {draft.active && <ComposeTweet />}
+      {drafting && <ComposeTweet />}
       <h2>Current Drafts:</h2>
       <style jsx>{``}</style>
     </>
