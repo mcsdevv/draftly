@@ -10,7 +10,6 @@ import RequireLogin from "../../lib/requireLogin";
 function Drafts() {
   const [drafting, setDrafting] = useState(false);
   const { drafts, revalidateDrafts } = useDrafts();
-  console.log("drafts", drafts);
   const { user } = useProfile();
   const { scope } = useContext(ScopeContext);
   const startDraft = () => {
@@ -33,7 +32,7 @@ function Drafts() {
       <button onClick={startDraft}>Create Draft</button>
       {drafting && <ComposeTweet />}
       <h2>Current Drafts:</h2>
-      {/* {drafts || "tets"} */}
+      {(drafts && drafts.map(d => <h3>{d.text}</h3>)) || "tets"}
       <style jsx>{``}</style>
     </>
   );

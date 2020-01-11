@@ -5,5 +5,5 @@ export const useDrafts = () => {
   const scopeParsed = JSON.parse(scope);
   const { handle } = scopeParsed;
   const { data, revalidate } = useSWR(`/api/tweets/details/drafts/${handle}`);
-  return { drafts: data, revalidateDrafts: revalidate };
+  return { ...data, revalidateDrafts: revalidate };
 };
