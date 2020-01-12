@@ -33,7 +33,6 @@ export default async (req, res) => {
           )
         )
       );
-      console.log("NEW DATA", dbs);
       // ok
       res.status(200).json(dbs.data);
     } catch (e) {

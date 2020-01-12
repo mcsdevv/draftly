@@ -4,6 +4,7 @@ import { useDrafts, useProfile } from "../../hooks";
 
 import TweetsTabs from "../../components/tabs/tweets";
 import ComposeTweet from "../../components/tweets/compose";
+import Draft from "../../components/tweets/draft";
 
 import RequireLogin from "../../lib/requireLogin";
 
@@ -34,8 +35,21 @@ function Drafts() {
         <ComposeTweet revalidate={revalidateDrafts} setDrafting={setDrafting} />
       )}
       <h2>Current Drafts:</h2>
-      {(drafts && drafts.map(d => <h3>{d.text}</h3>)) || "tets"}
-      <style jsx>{``}</style>
+      {drafts ? (
+        <div className="draftsList">
+          {drafts.map(d => (
+            <Draft key={d.ref} revalidate={revalidateDrafts} tweet={d} />
+          ))}
+        </div>
+      ) : (
+        <h2>Loading drafts...</h2>
+      )}
+      <style jsx>{`
+        .draftsList {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+        }
+      `}</style>
     </>
   );
 }
