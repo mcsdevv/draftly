@@ -36,13 +36,20 @@ function Drafts() {
       )}
       <h2>Current Drafts:</h2>
       {drafts ? (
-        drafts.map(d => (
-          <Draft key={d.ref} revalidate={revalidateDrafts} tweet={d} />
-        ))
+        <div className="draftsList">
+          {drafts.map(d => (
+            <Draft key={d.ref} revalidate={revalidateDrafts} tweet={d} />
+          ))}
+        </div>
       ) : (
         <h2>Loading drafts...</h2>
       )}
-      <style jsx>{``}</style>
+      <style jsx>{`
+        .draftsList {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+        }
+      `}</style>
     </>
   );
 }

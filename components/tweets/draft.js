@@ -19,10 +19,10 @@ export default function Draft({ revalidate, tweet }) {
     }
   };
   return !deleting ? (
-    <>
+    <div className="draft">
       <h2>{tweet.text}</h2>
       <button onClick={handleDeleteDraft}>Delete Draft</button>
-    </>
+    </div>
   ) : (
     <h2>Deleting Draft...</h2>
   );
