@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 
 export default function Draft({ revalidate, tweet }) {
   const [deleting, setDeleting] = useState();
   const { scope } = useContext(ScopeContext);
   const handleDeleteDraft = async () => {
-    setSaving(true);
+    setDeleting(true);
     const url = `/api/tweet/draft/delete/${scope.handle}`;
     const res = await fetch(url, {
       method: "DELETE",
@@ -20,11 +20,7 @@ export default function Draft({ revalidate, tweet }) {
   };
   return !deleting ? (
     <>
-      <textarea
-        placeholder="Draft your tweet..."
-        onChange={handleOnChange}
-        value={tweet}
-      />
+      <h2>{tweet.text}</h2>
       <button onClick={handleDeleteDraft}>Delete Draft</button>
     </>
   ) : (
