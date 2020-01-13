@@ -4,12 +4,10 @@ import verify from "../../../_util/token/verify";
 export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
-    const { handle } = req.query;
-    console.log("handle", handle);
-    const { ref } = req.body;
-    console.log("ref", ref);
+    const { handle } = req.body;
+    const { ref } = req.query;
     try {
-      const dbs = await client.query(
+      await client.query(
         q.Update(
           q.Select(
             ["ref"],
@@ -17,22 +15,21 @@ export default async (req, res) => {
           ),
           {
             data: {
-              drafts: q.Filter(
+              reviews: q.Append(
+                ref,
                 q.Select(
-                  ["data", "drafts"],
+                  ["data", "reviews"],
                   q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
-                ),
-                q.Lambda("s", q.Not(q.Equals(ref, q.Var("s"))))
+                )
               )
             }
           }
         )
       );
-      console.log("Deleted draft from:", handle);
+      console.log("Added new tweet to team: ", ref);
       // ok
-      res.status(200).json(dbs.data);
+      res.status(200).json(ref);
     } catch (e) {
-      console.log(("ERROR", e));
       // something went wrong
       res.status(500).json({ error: e.message });
     }
