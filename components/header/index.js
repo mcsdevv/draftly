@@ -24,7 +24,7 @@ export default function Header() {
       window.location = "/";
     }
   };
-  const [isLanding, setLandingState] = useState(undefined);
+  const [isLanding, setLandingState] = useState(true);
   useEffect(() => {
     function getLandingState() {
       setLandingState(router.pathname === "/");
