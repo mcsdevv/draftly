@@ -6,7 +6,7 @@ import { getMetadata } from "page-metadata-parser";
 export default (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
-    const { url } = JSON.parse(req.body);
+    const { url } = req.body;
     try {
       const siteOptions = {
         method: "GET",
@@ -16,7 +16,7 @@ export default (req, res) => {
       const resp = await request(siteOptions);
       const doc = domino.createWindow(resp).document;
       const metadata = getMetadata(doc, url);
-      console.log("returned site", metadata);
+      console.log("Returned metadata:", metadata);
       // ok
       res.status(200).json(metadata);
     } catch (e) {
