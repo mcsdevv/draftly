@@ -26,6 +26,7 @@ export default function ComposeTweet({ revalidate, setDrafting }) {
       revalidate();
     }
   };
+  // TODO Character limit
   const handleOnChange = e => {
     setTweet(e.target.value);
   };
