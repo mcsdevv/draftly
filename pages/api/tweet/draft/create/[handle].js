@@ -2,6 +2,7 @@ import { client, q } from "../../../_util/fauna";
 import { getRef } from "../../../_util/getRef";
 import request from "request-promise";
 import verify from "../../../_util/token/verify";
+import getUrls from "get-urls";
 
 export default (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
@@ -9,10 +10,29 @@ export default (req, res) => {
     const { creator, tweet } = JSON.parse(req.body);
     const { handle } = req.query;
     try {
+      // * Get URL's from tweet - Twitter uses the last URL in a Tweet to decide the card image
+      const urlSet = getUrls(tweet, { requireSchemeOrWww: false });
+      const url = Array.from(urlSet).pop();
+      console.log("URL for card is:", url);
+      console.log("pre meta", Date.now());
+      const metaOptions = {
+        method: "POST",
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/metadata`,
+        body: {
+          url
+        },
+        headers: {
+          Authorization: req.headers.authorization || req.cookies.access_token
+        },
+        json: true
+      };
+      const metadata = url ? await request(metaOptions) : undefined;
+      console.log("post meta", Date.now());
       const dbs = await client.query(
         q.Create(q.Collection("tweets"), {
           data: {
             creator,
+            metadata,
             text: tweet,
             type: "draft"
           }

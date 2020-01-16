@@ -21,11 +21,10 @@ export default function ComposeTweet({ revalidate, setDrafting }) {
     });
     if (res.status === 200) {
       setDrafting(false);
-      setSaving(false);
-      setTweet("");
       revalidate();
     }
   };
+  // TODO Character limit
   const handleOnChange = e => {
     setTweet(e.target.value);
   };

@@ -38,17 +38,41 @@ export default function Draft({ revalidate, tweet }) {
       revalidate();
     }
   };
-  return !deleting ? (
+  const stripProtocol = (url = "") => {
+    const urlStripped = url.replace(/(^\w+:|^)\/\//, "");
+    return urlStripped;
+  };
+  // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
+  return (
     <div className="draft">
-      <h2>{tweet.text}</h2>
-      <DefaultButton handleOnClick={handleDeleteDraft} text="Delete Draft" />
-      <DefaultButton
-        handleOnClick={handleReviewReady}
-        loading={reviewing}
-        text="Review Ready"
-      />
+      {!deleting ? (
+        <>
+          <p>{tweet.text}</p>
+          {tweet.metadata && (
+            <div className="card-wrapper">
+              <div className="card-image">
+                <img src={tweet.metadata.image} />
+              </div>
+              <div className="card-content">
+                <h3>{tweet.metadata.title}</h3>
+                <p>{tweet.metadata.description}</p>
+                <p>{stripProtocol(tweet.metadata.url)}</p>
+              </div>
+            </div>
+          )}
+          <DefaultButton
+            handleOnClick={handleDeleteDraft}
+            text="Delete Draft"
+          />
+          <DefaultButton
+            handleOnClick={handleReviewReady}
+            loading={reviewing}
+            text="Review Ready"
+          />
+        </>
+      ) : (
+        <h2>Deleting Draft...</h2>
+      )}
     </div>
-  ) : (
-    <h2>Deleting Draft...</h2>
   );
 }
