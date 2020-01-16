@@ -43,7 +43,7 @@ export default async (req, res) => {
       // ok
       res.status(200).json({ user, teams });
     } catch (e) {
-      console.log("uh oh", e.message);
+      console.log("Error:", e.message);
       // something went wrong
       res.status(500).json({ error: e.message });
     }

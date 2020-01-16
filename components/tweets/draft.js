@@ -38,7 +38,7 @@ export default function Draft({ revalidate, tweet }) {
       revalidate();
     }
   };
-  const stripProtocol = url => {
+  const stripProtocol = (url = "") => {
     const urlStripped = url.replace(/(^\w+:|^)\/\//, "");
     return urlStripped;
   };
