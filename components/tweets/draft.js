@@ -37,41 +37,46 @@ export default function Draft({ revalidate, tweet }) {
       revalidate();
     }
   };
-  const stripProtocol = (url = "") => {
-    const urlStripped = url.replace(/(^\w+:|^)\/\//, "");
-    return urlStripped;
-  };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
-    <div className="draft">
-      {!deleting ? (
-        <>
-          <p>{tweet.text}</p>
-          {tweet.metadata && (
-            <div className="card-wrapper">
-              <div className="card-image">
-                <img src={tweet.metadata.image} />
+    <>
+      <article className="draft">
+        {!deleting ? (
+          <>
+            <p>{tweet.text}</p>
+            {tweet.metadata && (
+              <div className="card-wrapper">
+                <div className="card-image">
+                  <img src={tweet.metadata.image} />
+                </div>
+                <div className="card-content">
+                  <h3>{tweet.metadata.title}</h3>
+                  <p>{tweet.metadata.description}</p>
+                  <p>{tweet.metadata.url}</p>
+                </div>
               </div>
-              <div className="card-content">
-                <h3>{tweet.metadata.title}</h3>
-                <p>{tweet.metadata.description}</p>
-                <p>{stripProtocol(tweet.metadata.url)}</p>
-              </div>
-            </div>
-          )}
-          <DefaultButton
-            handleOnClick={handleDeleteDraft}
-            text="Delete Draft"
-          />
-          <DefaultButton
-            handleOnClick={handleReviewReady}
-            loading={reviewing}
-            text="Review Ready"
-          />
-        </>
-      ) : (
-        <h2>Deleting Draft...</h2>
-      )}
-    </div>
+            )}
+            <DefaultButton
+              handleOnClick={handleDeleteDraft}
+              text="Delete Draft"
+            />
+            <DefaultButton
+              handleOnClick={handleReviewReady}
+              loading={reviewing}
+              text="Review Ready"
+            />
+          </>
+        ) : (
+          <h2>Deleting Draft...</h2>
+        )}
+      </article>
+      <style jsx>{`
+        .draft {
+          border: 1px solid rgb(230, 236, 240);
+          max-width: 600px;
+          padding 10px 15px;
+        }
+      `}</style>
+    </>
   );
 }

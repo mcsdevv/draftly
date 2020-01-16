@@ -7,7 +7,8 @@ export default (req, res) => {
   verify(req.headers.authorization, async error => {
     if (error) res.status(400).json({ error });
     const { data, email, tokenKey, tokenSecret } = req.body;
-    const { name, screen_name, profile_image_url } = data;
+    const { name, screen_name, profile_image_url, protected } = data;
+    console.log("DATA", data);
     try {
       const dbs = await client.query(
         q.Create(q.Collection("teams"), {
@@ -15,6 +16,7 @@ export default (req, res) => {
             name,
             handle: screen_name,
             avatar: profile_image_url,
+            protected,
             plan: "free",
             members: [],
             owners: [email],
