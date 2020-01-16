@@ -22,7 +22,6 @@ export default function Draft({ revalidate, tweet }) {
     }
   };
   const handleReviewReady = async () => {
-    // TODO Add API for create, use existing delete for drafts
     setReviewing(true);
     const url = `/api/tweet/review/create/${scope.handle}`;
     const res = await fetch(url, {

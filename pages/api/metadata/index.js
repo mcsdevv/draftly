@@ -7,18 +7,20 @@ import verify from "../_util/token/verify";
 export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
-    const { url } = req.body;
+    const { uri } = JSON.parse(req.body);
+    console.log("URI", uri);
+    console.log(req.body);
     try {
       console.log("pre card fetch", Date.now());
       const siteOptions = {
         method: "GET",
-        uri: url
+        uri
       };
       const resp = await request(siteOptions);
       console.log("post card fetch", Date.now());
       // ! Why is this taking multiple seconds?
       const doc = domino.createWindow(resp).document;
-      const meta = getMetadata(doc, url);
+      const meta = getMetadata(doc, uri);
       console.log("Returned metadata:", meta);
       // * Decide whether this is a summary or large image summary card
       const metadata = await getCardType(meta);
