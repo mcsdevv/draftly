@@ -1,30 +1,18 @@
-import request from "request-promise";
+import fetch from "node-fetch";
 import domino from "domino";
 import { getMetadata } from "page-metadata-parser";
-import { getCardType } from "../_util/getCardType";
 import verify from "../_util/token/verify";
 
 export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
     const { uri } = JSON.parse(req.body);
-    console.log("URI", uri);
-    console.log(req.body);
     try {
-      console.log("pre card fetch", Date.now());
-      const siteOptions = {
-        method: "GET",
-        uri
-      };
-      const resp = await request(siteOptions);
-      console.log("post card fetch", Date.now());
-      // ! Why is this taking multiple seconds?
-      const doc = domino.createWindow(resp).document;
-      const meta = getMetadata(doc, uri);
-      console.log("Returned metadata:", meta);
-      // * Decide whether this is a summary or large image summary card
-      const metadata = await getCardType(meta);
-      console.log("META META", metadata);
+      const resp = await fetch(uri);
+      const respText = await resp.text();
+      const doc = domino.createWindow(respText).document;
+      const metadata = getMetadata(doc, uri);
+      console.log("Returned metadata:", metadata);
       // ok
       res.status(200).json(metadata);
     } catch (e) {

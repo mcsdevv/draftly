@@ -10,21 +10,22 @@ export default function ComposeTweet({ revalidate, setDrafting }) {
   const { scope } = useContext(ScopeContext);
   const handleSaveDraft = async () => {
     setSaving(true);
-    await getMeta(tweet);
-    // const id = Cookies.get("id_token");
-    // const { name } = parseJwt(id);
-    // const url = `/api/tweet/draft/create/${scope.handle}`;
-    // const res = await fetch(url, {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     creator: name,
-    //     tweet
-    //   })
-    // });
-    // if (res.status === 200) {
-    //   setDrafting(false);
-    //   revalidate();
-    // }
+    const metadata = await getMeta(tweet);
+    const id = Cookies.get("id_token");
+    const { name } = parseJwt(id);
+    const url = `/api/tweet/draft/create/${scope.handle}`;
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        creator: name,
+        metadata,
+        tweet
+      })
+    });
+    if (res.status === 200) {
+      setDrafting(false);
+      revalidate();
+    }
   };
   // TODO Character limit
   const handleOnChange = e => {
