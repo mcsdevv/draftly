@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 
 import DefaultButton from "../buttons/default";
+import SummaryLarge from "./cards/summary-large";
 
 export default function Draft({ revalidate, tweet }) {
   const [deleting, setDeleting] = useState(false);
@@ -38,43 +39,40 @@ export default function Draft({ revalidate, tweet }) {
     }
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
+  console.log(tweet);
   return (
     <>
-      <article className="draft">
-        {!deleting ? (
-          <>
-            <p>{tweet.text}</p>
-            {tweet.metadata && (
-              <div className="card-wrapper">
-                <div className="card-image">
-                  <img src={tweet.metadata.image} />
-                </div>
-                <div className="card-content">
-                  <h3>{tweet.metadata.title}</h3>
-                  <p>{tweet.metadata.description}</p>
-                  <p>{tweet.metadata.url}</p>
-                </div>
-              </div>
-            )}
-            <DefaultButton
-              handleOnClick={handleDeleteDraft}
-              text="Delete Draft"
-            />
-            <DefaultButton
-              handleOnClick={handleReviewReady}
-              loading={reviewing}
-              text="Review Ready"
-            />
-          </>
-        ) : (
-          <h2>Deleting Draft...</h2>
-        )}
-      </article>
+      {!deleting ? (
+        <article className="draft">
+          <div className="avatar">
+            <img src={scope.avatar} />
+          </div>
+          <SummaryLarge meta={tweet.metadata} text={tweet.text} />
+        </article>
+      ) : (
+        <h2>Deleting Draft...</h2>
+      )}
+      <DefaultButton handleOnClick={handleDeleteDraft} text="Delete Draft" />
+      <DefaultButton
+        handleOnClick={handleReviewReady}
+        loading={reviewing}
+        text="Review Ready"
+      />
       <style jsx>{`
         .draft {
           border: 1px solid rgb(230, 236, 240);
+          display: flex;
           max-width: 600px;
           padding 10px 15px;
+        }
+        .avatar {
+          height: 100%;
+          margin-right: 5px;
+        }
+        img {
+          border-radius: 50%;
+          height: 49px;
+          width: 49px;
         }
       `}</style>
     </>
