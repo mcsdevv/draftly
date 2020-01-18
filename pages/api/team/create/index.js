@@ -8,6 +8,7 @@ export default (req, res) => {
     if (error) res.status(400).json({ error });
     const { data, email, tokenKey, tokenSecret } = req.body;
     const { name, screen_name, profile_image_url } = data;
+    console.log("DATA", data);
     try {
       const dbs = await client.query(
         q.Create(q.Collection("teams"), {
@@ -15,6 +16,7 @@ export default (req, res) => {
             name,
             handle: screen_name,
             avatar: profile_image_url,
+            protected: data.protected,
             plan: "free",
             members: [],
             owners: [email],

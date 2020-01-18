@@ -34,12 +34,12 @@ export default function Header() {
   return (
     <header>
       <h1 className="text-4xl">T/R</h1>
-      {!isLanding && <ScopePicker />}
-      {!isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
-      {!isLanding && scope && !scope.personal && (
+      {!isLanding && user && <ScopePicker />}
+      {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
+      {!isLanding && user && scope && !scope.personal && (
         <LinkButton text="Tweets" to="/tweets" />
       )}
-      {!isLanding && <LinkButton text="Settings" to="/settings" />}
+      {!isLanding && user && <LinkButton text="Settings" to="/settings" />}
       <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
       <style jsx>{`
         header {

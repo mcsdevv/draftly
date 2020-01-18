@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 
 import DefaultButton from "../buttons/default";
+import SummaryLarge from "./cards/summary-large";
 
 export default function Draft({ revalidate, tweet }) {
   const [deleting, setDeleting] = useState(false);
@@ -22,7 +23,6 @@ export default function Draft({ revalidate, tweet }) {
     }
   };
   const handleReviewReady = async () => {
-    // TODO Add API for create, use existing delete for drafts
     setReviewing(true);
     const url = `/api/tweet/review/create/${scope.handle}`;
     const res = await fetch(url, {
@@ -38,28 +38,26 @@ export default function Draft({ revalidate, tweet }) {
       revalidate();
     }
   };
-  const stripProtocol = (url = "") => {
-    const urlStripped = url.replace(/(^\w+:|^)\/\//, "");
-    return urlStripped;
-  };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
+  console.log(tweet);
   return (
-    <div className="draft">
-      {!deleting ? (
-        <>
-          <p>{tweet.text}</p>
-          {tweet.metadata && (
-            <div className="card-wrapper">
-              <div className="card-image">
-                <img src={tweet.metadata.image} />
-              </div>
-              <div className="card-content">
-                <h3>{tweet.metadata.title}</h3>
-                <p>{tweet.metadata.description}</p>
-                <p>{stripProtocol(tweet.metadata.url)}</p>
-              </div>
+    <>
+      <div className="draft-wrapper">
+        {!deleting ? (
+          <article className="draft">
+            <div className="avatar">
+              <img src={scope.avatar} />
             </div>
-          )}
+            <SummaryLarge
+              meta={tweet.metadata}
+              scope={scope}
+              text={tweet.text}
+            />
+          </article>
+        ) : (
+          <h2>Deleting Draft...</h2>
+        )}
+        <div className="buttons">
           <DefaultButton
             handleOnClick={handleDeleteDraft}
             text="Delete Draft"
@@ -69,10 +67,33 @@ export default function Draft({ revalidate, tweet }) {
             loading={reviewing}
             text="Review Ready"
           />
-        </>
-      ) : (
-        <h2>Deleting Draft...</h2>
-      )}
-    </div>
+        </div>
+      </div>
+      <style jsx>{`
+        .draft {
+          border: 1px solid rgb(230, 236, 240);
+          display: flex;
+          max-width: 600px;
+          padding 10px 15px;
+        }
+        .avatar {
+          height: 100%;
+          margin-right: 5px;
+        }
+        .avatar img {
+          border-radius: 50%;
+          height: 49px;
+          width: 49px;
+        }
+        img {
+          margin-right: 2px;
+          max-width: 50px;
+        }
+        .buttons {
+          display: flex;
+          justify-content: center;
+        }
+      `}</style>
+    </>
   );
 }

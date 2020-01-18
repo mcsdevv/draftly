@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import Cookies from "js-cookie";
 import parseJwt from "../../lib/parseJwt";
+import getMeta from "../../lib/getMeta";
 
 export default function ComposeTweet({ revalidate, setDrafting }) {
   const [tweet, setTweet] = useState();
@@ -9,6 +10,7 @@ export default function ComposeTweet({ revalidate, setDrafting }) {
   const { scope } = useContext(ScopeContext);
   const handleSaveDraft = async () => {
     setSaving(true);
+    const metadata = await getMeta(tweet);
     const id = Cookies.get("id_token");
     const { name } = parseJwt(id);
     const url = `/api/tweet/draft/create/${scope.handle}`;
@@ -16,6 +18,7 @@ export default function ComposeTweet({ revalidate, setDrafting }) {
       method: "POST",
       body: JSON.stringify({
         creator: name,
+        metadata,
         tweet
       })
     });
