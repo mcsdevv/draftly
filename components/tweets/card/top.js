@@ -1,4 +1,5 @@
 export default function CardTop({ handle, name }) {
+  const date = new Date();
   return (
     <>
       <div className="card-top">
@@ -10,17 +11,30 @@ export default function CardTop({ handle, name }) {
         </svg>
         <h4 className="handle">@{handle}</h4>
         <div className="dot">.</div>
-        <h4>{Date.now()}</h4>
+        <div className="date">
+          <h4 className="month">
+            {date.toLocaleString("default", { month: "short" })}
+          </h4>
+          <h4>{date.toLocaleString("default", { day: "numeric" })}</h4>
+        </div>
+        <svg viewBox="0 0 24 24" className="arrow">
+          <g>
+            <path d="M20.207 8.147c-.39-.39-1.023-.39-1.414 0L12 14.94 5.207 8.147c-.39-.39-1.023-.39-1.414 0-.39.39-.39 1.023 0 1.414l7.5 7.5c.195.196.45.294.707.294s.512-.098.707-.293l7.5-7.5c.39-.39.39-1.022 0-1.413z"></path>
+          </g>
+        </svg>
       </div>
       <style jsx>{`
         .card-top {
           display: flex;
           font-size: 15px;
+          line-height: 22.5px;
+          margin-bottom: 2px;
         }
         .name {
           font-weight: 700;
         }
         .padlock {
+          margin-bottom: 2.5px;
           margin-left: 2px;
           width: 18.75px;
         }
@@ -34,6 +48,18 @@ export default function CardTop({ handle, name }) {
           height: 15px;
           display: grid;
           align-content: center;
+        }
+        .date {
+          color: rgb(101, 119, 134);
+          display: flex;
+        }
+        .month {
+          margin-right: 5px;
+        }
+        .arrow {
+          color: rgb(101, 119, 134);
+          margin-left: auto;
+          width: 15px;
         }
       `}</style>
     </>
