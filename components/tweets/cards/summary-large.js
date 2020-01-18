@@ -1,3 +1,5 @@
+import Linkify from "react-linkify";
+
 import CardTop from "../card/top";
 import CardBottom from "../card/bottom";
 
@@ -6,7 +8,9 @@ export default function SummaryLarge({ meta, scope, text }) {
     <>
       <section className="summary-large">
         <CardTop handle={scope.handle} name={scope.name} />
-        <p>{text}</p>
+        <p className="card-text">
+          <Linkify>{text}</Linkify>
+        </p>
         <a href={`https://${meta.url}`}>
           <div className="card-wrapper">
             <div className="card-image">
@@ -34,6 +38,9 @@ export default function SummaryLarge({ meta, scope, text }) {
           display: flex;
           flex-direction: column;
           margin-left: 5px;
+        }
+        .card-text a {
+          color: blue;
         }
         .card-wrapper {
           border: 1px solid rgb(204, 214, 221);
