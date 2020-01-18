@@ -42,22 +42,28 @@ export default function Draft({ revalidate, tweet }) {
   console.log(tweet);
   return (
     <>
-      {!deleting ? (
-        <article className="draft">
-          <div className="avatar">
-            <img src={scope.avatar} />
-          </div>
-          <SummaryLarge meta={tweet.metadata} scope={scope} text={tweet.text} />
-        </article>
-      ) : (
-        <h2>Deleting Draft...</h2>
-      )}
-      <DefaultButton handleOnClick={handleDeleteDraft} text="Delete Draft" />
-      <DefaultButton
-        handleOnClick={handleReviewReady}
-        loading={reviewing}
-        text="Review Ready"
-      />
+      <div className="draft-wrapper">
+        {!deleting ? (
+          <article className="draft">
+            <div className="avatar">
+              <img src={scope.avatar} />
+            </div>
+            <SummaryLarge
+              meta={tweet.metadata}
+              scope={scope}
+              text={tweet.text}
+            />
+          </article>
+        ) : (
+          <h2>Deleting Draft...</h2>
+        )}
+        <DefaultButton handleOnClick={handleDeleteDraft} text="Delete Draft" />
+        <DefaultButton
+          handleOnClick={handleReviewReady}
+          loading={reviewing}
+          text="Review Ready"
+        />
+      </div>
       <style jsx>{`
         .draft {
           border: 1px solid rgb(230, 236, 240);

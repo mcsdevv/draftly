@@ -1,4 +1,5 @@
 import CardTop from "../card/top";
+import CardBottom from "../card/bottom";
 
 export default function SummaryLarge({ meta, scope }) {
   return (
@@ -24,6 +25,7 @@ export default function SummaryLarge({ meta, scope }) {
             </div>
           </div>
         </div>
+        <CardBottom />
       </section>
       <style jsx>{`
         .summary-large {
