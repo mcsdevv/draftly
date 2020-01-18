@@ -47,7 +47,7 @@ export default function Draft({ revalidate, tweet }) {
           <div className="avatar">
             <img src={scope.avatar} />
           </div>
-          <SummaryLarge meta={tweet.metadata} text={tweet.text} />
+          <SummaryLarge meta={tweet.metadata} scope={scope} text={tweet.text} />
         </article>
       ) : (
         <h2>Deleting Draft...</h2>
@@ -69,10 +69,13 @@ export default function Draft({ revalidate, tweet }) {
           height: 100%;
           margin-right: 5px;
         }
-        img {
+        .avatar img {
           border-radius: 50%;
           height: 49px;
           width: 49px;
+        }
+        img {
+          max-width: 50px;
         }
       `}</style>
     </>
