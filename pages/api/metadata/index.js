@@ -3,6 +3,8 @@ import domino from "domino";
 import { getMetadata } from "page-metadata-parser";
 import verify from "../_util/token/verify";
 
+import fetch from "node-fetch";
+
 export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
