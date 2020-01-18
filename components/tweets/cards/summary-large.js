@@ -1,12 +1,12 @@
 import CardTop from "../card/top";
 import CardBottom from "../card/bottom";
 
-export default function SummaryLarge({ meta, scope }) {
+export default function SummaryLarge({ meta, scope, text }) {
   return (
     <>
       <section className="summary-large">
         <CardTop handle={scope.handle} name={scope.name} />
-        <p>{meta.text}</p>
+        <p>{text}</p>
         <div className="card-wrapper">
           <div className="card-image">
             <img src={meta.image} />

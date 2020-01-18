@@ -57,12 +57,17 @@ export default function Draft({ revalidate, tweet }) {
         ) : (
           <h2>Deleting Draft...</h2>
         )}
-        <DefaultButton handleOnClick={handleDeleteDraft} text="Delete Draft" />
-        <DefaultButton
-          handleOnClick={handleReviewReady}
-          loading={reviewing}
-          text="Review Ready"
-        />
+        <div className="buttons">
+          <DefaultButton
+            handleOnClick={handleDeleteDraft}
+            text="Delete Draft"
+          />
+          <DefaultButton
+            handleOnClick={handleReviewReady}
+            loading={reviewing}
+            text="Review Ready"
+          />
+        </div>
       </div>
       <style jsx>{`
         .draft {
@@ -81,7 +86,12 @@ export default function Draft({ revalidate, tweet }) {
           width: 49px;
         }
         img {
+          margin-right: 2px;
           max-width: 50px;
+        }
+        .buttons {
+          display: flex;
+          justify-content: center;
         }
       `}</style>
     </>
