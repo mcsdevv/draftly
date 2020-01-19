@@ -30,29 +30,40 @@ function Drafts() {
     <>
       <TweetsTabs />
       <h1 onClick={getPreview}>Drafts</h1>
-      <button onClick={startDraft}>Create Draft</button>
-      {drafting && (
-        <ComposeTweet revalidate={revalidateDrafts} setDrafting={setDrafting} />
-      )}
       <h2>Current Drafts:</h2>
       {drafts ? (
-        <div className="draftsList">
+        <div className="draft-list">
+          <div className="draft-holder">
+            {!drafting ? (
+              <button onClick={startDraft}>Create Draft</button>
+            ) : (
+              <ComposeTweet
+                revalidate={revalidateDrafts}
+                setDrafting={setDrafting}
+              />
+            )}
+          </div>
           {drafts.map(d => (
-            <Draft
-              key={d.ref}
-              revalidate={revalidateDrafts}
-              size="small"
-              tweet={d}
-            />
+            <div className="draft-holder">
+              <Draft
+                key={d.ref}
+                revalidate={revalidateDrafts}
+                size="small"
+                tweet={d}
+              />
+            </div>
           ))}
         </div>
       ) : (
         <h2>Loading drafts...</h2>
       )}
       <style jsx>{`
-        .draftsList {
+        .draft-list {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
+        }
+        .draft-holder {
+          justify-self: center;
         }
       `}</style>
     </>
