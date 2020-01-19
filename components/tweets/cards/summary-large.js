@@ -9,7 +9,14 @@ export default function SummaryLarge({ meta, scope, text }) {
       <section className="summary-large">
         <CardTop handle={scope.handle} name={scope.name} />
         <p className="card-text">
-          <Linkify>{text}</Linkify>
+          <Linkify
+            properties={{
+              target: "_blank",
+              style: { color: "red", fontWeight: "bold" }
+            }}
+          >
+            {text}
+          </Linkify>
         </p>
         <a className="card-link" href={`https://${meta.url}`}>
           <div className="card-wrapper">
@@ -37,11 +44,19 @@ export default function SummaryLarge({ meta, scope, text }) {
         .summary-large {
           display: flex;
           flex-direction: column;
+          font-size: 15px;
           margin-left: 5px;
         }
-        .card-text a {
-          color: blue;
+        .card-text :global(a) {
+          color: rgb(27, 149, 224);
           font-size: 15px;
+          text-decoration: none;
+        }
+        .card-text :global(a:hover) {
+          text-decoration: underline;
+        }
+        .card-text :global(a:visited) {
+          color: rgb(27, 149, 224);
         }
         .card-link {
           text-decoration: none;
@@ -72,7 +87,6 @@ export default function SummaryLarge({ meta, scope, text }) {
         }
         .card-description {
           color: rgb(101, 119, 134);
-          font-size: 15px;
           font-weight: 400;
         }
         .card-link {
