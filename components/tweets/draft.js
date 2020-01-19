@@ -4,7 +4,7 @@ import ScopeContext from "../../context/scopeContext";
 import DefaultButton from "../buttons/default";
 import SummaryLarge from "./cards/summary-large";
 
-export default function Draft({ revalidate, tweet }) {
+export default function Draft({ revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
   const [reviewing, setReviewing] = useState(false);
   const { scope } = useContext(ScopeContext);
@@ -70,10 +70,12 @@ export default function Draft({ revalidate, tweet }) {
         </div>
       </div>
       <style jsx>{`
+        .draft-wrapper {
+          max-width: ${size === "small" ? "400" : "600"}px;
+        }
         .draft {
           border: 1px solid rgb(230, 236, 240);
           display: flex;
-          max-width: 600px;
           padding 10px 15px;
         }
         .avatar {

@@ -30,9 +30,6 @@ export default function CardTop({ handle, name }) {
           line-height: 22.5px;
           margin-bottom: 2px;
         }
-        .name {
-          font-weight: 700;
-        }
         .padlock {
           margin-bottom: 2.5px;
           margin-left: 2px;
@@ -40,18 +37,23 @@ export default function CardTop({ handle, name }) {
         }
         .handle {
           color: rgb(101, 119, 134);
+          font-weight: 400;
           margin-left: 5px;
         }
         .dot {
-          color: rgb(101, 119, 134);
-          padding: 0px 5px 0px 5px;
-          height: 15px;
-          display: grid;
           align-content: center;
+          color: rgb(101, 119, 134);
+          display: grid;
+          font-weight: 400;
+          height: 15px;
+          padding: 0px 5px 0px 5px;
         }
         .date {
           color: rgb(101, 119, 134);
           display: flex;
+        }
+        .date h4 {
+          font-weight: 400;
         }
         .month {
           margin-right: 5px;

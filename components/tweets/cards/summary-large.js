@@ -11,7 +11,7 @@ export default function SummaryLarge({ meta, scope, text }) {
         <p className="card-text">
           <Linkify>{text}</Linkify>
         </p>
-        <a href={`https://${meta.url}`}>
+        <a className="card-link" href={`https://${meta.url}`}>
           <div className="card-wrapper">
             <div className="card-image">
               <img src={meta.image} />
@@ -41,6 +41,10 @@ export default function SummaryLarge({ meta, scope, text }) {
         }
         .card-text a {
           color: blue;
+          font-size: 15px;
+        }
+        .card-link {
+          text-decoration: none;
         }
         .card-wrapper {
           border: 1px solid rgb(204, 214, 221);
@@ -56,11 +60,13 @@ export default function SummaryLarge({ meta, scope, text }) {
         .card-image img {
           border-top-left-radius: 14px;
           border-top-right-radius: 14px;
+          max-width: 100%;
         }
         .card-content {
           padding: 10px;
         }
         .card-title {
+          color: rgb(20, 23, 26);
           font-size: 15px;
           font-weight: 400;
         }
@@ -75,8 +81,9 @@ export default function SummaryLarge({ meta, scope, text }) {
           font-weight: 400;
         }
         .link {
-          color: rgb(101, 119, 134);
+          fill: rgb(101, 119, 134);
           margin-right: 5px;
+          margin-top: 2px;
           width: 16.25px;
         }
       `}</style>
