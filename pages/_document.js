@@ -29,7 +29,8 @@ export default class MyDocument extends Document {
             -webkit-text-size-adjust: 100%;
           }
           body {
-            margin: 0;
+            margin: 0 auto;
+            max-width: 1024px;
           }
           main {
             display: block;
