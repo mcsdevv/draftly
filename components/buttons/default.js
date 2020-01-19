@@ -1,6 +1,8 @@
-export default ({ handleOnClick, loading, text }) => (
+export default ({ disabled, handleOnClick, loading, text }) => (
   <>
-    <button onClick={handleOnClick}>{text}</button>
+    <button disabled={disabled} onClick={handleOnClick}>
+      {text}
+    </button>
     <style jsx>{`
       button {
         border: 1px solid black;

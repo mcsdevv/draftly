@@ -34,14 +34,12 @@ function Drafts() {
       {drafts ? (
         <div className="draft-list">
           <div className="draft-holder">
-            {!drafting ? (
-              <button onClick={startDraft}>Create Draft</button>
-            ) : (
-              <ComposeTweet
-                revalidate={revalidateDrafts}
-                setDrafting={setDrafting}
-              />
-            )}
+            <ComposeTweet
+              drafting={drafting}
+              revalidate={revalidateDrafts}
+              setDrafting={setDrafting}
+              startDraft={startDraft}
+            />
           </div>
           {drafts.map(d => (
             <div className="draft-holder">

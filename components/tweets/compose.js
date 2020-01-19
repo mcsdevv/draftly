@@ -4,8 +4,15 @@ import Cookies from "js-cookie";
 import parseJwt from "../../lib/parseJwt";
 import getMeta from "../../lib/getMeta";
 
-export default function ComposeTweet({ revalidate, setDrafting }) {
-  const [tweet, setTweet] = useState();
+import DefaultButton from "../buttons/default";
+
+export default function ComposeTweet({
+  drafting,
+  revalidate,
+  setDrafting,
+  startDraft
+}) {
+  const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
   const handleSaveDraft = async () => {
@@ -27,20 +34,44 @@ export default function ComposeTweet({ revalidate, setDrafting }) {
       revalidate();
     }
   };
-  // TODO Character limit
   const handleOnChange = e => {
-    setTweet(e.target.value);
+    // TODO Improve character limit handling
+    if (tweet.length < 280) {
+      setTweet(e.target.value);
+    } else {
+      alert("over the limit bud");
+    }
   };
-  return !saving ? (
+  return (
     <>
-      <textarea
-        placeholder="Draft your tweet..."
-        onChange={handleOnChange}
-        value={tweet}
-      />
-      <button onClick={handleSaveDraft}>Save Draft</button>
+      <div className="compose-wrapper">
+        {!drafting ? (
+          <DefaultButton handleOnClick={startDraft} text="Create Draft" />
+        ) : !saving ? (
+          <>
+            <textarea
+              placeholder="Draft your tweet..."
+              onChange={handleOnChange}
+              value={tweet}
+            />
+            <DefaultButton
+              disabled={!tweet}
+              handleOnClick={handleSaveDraft}
+              text="Save Draft"
+            />
+          </>
+        ) : (
+          <h2>Saving Draft...</h2>
+        )}
+      </div>
+      <style jsx>{`
+        .compose-wrapper {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          justify-content: center;
+        }
+      `}</style>
     </>
-  ) : (
-    <h2>Saving Draft...</h2>
   );
 }
