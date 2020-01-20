@@ -1,9 +1,20 @@
+import { useState } from "react";
+
 import Linkify from "react-linkify";
 
 import CardTop from "../card/top";
 import CardBottom from "../card/bottom";
 
-export default function SummaryLarge({ meta, scope, text }) {
+export default function SummaryLarge({ editing, meta, scope, text }) {
+  const [editTweet, setTweet] = useState(text);
+  const handleOnChange = e => {
+    // TODO Improve character limit handling
+    if (editTweet.length < 280) {
+      setTweet(e.target.value);
+    } else {
+      alert("over the limit bud");
+    }
+  };
   return (
     <>
       <section className="summary-large">
@@ -15,7 +26,11 @@ export default function SummaryLarge({ meta, scope, text }) {
               style: { color: "red", fontWeight: "bold" }
             }}
           >
-            {text}
+            {!editing ? (
+              text
+            ) : (
+              <textarea onChange={handleOnChange} value={editTweet} />
+            )}
           </Linkify>
         </p>
         <a className="card-link" href={`https://${meta.url}`}>

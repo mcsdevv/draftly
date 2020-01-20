@@ -30,13 +30,8 @@ function Drafts() {
             />
           </div>
           {drafts.map(d => (
-            <div className="draft-holder">
-              <Draft
-                key={d.ref}
-                revalidate={revalidateDrafts}
-                size="small"
-                tweet={d}
-              />
+            <div className="draft-holder" key={d.ref}>
+              <Draft revalidate={revalidateDrafts} size="small" tweet={d} />
             </div>
           ))}
         </div>
