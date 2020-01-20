@@ -5,7 +5,6 @@ import DefaultButton from "../buttons/default";
 import SummaryLarge from "./cards/summary-large";
 import Summary from "./cards/summary";
 import Text from "./cards/text";
-// import getCardType from "../../lib/getCardType";
 
 export default function Draft({ revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
