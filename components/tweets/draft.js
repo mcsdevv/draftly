@@ -26,7 +26,6 @@ export default function Draft({ revalidate, size, tweet }) {
       })
     });
     if (res.status === 200) {
-      setDeleting(false);
       revalidate();
     }
   };
@@ -41,7 +40,6 @@ export default function Draft({ revalidate, size, tweet }) {
     //   })
     // });
     // if (res.status === 200) {
-    //   setDeleting(false);
     //   revalidate();
     // }
   };
@@ -57,7 +55,6 @@ export default function Draft({ revalidate, size, tweet }) {
       })
     });
     if (res.status === 200) {
-      setReviewing(false);
       revalidate();
     }
   };
@@ -72,7 +69,6 @@ export default function Draft({ revalidate, size, tweet }) {
     //   })
     // });
     // if (res.status === 200) {
-    //   setDeleting(false);
     //   revalidate();
     // }
   };
@@ -150,6 +146,11 @@ export default function Draft({ revalidate, size, tweet }) {
           display: flex;
           padding 10px 15px;
           width: 100%;
+        }
+        .updating {
+          align-items: center;
+          display: flex;
+          height: 500px;
         }
         .avatar {
           height: 100%;

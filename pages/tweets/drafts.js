@@ -45,6 +45,7 @@ function Drafts() {
           grid-template-rows: 500px;
         }
         .draft-holder {
+          align-self: center;
           justify-self: center;
         }
       `}</style>
