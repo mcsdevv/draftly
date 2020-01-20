@@ -3,7 +3,8 @@ import ScopeContext from "../../context/scopeContext";
 
 import DefaultButton from "../buttons/default";
 import SummaryLarge from "./cards/summary-large";
-import getCardType from "../../lib/getCardType";
+import Summary from "./cards/summary";
+import Text from "./cards/text";
 
 export default function Draft({ revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
@@ -39,6 +40,17 @@ export default function Draft({ revalidate, size, tweet }) {
       revalidate();
     }
   };
+  const renderCardType = ({ metadata, text }) => {
+    if (metadata.cardType === "summary-large") {
+      return <SummaryLarge meta={metadata} scope={scope} text={text} />;
+    }
+    if (metadata.cardType === "summary") {
+      return <Summary meta={metadata} scope={scope} text={text} />;
+    }
+    if (metadata.cardType === "text") {
+      return <Text scope={scope} text={text} />;
+    }
+  };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   console.log(tweet);
   return (
@@ -49,12 +61,7 @@ export default function Draft({ revalidate, size, tweet }) {
             <div className="avatar">
               <img src={scope.avatar} />
             </div>
-            {/* // TODO Add logic for rendering different card types */}
-            <SummaryLarge
-              meta={tweet.metadata}
-              scope={scope}
-              text={tweet.text}
-            />
+            {renderCardType(tweet)}
           </article>
         ) : (
           <h2>Deleting Draft...</h2>
@@ -79,6 +86,7 @@ export default function Draft({ revalidate, size, tweet }) {
           border: 1px solid rgb(230, 236, 240);
           display: flex;
           padding 10px 15px;
+          width: 100%;
         }
         .avatar {
           height: 100%;

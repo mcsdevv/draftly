@@ -71,10 +71,12 @@ export default function SummaryLarge({ meta, scope, text }) {
         }
         .card-image {
           border-bottom: 1px solid rgb(204, 214, 221);
+          height: 187px;
         }
         .card-image img {
           border-top-left-radius: 14px;
           border-top-right-radius: 14px;
+          height: 100%;
           max-width: 100%;
         }
         .card-content {
