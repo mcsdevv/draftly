@@ -3,6 +3,7 @@ import ScopeContext from "../../context/scopeContext";
 
 import DefaultButton from "../buttons/default";
 import SummaryLarge from "./cards/summary-large";
+import getCardType from "../../lib/getCardType";
 
 export default function Draft({ revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
@@ -48,6 +49,7 @@ export default function Draft({ revalidate, size, tweet }) {
             <div className="avatar">
               <img src={scope.avatar} />
             </div>
+            {/* // TODO Add logic for rendering different card types */}
             <SummaryLarge
               meta={tweet.metadata}
               scope={scope}

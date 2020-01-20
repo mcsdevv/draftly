@@ -16,10 +16,12 @@ export default async (req, res) => {
           q.Lambda("s", q.Get(q.Ref(q.Collection("tweets"), q.Var("s"))))
         )
       );
+      console.log("DBS", dbs);
       const drafts = dbs.map(d => {
         return {
           ...d.data,
-          ref: getRef(d.ref)
+          ref: getRef(d.ref),
+          updated: d.ts
         };
       });
       console.log("Drafts for:", handle);

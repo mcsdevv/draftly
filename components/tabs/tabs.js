@@ -30,6 +30,7 @@ export default function TweetsTabs({ tabs }) {
           padding: 8px 0;
         }
         .tabs li {
+          cursor: pointer;
           padding-right: 8px;
         }
         .selected {

@@ -12,7 +12,6 @@ function Reviews() {
   return (
     <>
       <TweetsTabs />
-      <h1>Reviews</h1>
       <style jsx>{``}</style>
     </>
   );
