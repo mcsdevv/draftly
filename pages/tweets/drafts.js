@@ -16,21 +16,10 @@ function Drafts() {
   const startDraft = () => {
     setDrafting(true);
   };
-  const getPreview = async () => {
-    const res = await fetch("/api/preview", {
-      method: "POST",
-      body: JSON.stringify({
-        url: "https://zeit.co"
-      })
-    });
-    const json = await res.json();
-    console.log(json);
-  };
   return (
     <>
       <TweetsTabs />
-      <h1 onClick={getPreview}>Drafts</h1>
-      <h2>Current Drafts:</h2>
+      <h2>Drafts</h2>
       {drafts ? (
         <div className="draft-list">
           <div className="draft-holder">
