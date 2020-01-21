@@ -1,20 +1,16 @@
-import { useState } from "react";
-
 import Linkify from "react-linkify";
 
 import CardTop from "../card/top";
 import CardBottom from "../card/bottom";
 
-export default function SummaryLarge({ editing, meta, scope, text }) {
-  const [editTweet, setTweet] = useState(text);
-  const handleOnChange = e => {
-    // TODO Improve character limit handling
-    if (editTweet.length < 280) {
-      setTweet(e.target.value);
-    } else {
-      alert("over the limit bud");
-    }
-  };
+export default function SummaryLarge({
+  editing,
+  editTweet,
+  handleOnChange,
+  meta,
+  scope,
+  text
+}) {
   return (
     <>
       <section className="summary-large">

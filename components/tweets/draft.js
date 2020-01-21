@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 
+import getMeta from "../../lib/getMeta";
+
 import DefaultButton from "../buttons/default";
 import SummaryLarge from "./cards/summary-large";
 import Summary from "./cards/summary";
@@ -9,6 +11,7 @@ import Text from "./cards/text";
 export default function Draft({ revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [editTweet, setEditTweet] = useState(tweet.text);
   const [reviewing, setReviewing] = useState(false);
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
@@ -29,19 +32,16 @@ export default function Draft({ revalidate, size, tweet }) {
       revalidate();
     }
   };
-  const handleEditDraft = async () => {
+  const handleEditDraft = () => {
     setEditing(true);
-    // setDeleting(true);
-    // const url = `/api/tweet/draft/delete/${scope.handle}`;
-    // const res = await fetch(url, {
-    //   method: "DELETE",
-    //   body: JSON.stringify({
-    //     ref: tweet.ref
-    //   })
-    // });
-    // if (res.status === 200) {
-    //   revalidate();
-    // }
+  };
+  const handleOnChange = e => {
+    // TODO Improve character limit handling
+    if (editTweet.length < 280) {
+      setEditTweet(e.target.value);
+    } else {
+      alert("over the limit bud");
+    }
   };
   const handleReviewReady = async () => {
     setReviewing(true);
@@ -59,26 +59,31 @@ export default function Draft({ revalidate, size, tweet }) {
     }
   };
   const handleUpdateDraft = async () => {
+    setEditing(false);
     setSaving(true);
-    // setDeleting(true);
-    // const url = `/api/tweet/draft/delete/${scope.handle}`;
-    // const res = await fetch(url, {
-    //   method: "DELETE",
-    //   body: JSON.stringify({
-    //     ref: tweet.ref
-    //   })
-    // });
-    // if (res.status === 200) {
-    //   revalidate();
-    // }
+    console.log(editTweet);
+    const metadata = await getMeta(editTweet);
+    const url = `/api/tweet/draft/update/${tweet.ref}`;
+    const res = await fetch(url, {
+      method: "PATCH",
+      body: JSON.stringify({
+        metadata,
+        text: editTweet
+      })
+    });
+    if (res.status === 200) {
+      revalidate();
+      setSaving(false);
+    }
   };
   const renderCardType = ({ metadata, text }) => {
     if (metadata.cardType === "summary-large") {
       return (
         <SummaryLarge
           editing={editing}
+          editTweet={editTweet}
+          handleOnChange={handleOnChange}
           meta={metadata}
-          saving={saving}
           scope={scope}
           text={text}
         />
@@ -88,8 +93,9 @@ export default function Draft({ revalidate, size, tweet }) {
       return (
         <Summary
           editing={editing}
+          editTweet={editTweet}
+          handleOnChange={handleOnChange}
           meta={metadata}
-          saving={saving}
           scope={scope}
           text={text}
         />
@@ -97,7 +103,13 @@ export default function Draft({ revalidate, size, tweet }) {
     }
     if (metadata.cardType === "text") {
       return (
-        <Text editing={editing} saving={saving} scope={scope} text={text} />
+        <Text
+          editing={editing}
+          editTweet={editTweet}
+          handleOnChange={handleOnChange}
+          scope={scope}
+          text={text}
+        />
       );
     }
   };
