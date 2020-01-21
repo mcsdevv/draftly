@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 
+import getMeta from "../../lib/getMeta";
+
 import DefaultButton from "../buttons/default";
 import SummaryLarge from "./cards/summary-large";
 import Summary from "./cards/summary";
@@ -8,8 +10,15 @@ import Text from "./cards/text";
 
 export default function Draft({ revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [editTweet, setEditTweet] = useState(tweet.text);
   const [reviewing, setReviewing] = useState(false);
+  const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
+  const getStateMessage = () => {
+    if (deleting) return <h2>Deleting draft...</h2>;
+    if (saving) return <h2>Saving draft...</h2>;
+  };
   const handleDeleteDraft = async () => {
     setDeleting(true);
     const url = `/api/tweet/draft/delete/${scope.handle}`;
@@ -20,8 +29,18 @@ export default function Draft({ revalidate, size, tweet }) {
       })
     });
     if (res.status === 200) {
-      setDeleting(false);
       revalidate();
+    }
+  };
+  const handleEditDraft = () => {
+    setEditing(true);
+  };
+  const handleOnChange = e => {
+    // TODO Improve character limit handling
+    if (editTweet.length < 280) {
+      setEditTweet(e.target.value);
+    } else {
+      alert("over the limit bud");
     }
   };
   const handleReviewReady = async () => {
@@ -36,19 +55,62 @@ export default function Draft({ revalidate, size, tweet }) {
       })
     });
     if (res.status === 200) {
-      setReviewing(false);
       revalidate();
+    }
+  };
+  const handleUpdateDraft = async () => {
+    setEditing(false);
+    setSaving(true);
+    console.log(editTweet);
+    const metadata = await getMeta(editTweet);
+    const url = `/api/tweet/draft/update/${tweet.ref}`;
+    const res = await fetch(url, {
+      method: "PATCH",
+      body: JSON.stringify({
+        metadata,
+        text: editTweet
+      })
+    });
+    if (res.status === 200) {
+      revalidate();
+      setSaving(false);
     }
   };
   const renderCardType = ({ metadata, text }) => {
     if (metadata.cardType === "summary-large") {
-      return <SummaryLarge meta={metadata} scope={scope} text={text} />;
+      return (
+        <SummaryLarge
+          editing={editing}
+          editTweet={editTweet}
+          handleOnChange={handleOnChange}
+          meta={metadata}
+          scope={scope}
+          text={text}
+        />
+      );
     }
     if (metadata.cardType === "summary") {
-      return <Summary meta={metadata} scope={scope} text={text} />;
+      return (
+        <Summary
+          editing={editing}
+          editTweet={editTweet}
+          handleOnChange={handleOnChange}
+          meta={metadata}
+          scope={scope}
+          text={text}
+        />
+      );
     }
     if (metadata.cardType === "text") {
-      return <Text scope={scope} text={text} />;
+      return (
+        <Text
+          editing={editing}
+          editTweet={editTweet}
+          handleOnChange={handleOnChange}
+          scope={scope}
+          text={text}
+        />
+      );
     }
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
@@ -56,30 +118,39 @@ export default function Draft({ revalidate, size, tweet }) {
   return (
     <>
       <div className="draft-wrapper">
-        {!deleting ? (
-          <article className="draft">
-            <div className="avatar">
-              <img src={scope.avatar} />
+        {!deleting && !saving ? (
+          <>
+            <article className="draft">
+              <div className="avatar">
+                <img src={scope.avatar} />
+              </div>
+              {renderCardType(tweet)}
+            </article>
+            <div>
+              <DefaultButton
+                handleOnClick={handleDeleteDraft}
+                text="Delete Draft"
+              />
+              <DefaultButton
+                handleOnClick={!editing ? handleEditDraft : handleUpdateDraft}
+                text={!editing ? "Edit Draft" : "Save Draft"}
+              />
+              <DefaultButton
+                handleOnClick={handleReviewReady}
+                loading={reviewing}
+                text="Review Ready"
+              />
             </div>
-            {renderCardType(tweet)}
-          </article>
+          </>
         ) : (
-          <h2>Deleting Draft...</h2>
+          <div className="updating">{getStateMessage()}</div>
         )}
-        <div className="buttons">
-          <DefaultButton
-            handleOnClick={handleDeleteDraft}
-            text="Delete Draft"
-          />
-          <DefaultButton
-            handleOnClick={handleReviewReady}
-            loading={reviewing}
-            text="Review Ready"
-          />
-        </div>
       </div>
       <style jsx>{`
         .draft-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
           max-width: ${size === "small" ? "400" : "600"}px;
         }
         .draft {
@@ -87,6 +158,11 @@ export default function Draft({ revalidate, size, tweet }) {
           display: flex;
           padding 10px 15px;
           width: 100%;
+        }
+        .updating {
+          align-items: center;
+          display: flex;
+          height: 500px;
         }
         .avatar {
           height: 100%;
@@ -100,10 +176,6 @@ export default function Draft({ revalidate, size, tweet }) {
         img {
           margin-right: 2px;
           max-width: 50px;
-        }
-        .buttons {
-          display: flex;
-          justify-content: center;
         }
       `}</style>
     </>

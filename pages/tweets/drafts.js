@@ -19,30 +19,25 @@ function Drafts() {
   return (
     <>
       <TweetsTabs />
-      {drafts ? (
-        <div className="draft-list">
-          <div className="draft-holder">
-            <ComposeTweet
-              drafting={drafting}
-              revalidate={revalidateDrafts}
-              setDrafting={setDrafting}
-              startDraft={startDraft}
-            />
-          </div>
-          {drafts.map(d => (
-            <div className="draft-holder">
-              <Draft
-                key={d.ref}
-                revalidate={revalidateDrafts}
-                size="small"
-                tweet={d}
-              />
-            </div>
-          ))}
+      <div className="draft-list">
+        <div className="draft-holder">
+          <ComposeTweet
+            drafting={drafting}
+            revalidate={revalidateDrafts}
+            setDrafting={setDrafting}
+            startDraft={startDraft}
+          />
         </div>
-      ) : (
-        <h2>Loading drafts...</h2>
-      )}
+        {drafts ? (
+          drafts.map(d => (
+            <div className="draft-holder" key={d.ref}>
+              <Draft revalidate={revalidateDrafts} size="small" tweet={d} />
+            </div>
+          ))
+        ) : (
+          <h2>Loading drafts...</h2>
+        )}
+      </div>
       <style jsx>{`
         .draft-list {
           display: grid;
@@ -50,6 +45,7 @@ function Drafts() {
           grid-template-rows: 500px;
         }
         .draft-holder {
+          align-self: center;
           justify-self: center;
         }
       `}</style>

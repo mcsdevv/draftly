@@ -3,7 +3,14 @@ import Linkify from "react-linkify";
 import CardTop from "../card/top";
 import CardBottom from "../card/bottom";
 
-export default function SummaryLarge({ meta, scope, text }) {
+export default function SummaryLarge({
+  editing,
+  editTweet,
+  handleOnChange,
+  meta,
+  scope,
+  text
+}) {
   return (
     <>
       <section className="summary-large">
@@ -15,7 +22,11 @@ export default function SummaryLarge({ meta, scope, text }) {
               style: { color: "red", fontWeight: "bold" }
             }}
           >
-            {text}
+            {!editing ? (
+              text
+            ) : (
+              <textarea onChange={handleOnChange} value={editTweet} />
+            )}
           </Linkify>
         </p>
         <a className="card-link" href={`https://${meta.url}`}>
