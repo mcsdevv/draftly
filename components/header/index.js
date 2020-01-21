@@ -32,21 +32,23 @@ export default function Header() {
     getLandingState();
   }, [router.pathname]);
   return (
-    <header>
-      <h1 className="text-4xl">T/R</h1>
-      {!isLanding && user && <ScopePicker />}
-      {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
-      {!isLanding && user && scope && !scope.personal && (
-        <LinkButton text="Tweets" to="/tweets" />
-      )}
-      {!isLanding && user && <LinkButton text="Settings" to="/settings" />}
-      <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
-      <style jsx>{`
-        header {
-          display: flex;
-          justify-content: space-between;
-        }
-      `}</style>
-    </header>
+    user !== undefined && (
+      <header>
+        <h1 className="text-4xl">T/R</h1>
+        {!isLanding && user && <ScopePicker />}
+        {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
+        {!isLanding && user && scope && !scope.personal && (
+          <LinkButton text="Tweets" to="/tweets" />
+        )}
+        {!isLanding && user && <LinkButton text="Settings" to="/settings" />}
+        <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
+        <style jsx>{`
+          header {
+            display: flex;
+            justify-content: space-between;
+          }
+        `}</style>
+      </header>
+    )
   );
 }

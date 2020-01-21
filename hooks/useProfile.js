@@ -11,6 +11,6 @@ export const useProfile = () => {
     );
     return { ...data, revalidateProfile: revalidate };
   } else {
-    return {};
+    return { user: null };
   }
 };

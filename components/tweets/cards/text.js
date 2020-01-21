@@ -3,7 +3,13 @@ import Linkify from "react-linkify";
 import CardTop from "../card/top";
 import CardBottom from "../card/bottom";
 
-export default function Text({ meta, scope, text }) {
+export default function Text({
+  editing,
+  editTweet,
+  handleOnChange,
+  scope,
+  text
+}) {
   return (
     <>
       <section className="text">
@@ -15,7 +21,11 @@ export default function Text({ meta, scope, text }) {
               style: { color: "red", fontWeight: "bold" }
             }}
           >
-            {text}
+            {!editing ? (
+              text
+            ) : (
+              <textarea onChange={handleOnChange} value={editTweet} />
+            )}
           </Linkify>
         </p>
         <CardBottom />
