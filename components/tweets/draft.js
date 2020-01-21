@@ -30,6 +30,7 @@ export default function Draft({ revalidate, size, tweet }) {
     });
     if (res.status === 200) {
       revalidate();
+      setDeleting(false);
     }
   };
   const handleEditDraft = () => {
