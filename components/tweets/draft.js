@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
+import { mutate } from "swr";
 
 import getMeta from "../../lib/getMeta";
 
@@ -8,7 +9,7 @@ import SummaryLarge from "./cards/summary-large";
 import Summary from "./cards/summary";
 import Text from "./cards/text";
 
-export default function Draft({ revalidate, size, tweet }) {
+export default function Draft({ drafts, revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
@@ -27,6 +28,9 @@ export default function Draft({ revalidate, size, tweet }) {
       body: JSON.stringify({
         ref: tweet.ref
       })
+    });
+    mutate(`/api/tweets/details/drafts/${scope.handle}`, {
+      drafts: drafts.filter(d => d.ref !== tweet.ref)
     });
     if (res.status === 200) {
       revalidate();
