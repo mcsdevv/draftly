@@ -30,8 +30,10 @@ export default function ComposeTweet({
       })
     });
     if (res.status === 200) {
-      setDrafting(false);
       revalidate();
+      setDrafting(false);
+      setSaving(false);
+      setTweet("");
     }
   };
   const handleOnChange = e => {

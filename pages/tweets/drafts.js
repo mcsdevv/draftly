@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
-import ScopeContext from "../../context/scopeContext";
-import { useDrafts, useProfile } from "../../hooks";
+import { useEffect, useState } from "react";
+import { useDrafts } from "../../hooks";
 
 import TweetsTabs from "../../components/tabs/tweets";
 import ComposeTweet from "../../components/tweets/compose";
@@ -10,15 +9,32 @@ import RequireLogin from "../../lib/requireLogin";
 
 function Drafts() {
   const [drafting, setDrafting] = useState(false);
-  const { drafts, revalidateDrafts } = useDrafts();
-  // const { user } = useProfile();
-  // const { scope } = useContext(ScopeContext);
+  const { drafts, isValidating, revalidateDrafts } = useDrafts();
+  const [showLoading, setShowLoading] = useState(true);
+  const [showNoDrafts, setShowNoDrafts] = useState(false);
+  useEffect(() => {
+    function getPageState() {
+      if (!isValidating && !drafting && drafts && drafts.length === 0) {
+        // * No drafts to show
+        setShowNoDrafts(true);
+        setShowLoading(false);
+      }
+      if ((drafts && drafts.length !== 0) || drafting) {
+        // * Drafts present or drafting currently
+        setShowNoDrafts(false);
+        setShowLoading(false);
+      }
+    }
+    getPageState();
+  }, [drafts, drafting]);
   const startDraft = () => {
     setDrafting(true);
   };
   return (
     <>
       <TweetsTabs />
+      {showNoDrafts && <h1>no drafts</h1>}
+      {showLoading && <h1>loading</h1>}
       <div className="draft-list">
         <div className="draft-holder">
           <ComposeTweet
