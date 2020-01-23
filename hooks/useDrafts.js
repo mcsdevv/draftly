@@ -7,5 +7,6 @@ export const useDrafts = () => {
   const { data, isValidating, revalidate } = useSWR(
     `/api/tweets/details/drafts/${handle}`
   );
+  console.log(data);
   return { ...data, isValidating, revalidateDrafts: revalidate };
 };

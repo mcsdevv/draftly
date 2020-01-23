@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
+import { mutate } from "swr";
 
 import getMeta from "../../lib/getMeta";
 
@@ -8,7 +9,7 @@ import SummaryLarge from "./cards/summary-large";
 import Summary from "./cards/summary";
 import Text from "./cards/text";
 
-export default function Draft({ revalidate, size, tweet }) {
+export default function Draft({ drafts, revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
@@ -29,7 +30,9 @@ export default function Draft({ revalidate, size, tweet }) {
       })
     });
     if (res.status === 200) {
-      revalidate();
+      mutate(`/api/tweets/details/drafts/${scope.handle}`, {
+        drafts: drafts.filter(d => d.ref !== tweet.ref)
+      });
       setDeleting(false);
     }
   };
@@ -73,7 +76,10 @@ export default function Draft({ revalidate, size, tweet }) {
       })
     });
     if (res.status === 200) {
-      revalidate();
+      const newDraft = await res.json();
+      mutate(`/api/tweets/details/drafts/${scope.handle}`, {
+        drafts: drafts.map(d => (d.ref === tweet.ref ? { ...newDraft } : d))
+      });
       setSaving(false);
     }
   };
@@ -115,7 +121,6 @@ export default function Draft({ revalidate, size, tweet }) {
     }
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
-  console.log(tweet);
   return (
     <>
       <div className="draft-wrapper">

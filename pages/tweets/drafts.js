@@ -47,7 +47,12 @@ function Drafts() {
         {drafts ? (
           drafts.map(d => (
             <div className="draft-holder" key={d.ref}>
-              <Draft revalidate={revalidateDrafts} size="small" tweet={d} />
+              <Draft
+                drafts={drafts}
+                revalidate={revalidateDrafts}
+                size="small"
+                tweet={d}
+              />
             </div>
           ))
         ) : (
