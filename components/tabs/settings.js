@@ -17,5 +17,5 @@ export default function SettingsTabs() {
   useEffect(() => {
     if (scope) getTabs();
   }, [scope, user]);
-  return <Tabs tabs={tabs} />;
+  return <Tabs section="settings" tabs={tabs} />;
 }

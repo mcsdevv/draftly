@@ -1,32 +1,29 @@
 import { useEffect, useState } from "react";
-import { useDrafts, useReviews } from "../../hooks";
+import { useReviews } from "../../hooks";
 
 import TweetsTabs from "../../components/tabs/tweets";
-import ComposeTweet from "../../components/tweets/compose";
-import Draft from "../../components/tweets/draft";
+import Review from "../../components/tweets/review";
 
 import RequireLogin from "../../lib/requireLogin";
 
 function Reviews() {
-  const { reviews, revalidateReviews } = useReviews();
-  console.log("reviews", reviews);
+  const { reviews, isValidating, revalidateReviews } = useReviews();
   const [showLoading, setShowLoading] = useState(true);
   const [showNoReviews, setShowNoReviews] = useState(false);
-  // useEffect(() => {
-  //   function getPageState() {
-  //     if (!isValidating && !drafting && drafts && drafts.length === 0) {
-  //       // * No drafts to show
-  //       setShowNoDrafts(true);
-  //       setShowLoading(false);
-  //     }
-  //     if ((drafts && drafts.length !== 0) || drafting) {
-  //       // * Drafts present or drafting currently
-  //       setShowNoDrafts(false);
-  //       setShowLoading(false);
-  //     }
-  //   }
-  //   getPageState();
-  // }, [drafts, drafting]);
+  useEffect(() => {
+    function getPageState() {
+      if (isValidating) {
+        // * Loading page
+        setShowLoading(false);
+        setShowNoReviews(true);
+      }
+      if (reviews && reviews.length !== 0) {
+        // * Reviews present
+        setShowLoading(false);
+      }
+    }
+    getPageState();
+  }, [reviews]);
   return (
     <>
       <TweetsTabs />
@@ -36,8 +33,8 @@ function Reviews() {
         {reviews ? (
           reviews.map(d => (
             <div className="draft-holder" key={d.ref}>
-              <Draft
-                drafts={reviews}
+              <Review
+                reviews={reviews}
                 revalidate={revalidateReviews}
                 size="small"
                 tweet={d}

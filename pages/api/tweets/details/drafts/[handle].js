@@ -16,13 +16,15 @@ export default async (req, res) => {
           q.Lambda("s", q.Get(q.Ref(q.Collection("tweets"), q.Var("s"))))
         )
       );
-      const drafts = dbs.map(d => {
-        return {
-          ...d.data,
-          ref: getRef(d.ref),
-          updated: d.ts
-        };
-      });
+      const drafts = dbs
+        .map(d => {
+          return {
+            ...d.data,
+            ref: getRef(d.ref),
+            updated: d.ts
+          };
+        })
+        .reverse();
       console.log("Drafts for:", handle);
       console.log("Drafts:", drafts);
       // ok

@@ -1,85 +1,31 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
+import { useProfile } from "../../hooks";
 import { mutate } from "swr";
-
-import getMeta from "../../lib/getMeta";
 
 import Card from "./cards";
 import DefaultButton from "../buttons/default";
 
-export default function Draft({ drafts, revalidate, size, tweet }) {
+export default function Review({ revalidate, reviews, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
   const [reviewing, setReviewing] = useState(false);
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
+  const { user } = useProfile();
   const getStateMessage = () => {
     if (deleting) return <h2>Deleting draft...</h2>;
     if (saving) return <h2>Saving draft...</h2>;
   };
-  const handleDeleteDraft = async () => {
-    setDeleting(true);
-    const url = `/api/tweet/draft/delete/${scope.handle}`;
-    const res = await fetch(url, {
-      method: "DELETE",
-      body: JSON.stringify({
-        ref: tweet.ref
-      })
-    });
-    if (res.status === 200) {
-      mutate(`/api/tweets/details/drafts/${scope.handle}`, {
-        drafts: drafts.filter(d => d.ref !== tweet.ref)
-      });
-      setDeleting(false);
-    }
+  const handleApproveTweet = () => {
+    console.log("approved");
   };
-  const handleEditDraft = () => {
-    setEditing(true);
+  const handlePublishTweet = () => {
+    console.log("approved");
   };
-  const handleOnChange = e => {
-    // TODO Improve character limit handling
-    if (editTweet.length < 280) {
-      setEditTweet(e.target.value);
-    } else {
-      alert("over the limit bud");
-    }
-  };
-  const handleReviewReady = async () => {
-    setReviewing(true);
-    const url = `/api/tweet/review/create/${scope.handle}`;
-    const res = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        creator: tweet.creator,
-        ref: tweet.ref,
-        tweet: tweet.text
-      })
-    });
-    if (res.status === 200) {
-      revalidate();
-    }
-  };
-  const handleUpdateDraft = async () => {
-    setEditing(false);
-    setSaving(true);
-    console.log(editTweet);
-    const metadata = await getMeta(editTweet);
-    const url = `/api/tweet/draft/update/${tweet.ref}`;
-    const res = await fetch(url, {
-      method: "PATCH",
-      body: JSON.stringify({
-        metadata,
-        text: editTweet
-      })
-    });
-    if (res.status === 200) {
-      const newDraft = await res.json();
-      mutate(`/api/tweets/details/drafts/${scope.handle}`, {
-        drafts: drafts.map(d => (d.ref === tweet.ref ? { ...newDraft } : d))
-      });
-      setSaving(false);
-    }
+  const handleSuggestChange = () => {
+    console.log("approved");
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
@@ -94,7 +40,6 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
               <Card
                 editing={editing}
                 editTweet={editTweet}
-                handleOnChange={handleOnChange}
                 metadata={tweet.metadata}
                 scope={scope}
                 text={tweet.text}
@@ -102,17 +47,24 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
             </article>
             <div>
               <DefaultButton
-                handleOnClick={handleDeleteDraft}
-                text="Delete Draft"
-              />
-              <DefaultButton
-                handleOnClick={!editing ? handleEditDraft : handleUpdateDraft}
-                text={!editing ? "Edit Draft" : "Save Draft"}
-              />
-              <DefaultButton
-                handleOnClick={handleReviewReady}
+                handleOnClick={handlePublishTweet}
                 loading={reviewing}
-                text="Review Ready"
+                text="Delete Tweet"
+              />
+              <DefaultButton
+                // disabled={tweet.creator === user.name}
+                handleOnClick={handleSuggestChange}
+                text={"Suggest Change"}
+              />
+              <DefaultButton
+                // disabled={tweet.creator === user.name}
+                handleOnClick={handleApproveTweet}
+                text="Approve Tweet"
+              />
+              <DefaultButton
+                handleOnClick={handlePublishTweet}
+                loading={reviewing}
+                text="Publish Tweet"
               />
             </div>
           </>

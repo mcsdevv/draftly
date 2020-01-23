@@ -8,8 +8,8 @@ import Draft from "../../components/tweets/draft";
 import RequireLogin from "../../lib/requireLogin";
 
 function Drafts() {
-  const [drafting, setDrafting] = useState(false);
   const { drafts, isValidating, revalidateDrafts } = useDrafts();
+  const [drafting, setDrafting] = useState(false);
   const [showLoading, setShowLoading] = useState(true);
   const [showNoDrafts, setShowNoDrafts] = useState(false);
   useEffect(() => {
