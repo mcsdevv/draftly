@@ -29,11 +29,10 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
         ref: tweet.ref
       })
     });
-    mutate(`/api/tweets/details/drafts/${scope.handle}`, {
-      drafts: drafts.filter(d => d.ref !== tweet.ref)
-    });
     if (res.status === 200) {
-      revalidate();
+      mutate(`/api/tweets/details/drafts/${scope.handle}`, {
+        drafts: drafts.filter(d => d.ref !== tweet.ref)
+      });
       setDeleting(false);
     }
   };
@@ -77,7 +76,10 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
       })
     });
     if (res.status === 200) {
-      revalidate();
+      const newDraft = await res.json();
+      mutate(`/api/tweets/details/drafts/${scope.handle}`, {
+        drafts: drafts.map(d => (d.ref === tweet.ref ? { ...newDraft } : d))
+      });
       setSaving(false);
     }
   };
@@ -119,7 +121,6 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
     }
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
-  console.log(tweet);
   return (
     <>
       <div className="draft-wrapper">
