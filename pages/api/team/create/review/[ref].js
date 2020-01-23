@@ -15,6 +15,13 @@ export default async (req, res) => {
           ),
           {
             data: {
+              drafts: q.Filter(
+                q.Select(
+                  ["data", "drafts"],
+                  q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+                ),
+                q.Lambda("s", q.Not(q.Equals(ref, q.Var("s"))))
+              ),
               reviews: q.Append(
                 ref,
                 q.Select(

@@ -11,10 +11,8 @@ export default (req, res) => {
     const { handle } = req.query;
     try {
       const dbs = await client.query(
-        q.Create(q.Collection("tweets"), {
+        q.Update(q.Ref(q.Collection("tweets"), ref), {
           data: {
-            creator,
-            text: tweet,
             type: "review"
           }
         })
@@ -34,21 +32,6 @@ export default (req, res) => {
         json: true
       };
       await request(teamOptions);
-      console.log("DELETING");
-      // * Delete ref from team drafts
-      const deleteOptions = {
-        method: "POST",
-        url: `${process.env.AUTH0_REDIRECT_URI}/api/team/delete/draft/${handle}`,
-        body: {
-          ref
-        },
-        headers: {
-          Authorization: req.headers.authorization || req.cookies.access_token
-        },
-        json: true
-      };
-      const resp = await request(deleteOptions);
-      console.log("DELETED", resp);
       // ok
       res.status(200).json(dbs.data);
     } catch (e) {
