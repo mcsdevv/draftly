@@ -12,6 +12,7 @@ export default (req, res) => {
       const dbs = await client.query(
         q.Create(q.Collection("tweets"), {
           data: {
+            approvedBy: [],
             creator,
             metadata,
             text: tweet,

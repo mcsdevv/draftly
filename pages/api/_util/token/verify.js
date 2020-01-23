@@ -40,8 +40,7 @@ module.exports = async (token, callback) => {
       // * Verify JWT using about methods
       jwt.verify(tokenDecrypted, getKey, options, callback);
     } catch (err) {
-      callback(err);
-      return;
+      return callback(err);
     }
   } else {
     // * Supply callback with error if token length != true

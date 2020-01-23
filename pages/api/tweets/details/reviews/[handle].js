@@ -10,13 +10,13 @@ export default async (req, res) => {
       const dbs = await client.query(
         q.Map(
           q.Select(
-            ["data", "drafts"],
+            ["data", "reviews"],
             q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
           ),
           q.Lambda("s", q.Get(q.Ref(q.Collection("tweets"), q.Var("s"))))
         )
       );
-      const drafts = dbs
+      const reviews = dbs
         .map(d => {
           return {
             ...d.data,
@@ -25,10 +25,10 @@ export default async (req, res) => {
           };
         })
         .reverse();
-      console.log("Drafts for:", handle);
-      console.log("Drafts:", drafts);
+      console.log("Reviews for:", handle);
+      console.log("Reviews:", reviews);
       // ok
-      res.status(200).json({ drafts });
+      res.status(200).json({ reviews });
     } catch (e) {
       console.log("uh oh", e.message);
       // something went wrong

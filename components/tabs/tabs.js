@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 
-export default function TweetsTabs({ tabs }) {
+export default function Tabs({ section, tabs }) {
   const router = useRouter();
   const selectTab = tab => {
-    router.push(`/tweets/${tab.toLowerCase()}`);
+    router.push(`/${section}/${tab.toLowerCase()}`);
   };
   return (
     <>
