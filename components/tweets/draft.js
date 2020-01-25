@@ -6,7 +6,6 @@ import { Edit, ThumbsUp, Trash2 } from "react-feather";
 import getMeta from "../../lib/getMeta";
 
 import Card from "./cards";
-import DefaultButton from "../buttons/default";
 
 export default function Draft({ drafts, revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);

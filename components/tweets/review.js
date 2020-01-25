@@ -5,7 +5,6 @@ import { mutate } from "swr";
 import { Edit, Send, ThumbsUp, Trash2 } from "react-feather";
 
 import Card from "./cards";
-import DefaultButton from "../buttons/default";
 
 export default function Review({ revalidate, reviews, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
@@ -22,8 +21,21 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   const handleApproveTweet = () => {
     console.log("approved");
   };
-  const handleDeleteTweet = () => {
-    console.log("deleted");
+  const handleDeleteReview = async () => {
+    setDeleting(true);
+    const url = `/api/tweet/review/delete/${scope.handle}`;
+    const res = await fetch(url, {
+      method: "DELETE",
+      body: JSON.stringify({
+        ref: tweet.ref
+      })
+    });
+    if (res.status === 200) {
+      mutate(`/api/tweets/details/reviews/${scope.handle}`, {
+        reviews: reviews.filter(d => d.ref !== tweet.ref)
+      });
+      setDeleting(false);
+    }
   };
   const handlePublishTweet = () => {
     console.log("published");
@@ -50,7 +62,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
               />
             </article>
             <div>
-              <Trash2 onClick={handleDeleteTweet} />
+              <Trash2 onClick={handleDeleteReview} />
               <Edit onClick={handleSuggestChange} />
               <ThumbsUp onClick={handleApproveTweet} />
               <Send onClick={handlePublishTweet} />

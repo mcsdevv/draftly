@@ -13,7 +13,7 @@ export default async (req, res) => {
       );
       const deleteOptions = {
         method: "PATCH",
-        url: `${process.env.AUTH0_REDIRECT_URI}/api/team/delete/draft/${handle}`,
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/team/delete/review/${handle}`,
         body: {
           ref
         },
@@ -22,6 +22,7 @@ export default async (req, res) => {
         },
         json: true
       };
+      console.log("DBS", dbs);
       await request(deleteOptions);
       console.log("Deleted tweet:", ref);
       // ok
