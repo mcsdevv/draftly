@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { useProfile } from "../../hooks";
 import { mutate } from "swr";
+import { Edit, Send, ThumbsUp, Trash2 } from "react-feather";
 
 import Card from "./cards";
 import DefaultButton from "../buttons/default";
@@ -21,11 +22,14 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   const handleApproveTweet = () => {
     console.log("approved");
   };
+  const handleDeleteTweet = () => {
+    console.log("deleted");
+  };
   const handlePublishTweet = () => {
-    console.log("approved");
+    console.log("published");
   };
   const handleSuggestChange = () => {
-    console.log("approved");
+    console.log("changes");
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
@@ -46,26 +50,10 @@ export default function Review({ revalidate, reviews, size, tweet }) {
               />
             </article>
             <div>
-              <DefaultButton
-                handleOnClick={handlePublishTweet}
-                loading={reviewing}
-                text="Delete Tweet"
-              />
-              <DefaultButton
-                // disabled={tweet.creator === user.name}
-                handleOnClick={handleSuggestChange}
-                text={"Suggest Change"}
-              />
-              <DefaultButton
-                // disabled={tweet.creator === user.name}
-                handleOnClick={handleApproveTweet}
-                text="Approve Tweet"
-              />
-              <DefaultButton
-                handleOnClick={handlePublishTweet}
-                loading={reviewing}
-                text="Publish Tweet"
-              />
+              <Trash2 onClick={handleDeleteTweet} />
+              <Edit onClick={handleSuggestChange} />
+              <ThumbsUp onClick={handleApproveTweet} />
+              <Send onClick={handlePublishTweet} />
             </div>
           </>
         ) : (

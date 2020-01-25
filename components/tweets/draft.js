@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { mutate } from "swr";
+import { Edit, ThumbsUp, Trash2 } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
 
@@ -101,19 +102,9 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
               />
             </article>
             <div>
-              <DefaultButton
-                handleOnClick={handleDeleteDraft}
-                text="Delete Draft"
-              />
-              <DefaultButton
-                handleOnClick={!editing ? handleEditDraft : handleUpdateDraft}
-                text={!editing ? "Edit Draft" : "Save Draft"}
-              />
-              <DefaultButton
-                handleOnClick={handleReviewReady}
-                loading={reviewing}
-                text="Review Ready"
-              />
+              <Trash2 onClick={handleDeleteDraft} />
+              <Edit onClick={!editing ? handleEditDraft : handleUpdateDraft} />
+              <ThumbsUp onClick={handleReviewReady} />
             </div>
           </>
         ) : (
