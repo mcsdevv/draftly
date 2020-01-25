@@ -15,9 +15,9 @@ export default async (req, res) => {
           ),
           {
             data: {
-              drafts: q.Filter(
+              reviews: q.Filter(
                 q.Select(
-                  ["data", "drafts"],
+                  ["data", "reviews"],
                   q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
                 ),
                 q.Lambda("s", q.Not(q.Equals(ref, q.Var("s"))))
@@ -26,7 +26,7 @@ export default async (req, res) => {
           }
         )
       );
-      console.log("Deleted review from:", handle);
+      console.log("Deleted draft from:", handle);
       // ok
       res.status(200).json(dbs.data);
     } catch (e) {
