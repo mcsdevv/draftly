@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { useProfile } from "../../hooks";
 import { mutate } from "swr";
-import { Edit, Send, ThumbsUp, Trash2 } from "react-feather";
+import { Check, Send, Trash2, Type } from "react-feather";
 
 import Card from "./cards";
 
@@ -63,8 +63,8 @@ export default function Review({ revalidate, reviews, size, tweet }) {
             </article>
             <div>
               <Trash2 onClick={handleDeleteReview} />
-              <Edit onClick={handleSuggestChange} />
-              <ThumbsUp onClick={handleApproveTweet} />
+              <Type onClick={handleSuggestChange} />
+              <Check onClick={handleApproveTweet} />
               <Send onClick={handlePublishTweet} />
             </div>
           </>
