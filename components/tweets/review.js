@@ -39,13 +39,12 @@ export default function Review({ revalidate, reviews, size, tweet }) {
       setDeleting(false);
     }
   };
+  const handleEditTweet = () => {
+    console.log("changes");
+  };
   const handlePublishTweet = () => {
     console.log("published");
   };
-  const handleSuggestChange = () => {
-    console.log("changes");
-  };
-  console.log(teams, user, tweet);
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
     <>
@@ -66,14 +65,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
             </article>
             <div>
               <Trash2 onClick={handleDeleteReview} />
-              <Link
-                href={"/tweets/review/[ref]"}
-                as={`/tweets/review/${tweet.ref}`}
-              >
-                <a>
-                  <Type onClick={handleSuggestChange} />
-                </a>
-              </Link>
+              <Type onClick={handleEditTweet} />
               <button
                 disabled={user.name === tweet.creator}
                 onClick={handleApproveTweet}

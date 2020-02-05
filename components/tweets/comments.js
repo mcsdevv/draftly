@@ -66,17 +66,21 @@ export default function Comments({ comments, reviews, tweetRef }) {
     <>
       <div className="comments-wrapper">
         <div className="comments">
-          {comments.map(c => (
-            <div className="comment" key={c.id}>
-              {c.comment} {c.addedBy}{" "}
-              <div className="avatar">
-                <img src={c.avatar} />
+          {comments.length ? (
+            comments.map(c => (
+              <div className="comment" key={c.id}>
+                {c.comment} {c.addedBy}{" "}
+                <div className="avatar">
+                  <img src={c.avatar} />
+                </div>
+                <button onClick={() => handleDeleteComment(c.id)}>
+                  <Trash2 />
+                </button>
               </div>
-              <button onClick={() => handleDeleteComment(c.id)}>
-                <Trash2 />
-              </button>
-            </div>
-          ))}
+            ))
+          ) : (
+            <h2>No comments!</h2>
+          )}
         </div>
         <div className="add-comment">
           <input onChange={handleOnChange} value={comment} />
@@ -87,7 +91,6 @@ export default function Comments({ comments, reviews, tweetRef }) {
       </div>
       <style jsx>{`
         .comments-wrapper {
-          color: blue;
           max-height: 500px;
           overflow: scroll;
         }
