@@ -4,6 +4,8 @@ import { useProfile } from "../../hooks";
 import { mutate } from "swr";
 import { Check, Send, Trash2, Type } from "react-feather";
 
+import Link from "next/link";
+
 import Card from "./cards";
 
 export default function Review({ revalidate, reviews, size, tweet }) {
@@ -13,7 +15,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   const [reviewing, setReviewing] = useState(false);
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
-  const { user } = useProfile();
+  const { user, teams } = useProfile();
   const getStateMessage = () => {
     if (deleting) return <h2>Deleting draft...</h2>;
     if (saving) return <h2>Saving draft...</h2>;
@@ -43,6 +45,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   const handleSuggestChange = () => {
     console.log("changes");
   };
+  console.log(teams, user, tweet);
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
     <>
@@ -63,9 +66,29 @@ export default function Review({ revalidate, reviews, size, tweet }) {
             </article>
             <div>
               <Trash2 onClick={handleDeleteReview} />
-              <Type onClick={handleSuggestChange} />
-              <Check onClick={handleApproveTweet} />
-              <Send onClick={handlePublishTweet} />
+              <Link href={`/tweets/review/${tweet.ref}`}>
+                <a>
+                  <Type onClick={handleSuggestChange} />
+                </a>
+              </Link>
+              <button
+                disabled={user.name === tweet.creator}
+                onClick={handleApproveTweet}
+              >
+                <Check />
+              </button>
+              {tweet.approvedBy.length} / {scope.reviewsRequired}
+              <button
+                className={
+                  tweet.approvedBy.length !== scope.reviewsRequired
+                    ? "publish-blocked"
+                    : "publish-tweet"
+                }
+                disabled={tweet.approvedBy.length !== scope.reviewsRequired}
+                onClick={handlePublishTweet}
+              >
+                <Send />
+              </button>
             </div>
           </>
         ) : (
@@ -102,6 +125,17 @@ export default function Review({ revalidate, reviews, size, tweet }) {
         img {
           margin-right: 2px;
           max-width: 50px;
+        }
+        button {
+          background: none;
+          border: none;
+          cursor: pointer;
+        }
+        .publish-tweet {
+          color: red;
+        }
+        .publish-blocked {
+          color: blue;
         }
       `}</style>
     </>
