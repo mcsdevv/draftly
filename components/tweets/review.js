@@ -66,7 +66,10 @@ export default function Review({ revalidate, reviews, size, tweet }) {
             </article>
             <div>
               <Trash2 onClick={handleDeleteReview} />
-              <Link href={`/tweets/review/${tweet.ref}`}>
+              <Link
+                href={"/tweets/review/[ref]"}
+                as={`/tweets/review/${tweet.ref}`}
+              >
                 <a>
                   <Type onClick={handleSuggestChange} />
                 </a>
