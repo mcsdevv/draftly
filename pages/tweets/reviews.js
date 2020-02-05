@@ -3,6 +3,7 @@ import { useReviews } from "../../hooks";
 
 import TweetsTabs from "../../components/tabs/tweets";
 import Review from "../../components/tweets/review";
+import Comments from "../../components/tweets/comments";
 
 import RequireLogin from "../../lib/requireLogin";
 
@@ -14,32 +15,46 @@ function Reviews() {
     function getPageState() {
       if (isValidating) {
         // * Loading page
-        setShowLoading(false);
-        setShowNoReviews(true);
+        setShowLoading(true);
+        setShowNoReviews(false);
       }
       if (reviews && reviews.length !== 0) {
         // * Reviews present
         setShowLoading(false);
       }
+      if (reviews && reviews.length === 0) {
+        // * No reviews present
+        setShowLoading(false);
+        setShowNoReviews(true);
+      }
     }
     getPageState();
-  }, [reviews]);
+  }, [isValidating, reviews]);
   return (
     <>
       <TweetsTabs />
-      {showNoReviews && <h1>no drafts</h1>}
+      {showNoReviews && <h1>no reviews</h1>}
       {showLoading && <h1>loading</h1>}
       <div className="draft-list">
         {reviews ? (
-          reviews.map(d => (
-            <div className="draft-holder" key={d.ref}>
-              <Review
-                reviews={reviews}
-                revalidate={revalidateReviews}
-                size="small"
-                tweet={d}
-              />
-            </div>
+          reviews.map(r => (
+            <>
+              <div className="draft-holder" key={r.ref}>
+                <Review
+                  reviews={reviews}
+                  revalidate={revalidateReviews}
+                  size="small"
+                  tweet={r}
+                />
+              </div>
+              <div className="draft-holder" key={r.ref + 1}>
+                <Comments
+                  comments={r.comments}
+                  reviews={reviews}
+                  tweetRef={r.ref}
+                />
+              </div>
+            </>
           ))
         ) : (
           <h2>Loading reviews...</h2>

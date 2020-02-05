@@ -17,7 +17,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   const { scope } = useContext(ScopeContext);
   const { user, teams } = useProfile();
   const getStateMessage = () => {
-    if (deleting) return <h2>Deleting draft...</h2>;
+    if (deleting) return <h2>Deleting review...</h2>;
     if (saving) return <h2>Saving draft...</h2>;
   };
   const handleApproveTweet = () => {

@@ -13,6 +13,7 @@ export default (req, res) => {
         q.Create(q.Collection("tweets"), {
           data: {
             approvedBy: [],
+            comments: [],
             creator,
             metadata,
             text: tweet,
