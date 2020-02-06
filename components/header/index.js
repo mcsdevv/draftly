@@ -13,16 +13,14 @@ export default function Header() {
   const { user } = useProfile();
   const { scope } = useScope();
   const router = useRouter();
-  const logoutUser = async () => {
-    const res = await fetch("/api/auth/logout");
-    if (res.status === 200) {
-      Cookies.remove("id_token");
-      Cookies.remove("access_token");
-      Cookies.remove("next");
-      localStorage.removeItem("teams");
-      localStorage.removeItem("user");
-      window.location = "/";
-    }
+  const logoutUser = () => {
+    fetch("/api/auth/logout");
+    Cookies.remove("id_token");
+    Cookies.remove("access_token");
+    Cookies.remove("next");
+    localStorage.removeItem("teams");
+    localStorage.removeItem("user");
+    window.location = "/";
   };
   const [isLanding, setLandingState] = useState(true);
   useEffect(() => {
