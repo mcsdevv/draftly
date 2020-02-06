@@ -2,9 +2,9 @@ import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { useProfile } from "../../hooks";
 import { mutate } from "swr";
-import { Check, Send, Trash2, Type } from "react-feather";
+import { Check, Edit, Send, Trash2 } from "react-feather";
 
-import Link from "next/link";
+import getMeta from "../../lib/getMeta";
 
 import Card from "./cards";
 
@@ -39,8 +39,37 @@ export default function Review({ revalidate, reviews, size, tweet }) {
       setDeleting(false);
     }
   };
-  const handleEditTweet = () => {
-    console.log("changes");
+  const handleEditReview = () => {
+    setEditing(true);
+  };
+  const handleOnChange = e => {
+    // TODO Improve character limit handling
+    if (editTweet.length < 280) {
+      setEditTweet(e.target.value);
+    } else {
+      alert("over the limit bud");
+    }
+  };
+  const handleUpdateReview = async () => {
+    setEditing(false);
+    setSaving(true);
+    console.log(editTweet);
+    const metadata = await getMeta(editTweet);
+    const url = `/api/tweet/review/update/${tweet.ref}`;
+    const res = await fetch(url, {
+      method: "PATCH",
+      body: JSON.stringify({
+        metadata,
+        text: editTweet
+      })
+    });
+    if (res.status === 200) {
+      const newDraft = await res.json();
+      mutate(`/api/tweets/details/reviews/${scope.handle}`, {
+        reviews: reviews.map(d => (d.ref === tweet.ref ? { ...newDraft } : d))
+      });
+      setSaving(false);
+    }
   };
   const handlePublishTweet = () => {
     console.log("published");
@@ -58,6 +87,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
               <Card
                 editing={editing}
                 editTweet={editTweet}
+                handleOnChange={handleOnChange}
                 metadata={tweet.metadata}
                 scope={scope}
                 text={tweet.text}
@@ -65,9 +95,11 @@ export default function Review({ revalidate, reviews, size, tweet }) {
             </article>
             <div>
               <Trash2 onClick={handleDeleteReview} />
-              <Type onClick={handleEditTweet} />
+              <Edit
+                onClick={!editing ? handleEditReview : handleUpdateReview}
+              />
               <button
-                disabled={user.name === tweet.creator}
+                disabled={user && user.name === tweet.creator}
                 onClick={handleApproveTweet}
               >
                 <Check />

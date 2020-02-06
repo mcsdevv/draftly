@@ -32,7 +32,7 @@ export default function Header() {
   return (
     user !== undefined && (
       <header>
-        <h1 className="text-4xl">T/R</h1>
+        <h1>T/R</h1>
         {!isLanding && user && <ScopePicker />}
         {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
         {!isLanding && user && scope && !scope.personal && (
