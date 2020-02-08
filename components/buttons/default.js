@@ -1,8 +1,10 @@
+import { Button } from "@chakra-ui/core";
+
 export default ({ disabled, handleOnClick, loading, text }) => (
   <>
-    <button disabled={disabled} onClick={handleOnClick}>
+    <Button variantColor="green" disabled={disabled} onClick={handleOnClick}>
       {text}
-    </button>
+    </Button>
     <style jsx>{`
       button {
         border: 1px solid black;

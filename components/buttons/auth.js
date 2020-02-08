@@ -1,3 +1,5 @@
+import { Button } from "@chakra-ui/core";
+
 import Link from "next/link";
 import Cookies from "js-cookie";
 
@@ -7,9 +9,9 @@ export default ({ loggedIn, logout, next }) => {
   };
   return !loggedIn ? (
     <Link href={`/api/auth/login`}>
-      <button onClick={setNext}>Login</button>
+      <Button onClick={setNext}>Login</Button>
     </Link>
   ) : (
-    <button onClick={logout}>Logout</button>
+    <Button onClick={logout}>Logout</Button>
   );
 };

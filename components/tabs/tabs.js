@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 
+import { List, ListItem, ListIcon } from "@chakra-ui/core";
+
 export default function Tabs({ section, tabs }) {
   const router = useRouter();
   const selectTab = tab => {
@@ -7,10 +9,10 @@ export default function Tabs({ section, tabs }) {
   };
   return (
     <>
-      <ul className="tabs">
+      <List className="tabs">
         {tabs &&
           tabs.map(t => (
-            <li
+            <ListItem
               key={t}
               onClick={() => selectTab(t)}
               className={`tab ${
@@ -20,9 +22,9 @@ export default function Tabs({ section, tabs }) {
               }`}
             >
               {t}
-            </li>
+            </ListItem>
           ))}
-      </ul>
+      </List>
       <style jsx>{`
         .tabs {
           display: flex;
