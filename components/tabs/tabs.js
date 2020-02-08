@@ -9,35 +9,35 @@ export default function Tabs({ section, tabs }) {
   };
   return (
     <>
-      <List className="tabs">
+      <List className="tabs" display="flex">
         {tabs &&
           tabs.map(t => (
             <ListItem
+              color={
+                router.pathname.includes(t.toLowerCase()) ? "red" : undefined
+              }
+              p="4"
+              cursor="pointer"
               key={t}
               onClick={() => selectTab(t)}
-              className={`tab ${
-                router.pathname.includes(t.toLowerCase())
-                  ? "selected"
-                  : undefined
-              }`}
             >
               {t}
             </ListItem>
           ))}
       </List>
       <style jsx>{`
-        .tabs {
-          display: flex;
-          list-style-type: none;
-          padding: 8px 0;
-        }
-        .tabs li {
-          cursor: pointer;
-          padding-right: 8px;
-        }
-        .selected {
-          color: red;
-        }
+        // .tabs {
+        //   display: flex;
+        //   list-style-type: none;
+        //   padding: 8px 0;
+        // }
+        // .tabs li {
+        //   cursor: pointer;
+        //   padding-right: 8px;
+        // }
+        // .selected {
+        //   color: red;
+        // }
       `}</style>
     </>
   );

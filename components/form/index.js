@@ -1,12 +1,30 @@
-export default function Form({ buttonText, children, disabled, onSubmit }) {
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText
+} from "@chakra-ui/core";
+
+export default function Form({
+  buttonText,
+  children,
+  disabled,
+  helperText,
+  htmlFor,
+  label,
+  onSubmit
+}) {
   return (
     <>
-      <form onSubmit={onSubmit}>
+      <FormControl onSubmit={onSubmit}>
+        <FormLabel htmlFor={htmlFor}>{label}</FormLabel>
         {children}
-        <button disabled={disabled} type="submit">
+        <Button disabled={disabled} type="submit">
           {buttonText || "Update"}
-        </button>
-      </form>
+        </Button>
+        <FormHelperText id="email-helper-text">{helperText}</FormHelperText>
+      </FormControl>
       <style jsx>{``}</style>
     </>
   );

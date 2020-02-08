@@ -9,9 +9,13 @@ export default ({ loggedIn, logout, next }) => {
   };
   return !loggedIn ? (
     <Link href={`/api/auth/login`}>
-      <Button onClick={setNext}>Login</Button>
+      <Button onClick={setNext} variantColor="green">
+        Login
+      </Button>
     </Link>
   ) : (
-    <Button onClick={logout}>Logout</Button>
+    <Button onClick={logout} variantColor="green">
+      Logout
+    </Button>
   );
 };

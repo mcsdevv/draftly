@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import AuthButton from "../buttons/auth";
 import LinkButton from "../buttons/link";
 import ScopePicker from "../scope/picker";
+import { Heading } from "@chakra-ui/core";
 
 export default function Header() {
   // TODO Move AuthButton into its own login page
@@ -32,7 +33,9 @@ export default function Header() {
   return (
     user !== undefined && (
       <header>
-        <h1>T/R</h1>
+        <Heading as="h1" size="xl">
+          T/R
+        </Heading>
         {!isLanding && user && <ScopePicker />}
         {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
         {!isLanding && user && scope && !scope.personal && (
