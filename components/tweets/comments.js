@@ -5,6 +5,9 @@ import { mutate } from "swr";
 import { Check, Send, Trash2, Type } from "react-feather";
 import uuidv4 from "uuid/v4";
 
+import { Heading } from "@chakra-ui/core";
+import Input from "../input";
+
 export default function Comments({ comments, reviews, tweetRef }) {
   const [comment, setComment] = useState("");
   const { scope } = useContext(ScopeContext);
@@ -79,11 +82,17 @@ export default function Comments({ comments, reviews, tweetRef }) {
               </div>
             ))
           ) : (
-            <h2>No comments!</h2>
+            <Heading as="h2" size="lg">
+              No comments!
+            </Heading>
           )}
         </div>
         <div className="add-comment">
-          <input onChange={handleOnChange} value={comment} />
+          <Input
+            label="Add Comment"
+            onChange={handleOnChange}
+            value={comment}
+          />
           <button onClick={handleSubmitComment}>
             <Send />
           </button>

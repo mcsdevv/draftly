@@ -13,8 +13,10 @@ export default function ScopePicker() {
   }, [user]);
   return user ? (
     <Select
-      value={scope ? scope.handle || scope.name : user.name}
+      maxW="sm"
+      mx="2"
       onChange={updateScope}
+      value={scope ? scope.handle || scope.name : user.name}
     >
       <option value={user.name}>{user.name}</option>
       {teams &&

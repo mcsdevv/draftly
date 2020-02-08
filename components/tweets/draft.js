@@ -5,6 +5,7 @@ import { Edit, ThumbsUp, Trash2 } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
 
+import { Box } from "@chakra-ui/core";
 import Card from "./cards";
 
 export default function Draft({ drafts, revalidate, size, tweet }) {
@@ -100,11 +101,11 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
                 text={tweet.text}
               />
             </article>
-            <div>
+            <Box display="flex">
               <Trash2 onClick={handleDeleteDraft} />
               <Edit onClick={!editing ? handleEditDraft : handleUpdateDraft} />
               <ThumbsUp onClick={handleReviewReady} />
-            </div>
+            </Box>
           </>
         ) : (
           <div className="updating">{getStateMessage()}</div>

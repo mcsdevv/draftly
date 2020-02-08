@@ -6,6 +6,7 @@ import { Check, Edit, Send, Trash2 } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
 
+import { Box } from "@chakra-ui/core";
 import Card from "./cards";
 
 export default function Review({ revalidate, reviews, size, tweet }) {
@@ -93,7 +94,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
                 text={tweet.text}
               />
             </article>
-            <div>
+            <Box display="flex">
               <Trash2 onClick={handleDeleteReview} />
               <Edit
                 onClick={!editing ? handleEditReview : handleUpdateReview}
@@ -116,7 +117,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
               >
                 <Send />
               </button>
-            </div>
+            </Box>
           </>
         ) : (
           <div className="updating">{getStateMessage()}</div>
