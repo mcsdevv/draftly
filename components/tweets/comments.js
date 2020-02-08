@@ -5,7 +5,8 @@ import { mutate } from "swr";
 import { Check, Send, Trash2, Type } from "react-feather";
 import uuidv4 from "uuid/v4";
 
-import { Heading } from "@chakra-ui/core";
+import { Box, Heading } from "@chakra-ui/core";
+import Comment from "./comment";
 import Input from "../input";
 
 export default function Comments({ comments, reviews, tweetRef }) {
@@ -67,19 +68,16 @@ export default function Comments({ comments, reviews, tweetRef }) {
   };
   return (
     <>
-      <div className="comments-wrapper">
+      <Box mh="500px" overflow="scroll">
         <div className="comments">
           {comments.length ? (
             comments.map(c => (
-              <div className="comment" key={c.id}>
-                {c.comment} {c.addedBy}{" "}
-                <div className="avatar">
-                  <img src={c.avatar} />
-                </div>
-                <button onClick={() => handleDeleteComment(c.id)}>
-                  <Trash2 />
-                </button>
-              </div>
+              <Comment
+                addedBy={c.addedBy}
+                avatar={c.avatar}
+                comment={c.comment}
+                handleDeleteComment={handleDeleteComment}
+              />
             ))
           ) : (
             <Heading as="h2" size="lg">
@@ -97,28 +95,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
             <Send />
           </button>
         </div>
-      </div>
-      <style jsx>{`
-        .comments-wrapper {
-          max-height: 500px;
-          overflow: scroll;
-        }
-        .avatar {
-          height: 100%;
-          margin-right: 5px;
-        }
-        .avatar img {
-          border-radius: 50%;
-          height: 49px;
-          width: 49px;
-        }
-        img {
-          margin-right: 2px;
-          max-width: 50px;
-        }
-        .add-comment {
-        }
-      `}</style>
+      </Box>
     </>
   );
 }

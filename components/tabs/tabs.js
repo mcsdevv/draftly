@@ -13,13 +13,13 @@ export default function Tabs({ section, tabs }) {
         {tabs &&
           tabs.map(t => (
             <ListItem
-              color={
-                router.pathname.includes(t.toLowerCase()) ? "red" : undefined
-              }
-              p="4"
               cursor="pointer"
+              fontWeight={
+                router.pathname.includes(t.toLowerCase()) ? 700 : undefined
+              }
               key={t}
               onClick={() => selectTab(t)}
+              p="4"
             >
               {t}
             </ListItem>
