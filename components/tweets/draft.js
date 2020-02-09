@@ -106,6 +106,7 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
                 src={scope.avatar}
                 borderRadius="50%"
                 marginRight="2px"
+                maxW="49px"
                 w="49px"
               />
             </Box>

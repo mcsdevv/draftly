@@ -54,7 +54,6 @@ function Reviews({}) {
   return (
     <>
       <SettingsTabs />
-      <h1>Review Settings</h1>
       <Form
         onSubmit={handleOnSubmitReviews}
         disabled={reviews.reviewsRequired === reviews.updateReviewsRequired}
@@ -69,7 +68,6 @@ function Reviews({}) {
           value={reviews.updateReviewsRequired}
         />
       </Form>
-      <style jsx>{``}</style>
     </>
   );
 }

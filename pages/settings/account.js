@@ -118,7 +118,6 @@ function Account() {
           />
         </Form>
       ) : null}
-      <style jsx>{``}</style>
     </>
   );
 }

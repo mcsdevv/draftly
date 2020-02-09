@@ -94,10 +94,11 @@ export default function Review({ revalidate, reviews, size, tweet }) {
               px="15px"
               w="100%"
             >
-              <Box marginRight="5px">
+              <Box h="100%" marginRight="5px">
                 <Image
                   borderRadius="50%"
                   marginRight="2px"
+                  maxW="49px"
                   src={scope.avatar}
                   w="49px"
                 />

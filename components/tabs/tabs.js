@@ -8,37 +8,21 @@ export default function Tabs({ section, tabs }) {
     router.push(`/${section}/${tab.toLowerCase()}`);
   };
   return (
-    <>
-      <List className="tabs" display="flex">
-        {tabs &&
-          tabs.map(t => (
-            <ListItem
-              fontWeight={
-                router.pathname.includes(t.toLowerCase()) ? 700 : undefined
-              }
-              p="4"
-              cursor="pointer"
-              key={t}
-              onClick={() => selectTab(t)}
-            >
-              {t}
-            </ListItem>
-          ))}
-      </List>
-      <style jsx>{`
-        // .tabs {
-        //   display: flex;
-        //   list-style-type: none;
-        //   padding: 8px 0;
-        // }
-        // .tabs li {
-        //   cursor: pointer;
-        //   padding-right: 8px;
-        // }
-        // .selected {
-        //   color: red;
-        // }
-      `}</style>
-    </>
+    <List className="tabs" display="flex">
+      {tabs &&
+        tabs.map(t => (
+          <ListItem
+            fontWeight={
+              router.pathname.includes(t.toLowerCase()) ? 700 : undefined
+            }
+            p="4"
+            cursor="pointer"
+            key={t}
+            onClick={() => selectTab(t)}
+          >
+            {t}
+          </ListItem>
+        ))}
+    </List>
   );
 }
