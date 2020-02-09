@@ -89,9 +89,10 @@ export default function Comments({ comments, reviews, tweetRef }) {
         </Box>
         <Box>
           <Form
+            buttonText="Comment"
+            handleOnChange={handleOnChange}
             label="Add Comment"
             onSubmit={handleSubmitComment}
-            handleOnChange={handleOnChange}
             value={comment}
           >
             <Input onChange={handleOnChange} value={comment} />
