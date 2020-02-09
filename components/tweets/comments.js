@@ -2,8 +2,12 @@ import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { useProfile } from "../../hooks";
 import { mutate } from "swr";
-import { Check, Send, Trash2, Type } from "react-feather";
 import uuidv4 from "uuid/v4";
+
+import { Box, Heading } from "@chakra-ui/core";
+import Comment from "./comment";
+import Form from "../form";
+import Input from "../input";
 
 export default function Comments({ comments, reviews, tweetRef }) {
   const [comment, setComment] = useState("");
@@ -34,7 +38,8 @@ export default function Comments({ comments, reviews, tweetRef }) {
       });
     }
   };
-  const handleSubmitComment = async () => {
+  const handleSubmitComment = async e => {
+    e.preventDefault();
     const commentObject = {
       comment,
       addedBy: user.name,
@@ -64,52 +69,35 @@ export default function Comments({ comments, reviews, tweetRef }) {
   };
   return (
     <>
-      <div className="comments-wrapper">
-        <div className="comments">
+      <Box mh="500px" overflow="scroll">
+        <Box>
           {comments.length ? (
             comments.map(c => (
-              <div className="comment" key={c.id}>
-                {c.comment} {c.addedBy}{" "}
-                <div className="avatar">
-                  <img src={c.avatar} />
-                </div>
-                <button onClick={() => handleDeleteComment(c.id)}>
-                  <Trash2 />
-                </button>
-              </div>
+              <Comment
+                addedBy={c.addedBy}
+                avatar={c.avatar}
+                comment={c.comment}
+                handleDeleteComment={() => handleDeleteComment(c.id)}
+                key={c.id}
+              />
             ))
           ) : (
-            <h2>No comments!</h2>
+            <Heading as="h2" size="lg">
+              No comments!
+            </Heading>
           )}
-        </div>
-        <div className="add-comment">
-          <input onChange={handleOnChange} value={comment} />
-          <button onClick={handleSubmitComment}>
-            <Send />
-          </button>
-        </div>
-      </div>
-      <style jsx>{`
-        .comments-wrapper {
-          max-height: 500px;
-          overflow: scroll;
-        }
-        .avatar {
-          height: 100%;
-          margin-right: 5px;
-        }
-        .avatar img {
-          border-radius: 50%;
-          height: 49px;
-          width: 49px;
-        }
-        img {
-          margin-right: 2px;
-          max-width: 50px;
-        }
-        .add-comment {
-        }
-      `}</style>
+        </Box>
+        <Box>
+          <Form
+            label="Add Comment"
+            onSubmit={handleSubmitComment}
+            handleOnChange={handleOnChange}
+            value={comment}
+          >
+            <Input onChange={handleOnChange} value={comment} />
+          </Form>
+        </Box>
+      </Box>
     </>
   );
 }

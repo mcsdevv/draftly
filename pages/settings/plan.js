@@ -12,8 +12,6 @@ function Plan() {
   return (
     <>
       <SettingsTabs />
-      <h1>Plan</h1>
-      <style jsx>{``}</style>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useReviews } from "../../hooks";
 
+import { Box, Grid, Heading } from "@chakra-ui/core";
 import TweetsTabs from "../../components/tabs/tweets";
 import Review from "../../components/tweets/review";
 import Comments from "../../components/tweets/comments";
@@ -37,42 +38,30 @@ function Reviews() {
       {showLoading && <h1>loading</h1>}
       {reviews ? (
         reviews.map(r => (
-          <div className="review-list" key={r.ref}>
-            <div className="review-holder">
+          <Grid
+            key={r.ref}
+            templateColumns="repeat(2, 1fr)"
+            templateRows="700px"
+          >
+            <Box alignSelf="center" justifySelf="center">
               <Review
                 reviews={reviews}
                 revalidate={revalidateReviews}
-                size="small"
                 tweet={r}
               />
-            </div>
-            <div className="comments-holder" key={r.ref + 1}>
+            </Box>
+            <Box alignSelf="center" justifySelf="center" key={r.ref + 1}>
               <Comments
                 comments={r.comments}
                 reviews={reviews}
                 tweetRef={r.ref}
               />
-            </div>
-          </div>
+            </Box>
+          </Grid>
         ))
       ) : (
-        <h2>Loading reviews...</h2>
+        <Heading as="h2">Loading reviews...</Heading>
       )}
-      <style jsx>{`
-        .review-list {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          grid-template-rows: 500px;
-        }
-        .review-holder {
-          align-self: center;
-          justify-self: center;
-        }
-        .comments-holder {
-          align-self: center;
-          justify-self: center;
-        }
-      `}</style>
     </>
   );
 }

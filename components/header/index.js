@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import AuthButton from "../buttons/auth";
 import LinkButton from "../buttons/link";
 import ScopePicker from "../scope/picker";
+import { Box, Heading } from "@chakra-ui/core";
 
 export default function Header() {
   // TODO Move AuthButton into its own login page
@@ -31,22 +32,22 @@ export default function Header() {
   }, [router.pathname]);
   return (
     user !== undefined && (
-      <header>
-        <h1>T/R</h1>
-        {!isLanding && user && <ScopePicker />}
-        {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
-        {!isLanding && user && scope && !scope.personal && (
-          <LinkButton text="Tweets" to="/tweets" />
-        )}
-        {!isLanding && user && <LinkButton text="Settings" to="/settings" />}
-        <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
-        <style jsx>{`
-          header {
-            display: flex;
-            justify-content: space-between;
-          }
-        `}</style>
-      </header>
+      <Box as="header" display="flex" justifyContent="space-between" py="4">
+        <Box display="flex">
+          <Heading as="h1" size="xl">
+            T/R
+          </Heading>
+          {!isLanding && user && <ScopePicker />}
+        </Box>
+        <Box>
+          {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
+          {!isLanding && user && scope && !scope.personal && (
+            <LinkButton text="Tweets" to="/tweets" />
+          )}
+          {!isLanding && user && <LinkButton text="Settings" to="/settings" />}
+          <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
+        </Box>
+      </Box>
     )
   );
 }

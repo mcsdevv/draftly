@@ -83,15 +83,15 @@ function Account() {
   return (
     <>
       <SettingsTabs />
-      <h1>Account Settings</h1>
       <Form
         onSubmit={handleOnSubmitName}
         disabled={account.name === account.updateName}
+        htmlFor="updateName"
+        label={
+          scope && scope.personal ? "Change Display Name" : "Change Team Name"
+        }
       >
         <Input
-          label={
-            scope && scope.personal ? "Change Display Name" : "Change Team Name"
-          }
           name="updateName"
           onChange={handleOnChange}
           type="text"
@@ -102,22 +102,22 @@ function Account() {
         <Form
           buttonText="Delete"
           disabled={account.name !== account.deleteName}
+          helperText={`Enter your ${
+            scope && scope.personal ? "display" : "team"
+          } name before clicking delete.`}
+          htmlFor="deleteName"
+          label={scope && scope.personal ? "Delete Account" : "Delete Team"}
           onSubmit={handleOnSubmitDelete}
         >
           <Input
-            label={scope && scope.personal ? "Delete Account" : "Delete Team"}
             name="deleteName"
             onChange={handleOnChange}
             onSubmit
-            text={`Enter your ${
-              scope && scope.personal ? "display" : "team"
-            } name before clicking delete.`}
             type="text"
             value={account.deleteName || ""}
           />
         </Form>
       ) : null}
-      <style jsx>{``}</style>
     </>
   );
 }

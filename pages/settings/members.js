@@ -12,8 +12,6 @@ function Members() {
   return (
     <>
       <SettingsTabs />
-      <h1>Members</h1>
-      <style jsx>{``}</style>
     </>
   );
 }

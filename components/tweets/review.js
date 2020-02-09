@@ -6,6 +6,7 @@ import { Check, Edit, Send, Trash2 } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
 
+import { Box, Image } from "@chakra-ui/core";
 import Card from "./cards";
 
 export default function Review({ revalidate, reviews, size, tweet }) {
@@ -77,13 +78,31 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
     <>
-      <div className="draft-wrapper">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        maxW="598px"
+      >
         {!deleting && !saving ? (
           <>
-            <article className="draft">
-              <div className="avatar">
-                <img src={scope.avatar} />
-              </div>
+            <Box
+              as="article"
+              border="1px solid rgb(230, 236, 240)"
+              display="flex"
+              py="10px"
+              px="15px"
+              w="100%"
+            >
+              <Box h="100%" marginRight="5px">
+                <Image
+                  borderRadius="50%"
+                  marginRight="2px"
+                  maxW="49px"
+                  src={scope.avatar}
+                  w="49px"
+                />
+              </Box>
               <Card
                 editing={editing}
                 editTweet={editTweet}
@@ -92,8 +111,8 @@ export default function Review({ revalidate, reviews, size, tweet }) {
                 scope={scope}
                 text={tweet.text}
               />
-            </article>
-            <div>
+            </Box>
+            <Box display="flex">
               <Trash2 onClick={handleDeleteReview} />
               <Edit
                 onClick={!editing ? handleEditReview : handleUpdateReview}
@@ -116,43 +135,15 @@ export default function Review({ revalidate, reviews, size, tweet }) {
               >
                 <Send />
               </button>
-            </div>
+            </Box>
           </>
         ) : (
-          <div className="updating">{getStateMessage()}</div>
+          <Box alignItems="center" display="flex" h="500px">
+            {getStateMessage()}
+          </Box>
         )}
-      </div>
+      </Box>
       <style jsx>{`
-        .draft-wrapper {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          max-width: ${size === "small" ? "400" : "600"}px;
-        }
-        .draft {
-          border: 1px solid rgb(230, 236, 240);
-          display: flex;
-          padding 10px 15px;
-          width: 100%;
-        }
-        .updating {
-          align-items: center;
-          display: flex;
-          height: 500px;
-        }
-        .avatar {
-          height: 100%;
-          margin-right: 5px;
-        }
-        .avatar img {
-          border-radius: 50%;
-          height: 49px;
-          width: 49px;
-        }
-        img {
-          margin-right: 2px;
-          max-width: 50px;
-        }
         button {
           background: none;
           border: none;

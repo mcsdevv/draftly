@@ -1,4 +1,6 @@
-export default function Input({
+import { Input } from "@chakra-ui/core";
+
+export default function InputField({
   label,
   max,
   min,
@@ -12,7 +14,7 @@ export default function Input({
     <>
       <label>{label}</label>
       <p>{text}</p>
-      <input
+      <Input
         max={max}
         min={min}
         name={name}

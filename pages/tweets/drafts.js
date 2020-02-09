@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDrafts } from "../../hooks";
 
+import { Box, Grid, Heading } from "@chakra-ui/core";
 import TweetsTabs from "../../components/tabs/tweets";
 import ComposeTweet from "../../components/tweets/compose";
 import Draft from "../../components/tweets/draft";
@@ -35,41 +36,25 @@ function Drafts() {
       <TweetsTabs />
       {showNoDrafts && <h1>no drafts</h1>}
       {showLoading && <h1>loading</h1>}
-      <div className="draft-list">
-        <div className="draft-holder">
+      <Grid templateColumns="repeat(2, 1fr)" templateRows="700px">
+        <Box alignSelf="center" justifySelf="center">
           <ComposeTweet
             drafting={drafting}
             revalidate={revalidateDrafts}
             setDrafting={setDrafting}
             startDraft={startDraft}
           />
-        </div>
+        </Box>
         {drafts ? (
           drafts.map(d => (
-            <div className="draft-holder" key={d.ref}>
-              <Draft
-                drafts={drafts}
-                revalidate={revalidateDrafts}
-                size="small"
-                tweet={d}
-              />
-            </div>
+            <Box alignSelf="center" justifySelf="center" key={d.ref}>
+              <Draft drafts={drafts} revalidate={revalidateDrafts} tweet={d} />
+            </Box>
           ))
         ) : (
-          <h2>Loading drafts...</h2>
+          <Heading as="h2">Loading drafts...</Heading>
         )}
-      </div>
-      <style jsx>{`
-        .draft-list {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          grid-template-rows: 500px;
-        }
-        .draft-holder {
-          align-self: center;
-          justify-self: center;
-        }
-      `}</style>
+      </Grid>
     </>
   );
 }
