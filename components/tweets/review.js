@@ -82,7 +82,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
         display="flex"
         flexDirection="column"
         alignItems="center"
-        maxW={` ${size === "small" ? "400" : "600"}px`}
+        maxW="598px"
       >
         {!deleting && !saving ? (
           <>

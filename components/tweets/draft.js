@@ -116,7 +116,7 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
           display: flex;
           flex-direction: column;
           align-items: center;
-          max-width: ${size === "small" ? "400" : "600"}px;
+          max-width: 598px;
         }
         .draft {
           border: 1px solid rgb(230, 236, 240);

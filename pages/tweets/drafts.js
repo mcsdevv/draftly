@@ -47,12 +47,7 @@ function Drafts() {
         {drafts ? (
           drafts.map(d => (
             <div className="draft-holder" key={d.ref}>
-              <Draft
-                drafts={drafts}
-                revalidate={revalidateDrafts}
-                size="small"
-                tweet={d}
-              />
+              <Draft drafts={drafts} revalidate={revalidateDrafts} tweet={d} />
             </div>
           ))
         ) : (
@@ -63,7 +58,7 @@ function Drafts() {
         .draft-list {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          grid-template-rows: 500px;
+          grid-template-rows: 700px;
         }
         .draft-holder {
           align-self: center;

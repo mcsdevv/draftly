@@ -12,14 +12,12 @@ export default function SummaryLarge({
   scope,
   text
 }) {
-  // const url = new URL(meta.url, location)
   return (
     <>
       <Box
         as="section"
         display="flex"
         flexDirection="column"
-        // fontFamily="SF Pro"
         fontSize="15px"
         marginLeft="5px"
       >
@@ -85,13 +83,16 @@ export default function SummaryLarge({
         }
         .card-image {
           border-bottom: 1px solid rgb(204, 214, 221);
-          height: 187px;
+          height: 265px;
         }
+        // ! 265px height and 507px width
         .card-image img {
           border-top-left-radius: 14px;
           border-top-right-radius: 14px;
           height: 100%;
           max-width: 100%;
+          width: 100%;
+          // ! width:100% may not be the best idea
         }
         .card-content {
           padding: 10px;

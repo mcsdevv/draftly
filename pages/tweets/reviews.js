@@ -42,7 +42,6 @@ function Reviews() {
               <Review
                 reviews={reviews}
                 revalidate={revalidateReviews}
-                size="small"
                 tweet={r}
               />
             </div>
@@ -62,7 +61,7 @@ function Reviews() {
         .review-list {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          grid-template-rows: 500px;
+          grid-template-rows: 700px;
         }
         .review-holder {
           align-self: center;
