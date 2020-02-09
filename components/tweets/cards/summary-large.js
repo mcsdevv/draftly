@@ -19,6 +19,7 @@ export default function SummaryLarge({
         as="section"
         display="flex"
         flexDirection="column"
+        // fontFamily="SF Pro"
         fontSize="15px"
         marginLeft="5px"
       >

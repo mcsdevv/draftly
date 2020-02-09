@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { useProfile } from "../../hooks";
 import { mutate } from "swr";
-import { Check, Send, Trash2, Type } from "react-feather";
 import uuidv4 from "uuid/v4";
 
 import { Box, Heading } from "@chakra-ui/core";
@@ -40,6 +39,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
     }
   };
   const handleSubmitComment = async () => {
+    console.log("submitted");
     const commentObject = {
       comment,
       addedBy: user.name,
@@ -77,7 +77,8 @@ export default function Comments({ comments, reviews, tweetRef }) {
                 addedBy={c.addedBy}
                 avatar={c.avatar}
                 comment={c.comment}
-                handleDeleteComment={handleDeleteComment}
+                handleDeleteComment={() => handleDeleteComment(c.id)}
+                key={c.id}
               />
             ))
           ) : (
@@ -95,7 +96,6 @@ export default function Comments({ comments, reviews, tweetRef }) {
           >
             <Input onChange={handleOnChange} value={comment} />
           </Form>
-          {/* <Send onClick={handleSubmitComment} /> */}
         </Box>
       </Box>
     </>

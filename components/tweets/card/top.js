@@ -27,6 +27,7 @@ export default function CardTop({ handle, name }) {
         .card-top {
           display: flex;
           font-size: 15px;
+          font-weight: 700;
           line-height: 22.5px;
           margin-bottom: 2px;
         }

@@ -15,7 +15,7 @@ export default function Comment({
           <Image borderRadius="50%" src={avatar} w="49px" />
         </Box>
       </Box>
-      <Box display="flex" justifyContent="space-between">
+      <Box display="flex" justifyContent="space-between" marginTop="2">
         <Heading
           as="h5"
           color="#777"
@@ -25,7 +25,7 @@ export default function Comment({
         >
           {addedBy}
         </Heading>
-        <Trash2 onClick={() => handleDeleteComment(c.id)} />
+        <Trash2 onClick={handleDeleteComment} />
       </Box>
     </Box>
   );
