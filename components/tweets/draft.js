@@ -120,9 +120,24 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
             />
           </Box>
           <Box display="flex">
-            <Trash2 onClick={handleDeleteDraft} />
-            <Edit onClick={!editing ? handleEditDraft : handleUpdateDraft} />
-            <ThumbsUp onClick={handleReviewReady} />
+            <Box
+              as={Trash2}
+              cursor="pointer"
+              onClick={handleDeleteDraft}
+              strokeWidth="1px"
+            />
+            <Box
+              as={Edit}
+              cursor="pointer"
+              onClick={!editing ? handleEditDraft : handleUpdateDraft}
+              strokeWidth="1px"
+            />
+            <Box
+              as={ThumbsUp}
+              cursor="pointer"
+              onClick={handleReviewReady}
+              strokeWidth="1px"
+            />
           </Box>
         </>
       ) : (

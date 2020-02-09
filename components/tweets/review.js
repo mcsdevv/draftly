@@ -77,85 +77,70 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
-    <>
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        maxW="598px"
-      >
-        {!deleting && !saving ? (
-          <>
-            <Box
-              as="article"
-              border="1px solid rgb(230, 236, 240)"
-              display="flex"
-              py="10px"
-              px="15px"
-              w="100%"
-            >
-              <Box h="100%" marginRight="5px">
-                <Image
-                  borderRadius="50%"
-                  marginRight="2px"
-                  maxW="49px"
-                  src={scope.avatar}
-                  w="49px"
-                />
-              </Box>
-              <Card
-                editing={editing}
-                editTweet={editTweet}
-                handleOnChange={handleOnChange}
-                metadata={tweet.metadata}
-                scope={scope}
-                text={tweet.text}
+    <Box display="flex" flexDirection="column" alignItems="center" maxW="598px">
+      {!deleting && !saving ? (
+        <>
+          <Box
+            as="article"
+            border="1px solid rgb(230, 236, 240)"
+            display="flex"
+            py="10px"
+            px="15px"
+            w="100%"
+          >
+            <Box h="100%" marginRight="5px">
+              <Image
+                borderRadius="50%"
+                marginRight="2px"
+                maxW="49px"
+                src={scope.avatar}
+                w="49px"
               />
             </Box>
-            <Box display="flex">
-              <Trash2 onClick={handleDeleteReview} />
-              <Edit
-                onClick={!editing ? handleEditReview : handleUpdateReview}
-              />
-              <button
-                disabled={user && user.name === tweet.creator}
-                onClick={handleApproveTweet}
-              >
-                <Check />
-              </button>
-              {tweet.approvedBy.length} / {scope.reviewsRequired}
-              <button
-                className={
-                  tweet.approvedBy.length !== scope.reviewsRequired
-                    ? "publish-blocked"
-                    : "publish-tweet"
-                }
-                disabled={tweet.approvedBy.length !== scope.reviewsRequired}
-                onClick={handlePublishTweet}
-              >
-                <Send />
-              </button>
-            </Box>
-          </>
-        ) : (
-          <Box alignItems="center" display="flex" h="500px">
-            {getStateMessage()}
+            <Card
+              editing={editing}
+              editTweet={editTweet}
+              handleOnChange={handleOnChange}
+              metadata={tweet.metadata}
+              scope={scope}
+              text={tweet.text}
+            />
           </Box>
-        )}
-      </Box>
-      <style jsx>{`
-        button {
-          background: none;
-          border: none;
-          cursor: pointer;
-        }
-        .publish-tweet {
-          color: red;
-        }
-        .publish-blocked {
-          color: blue;
-        }
-      `}</style>
-    </>
+          <Box display="flex">
+            <Box
+              as={Trash2}
+              cursor="pointer"
+              onClick={handleDeleteReview}
+              strokeWidth="1px"
+            />
+            <Box
+              as={Edit}
+              cursor="pointer"
+              onClick={!editing ? handleEditReview : handleUpdateReview}
+              strokeWidth="1px"
+            />
+            <Box
+              as={Check}
+              cursor="pointer"
+              disabled={user && user.name === tweet.creator}
+              onClick={handleApproveTweet}
+              strokeWidth="1px"
+            />
+            {tweet.approvedBy.length} / {scope.reviewsRequired}
+            <Box
+              as={Send}
+              cursor="pointer"
+              disabled={tweet.approvedBy.length !== scope.reviewsRequired}
+              onClick={handlePublishTweet}
+              strokeWidth="1px"
+            />
+          </Box>
+        </>
+      ) : (
+        <Box alignItems="center" display="flex" h="500px">
+          {getStateMessage()}
+        </Box>
+      )}
+    </Box>
   );
 }
