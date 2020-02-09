@@ -17,15 +17,17 @@ export default function Form({
   onSubmit
 }) {
   return (
-    <FormControl onSubmit={onSubmit}>
-      <FormLabel htmlFor={htmlFor}>{label}</FormLabel>
-      <Box display="flex">
-        {children}
-        <Button disabled={disabled} type="submit">
-          {buttonText || "Update"}
-        </Button>
-      </Box>
-      <FormHelperText id="email-helper-text">{helperText}</FormHelperText>
-    </FormControl>
+    <form onSubmit={onSubmit}>
+      <FormControl>
+        <FormLabel htmlFor={htmlFor}>{label}</FormLabel>
+        <Box display="flex">
+          {children}
+          <Button disabled={disabled} type="submit">
+            {buttonText || "Update"}
+          </Button>
+        </Box>
+        <FormHelperText id="email-helper-text">{helperText}</FormHelperText>
+      </FormControl>
+    </form>
   );
 }

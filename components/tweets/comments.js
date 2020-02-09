@@ -38,8 +38,8 @@ export default function Comments({ comments, reviews, tweetRef }) {
       });
     }
   };
-  const handleSubmitComment = async () => {
-    console.log("submitted");
+  const handleSubmitComment = async e => {
+    e.preventDefault();
     const commentObject = {
       comment,
       addedBy: user.name,
