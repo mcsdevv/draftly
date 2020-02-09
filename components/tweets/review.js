@@ -137,15 +137,12 @@ export default function Review({ revalidate, reviews, size, tweet }) {
             </Box>
           </>
         ) : (
-          <div className="updating">{getStateMessage()}</div>
+          <Box alignItems="center" display="flex" h="500px">
+            {getStateMessage()}
+          </Box>
         )}
       </Box>
       <style jsx>{`
-        .updating {
-          align-items: center;
-          display: flex;
-          height: 500px;
-        }
         button {
           background: none;
           border: none;

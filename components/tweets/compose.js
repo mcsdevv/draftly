@@ -46,32 +46,25 @@ export default function ComposeTweet({
     }
   };
   return (
-    <>
-      <Box
-        display="flex"
-        flexDirection="column"
-        h="100%"
-        justifyContent="center"
-      >
-        {!drafting ? (
-          <DefaultButton handleOnClick={startDraft} text="Create Draft" />
-        ) : !saving ? (
-          <>
-            <Textarea
-              placeholder="Draft your tweet..."
-              onChange={handleOnChange}
-              value={tweet}
-            />
-            <DefaultButton
-              disabled={!tweet}
-              handleOnClick={handleSaveDraft}
-              text="Save Draft"
-            />
-          </>
-        ) : (
-          <Heading as="h2">Saving Draft...</Heading>
-        )}
-      </Box>
-    </>
+    <Box display="flex" flexDirection="column" h="100%" justifyContent="center">
+      {!drafting ? (
+        <DefaultButton handleOnClick={startDraft} text="Create Draft" />
+      ) : !saving ? (
+        <>
+          <Textarea
+            placeholder="Draft your tweet..."
+            onChange={handleOnChange}
+            value={tweet}
+          />
+          <DefaultButton
+            disabled={!tweet}
+            handleOnClick={handleSaveDraft}
+            text="Save Draft"
+          />
+        </>
+      ) : (
+        <Heading as="h2">Saving Draft...</Heading>
+      )}
+    </Box>
   );
 }

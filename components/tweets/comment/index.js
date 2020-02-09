@@ -30,12 +30,3 @@ export default function Comment({
     </Box>
   );
 }
-
-// .avatar {
-//     height: 100%;
-//     margin-right: 5px;
-//   }
-//   img {
-//     margin-right: 2px;
-//     max-width: 50px;
-//   }
