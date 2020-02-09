@@ -2,6 +2,7 @@ import Linkify from "react-linkify";
 
 import CardTop from "../card/top";
 import CardBottom from "../card/bottom";
+import { Box, Textarea } from "@chakra-ui/core";
 
 export default function SummaryLarge({
   editing,
@@ -14,7 +15,13 @@ export default function SummaryLarge({
   // const url = new URL(meta.url, location)
   return (
     <>
-      <section className="summary-large">
+      <Box
+        as="section"
+        display="flex"
+        flexDirection="column"
+        fontSize="15px"
+        marginLeft="5px"
+      >
         <CardTop handle={scope.handle} name={scope.name} />
         <p className="card-text">
           <Linkify
@@ -26,7 +33,7 @@ export default function SummaryLarge({
             {!editing ? (
               text
             ) : (
-              <textarea onChange={handleOnChange} value={editTweet} />
+              <Textarea onChange={handleOnChange} value={editTweet} />
             )}
           </Linkify>
         </p>
@@ -51,14 +58,8 @@ export default function SummaryLarge({
           </div>
         </a>
         <CardBottom />
-      </section>
+      </Box>
       <style jsx>{`
-        .summary-large {
-          display: flex;
-          flex-direction: column;
-          font-size: 15px;
-          margin-left: 5px;
-        }
         .card-text :global(a) {
           color: rgb(27, 149, 224);
           font-size: 15px;

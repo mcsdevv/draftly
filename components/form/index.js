@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -16,16 +17,15 @@ export default function Form({
   onSubmit
 }) {
   return (
-    <>
-      <FormControl onSubmit={onSubmit}>
-        <FormLabel htmlFor={htmlFor}>{label}</FormLabel>
+    <FormControl onSubmit={onSubmit}>
+      <FormLabel htmlFor={htmlFor}>{label}</FormLabel>
+      <Box display="flex">
         {children}
         <Button disabled={disabled} type="submit">
           {buttonText || "Update"}
         </Button>
-        <FormHelperText id="email-helper-text">{helperText}</FormHelperText>
-      </FormControl>
-      <style jsx>{``}</style>
-    </>
+      </Box>
+      <FormHelperText id="email-helper-text">{helperText}</FormHelperText>
+    </FormControl>
   );
 }

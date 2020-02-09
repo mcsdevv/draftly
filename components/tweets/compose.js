@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import parseJwt from "../../lib/parseJwt";
 import getMeta from "../../lib/getMeta";
 
+import { Box, Heading, Textarea } from "@chakra-ui/core";
 import DefaultButton from "../buttons/default";
 
 export default function ComposeTweet({
@@ -46,12 +47,17 @@ export default function ComposeTweet({
   };
   return (
     <>
-      <div className="compose-wrapper">
+      <Box
+        display="flex"
+        flexDirection="column"
+        h="100%"
+        justifyContent="center"
+      >
         {!drafting ? (
           <DefaultButton handleOnClick={startDraft} text="Create Draft" />
         ) : !saving ? (
           <>
-            <textarea
+            <Textarea
               placeholder="Draft your tweet..."
               onChange={handleOnChange}
               value={tweet}
@@ -63,17 +69,9 @@ export default function ComposeTweet({
             />
           </>
         ) : (
-          <h2>Saving Draft...</h2>
+          <Heading as="h2">Saving Draft...</Heading>
         )}
-      </div>
-      <style jsx>{`
-        .compose-wrapper {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-          justify-content: center;
-        }
-      `}</style>
+      </Box>
     </>
   );
 }

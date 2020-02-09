@@ -7,6 +7,7 @@ import uuidv4 from "uuid/v4";
 
 import { Box, Heading } from "@chakra-ui/core";
 import Comment from "./comment";
+import Form from "../form";
 import Input from "../input";
 
 export default function Comments({ comments, reviews, tweetRef }) {
@@ -69,7 +70,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
   return (
     <>
       <Box mh="500px" overflow="scroll">
-        <div className="comments">
+        <Box>
           {comments.length ? (
             comments.map(c => (
               <Comment
@@ -84,17 +85,18 @@ export default function Comments({ comments, reviews, tweetRef }) {
               No comments!
             </Heading>
           )}
-        </div>
-        <div className="add-comment">
-          <Input
+        </Box>
+        <Box>
+          <Form
             label="Add Comment"
-            onChange={handleOnChange}
+            onSubmit={handleSubmitComment}
+            handleOnChange={handleOnChange}
             value={comment}
-          />
-          <button onClick={handleSubmitComment}>
-            <Send />
-          </button>
-        </div>
+          >
+            <Input onChange={handleOnChange} value={comment} />
+          </Form>
+          {/* <Send onClick={handleSubmitComment} /> */}
+        </Box>
       </Box>
     </>
   );

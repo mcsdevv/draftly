@@ -1,5 +1,6 @@
 import Linkify from "react-linkify";
 
+import { Box, Textarea } from "@chakra-ui/core";
 import CardTop from "../card/top";
 import CardBottom from "../card/bottom";
 
@@ -12,7 +13,14 @@ export default function Text({
 }) {
   return (
     <>
-      <section className="text">
+      <Box
+        as="section"
+        display="flex"
+        flexDirection="column"
+        fontSize="15px"
+        marginLeft="5px"
+        w="100%"
+      >
         <CardTop handle={scope.handle} name={scope.name} />
         <p className="card-text">
           <Linkify
@@ -24,20 +32,13 @@ export default function Text({
             {!editing ? (
               text
             ) : (
-              <textarea onChange={handleOnChange} value={editTweet} />
+              <Textarea onChange={handleOnChange} value={editTweet} />
             )}
           </Linkify>
         </p>
         <CardBottom />
-      </section>
+      </Box>
       <style jsx>{`
-        .text {
-          display: flex;
-          flex-direction: column;
-          font-size: 15px;
-          margin-left: 5px;
-          width: 100%;
-        }
         .card-text :global(a) {
           color: rgb(27, 149, 224);
           font-size: 15px;
