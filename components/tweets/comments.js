@@ -69,7 +69,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
   };
   return (
     <>
-      <Box maxH="700px" overflow="scroll">
+      <Box maxH="700px" overflow="scroll" px="8" py="8">
         <Box>
           {comments.length ? (
             comments.map(c => (

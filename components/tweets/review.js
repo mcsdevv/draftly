@@ -6,7 +6,7 @@ import { Check, Edit, Send, Trash2 } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
 
-import { Box, Image } from "@chakra-ui/core";
+import { Box, Image, Text } from "@chakra-ui/core";
 import Card from "./cards";
 
 export default function Review({ revalidate, reviews, size, tweet }) {
@@ -106,33 +106,24 @@ export default function Review({ revalidate, reviews, size, tweet }) {
               text={tweet.text}
             />
           </Box>
-          <Box display="flex">
-            <Box
-              as={Trash2}
-              cursor="pointer"
-              onClick={handleDeleteReview}
-              strokeWidth="1px"
-            />
-            <Box
+          <Box alignContent="center" display="flex">
+            <IconBox as={Trash2} onClick={handleDeleteReview} />
+            <IconBox
               as={Edit}
-              cursor="pointer"
               onClick={!editing ? handleEditReview : handleUpdateReview}
-              strokeWidth="1px"
             />
-            <Box
+            <Text m="4">
+              {tweet.approvedBy.length} / {scope.reviewsRequired}
+            </Text>
+            <IconBox
               as={Check}
-              cursor="pointer"
               disabled={user && user.name === tweet.creator}
               onClick={handleApproveTweet}
-              strokeWidth="1px"
             />
-            {tweet.approvedBy.length} / {scope.reviewsRequired}
-            <Box
+            <IconBox
               as={Send}
-              cursor="pointer"
               disabled={tweet.approvedBy.length !== scope.reviewsRequired}
               onClick={handlePublishTweet}
-              strokeWidth="1px"
             />
           </Box>
         </>
@@ -144,3 +135,14 @@ export default function Review({ revalidate, reviews, size, tweet }) {
     </Box>
   );
 }
+
+const IconBox = ({ as, disabled, onClick }) => (
+  <Box
+    as={as}
+    cursor="pointer"
+    disabled={disabled}
+    onClick={onClick}
+    m="4"
+    strokeWidth="1px"
+  />
+);

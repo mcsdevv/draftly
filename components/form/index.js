@@ -22,7 +22,7 @@ export default function Form({
         <FormLabel htmlFor={htmlFor}>{label}</FormLabel>
         <Box display="flex">
           {children}
-          <Button disabled={disabled} type="submit">
+          <Button disabled={disabled} marginLeft="4" type="submit">
             {buttonText || "Update"}
           </Button>
         </Box>

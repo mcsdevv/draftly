@@ -50,7 +50,12 @@ function Reviews() {
                 tweet={r}
               />
             </Box>
-            <Box alignSelf="center" justifySelf="center" key={r.ref + 1}>
+            <Box
+              alignSelf="center"
+              justifySelf="center"
+              key={r.ref + 1}
+              w="100%"
+            >
               <Comments
                 comments={r.comments}
                 reviews={reviews}
