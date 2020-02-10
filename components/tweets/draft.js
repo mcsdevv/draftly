@@ -120,24 +120,12 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
             />
           </Box>
           <Box display="flex">
-            <Box
-              as={Trash2}
-              cursor="pointer"
-              onClick={handleDeleteDraft}
-              strokeWidth="1px"
-            />
-            <Box
+            <IconBox as={Trash2} onClick={handleDeleteDraft} />
+            <IconBox
               as={Edit}
-              cursor="pointer"
               onClick={!editing ? handleEditDraft : handleUpdateDraft}
-              strokeWidth="1px"
             />
-            <Box
-              as={ThumbsUp}
-              cursor="pointer"
-              onClick={handleReviewReady}
-              strokeWidth="1px"
-            />
+            <IconBox as={ThumbsUp} onClick={handleReviewReady} />
           </Box>
         </>
       ) : (
@@ -148,3 +136,14 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
     </Box>
   );
 }
+
+const IconBox = ({ as, disabled, onClick }) => (
+  <Box
+    as={as}
+    cursor="pointer"
+    disabled={disabled}
+    onClick={onClick}
+    m="4"
+    strokeWidth="1px"
+  />
+);
