@@ -25,7 +25,12 @@ export default function Comment({
         >
           {addedBy}
         </Heading>
-        <Trash2 onClick={handleDeleteComment} />
+        <Box
+          as={Trash2}
+          cursor="pointer"
+          onClick={handleDeleteComment}
+          strokeWidth="1px"
+        />
       </Box>
     </Box>
   );
