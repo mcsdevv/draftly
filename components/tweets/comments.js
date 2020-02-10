@@ -69,7 +69,18 @@ export default function Comments({ comments, reviews, tweetRef }) {
   };
   return (
     <>
-      <Box maxH="700px" overflow="scroll" px="8" py="8">
+      <Box maxH="700px" overflow="scroll" px="8">
+        <Box bg="#fff" h="100px" position="sticky" top="0px">
+          <Form
+            buttonText="Comment"
+            handleOnChange={handleOnChange}
+            label="Add Comment"
+            onSubmit={handleSubmitComment}
+            value={comment}
+          >
+            <Input onChange={handleOnChange} value={comment} />
+          </Form>
+        </Box>
         <Box>
           {comments.length ? (
             comments.map(c => (
@@ -86,17 +97,6 @@ export default function Comments({ comments, reviews, tweetRef }) {
               No comments!
             </Heading>
           )}
-        </Box>
-        <Box>
-          <Form
-            buttonText="Comment"
-            handleOnChange={handleOnChange}
-            label="Add Comment"
-            onSubmit={handleSubmitComment}
-            value={comment}
-          >
-            <Input onChange={handleOnChange} value={comment} />
-          </Form>
         </Box>
       </Box>
     </>

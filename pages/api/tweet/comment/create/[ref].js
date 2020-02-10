@@ -10,7 +10,7 @@ export default (req, res) => {
       const dbs = await client.query(
         q.Update(q.Ref(q.Collection("tweets"), ref), {
           data: {
-            comments: q.Append(
+            comments: q.Prepend(
               comment,
               q.Select(
                 ["data", "comments"],
