@@ -3,6 +3,7 @@ import ScopeContext from "../../context/scopeContext";
 import Cookies from "js-cookie";
 import parseJwt from "../../lib/parseJwt";
 import getMeta from "../../lib/getMeta";
+import removeWww from "../../lib/removeWww";
 
 import { Box, Heading, Textarea } from "@chakra-ui/core";
 import DefaultButton from "../buttons/default";
@@ -22,12 +23,13 @@ export default function ComposeTweet({
     const id = Cookies.get("id_token");
     const { name } = parseJwt(id);
     const url = `/api/tweet/draft/create/${scope.handle}`;
+    const formattedTweet = removeWww(tweet);
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
         creator: name,
         metadata,
-        tweet
+        tweet: formattedTweet
       })
     });
     if (res.status === 200) {
