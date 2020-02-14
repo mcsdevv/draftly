@@ -2,6 +2,7 @@ import { Box, Heading, Image } from "@chakra-ui/core";
 import { Trash2 } from "react-feather";
 
 export default function Comment({
+  addedAt,
   addedBy,
   avatar,
   comment,
@@ -23,7 +24,7 @@ export default function Comment({
           fontWeight="300"
           size="xs"
         >
-          {addedBy}
+          {addedBy} at {addedAt}
         </Heading>
         <Box
           as={Trash2}

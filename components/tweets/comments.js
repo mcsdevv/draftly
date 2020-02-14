@@ -42,6 +42,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
     e.preventDefault();
     const commentObject = {
       comment,
+      addedAt: new Date(),
       addedBy: user.name,
       avatar: user.picture,
       id: uuidv4()
@@ -85,6 +86,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
           {comments.length ? (
             comments.map(c => (
               <Comment
+                addedAt={c.addedAt}
                 addedBy={c.addedBy}
                 avatar={c.avatar}
                 comment={c.comment}

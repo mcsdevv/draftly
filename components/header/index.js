@@ -30,24 +30,36 @@ export default function Header() {
     }
     getLandingState();
   }, [router.pathname]);
-  return (
-    user !== undefined && (
-      <Box as="header" display="flex" justifyContent="space-between" py="4">
-        <Box display="flex">
-          <Heading as="h1" size="xl">
-            T/R
-          </Heading>
-          {!isLanding && user && <ScopePicker />}
-        </Box>
-        <Box>
-          {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
-          {!isLanding && user && scope && !scope.personal && (
-            <LinkButton text="Tweets" to="/tweets" />
-          )}
-          {!isLanding && user && <LinkButton text="Settings" to="/settings" />}
-          <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
-        </Box>
+  return user !== undefined ? (
+    <Box
+      as="header"
+      display="flex"
+      h="72px"
+      justifyContent="space-between"
+      py="4"
+    >
+      <Box display="flex">
+        <Heading as="h1" size="xl">
+          T/R
+        </Heading>
+        {!isLanding && user && <ScopePicker />}
       </Box>
-    )
+      <Box>
+        {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
+        {!isLanding && user && scope && !scope.personal && (
+          <LinkButton text="Tweets" to="/tweets" />
+        )}
+        {!isLanding && user && <LinkButton text="Settings" to="/settings" />}
+        <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
+      </Box>
+    </Box>
+  ) : (
+    <Box
+      as="header"
+      display="flex"
+      h="72px"
+      justifyContent="space-between"
+      py="4"
+    />
   );
 }

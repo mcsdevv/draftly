@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { List, ListItem, ListIcon } from "@chakra-ui/core";
+import { List, ListItem } from "@chakra-ui/core";
 
 export default function Tabs({ section, tabs }) {
   const router = useRouter();
@@ -8,7 +8,7 @@ export default function Tabs({ section, tabs }) {
     router.push(`/${section}/${tab.toLowerCase()}`);
   };
   return (
-    <List className="tabs" display="flex">
+    <List display="flex">
       {tabs &&
         tabs.map(t => (
           <ListItem
