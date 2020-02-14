@@ -28,7 +28,7 @@
     "react-linkify": "^1.0.0-alpha",
     "request": "^2.88.0",
     "request-promise": "^4.2.5",
-    "swr": "^0.1.12",
+    "swr": "^0.1.17",
     "twitter": "^1.7.1",
     "uuid": "^3.3.3"
   },
