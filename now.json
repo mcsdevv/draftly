@@ -29,5 +29,6 @@
       "TWITTER_ACCESS_SECRET": "@tr-twitter_access_secret",
       "FAUNADB_SECRET_KEY": "@tr-faunadb_secret_key"
     }
-  }
+  },
+  "regions": ["sfo"]
 }
