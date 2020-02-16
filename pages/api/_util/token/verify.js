@@ -14,7 +14,9 @@ module.exports = async (token, callback) => {
   });
   // * Create a function that uses the secret keys
   function getKey(header, callback) {
+    const start = new Date();
     client.getSigningKey(header.kid, function(err, key) {
+      console.log("TIME TAKEN TO GET KEY:", (new Date() - start) / 1000);
       const signingKey = key.publicKey || key.rsaPublicKey;
       callback(null, signingKey);
     });
