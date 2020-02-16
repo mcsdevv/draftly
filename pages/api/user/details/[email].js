@@ -7,6 +7,7 @@ export default async (req, res) => {
     console.log("TIME TAKEN TO VERIFY:", (new Date() - start) / 1000);
     if (error) res.status(400).json({ error });
     const { email } = req.query;
+    const start2 = new Date();
     try {
       const dbs = await client.query(
         q.Drop(
@@ -32,6 +33,10 @@ export default async (req, res) => {
           )
         )
       );
+      console.log(
+        "TIME TAKEN TO GET DB RESPONSE:",
+        (new Date() - start2) / 1000
+      );
       const userData = dbs[0];
       const teamsData = dbs.slice(1);
       userData.shift();
@@ -43,6 +48,7 @@ export default async (req, res) => {
       });
       console.log("Teams details", teams);
       // ok
+      console.log("TIME TAKEN TO FULFILL REQ:", (new Date() - start) / 1000);
       res.status(200).json({ user, teams });
     } catch (e) {
       console.log("Error:", e.message);
