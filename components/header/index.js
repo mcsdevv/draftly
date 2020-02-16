@@ -47,9 +47,11 @@ export default function Header() {
       <Box>
         {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
         {!isLanding && user && scope && !scope.personal && (
-          <LinkButton text="Tweets" to="/tweets" />
+          <LinkButton text="Tweets" to="/tweets/drafts" />
         )}
-        {!isLanding && user && <LinkButton text="Settings" to="/settings" />}
+        {!isLanding && user && (
+          <LinkButton text="Settings" to="/settings/account" />
+        )}
         <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
       </Box>
     </Box>
