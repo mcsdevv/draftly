@@ -1,5 +1,6 @@
 import { Box, Heading, Image } from "@chakra-ui/core";
 import { Trash2 } from "react-feather";
+import ago from "s-ago";
 
 export default function Comment({
   addedAt,
@@ -24,7 +25,7 @@ export default function Comment({
           fontWeight="300"
           size="xs"
         >
-          {addedBy} at {addedAt}
+          {addedBy} - {ago(new Date(addedAt))}
         </Heading>
         <Box
           as={Trash2}
