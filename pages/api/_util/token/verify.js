@@ -5,7 +5,6 @@ import { decrypt } from "../token/encryption";
 // TODO Accept scope parameter, check as part of JWT validation
 
 module.exports = async (token, callback) => {
-  const start = new Date();
   // * Create a client to retrieve secret keys
   const client = jwksClient({
     cache: true,
@@ -39,7 +38,6 @@ module.exports = async (token, callback) => {
         return;
       }
       // * Verify JWT using about methods
-      console.log("Time taken verify:", (new Date() - start) / 1000);
       jwt.verify(tokenDecrypted, getKey, options, callback);
     } catch (err) {
       return callback(err);

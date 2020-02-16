@@ -2,9 +2,13 @@ import { client, q } from "../../_util/fauna";
 import verify from "../../_util/token/verify";
 
 export default async (req, res) => {
-  const start = new Date();
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
+    const start = new Date();
+    const getTime = () => {
+      console.log("Time taken:", (new Date() - start) / 1000);
+    };
+    verify(req.headers.authorization || req.cookies.access_token, getTime);
     const { email } = req.query;
     try {
       const dbs = await client.query(
@@ -41,7 +45,6 @@ export default async (req, res) => {
         return t.data;
       });
       console.log("Teams details", teams);
-      console.log("Time taken:", (new Date() - start) / 1000);
       // ok
       res.status(200).json({ user, teams });
     } catch (e) {
