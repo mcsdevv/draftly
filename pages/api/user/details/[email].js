@@ -6,6 +6,7 @@ export default async (req, res) => {
     if (error) res.status(400).json({ error });
     const { email } = req.query;
     try {
+      const start = new Date();
       const dbs = await client.query(
         q.Drop(
           2,
@@ -40,6 +41,7 @@ export default async (req, res) => {
         return t.data;
       });
       console.log("Teams details", teams);
+      console.log("Time taken:", (new Date() - start) / 1000);
       // ok
       res.status(200).json({ user, teams });
     } catch (e) {
