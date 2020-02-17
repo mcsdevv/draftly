@@ -7,6 +7,7 @@ import { Check, Edit, Send, Trash2 } from "react-feather";
 import getMeta from "../../lib/getMeta";
 
 import { Box, Image, Text } from "@chakra-ui/core";
+import Icon from "../icon";
 import Card from "./cards";
 
 export default function Review({ revalidate, reviews, size, tweet }) {
@@ -107,23 +108,32 @@ export default function Review({ revalidate, reviews, size, tweet }) {
             />
           </Box>
           <Box alignContent="center" display="flex">
-            <IconBox as={Trash2} onClick={handleDeleteReview} />
-            <IconBox
+            <Icon
+              as={Trash2}
+              onClick={handleDeleteReview}
+              tooltip="Delete tweet."
+            />
+            <Icon
               as={Edit}
               onClick={!editing ? handleEditReview : handleUpdateReview}
+              tooltip="Edit tweet."
             />
-            <Text m="4">
+            <Text m="6">
               {tweet.approvedBy.length} / {scope.reviewsRequired}
             </Text>
-            <IconBox
+            <Icon
               as={Check}
               disabled={user && user.name === tweet.creator}
               onClick={handleApproveTweet}
+              tooltip="Approve tweet."
+              tooltipDisabled="You cannot approve your own tweet."
             />
-            <IconBox
+            <Icon
               as={Send}
               disabled={tweet.approvedBy.length !== scope.reviewsRequired}
               onClick={handlePublishTweet}
+              tooltip="Publish tweet."
+              tooltipDisabled="Reviews required."
             />
           </Box>
         </>
@@ -135,14 +145,3 @@ export default function Review({ revalidate, reviews, size, tweet }) {
     </Box>
   );
 }
-
-const IconBox = ({ as, disabled, onClick }) => (
-  <Box
-    as={as}
-    cursor="pointer"
-    disabled={disabled}
-    onClick={onClick}
-    m="4"
-    strokeWidth="1px"
-  />
-);

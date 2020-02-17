@@ -83,22 +83,18 @@ export default function Comments({ comments, reviews, tweetRef }) {
           </Form>
         </Box>
         <Box>
-          {comments.length ? (
-            comments.map(c => (
-              <Comment
-                addedAt={c.addedAt}
-                addedBy={c.addedBy}
-                avatar={c.avatar}
-                comment={c.comment}
-                handleDeleteComment={() => handleDeleteComment(c.id)}
-                key={c.id}
-              />
-            ))
-          ) : (
-            <Heading as="h2" size="lg">
-              No comments!
-            </Heading>
-          )}
+          {comments.length
+            ? comments.map(c => (
+                <Comment
+                  addedAt={c.addedAt}
+                  addedBy={c.addedBy}
+                  avatar={c.avatar}
+                  comment={c.comment}
+                  handleDeleteComment={() => handleDeleteComment(c.id)}
+                  key={c.id}
+                />
+              ))
+            : null}
         </Box>
       </Box>
     </>

@@ -40,7 +40,7 @@ export default function Text({
       </Box>
       <style jsx>{`
         .card-text {
-          width: 500px;
+          width: 501px;
         }
         .card-text :global(a) {
           color: rgb(27, 149, 224);
