@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDrafts } from "../../hooks";
 
 import { Box, Grid, Heading } from "@chakra-ui/core";
-import TweetsTabs from "../../components/tabs/tweets";
 import ComposeTweet from "../../components/tweets/compose";
 import Draft from "../../components/tweets/draft";
 
@@ -33,7 +32,6 @@ function Drafts() {
   };
   return (
     <>
-      <TweetsTabs />
       {showNoDrafts && <h1>no drafts</h1>}
       {showLoading && <h1>loading</h1>}
       <Grid templateColumns="repeat(2, 1fr)" templateRows="700px">

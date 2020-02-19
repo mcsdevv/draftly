@@ -47,7 +47,13 @@ export default function Header() {
       <Box>
         {isLanding && <LinkButton text="Dashboard" to="/dashboard" />}
         {!isLanding && user && scope && !scope.personal && (
-          <LinkButton text="Tweets" to="/tweets/drafts" />
+          <LinkButton text="Drafts" to="/tweets/drafts" />
+        )}
+        {!isLanding && user && scope && !scope.personal && (
+          <LinkButton text="Reviews" to="/tweets/reviews" />
+        )}
+        {!isLanding && user && scope && !scope.personal && (
+          <LinkButton text="Published" to="/tweets/published" />
         )}
         {!isLanding && user && (
           <LinkButton text="Settings" to="/settings/account" />

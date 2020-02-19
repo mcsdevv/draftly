@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useReviews } from "../../hooks";
 
 import { Box, Grid, Heading } from "@chakra-ui/core";
-import TweetsTabs from "../../components/tabs/tweets";
 import Review from "../../components/tweets/review";
 import Comments from "../../components/tweets/comments";
 
@@ -33,7 +32,6 @@ function Reviews() {
   }, [isValidating, reviews]);
   return (
     <>
-      <TweetsTabs />
       {showNoReviews && <h1>no reviews</h1>}
       {showLoading && <h1>loading</h1>}
       {reviews ? (
