@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 
 import { useScope, useProfile } from "../../hooks";
 
-import SettingsTabs from "../../components/tabs/settings";
-import Form from "../../components/form";
-import Input from "../../components/input";
+import Form from "../form";
+import Input from "../input";
 
-import RequireLogin from "../../lib/requireLogin";
 import { useRouter } from "next/router";
 
-function Reviews({}) {
+export default function Reviews() {
   const { revalidateProfile, teams, user } = useProfile();
   const { scope, setScope } = useScope();
   const router = useRouter();
@@ -53,7 +51,6 @@ function Reviews({}) {
   };
   return (
     <>
-      <SettingsTabs />
       <Form
         onSubmit={handleOnSubmitReviews}
         disabled={reviews.reviewsRequired === reviews.updateReviewsRequired}
@@ -71,5 +68,3 @@ function Reviews({}) {
     </>
   );
 }
-
-export default () => RequireLogin(Reviews);
