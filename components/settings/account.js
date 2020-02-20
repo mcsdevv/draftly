@@ -3,13 +3,10 @@ import { useEffect, useState } from "react";
 import { useScope, useProfile } from "../../hooks";
 import Cookies from "js-cookie";
 
-import SettingsTabs from "../../components/tabs/settings";
-import Form from "../../components/form";
-import Input from "../../components/input";
+import Form from "../form";
+import Input from "../input";
 
-import RequireLogin from "../../lib/requireLogin";
-
-function Account() {
+export default function Account() {
   const { revalidateProfile, teams, user } = useProfile();
   const { scope, setScope } = useScope();
   const [account, setAccount] = useState({
@@ -82,7 +79,6 @@ function Account() {
     user && scope && scope.owners && scope.owners.includes(user.email);
   return (
     <>
-      <SettingsTabs />
       <Form
         onSubmit={handleOnSubmitName}
         disabled={account.name === account.updateName}
@@ -121,5 +117,3 @@ function Account() {
     </>
   );
 }
-
-export default () => RequireLogin(Account);
