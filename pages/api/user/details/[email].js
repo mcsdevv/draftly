@@ -5,7 +5,7 @@ export default async (req, res) => {
   const start = new Date();
   // verify(req.headers.authorization || req.cookies.access_token, async error => {
   //   console.log("TIME TAKEN TO VERIFY:", (new Date() - start) / 1000);
-  if (error) res.status(400).json({ error });
+  // if (error) res.status(400).json({ error });
   const { email } = req.query;
   const start2 = new Date();
   try {
