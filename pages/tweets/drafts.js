@@ -45,7 +45,7 @@ function Drafts() {
           startDraft={startDraft}
         />
       </Box>
-      {drafts.length > 0 ? (
+      {drafts && drafts.length > 0 ? (
         drafts.map(d => (
           <Box alignSelf="center" justifySelf="center" key={d.ref}>
             <Draft drafts={drafts} revalidate={revalidateDrafts} tweet={d} />

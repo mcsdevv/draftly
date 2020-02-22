@@ -30,7 +30,7 @@ function Reviews() {
     }
     getPageState();
   }, [isValidating, reviews]);
-  return reviews.length > 0 ? (
+  return reviews && reviews.length > 0 ? (
     reviews.map(r => (
       <Grid key={r.ref} templateColumns="repeat(2, 1fr)" templateRows="700px">
         <Box alignSelf="center" justifySelf="center">
