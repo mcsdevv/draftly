@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { useProfile } from "../../hooks";
 import { mutate } from "swr";
@@ -14,10 +14,17 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
-  const [reviewing, setReviewing] = useState(false);
+  const [reviewsRequired, setReviewsRequired] = useState(false);
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
   const { user, teams } = useProfile();
+  useEffect(() => {
+    function getReviewsRequired() {
+      const required = scope.reviewsRequired - tweet.approvedBy.length;
+      setReviewsRequired(required);
+    }
+    getReviewsRequired();
+  }, [scope, tweet]);
   const getStateMessage = () => {
     if (deleting) return <h2>Deleting review...</h2>;
     if (saving) return <h2>Saving draft...</h2>;
@@ -130,10 +137,12 @@ export default function Review({ revalidate, reviews, size, tweet }) {
             />
             <Icon
               as={Send}
-              disabled={tweet.approvedBy.length !== scope.reviewsRequired}
+              disabled={reviewsRequired !== 0}
               onClick={handlePublishTweet}
               tooltip="Publish tweet."
-              tooltipDisabled="Reviews required."
+              tooltipDisabled={`${reviewsRequired} Review${
+                reviewsRequired > 1 ? "s" : ""
+              } required.`}
             />
           </Box>
         </>

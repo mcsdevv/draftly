@@ -1,4 +1,5 @@
 import { useProfile, useScope } from "../../hooks/";
+import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
 
@@ -11,6 +12,7 @@ export default function Header() {
   // TODO Move AuthButton into its own login page
   const { user } = useProfile();
   const { scope } = useScope();
+  const router = useRouter();
   const logoutUser = () => {
     fetch("/api/auth/logout");
     Cookies.remove("id_token");
@@ -18,7 +20,7 @@ export default function Header() {
     Cookies.remove("next");
     localStorage.removeItem("teams");
     localStorage.removeItem("user");
-    window.location = "/";
+    router.push("/");
   };
   return user !== undefined ? (
     <Box
@@ -37,13 +39,11 @@ export default function Header() {
       <Box>
         <LinkButton text="Dashboard" to="/dashboard" />
         {user && scope && !scope.personal && (
-          <LinkButton text="Drafts" to="/tweets/drafts" />
-        )}
-        {user && scope && !scope.personal && (
-          <LinkButton text="Reviews" to="/tweets/reviews" />
-        )}
-        {user && scope && !scope.personal && (
-          <LinkButton text="Published" to="/tweets/published" />
+          <>
+            <LinkButton text="Drafts" to="/tweets/drafts" />
+            <LinkButton text="Reviews" to="/tweets/reviews" />
+            <LinkButton text="Published" to="/tweets/published" />
+          </>
         )}
         {user && <LinkButton text="Settings" to="/settings" />}
         <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
