@@ -9,11 +9,11 @@ import RequireLogin from "../../lib/requireLogin";
 
 function Reviews() {
   const { reviews, isValidating, revalidateReviews } = useReviews();
-  const [showLoading, setShowLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
   const [showNoReviews, setShowNoReviews] = useState(false);
   useEffect(() => {
     function getPageState() {
-      if (isValidating) {
+      if (isValidating && !reviews) {
         // * Loading page
         setShowLoading(true);
         setShowNoReviews(false);

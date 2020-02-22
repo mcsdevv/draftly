@@ -6,7 +6,6 @@ import Link from "next/link";
 
 export default function LinkButton({ text, to }) {
   const router = useRouter();
-  console.log(router.pathname);
   return (
     <Link href={to}>
       <a>

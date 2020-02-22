@@ -10,10 +10,15 @@ import RequireLogin from "../../lib/requireLogin";
 function Drafts() {
   const { drafts, isValidating, revalidateDrafts } = useDrafts();
   const [drafting, setDrafting] = useState(false);
-  const [showLoading, setShowLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
   const [showNoDrafts, setShowNoDrafts] = useState(false);
   useEffect(() => {
     function getPageState() {
+      if (isValidating && !drafts) {
+        // * Loading page
+        setShowLoading(true);
+        setShowNoDrafts(false);
+      }
       if (!isValidating && !drafting && drafts && drafts.length === 0) {
         // * No drafts to show
         setShowNoDrafts(true);
@@ -33,7 +38,7 @@ function Drafts() {
   return (
     <>
       {showNoDrafts && <h1>no drafts</h1>}
-      {showLoading && <h1>loading</h1>}
+      {showLoading && <h1>loadingloadingloadingloadingloading</h1>}
       <Grid templateColumns="repeat(2, 1fr)" templateRows="700px">
         <Box alignSelf="center" justifySelf="center">
           <ComposeTweet
