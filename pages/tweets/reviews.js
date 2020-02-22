@@ -30,42 +30,22 @@ function Reviews() {
     }
     getPageState();
   }, [isValidating, reviews]);
-  return (
-    <>
-      {showNoReviews && <h1>no reviews</h1>}
-      {showLoading && <h1>loading</h1>}
-      {reviews ? (
-        reviews.map(r => (
-          <Grid
-            key={r.ref}
-            templateColumns="repeat(2, 1fr)"
-            templateRows="700px"
-          >
-            <Box alignSelf="center" justifySelf="center">
-              <Review
-                reviews={reviews}
-                revalidate={revalidateReviews}
-                tweet={r}
-              />
-            </Box>
-            <Box
-              alignSelf="center"
-              justifySelf="center"
-              key={r.ref + 1}
-              w="100%"
-            >
-              <Comments
-                comments={r.comments}
-                reviews={reviews}
-                tweetRef={r.ref}
-              />
-            </Box>
-          </Grid>
-        ))
-      ) : (
-        <Heading as="h2">Loading reviews...</Heading>
-      )}
-    </>
+  return reviews.length > 0 ? (
+    reviews.map(r => (
+      <Grid key={r.ref} templateColumns="repeat(2, 1fr)" templateRows="700px">
+        <Box alignSelf="center" justifySelf="center">
+          <Review reviews={reviews} revalidate={revalidateReviews} tweet={r} />
+        </Box>
+        <Box alignSelf="center" justifySelf="center" key={r.ref + 1} w="100%">
+          <Comments comments={r.comments} reviews={reviews} tweetRef={r.ref} />
+        </Box>
+      </Grid>
+    ))
+  ) : (
+    <Heading as="h2">
+      {showLoading && "Loading reviews..."}
+      {showNoReviews && "No reviews..."}
+    </Heading>
   );
 }
 

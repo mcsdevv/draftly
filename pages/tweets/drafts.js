@@ -36,29 +36,28 @@ function Drafts() {
     setDrafting(true);
   };
   return (
-    <>
-      {showNoDrafts && <h1>no drafts</h1>}
-      {showLoading && <h1>loadingloadingloadingloadingloading</h1>}
-      <Grid templateColumns="repeat(2, 1fr)" templateRows="700px">
-        <Box alignSelf="center" justifySelf="center">
-          <ComposeTweet
-            drafting={drafting}
-            revalidate={revalidateDrafts}
-            setDrafting={setDrafting}
-            startDraft={startDraft}
-          />
-        </Box>
-        {drafts ? (
-          drafts.map(d => (
-            <Box alignSelf="center" justifySelf="center" key={d.ref}>
-              <Draft drafts={drafts} revalidate={revalidateDrafts} tweet={d} />
-            </Box>
-          ))
-        ) : (
-          <Heading as="h2">Loading drafts...</Heading>
-        )}
-      </Grid>
-    </>
+    <Grid templateColumns="repeat(2, 1fr)" templateRows="700px">
+      <Box alignSelf="center" justifySelf="center">
+        <ComposeTweet
+          drafting={drafting}
+          revalidate={revalidateDrafts}
+          setDrafting={setDrafting}
+          startDraft={startDraft}
+        />
+      </Box>
+      {drafts.length > 0 ? (
+        drafts.map(d => (
+          <Box alignSelf="center" justifySelf="center" key={d.ref}>
+            <Draft drafts={drafts} revalidate={revalidateDrafts} tweet={d} />
+          </Box>
+        ))
+      ) : (
+        <Heading as="h2">
+          {showLoading && "Loading drafts..."}
+          {showNoDrafts && "No drafts..."}
+        </Heading>
+      )}
+    </Grid>
   );
 }
 
