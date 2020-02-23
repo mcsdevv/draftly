@@ -1,27 +1,19 @@
 import { useEffect, useState } from "react";
-
 import { useScope, useProfile } from "../../hooks";
 
 import Form from "../form";
 import Input from "../input";
 
-import { useRouter } from "next/router";
-
 export default function Reviews() {
   const { revalidateProfile, teams, user } = useProfile();
   const { scope, setScope } = useScope();
-  const router = useRouter();
   const [reviews, setReviews] = useState({
     reviewsRequired: 0,
     updateReviewsRequired: 0
   });
   useEffect(() => {
     function getReviews() {
-      if (scope && scope.personal) {
-        router.push("/settings/account");
-        return;
-      }
-      if (scope && !scope.personal && teams) {
+      if (scope && teams) {
         setReviews({
           reviewsRequired: scope.reviewsRequired.toString(),
           updateReviewsRequired: scope.reviewsRequired.toString()

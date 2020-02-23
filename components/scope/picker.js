@@ -5,20 +5,19 @@ import { Select } from "@chakra-ui/core";
 
 export default function ScopePicker() {
   const { scope, setScope, updateScope } = useScope();
-  const { teams, user } = useProfile();
+  const { teams } = useProfile();
   useEffect(() => {
-    if (!scope && user) {
-      setScope({ ...user, personal: true });
+    if (scope === null && teams) {
+      setScope({ ...teams[0] });
     }
-  }, [user]);
-  return user ? (
+  }, [teams]);
+  return scope ? (
     <Select
       maxW="sm"
       mx="2"
       onChange={updateScope}
-      value={scope ? scope.handle || scope.name : user.name}
+      value={(scope && scope.handle) || scope.name}
     >
-      <option value={user.name}>{user.name}</option>
       {teams &&
         teams.map(t => (
           <option key={t.name} value={t.handle}>

@@ -5,7 +5,7 @@ import { useProfile } from "../hooks/";
 
 export const useScope = () => {
   const { scope, setScope } = useContext(ScopeContext);
-  const { teams, user } = useProfile();
+  const { teams } = useProfile();
   const updateScope = e => {
     const name = e.target.value;
     if (name === "new") {
@@ -13,9 +13,8 @@ export const useScope = () => {
       window.location = "/api/auth/twitter/connect";
       return;
     }
-    const isPersonal = user.name === name;
-    const scopeDetails = isPersonal ? user : teams.find(t => t.handle === name);
-    setScope({ ...scopeDetails, personal: isPersonal });
+    const scopeDetails = teams.find(t => t.handle === name);
+    setScope({ ...scopeDetails });
   };
   return { scope, setScope, updateScope };
 };

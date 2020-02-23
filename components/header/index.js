@@ -9,7 +9,6 @@ import ScopePicker from "../scope/picker";
 import { Box, Heading } from "@chakra-ui/core";
 
 export default function Header() {
-  // TODO Move AuthButton into its own login page
   const { user } = useProfile();
   const { scope } = useScope();
   const router = useRouter();
@@ -39,7 +38,7 @@ export default function Header() {
       </Box>
       <Box>
         <LinkButton text="Dashboard" to="/dashboard" />
-        {user && scope && !scope.personal && (
+        {user && scope && (
           <>
             <LinkButton text="Drafts" to="/tweets/drafts" />
             <LinkButton text="Reviews" to="/tweets/reviews" />
