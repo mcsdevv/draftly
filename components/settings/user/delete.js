@@ -33,7 +33,7 @@ export default function DeleteUser() {
     <>
       <Form
         buttonText="Delete"
-        disabled={userName !== user.name}
+        disabled={user && userName !== user.name}
         helperText={"Enter your display name before clicking delete."}
         htmlFor="deleteName"
         label={"Delete Account"}

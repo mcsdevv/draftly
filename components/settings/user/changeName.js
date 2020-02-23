@@ -39,7 +39,7 @@ export default function ChangeUserName() {
     <>
       <Form
         onSubmit={handleOnSubmitName}
-        disabled={newName === scope.name}
+        disabled={user && newName === user.name}
         htmlFor="updateName"
         label={"Change Display Name"}
       >
