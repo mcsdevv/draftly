@@ -22,7 +22,8 @@ export default function Header() {
     localStorage.removeItem("user");
     router.push("/");
   };
-  return user !== undefined ? (
+  const loggedIn = Cookies.get("id_token");
+  return (
     <Box
       as="header"
       display="flex"
@@ -46,16 +47,8 @@ export default function Header() {
           </>
         )}
         {user && <LinkButton text="Settings" to="/settings" />}
-        <AuthButton loggedIn={!!user} logout={logoutUser} next="/dashboard" />
+        <AuthButton loggedIn={loggedIn} logout={logoutUser} next="/dashboard" />
       </Box>
     </Box>
-  ) : (
-    <Box
-      as="header"
-      display="flex"
-      h="72px"
-      justifyContent="space-between"
-      py="4"
-    />
   );
 }
