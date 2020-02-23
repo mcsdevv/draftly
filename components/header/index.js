@@ -1,4 +1,4 @@
-import { useProfile, useScope } from "../../hooks/";
+import { useProfile } from "../../hooks/";
 import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
@@ -10,7 +10,6 @@ import { Box, Heading } from "@chakra-ui/core";
 
 export default function Header() {
   const { user } = useProfile();
-  const { scope } = useScope();
   const router = useRouter();
   const logoutUser = () => {
     fetch("/api/auth/logout");
@@ -38,14 +37,14 @@ export default function Header() {
       </Box>
       <Box>
         <LinkButton text="Dashboard" to="/dashboard" />
-        {user && scope && (
+        {loggedIn && (
           <>
             <LinkButton text="Drafts" to="/tweets/drafts" />
             <LinkButton text="Reviews" to="/tweets/reviews" />
             <LinkButton text="Published" to="/tweets/published" />
+            <LinkButton text="Settings" to="/settings" />
           </>
         )}
-        {user && <LinkButton text="Settings" to="/settings" />}
         <AuthButton loggedIn={loggedIn} logout={logoutUser} next="/dashboard" />
       </Box>
     </Box>
