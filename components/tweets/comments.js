@@ -4,7 +4,7 @@ import { useProfile } from "../../hooks";
 import { mutate } from "swr";
 import uuidv4 from "uuid/v4";
 
-import { Box, Heading } from "@chakra-ui/core";
+import { Box, Heading, useToast } from "@chakra-ui/core";
 import Comment from "./comment";
 import Form from "../form";
 import Input from "../input";
@@ -13,6 +13,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
   const [comment, setComment] = useState("");
   const { scope } = useContext(ScopeContext);
   const { user } = useProfile();
+  const toast = useToast();
   const handleOnChange = e => {
     const newComment = e.target.value;
     setComment(newComment);
@@ -35,6 +36,12 @@ export default function Comments({ comments, reviews, tweetRef }) {
       });
       mutate(`/api/tweets/details/reviews/${scope.handle}`, {
         reviews: newReviews
+      });
+      toast({
+        title: "Comment deleted.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
       });
     }
   };
@@ -65,6 +72,12 @@ export default function Comments({ comments, reviews, tweetRef }) {
       });
       mutate(`/api/tweets/details/reviews/${scope.handle}`, {
         reviews: newReviews
+      });
+      toast({
+        title: "Comment added.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
       });
     }
   };

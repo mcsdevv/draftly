@@ -5,7 +5,7 @@ import { Edit, ThumbsUp, Trash2 } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
 
-import { Box, Image } from "@chakra-ui/core";
+import { Box, Image, useToast } from "@chakra-ui/core";
 import Card from "./cards";
 
 export default function Draft({ drafts, revalidate, size, tweet }) {
@@ -15,6 +15,7 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
   const [reviewing, setReviewing] = useState(false);
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
+  const toast = useToast();
   const getStateMessage = () => {
     if (deleting) return <h2>Deleting draft...</h2>;
     if (saving) return <h2>Saving draft...</h2>;
@@ -33,6 +34,12 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
         drafts: drafts.filter(d => d.ref !== tweet.ref)
       });
       setDeleting(false);
+      toast({
+        title: "Tweet deleted.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
     }
   };
   const handleEditDraft = () => {
@@ -59,6 +66,12 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
     });
     if (res.status === 200) {
       revalidate();
+      toast({
+        title: "Tweet sent for review.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
     }
   };
   const handleUpdateDraft = async () => {
@@ -80,6 +93,12 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
         drafts: drafts.map(d => (d.ref === tweet.ref ? { ...newDraft } : d))
       });
       setSaving(false);
+      toast({
+        title: "Tweet updated.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
     }
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/

@@ -5,7 +5,7 @@ import parseJwt from "../../lib/parseJwt";
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import { Box, Heading, Textarea } from "@chakra-ui/core";
+import { Box, Heading, Textarea, useToast } from "@chakra-ui/core";
 import DefaultButton from "../buttons/default";
 
 export default function ComposeTweet({
@@ -17,6 +17,7 @@ export default function ComposeTweet({
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
+  const toast = useToast();
   const handleSaveDraft = async () => {
     setSaving(true);
     const metadata = await getMeta(tweet);
@@ -37,6 +38,12 @@ export default function ComposeTweet({
       setDrafting(false);
       setSaving(false);
       setTweet("");
+      toast({
+        title: "Tweet created.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
     }
   };
   const handleOnChange = e => {

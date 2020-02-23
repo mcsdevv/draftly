@@ -6,7 +6,7 @@ import { Check, Edit, Send, Trash2 } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
 
-import { Box, Image, Text } from "@chakra-ui/core";
+import { Box, Image, Text, useToast } from "@chakra-ui/core";
 import Icon from "../icon";
 import Card from "./cards";
 
@@ -18,6 +18,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
   const { user, teams } = useProfile();
+  const toast = useToast();
   useEffect(() => {
     function getReviewsRequired() {
       const required = scope.reviewsRequired - tweet.approvedBy.length;
@@ -46,6 +47,12 @@ export default function Review({ revalidate, reviews, size, tweet }) {
         reviews: reviews.filter(d => d.ref !== tweet.ref)
       });
       setDeleting(false);
+      toast({
+        title: "Tweet deleted.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
     }
   };
   const handleEditReview = () => {
@@ -78,10 +85,22 @@ export default function Review({ revalidate, reviews, size, tweet }) {
         reviews: reviews.map(d => (d.ref === tweet.ref ? { ...newDraft } : d))
       });
       setSaving(false);
+      toast({
+        title: "Tweet updated.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
     }
   };
   const handlePublishTweet = () => {
     console.log("published");
+    toast({
+      title: "Tweet published.",
+      status: "success",
+      duration: 9000,
+      isClosable: true
+    });
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
