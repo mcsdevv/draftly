@@ -1,30 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useScope, useProfile } from "../../hooks";
 
+import { useToast } from "@chakra-ui/core";
 import Form from "../form";
 import Input from "../input";
 
 export default function Reviews() {
-  const { revalidateProfile, teams, user } = useProfile();
+  const { revalidateProfile } = useProfile();
   const { scope, setScope } = useScope();
-  const [reviews, setReviews] = useState({
-    reviewsRequired: 0,
-    updateReviewsRequired: 0
-  });
-  useEffect(() => {
-    function getReviews() {
-      if (scope && teams) {
-        setReviews({
-          reviewsRequired: scope.reviewsRequired.toString(),
-          updateReviewsRequired: scope.reviewsRequired.toString()
-        });
-      }
-    }
-    getReviews();
-  }, [scope, teams, user]);
+  const [reviews, setReviews] = useState(scope.reviewsRequired.toString());
+  const toast = useToast();
   const handleOnChange = e => {
-    const key = e.target.name;
-    setReviews({ ...reviews, [key]: e.target.value });
+    setReviews(e.target.value);
   };
   const handleOnSubmitReviews = async e => {
     e.preventDefault();
@@ -32,20 +19,26 @@ export default function Reviews() {
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
-        reviews: reviews.updateReviewsRequired
+        reviews
       })
     });
     if (res.status === 200) {
       revalidateProfile();
       const newScope = await res.json();
-      setScope({ ...newScope, personal: false });
+      setScope({ ...newScope });
+      toast({
+        title: "Required number of reviews updated.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
     }
   };
   return (
     <>
       <Form
         onSubmit={handleOnSubmitReviews}
-        disabled={reviews.reviewsRequired === reviews.updateReviewsRequired}
+        disabled={reviews === scope.reviewsRequired.toString()}
       >
         <Input
           label="Reviews Required to Publish"
@@ -54,7 +47,7 @@ export default function Reviews() {
           name="updateReviewsRequired"
           onChange={handleOnChange}
           type="number"
-          value={reviews.updateReviewsRequired}
+          value={reviews}
         />
       </Form>
     </>
