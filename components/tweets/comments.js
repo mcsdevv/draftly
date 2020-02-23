@@ -87,6 +87,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
         <Box bg="#fff" h="100px" position="sticky" top="0px">
           <Form
             buttonText="Comment"
+            disabled={comment === ""}
             handleOnChange={handleOnChange}
             label="Add Comment"
             onSubmit={handleSubmitComment}
