@@ -24,6 +24,7 @@ export default function DeleteUser() {
     if (status === 200) {
       revalidateProfile();
       setScope(null);
+      //   ! Update scope
       Cookies.remove("id_token");
       Cookies.remove("access_token");
       window.location = "/";

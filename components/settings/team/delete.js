@@ -25,9 +25,10 @@ export default function DeleteTeam() {
     });
     if (status === 200) {
       revalidateProfile();
+      //   ! Update scope
       setScope({ ...user });
       toast({
-        title: "Team name updated.",
+        title: "Team deleted.",
         status: "success",
         duration: 9000,
         isClosable: true
