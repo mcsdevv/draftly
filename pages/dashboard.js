@@ -1,20 +1,21 @@
-import { useProfile } from "../hooks";
+import { useDrafts, useProfile, useReviews } from "../hooks";
 import RequireLogin from "../lib/requireLogin";
 
 function Dashboard() {
+  const { drafts } = useDrafts();
+  const { reviews } = useReviews();
   const { user } = useProfile();
   return (
     <>
-      <h1>Dashboard</h1>
       <h3>
         Hello {user && user.name}, the following items need your attention:
       </h3>
-      <ul>
-        <li>New Scheduled Tweets</li>
-        <li>New Drafts</li>
-        <li>Outstanding Reviews</li>
-      </ul>
-      <style jsx>{``}</style>
+      {drafts && reviews && user && (
+        <ul>
+          <li>{drafts.length} drafts to complete.</li>
+          <li>{reviews.length} reviews to complete.</li>
+        </ul>
+      )}
     </>
   );
 }
