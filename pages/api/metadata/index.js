@@ -12,11 +12,10 @@ export default async (req, res) => {
       const respText = await resp.text();
       const doc = domino.createWindow(respText).document;
       const metadata = getMetadata(doc, uri);
-      console.log("Returned metadata:", metadata);
-      // ok
+      console.log("Returned metadata: ", metadata);
       res.status(200).json(metadata);
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/metadata -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

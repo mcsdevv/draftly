@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import { getRef } from "../../../_util/getRef";
+import { formatTweets } from "../../../_util/formatTweets";
 import verify from "../../../_util/token/verify";
 
 export default async (req, res) => {
@@ -7,6 +7,7 @@ export default async (req, res) => {
     if (error) res.status(400).json({ error });
     const { handle } = req.query;
     try {
+      // * Get draft tweets for account
       const dbs = await client.query(
         q.Map(
           q.Select(
@@ -16,22 +17,12 @@ export default async (req, res) => {
           q.Lambda("s", q.Get(q.Ref(q.Collection("tweets"), q.Var("s"))))
         )
       );
-      const drafts = dbs
-        .map(d => {
-          return {
-            ...d.data,
-            ref: getRef(d.ref),
-            updated: d.ts
-          };
-        })
-        .reverse();
-      console.log("Drafts for:", handle);
-      console.log("Drafts:", drafts);
-      // ok
+      // * Format draft tweets
+      const drafts = formatTweets(dbs);
+      console.log("Retrieved draft tweets for:", handle);
       res.status(200).json({ drafts });
     } catch (e) {
-      console.log("uh oh", e.message);
-      // something went wrong
+      console.log("ERROR - api/tweets/details/drafts -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

@@ -2,13 +2,11 @@ import { client, q } from "../../_util/fauna";
 import verify from "../../_util/token/verify";
 
 export default async (req, res) => {
-  const start = new Date();
   verify(req.headers.authorization || req.cookies.access_token, async error => {
-    console.log("TIME TAKEN TO VERIFY:", (new Date() - start) / 1000);
     if (error) res.status(400).json({ error });
     const { email } = req.query;
-    const start2 = new Date();
     try {
+      // * Get user details along with teams they are part of
       const dbs = await client.query(
         q.Drop(
           2,
@@ -33,26 +31,20 @@ export default async (req, res) => {
           )
         )
       );
-      console.log(
-        "TIME TAKEN TO GET DB RESPONSE:",
-        (new Date() - start2) / 1000
-      );
+      // * Extract user and teams from db response
       const userData = dbs[0];
       const teamsData = dbs.slice(1);
       userData.shift();
       const user = userData.shift();
-      console.log("User details:", user);
       const teams = teamsData.map(t => {
         delete t.data.auth;
         return t.data;
       });
-      console.log("Teams details", teams);
-      // ok
-      console.log("TIME TAKEN TO FULFILL REQ:", (new Date() - start) / 1000);
+      console.log("User details: ", user);
+      console.log("Teams details: ", teams);
       res.status(200).json({ user, teams });
     } catch (e) {
-      console.log("Error:", e.message);
-      // something went wrong
+      console.log("ERROR - api/user/details -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

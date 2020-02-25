@@ -7,7 +7,7 @@ export default async (req, res) => {
     const { handle } = req.body;
     const { ref } = req.query;
     try {
-      // * Add draft tweet ref to a team
+      // * Remove tweet from reviews and add to published for a team
       await client.query(
         q.Update(
           q.Select(
@@ -16,10 +16,17 @@ export default async (req, res) => {
           ),
           {
             data: {
-              drafts: q.Append(
+              reviews: q.Filter(
+                q.Select(
+                  ["data", "reviews"],
+                  q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+                ),
+                q.Lambda("s", q.Not(q.Equals(ref, q.Var("s"))))
+              ),
+              published: q.Append(
                 ref,
                 q.Select(
-                  ["data", "drafts"],
+                  ["data", "published"],
                   q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
                 )
               )
@@ -27,10 +34,10 @@ export default async (req, res) => {
           }
         )
       );
-      console.log("Added new tweet to team: ", handle);
-      res.status(200).json({ ref });
+      console.log("Tweet changed from review to published for:", handle);
+      res.status(200).json(ref);
     } catch (e) {
-      console.log("ERROR - api/team/create/draft -", e.message);
+      console.log("ERROR - api/team/create/published -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

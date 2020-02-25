@@ -15,11 +15,10 @@ export default async (req, res) => {
           }
         })
       );
-      console.log("Updated tweet: ", ref);
-      // ok
+      console.log("Updated review tweet: ", ref);
       res.status(200).json({ ...dbs.data, ref, updated: dbs.ts });
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/tweet/review/update -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

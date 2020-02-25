@@ -7,6 +7,7 @@ export default (req, res) => {
     const comment = JSON.parse(req.body);
     const { ref } = req.query;
     try {
+      // * Add comment to tweet
       const dbs = await client.query(
         q.Update(q.Ref(q.Collection("tweets"), ref), {
           data: {
@@ -21,9 +22,10 @@ export default (req, res) => {
         })
       );
       const { data } = await dbs;
+      console.log("Added comment to: ", ref);
       res.status(200).json([...data.comments]);
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/tweet/comment/create -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

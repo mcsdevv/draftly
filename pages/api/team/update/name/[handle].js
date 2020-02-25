@@ -4,9 +4,10 @@ import verify from "../../../_util/token/verify";
 export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
+    const { newName } = JSON.parse(req.body);
+    const { handle } = req.query;
     try {
-      const { newName } = JSON.parse(req.body);
-      const { handle } = req.query;
+      // * Update team name
       const dbs = await client.query(
         q.Update(
           q.Select(
@@ -20,12 +21,10 @@ export default async (req, res) => {
           }
         )
       );
-      console.log("Team name updated:", dbs);
-      // ok
+      console.log("Team name updated for:", handle);
       res.status(200).json(dbs.data);
     } catch (e) {
-      console.log(("ERROR", e));
-      // something went wrong
+      console.log("ERROR - api/team/update/name -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

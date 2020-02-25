@@ -4,8 +4,9 @@ import verify from "../../_util/token/verify";
 export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
+    const { teams } = req.body;
     try {
-      const { teams } = req.body;
+      // * Delete multiple teams
       const dbs = await client.query(
         q.Foreach(
           q.Paginate(
@@ -22,12 +23,10 @@ export default async (req, res) => {
           q.Lambda("u", q.Delete(q.Var("u")))
         )
       );
-      console.log("NEW DATA", dbs);
-      // ok
+      console.log("Deleted teams: ", teams);
       res.status(200).json(dbs.data);
     } catch (e) {
-      console.log(("ERROR", e));
-      // something went wrong
+      console.log("ERROR - api/teams/delete/delete -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

@@ -6,14 +6,28 @@ import verify from "../../../_util/token/verify";
 export default (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
-    const { creator, ref } = JSON.parse(req.body);
+    const { ref, tweet } = JSON.parse(req.body);
     const { handle } = req.query;
     try {
-      // * Update tweet type to review
+      // * Attempt to post tweet
+      // TODO Handle error
+      const tweetOptions = {
+        method: "POST",
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/auth/twitter/post/${handle}`,
+        body: {
+          tweet
+        },
+        headers: {
+          Authorization: req.headers.authorization || req.cookies.access_token
+        },
+        json: true
+      };
+      await request(tweetOptions);
+      // * Update the tweet type to published
       const dbs = await client.query(
         q.Update(q.Ref(q.Collection("tweets"), ref), {
           data: {
-            type: "review"
+            type: "published"
           }
         })
       );
@@ -22,7 +36,7 @@ export default (req, res) => {
       // * Update team with the tweet ref
       const teamOptions = {
         method: "POST",
-        url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/review/${refTrimmed}`,
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/published/${refTrimmed}`,
         body: {
           handle
         },
@@ -32,10 +46,10 @@ export default (req, res) => {
         json: true
       };
       await request(teamOptions);
-      console.log("Created review tweet for:", handle);
+      console.log("Published tweet created for:", handle);
       res.status(200).json(dbs.data);
     } catch (e) {
-      console.log("ERROR - api/tweet/review/create -", e.message);
+      console.log("ERROR - api/tweet/published/create -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

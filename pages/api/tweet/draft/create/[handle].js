@@ -9,6 +9,7 @@ export default (req, res) => {
     const { creator, metadata, tweet } = JSON.parse(req.body);
     const { handle } = req.query;
     try {
+      // * Create a draft tweet
       const dbs = await client.query(
         q.Create(q.Collection("tweets"), {
           data: {
@@ -36,10 +37,10 @@ export default (req, res) => {
         json: true
       };
       await request(teamOptions);
-      // ok
+      console.log("Draft tweet created for:", handle);
       res.status(200).json({ ref: refTrimmed });
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/tweet/draft/create -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

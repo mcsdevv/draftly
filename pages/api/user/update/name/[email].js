@@ -5,6 +5,7 @@ export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
     try {
+      // * Update user name
       const { newName } = JSON.parse(req.body);
       const { email } = req.query;
       const dbs = await client.query(
@@ -20,12 +21,10 @@ export default async (req, res) => {
           }
         )
       );
-      console.log("User name updated:", dbs);
-      // ok
+      console.log("User name updated: ", dbs);
       res.status(200).json(dbs.data);
     } catch (e) {
-      console.log(("ERROR", e));
-      // something went wrong
+      console.log("ERROR - api/user/update/name -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

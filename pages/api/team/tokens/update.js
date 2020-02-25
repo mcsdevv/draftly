@@ -6,6 +6,7 @@ export default async (req, res) => {
     if (error) res.status(400).json({ error });
     const { handle, tokenKey, tokenSecret } = req.body;
     try {
+      // * Update team tokens
       const dbs = await client.query(
         q.Update(
           q.Select(
@@ -22,11 +23,10 @@ export default async (req, res) => {
           }
         )
       );
-      // ok
       console.log("Tokens updated for:", handle);
       res.status(200).json(dbs.data);
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/team/tokens/update -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

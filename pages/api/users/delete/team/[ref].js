@@ -7,6 +7,7 @@ export default async (req, res) => {
     try {
       const { emails } = req.body;
       const { ref } = req.query;
+      // * Remove team from all users
       const dbs = await client.query(
         q.Foreach(
           q.Paginate(
@@ -33,11 +34,10 @@ export default async (req, res) => {
           )
         )
       );
-      // ok
+      console.log("Removed team for all users: ", ref);
       res.status(200).json(dbs.data);
     } catch (e) {
-      console.log(("ERROR", e));
-      // something went wrong
+      console.log("ERROR - api/users/delete/team -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

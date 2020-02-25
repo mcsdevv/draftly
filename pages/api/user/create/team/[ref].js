@@ -7,6 +7,7 @@ export default async (req, res) => {
     const { email } = req.body;
     const { ref } = req.query;
     try {
+      // * Add team to user
       await client.query(
         q.Update(
           q.Select(
@@ -27,10 +28,9 @@ export default async (req, res) => {
         )
       );
       console.log("Added new team to user: ", ref);
-      // ok
       res.status(200).json({ update: true });
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/user/create/team -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

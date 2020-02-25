@@ -8,8 +8,8 @@ export default (req, res) => {
     if (error) res.status(400).json({ error });
     const { data, email, tokenKey, tokenSecret } = req.body;
     const { name, screen_name, profile_image_url } = data;
-    console.log("DATA", data);
     try {
+      // * Create a team
       const dbs = await client.query(
         q.Create(q.Collection("teams"), {
           data: {
@@ -33,7 +33,7 @@ export default (req, res) => {
       );
       const { ref } = await dbs;
       const refTrimmed = getRef(ref);
-      // * Update user with the added team also
+      // * Update user with the team ref
       const teamOptions = {
         method: "POST",
         url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create/team/${refTrimmed}`,
@@ -46,10 +46,10 @@ export default (req, res) => {
         json: true
       };
       const { update } = await request(teamOptions);
-      // ok
+      console.log("Created team: ", name);
       res.status(200).json({ update });
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/team/create -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

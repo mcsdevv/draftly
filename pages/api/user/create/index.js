@@ -6,6 +6,7 @@ export default async (req, res) => {
     if (error) res.status(400).json({ error });
     const { email, name, picture } = req.body;
     try {
+      // * Create user account
       const dbs = await client.query(
         q.Create(q.Collection("users"), {
           data: {
@@ -16,11 +17,10 @@ export default async (req, res) => {
           }
         })
       );
-      console.log("User created:", dbs.data);
-      // ok
+      console.log("User created: ", dbs.data);
       res.status(200).json(dbs.data);
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/user/create -", e.message);
       res.status(500).json({ error: e.message });
     }
   });
