@@ -16,6 +16,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   const [editTweet, setEditTweet] = useState(tweet.text);
   const [reviewsRequired, setReviewsRequired] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [publishing, setPublishing] = useState(false);
   const { scope } = useContext(ScopeContext);
   const { user, teams } = useProfile();
   const toast = useToast();
@@ -93,14 +94,30 @@ export default function Review({ revalidate, reviews, size, tweet }) {
       });
     }
   };
-  const handlePublishTweet = () => {
-    console.log("published");
-    toast({
-      title: "Tweet published.",
-      status: "success",
-      duration: 9000,
-      isClosable: true
+  const handlePublishTweet = async () => {
+    setPublishing(true);
+    const url = `/api/tweet/published/create/${scope.handle}`;
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        creator: tweet.creator,
+        ref: tweet.ref,
+        tweet: tweet.text
+      })
     });
+    if (res.status === 200) {
+      // const newDraft = await res.json();
+      // mutate(`/api/tweets/details/reviews/${scope.handle}`, {
+      //   reviews: reviews.map(d => (d.ref === tweet.ref ? { ...newDraft } : d))
+      // });
+      setPublishing(false);
+      toast({
+        title: "Tweet published.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
+    }
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (

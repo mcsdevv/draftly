@@ -2,8 +2,6 @@ import oauth from "../../../_util/oauth";
 import request from "request-promise";
 import jwt from "jsonwebtoken";
 
-// const Twitter = require("twitter");
-
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
   // * Get users access tokens
@@ -74,21 +72,6 @@ export default (req, res) => {
           }
         }
       );
-
-      //   const client = new Twitter({
-      //     consumer_key: process.env.TWITTER_CONSUMER_KEY,
-      //     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-      //     access_token_key: oauthAccessToken,
-      //     access_token_secret: oauthAccessTokenSecret
-      //   });
-      //   client.post("statuses/update", { status: "test" }, function(
-      //     error,
-      //     tweet,
-      //     response
-      //   ) {
-      //     if (error) throw error;
-      //     console.log(tweet); // Tweet body.
-      //   });
     }
   );
 };

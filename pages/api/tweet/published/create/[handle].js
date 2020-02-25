@@ -6,14 +6,26 @@ import verify from "../../../_util/token/verify";
 export default (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
-    const { creator, ref } = JSON.parse(req.body);
-    console.log("CREATOR", creator);
+    const { ref, tweet } = JSON.parse(req.body);
     const { handle } = req.query;
     try {
+      const tweetOptions = {
+        method: "POST",
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/auth/twitter/post/${handle}`,
+        body: {
+          tweet
+        },
+        headers: {
+          Authorization: req.headers.authorization || req.cookies.access_token
+        },
+        json: true
+      };
+      console.log("options");
+      await request(tweetOptions);
       const dbs = await client.query(
         q.Update(q.Ref(q.Collection("tweets"), ref), {
           data: {
-            type: "review"
+            type: "published"
           }
         })
       );
@@ -22,7 +34,7 @@ export default (req, res) => {
       // * Update team with the tweet ref
       const teamOptions = {
         method: "POST",
-        url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/review/${refTrimmed}`,
+        url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/published/${refTrimmed}`,
         body: {
           handle
         },
@@ -35,6 +47,7 @@ export default (req, res) => {
       // ok
       res.status(200).json(dbs.data);
     } catch (e) {
+      console.log(e.message);
       // something went wrong
       res.status(500).json({ error: e.message });
     }
