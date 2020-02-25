@@ -7,6 +7,7 @@ export default (req, res) => {
     const { id } = JSON.parse(req.body);
     const { ref } = req.query;
     try {
+      // * Delete a tweet comment
       const dbs = await client.query(
         q.Update(q.Ref(q.Collection("tweets"), ref), {
           data: {
@@ -21,9 +22,10 @@ export default (req, res) => {
         })
       );
       const { data } = await dbs;
+      console.log("Deleted comment for:", ref);
       res.status(200).json([...data.comments]);
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/tweet/comment/delete -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

@@ -6,14 +6,14 @@ export default async (req, res) => {
     if (error) res.status(400).json({ error });
     const { handle } = req.query;
     try {
+      // * Get auth tokens for account
       const dbs = await client.query(
         q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
       );
-      console.log("Team details:", dbs);
-      // ok
+      console.log("Retrieved tokens for:", handle);
       res.status(200).json({ ...dbs.data.auth });
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/team/tokens/get -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

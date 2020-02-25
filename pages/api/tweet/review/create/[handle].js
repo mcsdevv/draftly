@@ -7,9 +7,9 @@ export default (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
     const { creator, ref } = JSON.parse(req.body);
-    console.log("CREATOR", creator);
     const { handle } = req.query;
     try {
+      // * Update tweet type to review
       const dbs = await client.query(
         q.Update(q.Ref(q.Collection("tweets"), ref), {
           data: {
@@ -32,10 +32,10 @@ export default (req, res) => {
         json: true
       };
       await request(teamOptions);
-      // ok
+      console.log("Created review tweet for:", handle);
       res.status(200).json(dbs.data);
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/tweet/review/create -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

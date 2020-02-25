@@ -7,6 +7,7 @@ export default async (req, res) => {
     const { handle } = req.query;
     const { ref } = req.body;
     try {
+      // * Delete a draft tweet from a team
       const dbs = await client.query(
         q.Update(
           q.Select(
@@ -26,12 +27,10 @@ export default async (req, res) => {
           }
         )
       );
-      console.log("Deleted review from:", handle);
-      // ok
+      console.log("Deleted draft tweet from: ", handle);
       res.status(200).json(dbs.data);
     } catch (e) {
-      console.log(("ERROR", e));
-      // something went wrong
+      console.log("ERROR - api/team/delete/draft -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

@@ -6,8 +6,8 @@ export default async (req, res) => {
     if (error) res.status(400).json({ error });
     const { handle } = req.body;
     const { ref } = req.query;
-    console.log("doing shit", handle, ref);
     try {
+      // * Remove tweet from reviews and add to published for a team
       await client.query(
         q.Update(
           q.Select(
@@ -34,11 +34,10 @@ export default async (req, res) => {
           }
         )
       );
-      console.log("Published new tweet for team: ", ref);
-      // ok
+      console.log("Tweet changed from review to published for:", handle);
       res.status(200).json(ref);
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/team/create/published -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

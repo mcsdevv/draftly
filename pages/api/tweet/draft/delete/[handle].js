@@ -8,9 +8,11 @@ export default async (req, res) => {
     const { handle } = req.query;
     const { ref } = JSON.parse(req.body);
     try {
+      // * Delete a draft tweet
       const dbs = await client.query(
         q.Delete(q.Select(["ref"], q.Get(q.Ref(q.Collection("tweets"), ref))))
       );
+      // * Remove tweet ref from team
       const deleteOptions = {
         method: "PATCH",
         url: `${process.env.AUTH0_REDIRECT_URI}/api/team/delete/draft/${handle}`,
@@ -23,12 +25,10 @@ export default async (req, res) => {
         json: true
       };
       await request(deleteOptions);
-      console.log("Deleted tweet:", ref);
-      // ok
+      console.log("Deleted tweet for:", handle);
       res.status(200).json({ ...dbs.data });
     } catch (e) {
-      console.log("ERRRRRR", e);
-      // something went wrong
+      console.log("ERROR - api/tweet/draft/delete -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

@@ -9,6 +9,8 @@ export default (req, res) => {
     const { ref, tweet } = JSON.parse(req.body);
     const { handle } = req.query;
     try {
+      // * Attempt to post tweet
+      // TODO Handle error
       const tweetOptions = {
         method: "POST",
         url: `${process.env.AUTH0_REDIRECT_URI}/api/auth/twitter/post/${handle}`,
@@ -20,8 +22,8 @@ export default (req, res) => {
         },
         json: true
       };
-      console.log("options");
       await request(tweetOptions);
+      // * Update the tweet type to published
       const dbs = await client.query(
         q.Update(q.Ref(q.Collection("tweets"), ref), {
           data: {
@@ -44,11 +46,10 @@ export default (req, res) => {
         json: true
       };
       await request(teamOptions);
-      // ok
+      console.log("Published tweet created for:", handle);
       res.status(200).json(dbs.data);
     } catch (e) {
-      console.log(e.message);
-      // something went wrong
+      console.log("ERROR - api/tweet/published/create -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

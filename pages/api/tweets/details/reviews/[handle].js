@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import { getRef } from "../../../_util/getRef";
+import { formatTweets } from "../../../_util/formatTweets";
 import verify from "../../../_util/token/verify";
 
 export default async (req, res) => {
@@ -7,6 +7,7 @@ export default async (req, res) => {
     if (error) res.status(400).json({ error });
     const { handle } = req.query;
     try {
+      // * Get review tweets for account
       const dbs = await client.query(
         q.Map(
           q.Select(
@@ -16,22 +17,12 @@ export default async (req, res) => {
           q.Lambda("s", q.Get(q.Ref(q.Collection("tweets"), q.Var("s"))))
         )
       );
-      const reviews = dbs
-        .map(d => {
-          return {
-            ...d.data,
-            ref: getRef(d.ref),
-            updated: d.ts
-          };
-        })
-        .reverse();
-      console.log("Reviews for:", handle);
-      console.log("Reviews:", reviews);
-      // ok
+      // * Format review tweets
+      const reviews = formatTweets(dbs);
+      console.log("Retrieved review tweets for:", handle);
       res.status(200).json({ reviews });
     } catch (e) {
-      console.log("uh oh", e.message);
-      // something went wrong
+      console.log("ERROR - api/tweets/details/reviews -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

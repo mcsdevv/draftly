@@ -6,16 +6,16 @@ export default async (req, res) => {
     if (error) res.status(400).json({ error });
     const { handle } = req.query;
     try {
+      // * Get details for a team
       const dbs = await client.query(
         q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
       );
       // * Delete keys before sending response
       delete dbs.data.auth;
       console.log("Team details:", dbs);
-      // ok
       res.status(200).json({ ...dbs.data });
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/team/details -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

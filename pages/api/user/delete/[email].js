@@ -8,6 +8,7 @@ export default async (req, res) => {
     const { teams } = JSON.parse(req.body);
     const { email } = req.query;
     try {
+      // * Delete user
       const dbs = await client.query(
         q.Delete(
           q.Select(
@@ -16,12 +17,14 @@ export default async (req, res) => {
           )
         )
       );
+      // * List teams to delete if no owners remain after user deletion
       const teamsToDelete = [];
       teams.forEach(t => {
         if (t.owners.length <= 1 && t.owners.includes(email)) {
           teamsToDelete.push(t.handle);
         }
       });
+      // * Delete teams with no remaining owners
       const deleteOptions = {
         method: "DELETE",
         url: `${process.env.AUTH0_REDIRECT_URI}/api/teams/delete`,
@@ -34,11 +37,10 @@ export default async (req, res) => {
         json: true
       };
       await request(deleteOptions);
-      console.log("Deleted user:", dbs.data.name);
-      // ok
+      console.log("Deleted user: ", dbs.data.name);
       res.status(200).json({ ...dbs.data });
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/user/delete -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

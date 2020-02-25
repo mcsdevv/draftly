@@ -106,10 +106,7 @@ export default function Review({ revalidate, reviews, size, tweet }) {
       })
     });
     if (res.status === 200) {
-      // const newDraft = await res.json();
-      // mutate(`/api/tweets/details/reviews/${scope.handle}`, {
-      //   reviews: reviews.map(d => (d.ref === tweet.ref ? { ...newDraft } : d))
-      // });
+      revalidate();
       setPublishing(false);
       toast({
         title: "Tweet published.",

@@ -7,6 +7,7 @@ export default async (req, res) => {
     const { handle } = req.body;
     const { ref } = req.query;
     try {
+      // * Add draft tweet ref to a team
       await client.query(
         q.Update(
           q.Select(
@@ -26,11 +27,10 @@ export default async (req, res) => {
           }
         )
       );
-      console.log("Added new tweet to team: ", ref);
-      // ok
+      console.log("Added new tweet to team: ", handle);
       res.status(200).json({ ref });
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/team/create/draft -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

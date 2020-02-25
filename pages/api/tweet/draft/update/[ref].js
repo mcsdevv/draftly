@@ -7,6 +7,7 @@ export default async (req, res) => {
     const { metadata, text } = JSON.parse(req.body);
     const { ref } = req.query;
     try {
+      // * Update a draft tweet
       const dbs = await client.query(
         q.Update(q.Ref(q.Collection("tweets"), ref), {
           data: {
@@ -16,10 +17,9 @@ export default async (req, res) => {
         })
       );
       console.log("Updated tweet: ", ref);
-      // ok
       res.status(200).json({ ...dbs.data, ref, updated: dbs.ts });
     } catch (e) {
-      // something went wrong
+      console.log("ERROR - api/tweet/draft/update -", e.message);
       res.status(500).json({ error: e.message });
     }
   });

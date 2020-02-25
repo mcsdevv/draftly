@@ -2,11 +2,10 @@ const Twitter = require("twitter");
 import request from "request-promise";
 
 export default async (req, res) => {
-  console.log("posting");
   const { tweet } = req.body;
   const { handle } = req.query;
   try {
-    console.log("trying to get auth");
+    // * Get auth keys for account
     const authOptions = {
       method: "GET",
       url: `${process.env.AUTH0_REDIRECT_URI}/api/team/tokens/get/${handle}`,
@@ -16,24 +15,26 @@ export default async (req, res) => {
       json: true
     };
     const { tokenKey, tokenSecret } = await request(authOptions);
+    // * Create new Twitter client with account and application keys
     const client = new Twitter({
       consumer_key: process.env.TWITTER_CONSUMER_KEY,
       consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
       access_token_key: tokenKey,
       access_token_secret: tokenSecret
     });
+    // * Post tweet
     client.post("statuses/update", { status: tweet }, function(
       error,
       tweet,
       response
     ) {
       if (error) throw error;
-      console.log(tweet); // Tweet body.
+      console.log("Error posting tweet: ", tweet);
     });
-    // ok
+    console.log("Tweet successfully posted for:", handle);
     res.status(200).json({ ok: true });
   } catch (e) {
-    // something went wrong
+    console.log("ERROR - api/twitter/post -", e.message);
     res.status(500).json({ error: e.message });
   }
 };
