@@ -2,7 +2,15 @@ import Linkify from "react-linkify";
 
 import CardTop from "../card/top";
 import CardBottom from "../card/bottom";
-import { Box, Heading, Icon, Image, Text, Textarea } from "@chakra-ui/core";
+import {
+  Box,
+  CircularProgress,
+  Heading,
+  Icon,
+  Image,
+  Text,
+  Textarea
+} from "@chakra-ui/core";
 
 export default function SummaryLarge({
   editing,
