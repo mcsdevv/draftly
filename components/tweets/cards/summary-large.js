@@ -40,7 +40,22 @@ export default function SummaryLarge({
             {!editing ? (
               text
             ) : (
-              <Textarea onChange={handleOnChange} value={editTweet} />
+              <>
+                <Textarea onChange={handleOnChange} value={editTweet} />
+                <Box
+                  height="0px"
+                  marginLeft="auto"
+                  marginRight="2"
+                  position="relative"
+                  top="-24px"
+                  width="fit-content"
+                >
+                  <CircularProgress
+                    size="md"
+                    value={(editTweet.length / 280) * 100}
+                  />
+                </Box>
+              </>
             )}
           </Linkify>
         </p>
