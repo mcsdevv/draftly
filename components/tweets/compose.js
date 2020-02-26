@@ -5,13 +5,8 @@ import parseJwt from "../../lib/parseJwt";
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import {
-  Box,
-  CircularProgress,
-  Heading,
-  Textarea,
-  useToast
-} from "@chakra-ui/core";
+import { Box, Heading, Textarea, useToast } from "@chakra-ui/core";
+import Characters from "./card/characters";
 import DefaultButton from "../buttons/default";
 
 export default function ComposeTweet({
@@ -75,15 +70,7 @@ export default function ComposeTweet({
               width="400px"
               value={tweet}
             />
-            <Box
-              marginLeft="auto"
-              marginRight="2"
-              top="-24px"
-              position="relative"
-              width="fit-content"
-            >
-              <CircularProgress size="md" value={(tweet.length / 280) * 100} />
-            </Box>
+            <Characters tweet={tweet} />
           </Box>
           <DefaultButton
             disabled={!tweet}
