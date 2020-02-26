@@ -5,7 +5,13 @@ import parseJwt from "../../lib/parseJwt";
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import { Box, Heading, Textarea, useToast } from "@chakra-ui/core";
+import {
+  Box,
+  CircularProgress,
+  Heading,
+  Textarea,
+  useToast
+} from "@chakra-ui/core";
 import DefaultButton from "../buttons/default";
 
 export default function ComposeTweet({
@@ -54,17 +60,31 @@ export default function ComposeTweet({
       alert("over the limit bud");
     }
   };
+  console.log(tweet.length);
   return (
     <Box display="flex" flexDirection="column" h="100%" justifyContent="center">
       {!drafting ? (
         <DefaultButton handleOnClick={startDraft} text="Create Draft" />
       ) : !saving ? (
         <>
-          <Textarea
-            placeholder="Draft your tweet..."
-            onChange={handleOnChange}
-            value={tweet}
-          />
+          <Box marginBottom="4">
+            <Textarea
+              placeholder="Draft your tweet..."
+              height="200px"
+              onChange={handleOnChange}
+              width="400px"
+              value={tweet}
+            />
+            <Box
+              marginLeft="auto"
+              marginRight="2"
+              top="-24px"
+              position="relative"
+              width="fit-content"
+            >
+              <CircularProgress size="md" value={(tweet.length / 280) * 100} />
+            </Box>
+          </Box>
           <DefaultButton
             disabled={!tweet}
             handleOnClick={handleSaveDraft}
