@@ -32,25 +32,25 @@ export default function Text({
             {!editing ? (
               text
             ) : (
-              <>
-                <Textarea onChange={handleOnChange} value={editTweet} />
-                <Box
-                  height="0px"
-                  marginLeft="auto"
-                  marginRight="2"
-                  position="relative"
-                  top="-24px"
-                  width="fit-content"
-                >
-                  <CircularProgress
-                    size="md"
-                    value={(editTweet.length / 280) * 100}
-                  />
-                </Box>
-              </>
+              <Textarea onChange={handleOnChange} value={editTweet} />
             )}
           </Linkify>
         </p>
+        {editing && (
+          <Box
+            height="0px"
+            marginLeft="auto"
+            marginRight="2"
+            position="relative"
+            top="-24px"
+            width="fit-content"
+          >
+            <CircularProgress
+              size="md"
+              value={(editTweet.length / 280) * 100}
+            />
+          </Box>
+        )}
         <CardBottom />
       </Box>
       <style jsx>{`
