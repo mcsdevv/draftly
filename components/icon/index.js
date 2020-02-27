@@ -4,6 +4,7 @@ export default function Icon({
   as,
   disabled,
   onClick,
+  showDelay,
   tooltip,
   tooltipDisabled
 }) {

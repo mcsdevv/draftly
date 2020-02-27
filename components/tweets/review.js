@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { useProfile } from "../../hooks";
 import { mutate } from "swr";
-import { Check, Edit, Send, Trash2 } from "react-feather";
+import { Check, CheckCircle, Edit, Send, Trash2, X } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
+import removeWww from "../../lib/removeWww";
 
 import { Box, Image, Text, useToast } from "@chakra-ui/core";
 import Icon from "../icon";
@@ -33,6 +34,9 @@ export default function Review({ revalidate, reviews, size, tweet }) {
   };
   const handleApproveTweet = () => {
     console.log("approved");
+  };
+  const handleCancelEdit = () => {
+    setEditing(false);
   };
   const handleDeleteReview = async () => {
     setDeleting(true);
@@ -68,16 +72,22 @@ export default function Review({ revalidate, reviews, size, tweet }) {
     }
   };
   const handleUpdateReview = async () => {
+    // * No changes made, no need to update
+    if (tweet.text === editTweet) {
+      setEditing(false);
+      return;
+    }
+    // * Changes made, update tweet
     setEditing(false);
     setSaving(true);
-    console.log(editTweet);
     const metadata = await getMeta(editTweet);
     const url = `/api/tweet/review/update/${tweet.ref}`;
+    const formattedTweet = removeWww(editTweet);
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
         metadata,
-        text: editTweet
+        text: formattedTweet
       })
     });
     if (res.status === 200) {
@@ -148,35 +158,56 @@ export default function Review({ revalidate, reviews, size, tweet }) {
             />
           </Box>
           <Box alignContent="center" display="flex">
-            <Icon
-              as={Trash2}
-              onClick={handleDeleteReview}
-              tooltip="Delete tweet."
-            />
-            <Icon
-              as={Edit}
-              onClick={!editing ? handleEditReview : handleUpdateReview}
-              tooltip="Edit tweet."
-            />
-            <Text m="6">
-              {tweet.approvedBy.length} / {scope.reviewsRequired}
-            </Text>
-            <Icon
-              as={Check}
-              disabled={user && user.name === tweet.creator}
-              onClick={handleApproveTweet}
-              tooltip="Approve tweet."
-              tooltipDisabled="You cannot approve your own tweet."
-            />
-            <Icon
-              as={Send}
-              disabled={reviewsRequired !== 0}
-              onClick={handlePublishTweet}
-              tooltip="Publish tweet."
-              tooltipDisabled={`${reviewsRequired} Review${
-                reviewsRequired > 1 ? "s" : ""
-              } required.`}
-            />
+            {!editing ? (
+              <>
+                <Icon
+                  as={Trash2}
+                  onClick={handleDeleteReview}
+                  tooltip="Delete tweet."
+                />
+                <Icon
+                  as={Edit}
+                  onClick={handleEditReview}
+                  tooltip="Edit tweet."
+                />
+                <Text m="6">
+                  {tweet.approvedBy.length} / {scope.reviewsRequired}
+                </Text>
+              </>
+            ) : (
+              <>
+                <Icon
+                  as={Check}
+                  onClick={handleUpdateReview}
+                  tooltip="Complete edit."
+                />
+                <Icon
+                  as={X}
+                  onClick={handleCancelEdit}
+                  tooltip="Cancel edit."
+                />
+              </>
+            )}
+            {!editing && (
+              <>
+                <Icon
+                  as={CheckCircle}
+                  disabled={user && user.name === tweet.creator}
+                  onClick={handleApproveTweet}
+                  tooltip="Approve tweet."
+                  tooltipDisabled="You cannot approve your own tweet."
+                />
+                <Icon
+                  as={Send}
+                  disabled={reviewsRequired !== 0}
+                  onClick={handlePublishTweet}
+                  tooltip="Publish tweet."
+                  tooltipDisabled={`${reviewsRequired} Review${
+                    reviewsRequired > 1 ? "s" : ""
+                  } required.`}
+                />
+              </>
+            )}
           </Box>
         </>
       ) : (

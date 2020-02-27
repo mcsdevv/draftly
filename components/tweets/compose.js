@@ -55,7 +55,6 @@ export default function ComposeTweet({
       alert("over the limit bud");
     }
   };
-  console.log(tweet.length);
   return (
     <Box display="flex" flexDirection="column" h="100%" justifyContent="center">
       {!drafting ? (

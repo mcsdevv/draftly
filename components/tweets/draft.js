@@ -1,12 +1,14 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { mutate } from "swr";
-import { Edit, ThumbsUp, Trash2 } from "react-feather";
+import { Check, Edit, ThumbsUp, Trash2, X } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
+import removeWww from "../../lib/removeWww";
 
 import { Box, Image, useToast } from "@chakra-ui/core";
 import Card from "./cards";
+import Icon from "../icon";
 
 export default function Draft({ drafts, revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
@@ -19,6 +21,9 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
   const getStateMessage = () => {
     if (deleting) return <h2>Deleting draft...</h2>;
     if (saving) return <h2>Saving draft...</h2>;
+  };
+  const handleCancelEdit = () => {
+    setEditing(false);
   };
   const handleDeleteDraft = async () => {
     setDeleting(true);
@@ -75,16 +80,23 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
     }
   };
   const handleUpdateDraft = async () => {
+    // * No changes made, no need to update
+    if (tweet.text === editTweet) {
+      setEditing(false);
+      return;
+    }
+    // * Changes made, update tweet
     setEditing(false);
     setSaving(true);
     console.log(editTweet);
     const metadata = await getMeta(editTweet);
     const url = `/api/tweet/draft/update/${tweet.ref}`;
+    const formattedTweet = removeWww(editTweet);
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
         metadata,
-        text: editTweet
+        text: formattedTweet
       })
     });
     if (res.status === 200) {
@@ -138,13 +150,41 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
               text={tweet.text}
             />
           </Box>
-          <Box display="flex">
-            <IconBox as={Trash2} onClick={handleDeleteDraft} />
-            <IconBox
-              as={Edit}
-              onClick={!editing ? handleEditDraft : handleUpdateDraft}
-            />
-            <IconBox as={ThumbsUp} onClick={handleReviewReady} />
+          <Box alignContent="center" display="flex">
+            {!editing ? (
+              <>
+                <Icon
+                  as={Trash2}
+                  onClick={handleDeleteDraft}
+                  tooltip="Delete draft."
+                />
+                <Icon
+                  as={Edit}
+                  onClick={handleEditDraft}
+                  tooltip="Edit tweet."
+                />
+              </>
+            ) : (
+              <>
+                <Icon
+                  as={Check}
+                  onClick={handleUpdateDraft}
+                  tooltip="Complete edit."
+                />
+                <Icon
+                  as={X}
+                  onClick={handleCancelEdit}
+                  tooltip="Cancel edit."
+                />
+              </>
+            )}
+            {!editing && (
+              <Icon
+                as={ThumbsUp}
+                onClick={handleReviewReady}
+                tooltip="Ready for review."
+              />
+            )}
           </Box>
         </>
       ) : (
@@ -155,14 +195,3 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
     </Box>
   );
 }
-
-const IconBox = ({ as, disabled, onClick }) => (
-  <Box
-    as={as}
-    cursor="pointer"
-    disabled={disabled}
-    onClick={onClick}
-    m="4"
-    strokeWidth="1px"
-  />
-);

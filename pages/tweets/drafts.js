@@ -9,7 +9,7 @@ import RequireLogin from "../../lib/requireLogin";
 
 function Drafts() {
   const { drafts, isValidating, revalidateDrafts } = useDrafts();
-  const [drafting, setDrafting] = useState(true);
+  const [drafting, setDrafting] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [showNoDrafts, setShowNoDrafts] = useState(false);
   useEffect(() => {
