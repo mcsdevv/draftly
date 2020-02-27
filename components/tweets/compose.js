@@ -6,6 +6,7 @@ import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
 import { Box, Heading, Textarea, useToast } from "@chakra-ui/core";
+import Characters from "./card/characters";
 import DefaultButton from "../buttons/default";
 
 export default function ComposeTweet({
@@ -54,17 +55,23 @@ export default function ComposeTweet({
       alert("over the limit bud");
     }
   };
+  console.log(tweet.length);
   return (
     <Box display="flex" flexDirection="column" h="100%" justifyContent="center">
       {!drafting ? (
         <DefaultButton handleOnClick={startDraft} text="Create Draft" />
       ) : !saving ? (
         <>
-          <Textarea
-            placeholder="Draft your tweet..."
-            onChange={handleOnChange}
-            value={tweet}
-          />
+          <Box marginBottom="4">
+            <Textarea
+              placeholder="Draft your tweet..."
+              height="200px"
+              onChange={handleOnChange}
+              width="400px"
+              value={tweet}
+            />
+            <Characters tweet={tweet} />
+          </Box>
           <DefaultButton
             disabled={!tweet}
             handleOnClick={handleSaveDraft}

@@ -3,6 +3,7 @@ import Linkify from "react-linkify";
 import CardTop from "../card/top";
 import CardBottom from "../card/bottom";
 import { Box, Heading, Icon, Image, Text, Textarea } from "@chakra-ui/core";
+import Characters from "../card/characters";
 
 export default function SummaryLarge({
   editing,
@@ -36,6 +37,7 @@ export default function SummaryLarge({
             )}
           </Linkify>
         </p>
+        {editing && <Characters tweet={editTweet} />}
         <a className="card-link" href={`https://${meta.url}`}>
           <Box
             border="1px solid rgb(204, 214, 221)"
