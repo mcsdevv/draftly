@@ -30,6 +30,12 @@
       "TWITTER_ACCESS_TOKEN": "@tr-twitter_access_token",
       "TWITTER_ACCESS_SECRET": "@tr-twitter_access_secret",
       "FAUNADB_SECRET_KEY": "@tr-faunadb_secret_key"
+    },
+    "functions": {
+      "pages/api/**": {
+        "memory": 3008,
+        "maxDuration": 60
+      }
     }
   }
 }
