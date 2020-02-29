@@ -20,6 +20,7 @@ export default async (req, res) => {
       // * Format published tweets
       const published = formatTweets(dbs);
       console.log("Retrieved published tweets for:", handle);
+      res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate");
       res.status(200).json({ published });
     } catch (e) {
       console.log("ERROR - api/tweets/details/published -", e.message);

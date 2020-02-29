@@ -20,6 +20,7 @@ export default async (req, res) => {
       // * Format review tweets
       const reviews = formatTweets(dbs);
       console.log("Retrieved review tweets for:", handle);
+      res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate");
       res.status(200).json({ reviews });
     } catch (e) {
       console.log("ERROR - api/tweets/details/reviews -", e.message);

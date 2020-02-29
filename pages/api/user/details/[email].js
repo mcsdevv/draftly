@@ -42,6 +42,7 @@ export default async (req, res) => {
       });
       console.log("User details: ", user);
       console.log("Teams details: ", teams);
+      res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate");
       res.status(200).json({ user, teams });
     } catch (e) {
       console.log("ERROR - api/user/details -", e.message);
