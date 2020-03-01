@@ -20,7 +20,6 @@ export default async (req, res) => {
       // * Format draft tweets
       const drafts = formatTweets(dbs);
       console.log("Retrieved draft tweets for:", handle);
-      res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate");
       res.status(200).json({ drafts });
     } catch (e) {
       console.log("ERROR - api/tweets/details/drafts -", e.message);
