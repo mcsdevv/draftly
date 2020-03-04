@@ -33,11 +33,25 @@ function Drafts() {
     }
     getPageState();
   }, [drafts, drafting]);
+  const renderPageState = () => {
+    if (showLoading) {
+      return (
+        <>
+          <CardPlaceholder />
+          <CardPlaceholder />
+          <CardPlaceholder />
+        </>
+      );
+    }
+    if (showNoDrafts) {
+      return <Heading as="h2">No Drafts...</Heading>;
+    }
+  };
   const startDraft = () => {
     setDrafting(true);
   };
   return (
-    <Grid templateColumns="repeat(2, 1fr)" templateRows="700px">
+    <Grid gridGap="24px" templateColumns="repeat(2, 1fr)" templateRows="600px">
       <Box alignSelf="center" justifySelf="center">
         <ComposeTweet
           drafting={drafting}
@@ -52,16 +66,7 @@ function Drafts() {
               <Draft drafts={drafts} revalidate={revalidateDrafts} tweet={d} />
             </Box>
           ))
-        : [
-            showLoading && (
-              <>
-                <CardPlaceholder />
-                <CardPlaceholder />
-                <CardPlaceholder />
-              </>
-            ),
-            showNoDrafts && <Heading as="h2">No Drafts...</Heading>
-          ]}
+        : renderPageState()}
     </Grid>
   );
 }

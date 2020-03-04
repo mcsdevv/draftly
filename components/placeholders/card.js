@@ -3,10 +3,10 @@ import { Box, Icon } from "@chakra-ui/core";
 export default function CardPlaceholder() {
   return (
     <Box
+      alignSelf="center"
       as="article"
       border="1px solid rgb(230, 236, 240)"
       display="flex"
-      h="600px"
       py="10px"
       px="15px"
       w="100%"
