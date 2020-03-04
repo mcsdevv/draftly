@@ -1,39 +1,72 @@
+import { useEffect, useState } from "react";
 import { useProfile, usePublished } from "../../hooks";
 
 import RequireLogin from "../../lib/requireLogin";
 
 import { Box, Grid, Heading } from "@chakra-ui/core";
+import CardPlaceholder from "../../components/placeholders/card";
 import Publish from "../../components/tweets/publish";
 
 function Published() {
   const { user } = useProfile();
   const { published } = usePublished();
-  console.log(!!published);
+  const [showLoading, setShowLoading] = useState(false);
+  const [showNoPublished, setShowNoPublished] = useState(false);
+  useEffect(() => {
+    function getPageState() {
+      if (published === undefined) {
+        // * Loading page
+        setShowLoading(true);
+        setShowNoPublished(false);
+      }
+      if (published && published.length !== 0) {
+        // * Reviews present
+        setShowLoading(false);
+        setShowNoPublished(false);
+      }
+      if (published && published.length === 0) {
+        // * No reviews present
+        setShowLoading(false);
+        setShowNoPublished(true);
+      }
+    }
+    getPageState();
+  }, [published]);
+  const renderPageState = () => {
+    if (showLoading) {
+      // TODO Alternate card placeholder with metrics
+      return (
+        <>
+          <CardPlaceholder />
+          <CardPlaceholder />
+          <CardPlaceholder />
+          <CardPlaceholder />
+        </>
+      );
+    }
+    if (showNoPublished) {
+      return <Heading as="h2">No Published...</Heading>;
+    }
+  };
   return (
-    <Grid templateColumns="repeat(2, 1fr)" templateRows="700px">
-      {published ? (
-        published.map(p => (
-          <>
-            <Box alignSelf="center" justifySelf="center" key={p.ref}>
-              <Publish published={published} tweet={p} />
-            </Box>
-            <Box
-              alignSelf="center"
-              justifySelf="center"
-              key={p.ref + 1}
-              w="100%"
-            >
-              stats...
-            </Box>
-          </>
-        ))
-      ) : (
-        <Heading as="h2">
-          {/* {showLoading && "Loading drafts..."}
-          {showNoDrafts && "No drafts..."} */}
-          nout published
-        </Heading>
-      )}
+    <Grid gridGap="24px" templateColumns="repeat(2, 1fr)" templateRows="600px">
+      {published
+        ? published.map(p => (
+            <>
+              <Box alignSelf="center" justifySelf="center" key={p.ref}>
+                <Publish published={published} tweet={p} />
+              </Box>
+              <Box
+                alignSelf="center"
+                justifySelf="center"
+                key={p.ref + 1}
+                w="100%"
+              >
+                Here be metrics...
+              </Box>
+            </>
+          ))
+        : renderPageState()}
     </Grid>
   );
 }

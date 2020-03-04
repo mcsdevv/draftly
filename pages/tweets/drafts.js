@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDrafts } from "../../hooks";
 
 import { Box, Grid, Heading } from "@chakra-ui/core";
+import CardPlaceholder from "../../components/placeholders/card";
 import ComposeTweet from "../../components/compose";
 import Draft from "../../components/tweets/draft";
 
@@ -14,7 +15,7 @@ function Drafts() {
   const [showNoDrafts, setShowNoDrafts] = useState(false);
   useEffect(() => {
     function getPageState() {
-      if (isValidating && !drafts) {
+      if (drafts === undefined) {
         // * Loading page
         setShowLoading(true);
         setShowNoDrafts(false);
@@ -32,11 +33,25 @@ function Drafts() {
     }
     getPageState();
   }, [drafts, drafting]);
+  const renderPageState = () => {
+    if (showLoading) {
+      return (
+        <>
+          <CardPlaceholder />
+          <CardPlaceholder />
+          <CardPlaceholder />
+        </>
+      );
+    }
+    if (showNoDrafts) {
+      return <Heading as="h2">No Drafts...</Heading>;
+    }
+  };
   const startDraft = () => {
     setDrafting(true);
   };
   return (
-    <Grid templateColumns="repeat(2, 1fr)" templateRows="700px">
+    <Grid gridGap="24px" templateColumns="repeat(2, 1fr)" templateRows="600px">
       <Box alignSelf="center" justifySelf="center">
         <ComposeTweet
           drafting={drafting}
@@ -45,18 +60,13 @@ function Drafts() {
           startDraft={startDraft}
         />
       </Box>
-      {drafts && drafts.length > 0 ? (
-        drafts.map(d => (
-          <Box alignSelf="center" justifySelf="center" key={d.ref}>
-            <Draft drafts={drafts} revalidate={revalidateDrafts} tweet={d} />
-          </Box>
-        ))
-      ) : (
-        <Heading as="h2">
-          {showLoading && "Loading drafts..."}
-          {showNoDrafts && "No drafts..."}
-        </Heading>
-      )}
+      {drafts && drafts.length > 0
+        ? drafts.map(d => (
+            <Box alignSelf="center" justifySelf="center" key={d.ref}>
+              <Draft drafts={drafts} revalidate={revalidateDrafts} tweet={d} />
+            </Box>
+          ))
+        : renderPageState()}
     </Grid>
   );
 }
