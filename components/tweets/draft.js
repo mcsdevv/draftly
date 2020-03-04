@@ -7,7 +7,7 @@ import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
 import { Box, Image, useToast } from "@chakra-ui/core";
-import Card from "./cards";
+import Card from "../card";
 import Icon from "../icon";
 
 export default function Draft({ drafts, revalidate, size, tweet }) {

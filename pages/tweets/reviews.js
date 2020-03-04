@@ -3,7 +3,7 @@ import { useReviews } from "../../hooks";
 
 import { Box, Grid, Heading } from "@chakra-ui/core";
 import Review from "../../components/tweets/review";
-import Comments from "../../components/tweets/comments";
+import Comments from "../../components/comments";
 
 import RequireLogin from "../../lib/requireLogin";
 

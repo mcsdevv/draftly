@@ -9,9 +9,9 @@ import removeWww from "../../lib/removeWww";
 
 import { Box, Image, Text, useToast } from "@chakra-ui/core";
 import Icon from "../icon";
-import Card from "./cards";
+import Card from "../card";
 
-export default function Review({ revalidate, reviews, size, tweet }) {
+export default function Review({ revalidate, reviews, tweet }) {
   const [deleting, setDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);

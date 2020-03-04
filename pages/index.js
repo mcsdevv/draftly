@@ -1,7 +1,11 @@
+import { Heading } from "@chakra-ui/core";
+
 export default function Landing() {
   return (
     <>
-      <h1>Really great marketing content...</h1>
+      <Heading as="h2">Draft...</Heading>
+      <Heading as="h2">Review...</Heading>
+      <Heading as="h2">Publish...</Heading>
     </>
   );
 }

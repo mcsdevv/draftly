@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDrafts } from "../../hooks";
 
 import { Box, Grid, Heading } from "@chakra-ui/core";
-import ComposeTweet from "../../components/tweets/compose";
+import ComposeTweet from "../../components/compose";
 import Draft from "../../components/tweets/draft";
 
 import RequireLogin from "../../lib/requireLogin";
