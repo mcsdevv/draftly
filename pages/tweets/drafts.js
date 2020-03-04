@@ -15,7 +15,7 @@ function Drafts() {
   const [showNoDrafts, setShowNoDrafts] = useState(false);
   useEffect(() => {
     function getPageState() {
-      if (isValidating && !drafts) {
+      if (drafts === undefined) {
         // * Loading page
         setShowLoading(true);
         setShowNoDrafts(false);
@@ -39,26 +39,29 @@ function Drafts() {
   return (
     <Grid templateColumns="repeat(2, 1fr)" templateRows="700px">
       <Box alignSelf="center" justifySelf="center">
-        {/* <ComposeTweet
+        <ComposeTweet
           drafting={drafting}
           revalidate={revalidateDrafts}
           setDrafting={setDrafting}
           startDraft={startDraft}
-        /> */}
-        <CardPlaceholder />
+        />
       </Box>
-      {drafts && drafts.length > 0 ? (
-        drafts.map(d => (
-          <Box alignSelf="center" justifySelf="center" key={d.ref}>
-            <Draft drafts={drafts} revalidate={revalidateDrafts} tweet={d} />
-          </Box>
-        ))
-      ) : (
-        <Heading as="h2">
-          {showLoading && "Loading drafts..."}
-          {showNoDrafts && "No drafts..."}
-        </Heading>
-      )}
+      {drafts && drafts.length > 0
+        ? drafts.map(d => (
+            <Box alignSelf="center" justifySelf="center" key={d.ref}>
+              <Draft drafts={drafts} revalidate={revalidateDrafts} tweet={d} />
+            </Box>
+          ))
+        : [
+            showLoading && (
+              <>
+                <CardPlaceholder />
+                <CardPlaceholder />
+                <CardPlaceholder />
+              </>
+            ),
+            showNoDrafts && <Heading as="h2">No Drafts...</Heading>
+          ]}
     </Grid>
   );
 }
