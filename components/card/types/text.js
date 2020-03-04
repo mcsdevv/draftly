@@ -1,9 +1,9 @@
 import Linkify from "react-linkify";
 
 import { Box, Link, Textarea } from "@chakra-ui/core";
-import CardTop from "../card/top";
-import CardBottom from "../card/bottom";
-import Characters from "../card/characters";
+import CardTop from "../sections/top";
+import CardBottom from "../sections/bottom";
+import Characters from "../sections/characters";
 
 export default function Text({
   editing,

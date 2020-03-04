@@ -1,8 +1,8 @@
-import SummaryLarge from "./summary-large";
-import Summary from "./summary";
-import Text from "./text";
+import SummaryLarge from "./types/summary-large";
+import Summary from "./types/summary";
+import Text from "./types/text";
 
-import removeUrl from "../../../lib/removeUrl";
+import removeUrl from "../../lib/removeUrl";
 
 export default function Card({
   editing,
