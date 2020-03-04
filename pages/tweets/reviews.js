@@ -15,7 +15,7 @@ function Reviews() {
   const [showNoReviews, setShowNoReviews] = useState(false);
   useEffect(() => {
     function getPageState() {
-      if (isValidating && !reviews) {
+      if (reviews === undefined) {
         // * Loading page
         setShowLoading(true);
         setShowNoReviews(false);
