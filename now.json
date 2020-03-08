@@ -32,7 +32,7 @@
     }
   },
   "functions": {
-    "api/team/create": {
+    "api/team/create/index.js": {
       "memory": 3008
     }
   }
