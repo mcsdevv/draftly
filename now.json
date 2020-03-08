@@ -32,13 +32,7 @@
     }
   },
   "functions": {
-    "pages/api/user/details/[email]": {
-      "memory": 3008
-    },
-    "pages/api/team/create": {
-      "memory": 3008
-    },
-    "pages/api/**.js": {
+    "api/team/create": {
       "memory": 3008
     }
   }
