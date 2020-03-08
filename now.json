@@ -32,7 +32,7 @@
     }
   },
   "functions": {
-    "pages/api/team/create/index.js": {
+    "pages/api/auth/twitter/callback.js": {
       "memory": 3008
     }
   }
