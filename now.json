@@ -34,6 +34,9 @@
   "functions": {
     "pages/api/user/details/[email].js": {
       "memory": 3008
+    },
+    "pages/api/tweets/details/*/[handle].js": {
+      "memory": 3008
     }
   }
 }
