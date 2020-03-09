@@ -32,7 +32,7 @@
     }
   },
   "functions": {
-    "pages/api/user/details/email.js": {
+    "pages/api/user/details/[email].js": {
       "memory": 3008
     }
   }
