@@ -1,9 +1,10 @@
-import { useDrafts, useProfile, useReviews } from "../hooks";
+import { useDrafts, useProfile, useReviews, usePublished } from "../hooks";
 import RequireLogin from "../lib/requireLogin";
 
 function Dashboard() {
   const { drafts } = useDrafts();
   const { reviews } = useReviews();
+  const { published } = usePublished();
   const { user } = useProfile();
   return (
     <>
@@ -16,6 +17,7 @@ function Dashboard() {
           <li>{reviews.length} reviews to complete.</li>
         </ul>
       )}
+      You've published a total of {published?.length} tweets!
     </>
   );
 }
