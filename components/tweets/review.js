@@ -28,12 +28,28 @@ export default function Review({ revalidate, reviews, tweet }) {
     }
     getReviewsRequired();
   }, [scope, tweet]);
+  console.log(user);
   const getStateMessage = () => {
     if (deleting) return <h2>Deleting review...</h2>;
     if (saving) return <h2>Saving draft...</h2>;
   };
-  const handleApproveTweet = () => {
-    console.log("approved");
+  const handleApproveTweet = async () => {
+    const url = `/api/tweet/review/approve/${tweet.ref}`;
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: user.email
+      })
+    });
+    if (res.status === 200) {
+      revalidate();
+      toast({
+        title: "Tweet approved.",
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
+    }
   };
   const handleCancelEdit = () => {
     setEditing(false);
@@ -192,7 +208,7 @@ export default function Review({ revalidate, reviews, tweet }) {
               <>
                 <Icon
                   as={CheckCircle}
-                  disabled={user && user.name === tweet.creator}
+                  disabled={user?.name === tweet.creator}
                   onClick={handleApproveTweet}
                   tooltip="Approve tweet."
                   tooltipDisabled="You cannot approve your own tweet."
