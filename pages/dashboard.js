@@ -13,7 +13,7 @@ function Dashboard() {
         <li>{drafts?.length} drafts to complete.</li>
         <li>{reviews?.length} reviews to complete.</li>
       </ul>
-      You've published a total of {published?.length} tweets!
+      You've published a total of {published?.length} tweets - nice work!
     </>
   );
 }
