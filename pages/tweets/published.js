@@ -5,6 +5,7 @@ import RequireLogin from "../../lib/requireLogin";
 
 import { Box, Grid, Heading } from "@chakra-ui/core";
 import CardPlaceholder from "../../components/placeholders/card";
+import Page from "../../components/page";
 import Publish from "../../components/tweets/publish";
 
 function Published() {
@@ -49,25 +50,31 @@ function Published() {
     }
   };
   return (
-    <Grid gridGap="24px" templateColumns="repeat(2, 1fr)" templateRows="600px">
-      {published
-        ? published.map(p => (
-            <>
-              <Box alignSelf="center" justifySelf="center" key={p.ref}>
-                <Publish published={published} tweet={p} />
-              </Box>
-              <Box
-                alignSelf="center"
-                justifySelf="center"
-                key={p.ref + 1}
-                w="100%"
-              >
-                Here be metrics...
-              </Box>
-            </>
-          ))
-        : renderPageState()}
-    </Grid>
+    <Page>
+      <Grid
+        gridGap="24px"
+        templateColumns="repeat(2, 1fr)"
+        templateRows="600px"
+      >
+        {published
+          ? published.map(p => (
+              <>
+                <Box alignSelf="center" justifySelf="center" key={p.ref}>
+                  <Publish published={published} tweet={p} />
+                </Box>
+                <Box
+                  alignSelf="center"
+                  justifySelf="center"
+                  key={p.ref + 1}
+                  w="100%"
+                >
+                  Here be metrics...
+                </Box>
+              </>
+            ))
+          : renderPageState()}
+      </Grid>
+    </Page>
   );
 }
 

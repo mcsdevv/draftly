@@ -5,6 +5,7 @@ import React from "react";
 import { Box, Grid, Heading } from "@chakra-ui/core";
 import CardPlaceholder from "../../components/placeholders/card";
 import Comments from "../../components/comments";
+import Page from "../../components/page";
 import Review from "../../components/tweets/review";
 
 import RequireLogin from "../../lib/requireLogin";
@@ -50,33 +51,39 @@ function Reviews() {
     }
   };
   return (
-    <Grid gridGap="24px" templateColumns="repeat(2, 1fr)" templateRows="600px">
-      {reviews && reviews.length > 0
-        ? reviews.map(r => (
-            <>
-              <Box alignSelf="center" justifySelf="center">
-                <Review
-                  reviews={reviews}
-                  revalidate={revalidateReviews}
-                  tweet={r}
-                />
-              </Box>
-              <Box
-                alignSelf="center"
-                justifySelf="center"
-                key={r.ref + 1}
-                w="100%"
-              >
-                <Comments
-                  comments={r.comments}
-                  reviews={reviews}
-                  tweetRef={r.ref}
-                />
-              </Box>
-            </>
-          ))
-        : renderPageState()}
-    </Grid>
+    <Page>
+      <Grid
+        gridGap="24px"
+        templateColumns="repeat(2, 1fr)"
+        templateRows="600px"
+      >
+        {reviews && reviews.length > 0
+          ? reviews.map(r => (
+              <>
+                <Box alignSelf="center" justifySelf="center">
+                  <Review
+                    reviews={reviews}
+                    revalidate={revalidateReviews}
+                    tweet={r}
+                  />
+                </Box>
+                <Box
+                  alignSelf="center"
+                  justifySelf="center"
+                  key={r.ref + 1}
+                  w="100%"
+                >
+                  <Comments
+                    comments={r.comments}
+                    reviews={reviews}
+                    tweetRef={r.ref}
+                  />
+                </Box>
+              </>
+            ))
+          : renderPageState()}
+      </Grid>
+    </Page>
   );
 }
 
