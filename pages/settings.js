@@ -2,9 +2,11 @@ import { useProfile, useScope } from "../hooks";
 
 import RequireLogin from "../lib/requireLogin";
 
-import Reviews from "../components/settings/reviews";
-import Plan from "../components/settings/plan";
+import Page from "../components/page";
+
 import Members from "../components/settings/members";
+import Plan from "../components/settings/plan";
+import Reviews from "../components/settings/reviews";
 
 import ChangeTeamName from "../components/settings/team/changeName";
 import DeleteTeam from "../components/settings/team/delete";
@@ -17,7 +19,7 @@ function Settings() {
   const { scope } = useScope();
   const isOwner = scope.owners.includes(user && user.email);
   return (
-    <>
+    <Page>
       <h1>Team</h1>
       <ChangeTeamName disabled={!isOwner} loading={!!user} />
       <DeleteTeam disabled={!isOwner} loading={!!user} />
@@ -27,7 +29,7 @@ function Settings() {
       <Reviews disabled={!isOwner} loading={!!user} />
       <Plan disabled={!isOwner} loading={!!user} />
       <Members disabled={!isOwner} loading={!!user} />
-    </>
+    </Page>
   );
 }
 
