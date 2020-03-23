@@ -12,6 +12,7 @@ const encrypt = plainText => {
 };
 
 const decrypt = plainText => {
+  // TODO handle decrypt errors
   const textParts = plainText.split(":");
   const iv = Buffer.from(textParts.shift(), "hex");
   const encryptedText = Buffer.from(textParts.join(":"), "hex");

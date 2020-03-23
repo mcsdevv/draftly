@@ -11,9 +11,9 @@ module.exports = async (token, callback) => {
   };
   // * Check token length != false,
   if (!!token?.length) {
-    // * Decrypt token
-    const tokenDecrypted = decrypt(token);
     try {
+      // * Decrypt token
+      const tokenDecrypted = decrypt(token);
       // * Decode decrypted token
       const tokenDecoded = jwt.decode(tokenDecrypted);
       // * Verify audience correct
