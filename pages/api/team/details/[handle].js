@@ -3,7 +3,7 @@ import verify from "../../_util/token/verify";
 
 export default async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
-    if (error) res.status(400).json({ error });
+    if (error) return res.status(400).json({ error });
     const { handle } = req.query;
     try {
       // * Get details for a team
