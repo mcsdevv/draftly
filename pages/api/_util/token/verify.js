@@ -10,7 +10,7 @@ module.exports = async (token, callback) => {
     maxAge: "1 day"
   };
   // * Check token length != false,
-  if (!!token.length) {
+  if (!!token?.length) {
     // * Decrypt token
     const tokenDecrypted = decrypt(token);
     try {
