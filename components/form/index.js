@@ -18,11 +18,11 @@ export default function Form({
 }) {
   return (
     <form onSubmit={onSubmit}>
-      <FormControl>
+      <FormControl mb="4">
         <FormLabel htmlFor={htmlFor}>{label}</FormLabel>
         <Box display="flex">
           {children}
-          <Button disabled={disabled} marginLeft="4" type="submit">
+          <Button disabled={disabled} marginLeft="4" my="2" type="submit">
             {buttonText || "Update"}
           </Button>
         </Box>

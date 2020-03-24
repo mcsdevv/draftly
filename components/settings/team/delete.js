@@ -42,7 +42,7 @@ export default function DeleteTeam() {
         disabled={teamName !== scope.name}
         helperText={"Enter your team name before clicking delete."}
         htmlFor="deleteName"
-        label={scope && scope.personal ? "Delete Account" : "Delete Team"}
+        label={"Delete Team"}
         onSubmit={handleOnSubmitDelete}
       >
         <Input

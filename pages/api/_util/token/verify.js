@@ -11,6 +11,7 @@ module.exports = async (token, callback) => {
   };
   // * Check token length != false,
   if (!!token?.length) {
+    console.log("token", token);
     try {
       // * Decrypt token
       const tokenDecrypted = decrypt(token);

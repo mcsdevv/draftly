@@ -17,12 +17,12 @@ export default function InputField({
       <Input
         max={max}
         min={min}
+        my="2"
         name={name}
         onChange={onChange}
         type={type}
         value={value || ""}
       />
-      <style jsx>{``}</style>
     </>
   );
 }

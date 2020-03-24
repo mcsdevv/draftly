@@ -37,11 +37,11 @@ export default function Reviews() {
   return (
     <>
       <Form
-        onSubmit={handleOnSubmitReviews}
         disabled={reviews === scope.reviewsRequired.toString()}
+        label="Reviews Required to Publish"
+        onSubmit={handleOnSubmitReviews}
       >
         <Input
-          label="Reviews Required to Publish"
           max={3}
           min={0}
           name="updateReviewsRequired"

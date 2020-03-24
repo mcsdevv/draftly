@@ -2,6 +2,7 @@ import { useProfile, useScope } from "../hooks";
 
 import RequireLogin from "../lib/requireLogin";
 
+import { Heading } from "@chakra-ui/core";
 import Page from "../components/page";
 
 import Members from "../components/settings/members";
@@ -20,12 +21,16 @@ function Settings() {
   const isOwner = scope.owners.includes(user && user.email);
   return (
     <Page>
-      <h1>Team</h1>
-      <ChangeTeamName disabled={!isOwner} loading={!!user} />
-      <DeleteTeam disabled={!isOwner} loading={!!user} />
-      <h1>User</h1>
+      <Heading as="h2" mb="8">
+        User
+      </Heading>
       <ChangeUserName loading={!!user} />
       <DeleteUser loading={!!user} />
+      <Heading as="h2" my="8">
+        Team
+      </Heading>
+      <ChangeTeamName disabled={!isOwner} loading={!!user} />
+      <DeleteTeam disabled={!isOwner} loading={!!user} />
       <Reviews disabled={!isOwner} loading={!!user} />
       <Plan disabled={!isOwner} loading={!!user} />
       <Members disabled={!isOwner} loading={!!user} />
