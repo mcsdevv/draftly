@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { decrypt } from "../token/encryption";
+import { decrypt } from "./encryption";
 
 // TODO Accept scope parameter, check as part of JWT validation
 
