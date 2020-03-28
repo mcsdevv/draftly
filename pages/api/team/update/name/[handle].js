@@ -1,8 +1,8 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify";
+import verify from "../../../_util/token/verify-new";
 import jwt from "jsonwebtoken";
 
-export default async (req, res) => {
+const updateTeamName = async (req, res) => {
   verify(req.headers.authorization || req.cookies.access_token, async error => {
     if (error) res.status(400).json({ error });
     const { newName } = JSON.parse(req.body);
@@ -43,3 +43,5 @@ export default async (req, res) => {
     }
   });
 };
+
+export default verify()
