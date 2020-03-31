@@ -2,15 +2,11 @@ import { client, q } from "../../../_util/fauna";
 import verify from "../../../_util/token/verify-new";
 import jwt from "jsonwebtoken";
 
-const updateTeamName = async (req, res, err) => {
-  console.log('hi')
-  if (err) res.status(400).json({ err });
+const updateTeamName = async (req, res) => {
   const { newName } = JSON.parse(req.body);
   const { handle } = req.query;
   // ! POC for Authorization
   try {
-    // * Update team name
-
     const getOwners = await client.query(
       q.Select(
         ["data", "owners"],
@@ -21,6 +17,7 @@ const updateTeamName = async (req, res, err) => {
     const id = jwt.decode(req.cookies.id_token);
     const isOwner = await getOwners.includes(id.email);
     console.log("isownerrrrs", isOwner);
+    // * Update team name
     const dbs = await client.query(
       q.Update(
         q.Select(

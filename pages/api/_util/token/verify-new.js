@@ -20,19 +20,19 @@ const verify = (handler) => async (req, res) => {
       // * Verify audience correct
       if (!tokenDecoded.aud.includes(process.env.AUTH0_AUDIENCE)) {
         console.log("Error authenticating: incorrect audience");
-        return handler(req, res, "Error authenticating: No token present");
+        return res.status(403).json({ err: "Incorrect audience" })
       }
       // * Verify JWT using about methods
       jwt.verify(tokenDecrypted, process.env.AUTH0_PUBLIC_KEY, options);
       return handler(req, res);
     } catch (err) {
       console.log("Error verifying:", err.message);
-      return handler(req, res, err.message);
+      return res.status(403).json({ err: err.message });
     }
   } else {
     // * Supply callback with error if token length != true
     console.log("Error authenticating: no token present");
-    return handler(req, res, "Error authenticating: No token present");
+    return res.status(401).json({ err: "No token present" })
   }
 };
 
