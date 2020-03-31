@@ -1,22 +1,11 @@
 import { client, q } from "../../../_util/fauna";
 import verify from "../../../_util/token/verify-new";
-import jwt from "jsonwebtoken";
+import isOwner from "../../../_util/auth/isOwner"
 
 const updateTeamName = async (req, res) => {
   const { newName } = JSON.parse(req.body);
   const { handle } = req.query;
-  // ! POC for Authorization
   try {
-    const getOwners = await client.query(
-      q.Select(
-        ["data", "owners"],
-        q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
-      )
-    );
-    console.log("ownerrrrs", getOwners);
-    const id = jwt.decode(req.cookies.id_token);
-    const isOwner = await getOwners.includes(id.email);
-    console.log("isownerrrrs", isOwner);
     // * Update team name
     const dbs = await client.query(
       q.Update(
@@ -39,4 +28,4 @@ const updateTeamName = async (req, res) => {
   }
 };
 
-export default verify(updateTeamName);
+export default verify(isOwner(updateTeamName));
