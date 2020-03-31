@@ -17,7 +17,7 @@
     "get-urls": "^9.2.0",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
-    "next": "^9.2.2",
+    "next": "^9.3.2",
     "node-fetch": "^2.6.0",
     "oauth": "^0.9.15",
     "page-metadata-parser": "^1.1.4",
