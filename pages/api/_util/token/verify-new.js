@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import { decrypt } from "./encryption";
 
-module.exports = async (handler) => (req, res) => {
+const verify = (handler) => async (req, res) => {
+  console.log('yo')
   // * Get token from 
   const token = req.headers.authorization || req.cookies.access_token;
   // * Provide options to verify the JWT with
@@ -34,3 +35,5 @@ module.exports = async (handler) => (req, res) => {
     return handler(req, res, "Error authenticating: No token present");
   }
 };
+
+export default verify
