@@ -1,11 +1,9 @@
 import { client, q } from "../../_util/fauna";
 import { getRef } from "../../_util/getRef";
 import request from "request-promise";
-import verify from "../../_util/token/verify";
+import verify from "../../_util/token/verify-new";
 
-export default (req, res) => {
-  verify(req.headers.authorization, async error => {
-    if (error) res.status(400).json({ error });
+const teamCreate =  (req, res) => {
     const { data, email, tokenKey, tokenSecret } = req.body;
     const { name, screen_name, profile_image_url } = data;
     try {
@@ -48,9 +46,10 @@ export default (req, res) => {
       const { update } = await request(teamOptions);
       console.log("Created team: ", name);
       res.status(200).json({ update });
-    } catch (e) {
-      console.log("ERROR - api/team/create -", e.message);
-      res.status(500).json({ error: e.message });
+    } catch (err) {
+      console.error("ERROR - api/team/create -", err.message);
+      res.status(500).json({ err: err.message });
     }
-  });
 };
+
+export default verify(teamCreate);

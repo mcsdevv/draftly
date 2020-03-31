@@ -1,6 +1,6 @@
 import { client, q } from "../../../_util/fauna";
 import verify from "../../../_util/token/verify-new";
-import isOwner from "../../../_util/auth/isOwner"
+import isOwner from "../../../_util/auth/isOwner";
 
 const updateTeamName = async (req, res) => {
   const { newName } = JSON.parse(req.body);
@@ -22,9 +22,9 @@ const updateTeamName = async (req, res) => {
     );
     console.log("Team name updated for:", handle);
     res.status(200).json(dbs.data);
-  } catch (e) {
-    console.log("ERROR - api/team/update/name -", e.message);
-    res.status(500).json({ error: e.message });
+  } catch (err) {
+    console.log("ERROR - api/team/update/name -", err.message);
+    res.status(500).json({ err: err.message });
   }
 };
 
