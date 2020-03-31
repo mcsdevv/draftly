@@ -13,9 +13,10 @@ const isOwner = (handler) => async (req, res) => {
     const id = jwt.decode(req.cookies.id_token);
     const isOwner = await getOwners.includes(id.email);
     if (isOwner) return handler(req, res)
+    else throw "This action requires owner permissions"
   } catch (err) {
     console.log("Error authorizing: user is not an owner of the team");
-    res.status(403).json({ err: "This actions require owner permissions" })
+    return res.status(403).json({ err: err.message })
   }
 };
 

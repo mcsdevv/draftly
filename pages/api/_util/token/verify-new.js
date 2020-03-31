@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import { decrypt } from "./encryption";
 
 const verify = (handler) => async (req, res) => {
-  console.log('yo')
   // * Get token from 
   const token = req.headers.authorization || req.cookies.access_token;
   // * Provide options to verify the JWT with
