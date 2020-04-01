@@ -24,7 +24,7 @@ const teamsDelete = async (req, res) => {
     console.log("Deleted teams: ", teams);
     res.status(200).json(dbs.data);
   } catch (err) {
-    console.log("ERROR - api/teams/delete/delete -", err.message);
+    console.error("ERROR - api/teams/delete/delete -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

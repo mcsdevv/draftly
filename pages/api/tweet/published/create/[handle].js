@@ -47,7 +47,7 @@ const createPublishedTweet = async (req, res) => {
     console.log("Published tweet created for:", handle);
     res.status(200).json(dbs.data);
   } catch (err) {
-    console.log("ERROR - api/tweet/published/create -", err.message);
+    console.error("ERROR - api/tweet/published/create -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

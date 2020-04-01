@@ -13,7 +13,7 @@ const teamDetails = async (req, res) => {
     console.log("Team details:", dbs);
     res.status(200).json({ ...dbs.data });
   } catch (err) {
-    console.log("ERROR - api/team/details -", err.message);
+    console.error("ERROR - api/team/details -", err.message);
     res.status(500).json({ error: err.message });
   }
 };

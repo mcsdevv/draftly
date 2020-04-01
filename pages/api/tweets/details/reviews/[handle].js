@@ -20,7 +20,7 @@ const getReviewTweets = async (req, res) => {
     console.log("Retrieved review tweets for:", handle);
     res.status(200).json({ reviews });
   } catch (err) {
-    console.log("ERROR - api/tweets/details/reviews -", err.message);
+    console.error("ERROR - api/tweets/details/reviews -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

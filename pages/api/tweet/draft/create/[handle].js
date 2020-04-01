@@ -38,7 +38,7 @@ const createDraftTweet = async (req, res) => {
     console.log("Draft tweet created for:", handle);
     res.status(200).json({ ref: refTrimmed });
   } catch (err) {
-    console.log("ERROR - api/tweet/draft/create -", err.message);
+    console.error("ERROR - api/tweet/draft/create -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

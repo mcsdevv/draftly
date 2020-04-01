@@ -11,7 +11,7 @@ const getTeamTokens = async (req, res) => {
     console.log("Retrieved tokens for:", handle);
     res.status(200).json(dbs.data.auth);
   } catch (err) {
-    console.log("ERROR - api/team/tokens/get -", err.message);
+    console.error("ERROR - api/team/tokens/get -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

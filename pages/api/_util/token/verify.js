@@ -20,20 +20,20 @@ module.exports = async (token, callback) => {
       const tokenDecoded = jwt.decode(tokenDecrypted);
       // * Verify audience correct
       if (!tokenDecoded.aud.includes(process.env.AUTH0_AUDIENCE)) {
-        console.log("Error verifying: incorrect audience");
+        console.error("Error verifying: incorrect audience");
         return callback("Error verifying: incorrect audience");
       }
       // * Verify JWT using about methods
       jwt.verify(tokenDecrypted, process.env.AUTH0_PUBLIC_KEY, options);
       return callback();
     } catch (err) {
-      console.log("Error verifying:", err.message);
+      console.error("Error verifying:", err.message);
       callback(err.message);
       return;
     }
   } else {
     // * Supply callback with error if token length != true
-    console.log("Error verifying: no token present");
+    console.error("Error verifying: no token present");
     return callback("No token present");
   }
 };

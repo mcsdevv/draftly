@@ -13,7 +13,7 @@ const getMetadata = async (req, res) => {
     console.log("Returned metadata: ", metadata);
     res.status(200).json(metadata);
   } catch (err) {
-    console.log("ERROR - api/metadata -", err.message);
+    console.error("ERROR - api/metadata -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

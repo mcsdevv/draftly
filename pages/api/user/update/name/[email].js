@@ -1,31 +1,27 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify";
+import verify from "../../../_util/token/verify-new";
 
-export default async (req, res) => {
-  verify(req.headers.authorization || req.cookies.access_token, async error => {
-    if (error) res.status(400).json({ error });
-    try {
-      // * Update user name
-      const { newName } = JSON.parse(req.body);
-      const { email } = req.query;
-      const dbs = await client.query(
-        q.Update(
-          q.Select(
-            ["ref"],
-            q.Get(q.Match(q.Index("all_users_by_email"), email))
-          ),
-          {
-            data: {
-              name: newName
-            }
+const updateUserName = async (req, res) => {
+  try {
+    // * Update user name
+    const { newName } = JSON.parse(req.body);
+    const { email } = req.query;
+    const dbs = await client.query(
+      q.Update(
+        q.Select(["ref"], q.Get(q.Match(q.Index("all_users_by_email"), email))),
+        {
+          data: {
+            name: newName
           }
-        )
-      );
-      console.log("User name updated: ", dbs);
-      res.status(200).json(dbs.data);
-    } catch (e) {
-      console.log("ERROR - api/user/update/name -", e.message);
-      res.status(500).json({ error: e.message });
-    }
-  });
+        }
+      )
+    );
+    console.log("User name updated: ", dbs);
+    res.status(200).json(dbs.data);
+  } catch (err) {
+    console.error("ERROR - api/user/update/name -", err.message);
+    res.status(500).json({ err: err.message });
+  }
 };
+
+export default verify(updateUserName);

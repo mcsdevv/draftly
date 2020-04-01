@@ -23,7 +23,7 @@ const deleteTweetComment = async (req, res) => {
     console.log("Deleted comment for:", ref);
     res.status(200).json([...data.comments]);
   } catch (err) {
-    console.log("ERROR - api/tweet/comment/delete -", err.message);
+    console.error("ERROR - api/tweet/comment/delete -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

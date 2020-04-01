@@ -33,7 +33,7 @@ const createReviewTweet = async (req, res) => {
     console.log("Created review tweet for:", handle);
     res.status(200).json(dbs.data);
   } catch (err) {
-    console.log("ERROR - api/tweet/review/create -", err.message);
+    console.error("ERROR - api/tweet/review/create -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

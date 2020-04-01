@@ -17,7 +17,7 @@ const updateDraftTweet = async (req, res) => {
     console.log("Updated tweet: ", ref);
     res.status(200).json({ ...dbs.data, ref, updated: dbs.ts });
   } catch (err) {
-    console.log("ERROR - api/tweet/draft/update -", err.message);
+    console.error("ERROR - api/tweet/draft/update -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

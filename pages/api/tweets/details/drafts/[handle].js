@@ -20,7 +20,7 @@ const getDraftTweets = async (req, res) => {
     console.log("Retrieved draft tweets for:", handle);
     res.status(200).json({ drafts });
   } catch (err) {
-    console.log("ERROR - api/tweets/details/drafts -", err.message);
+    console.error("ERROR - api/tweets/details/drafts -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

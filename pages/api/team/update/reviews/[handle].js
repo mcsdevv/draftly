@@ -1,11 +1,11 @@
 import { client, q } from "../../../_util/fauna";
 import verify from "../../../_util/token/verify-new";
-import isOwner from "../../../_util/auth/isOwner";
+import isOwner from "../../../_util/middleware/isOwner";
 
 const updateReviewsRequired = async (req, res) => {
-  const { reviews } = JSON.parse(req.body);
-  const { handle } = req.query;
   try {
+    const { reviews } = JSON.parse(req.body);
+    const { handle } = req.query;
     // * Update number of reviews required to publish a tweet for a team
     const dbs = await client.query(
       q.Update(
@@ -23,7 +23,7 @@ const updateReviewsRequired = async (req, res) => {
     console.log("Team reviews required updated for:", handle);
     res.status(200).json(dbs.data);
   } catch (err) {
-    console.log("ERROR - api/team/update/review -", err.message);
+    console.error("ERROR - api/team/update/review -", err.message);
     res.status(500).json({ error: err.message });
   }
 };

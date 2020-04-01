@@ -11,7 +11,7 @@ const teamExists = async (req, res) => {
     console.log("Team exists: ", exists);
     res.status(200).json({ exists });
   } catch (err) {
-    console.log("ERROR - api/team/exists -", err.message);
+    console.error("ERROR - api/team/exists -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

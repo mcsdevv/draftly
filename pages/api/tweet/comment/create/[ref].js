@@ -23,7 +23,7 @@ const createTweetComment = async (req, res) => {
     console.log("Added comment to: ", ref);
     res.status(200).json([...data.comments]);
   } catch (err) {
-    console.log("ERROR - api/tweet/comment/create -", err.message);
+    console.error("ERROR - api/tweet/comment/create -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

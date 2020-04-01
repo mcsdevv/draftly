@@ -24,7 +24,7 @@ const updateTokens = async (req, res) => {
     console.log("Tokens updated for:", handle);
     res.status(200).json(dbs.data);
   } catch (err) {
-    console.log("ERROR - api/team/tokens/update -", err.message);
+    console.error("ERROR - api/team/tokens/update -", err.message);
     res.status(500).json({ err: err.message });
   }
 };
