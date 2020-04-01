@@ -2,9 +2,9 @@ const Twitter = require("twitter");
 import request from "request-promise";
 
 export default async (req, res) => {
-  const { tweet } = req.body;
-  const { handle } = req.query;
   try {
+    const { tweet } = req.body;
+    const { handle } = req.query;
     // * Get auth keys for account
     const authOptions = {
       method: "GET",

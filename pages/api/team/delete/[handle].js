@@ -4,8 +4,8 @@ import request from "request-promise";
 import verify from "../../_util/token/verify-new";
 
 const teamDelete = async (req, res) => {
-  const { handle } = req.query;
   try {
+    const { handle } = req.query;
     // * Delete a team
     const dbs = await client.query(
       q.Delete(

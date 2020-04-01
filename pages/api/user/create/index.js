@@ -2,8 +2,8 @@ import { client, q } from "../../_util/fauna";
 import verify from "../../_util/token/verify-new";
 
 const createUser = async (req, res) => {
-  const { email, name, picture } = req.body;
   try {
+    const { email, name, picture } = req.body;
     // * Create user account
     const dbs = await client.query(
       q.Create(q.Collection("users"), {

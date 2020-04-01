@@ -2,9 +2,9 @@ import { client, q } from "../../../_util/fauna";
 import verify from "../../../_util/token/verify-new";
 
 const teamDeleteDraft = async (req, res) => {
-  const { handle } = req.query;
-  const { ref } = req.body;
   try {
+    const { handle } = req.query;
+    const { ref } = req.body;
     // * Delete a draft tweet from a team
     const dbs = await client.query(
       q.Update(

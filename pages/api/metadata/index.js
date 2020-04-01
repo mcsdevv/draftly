@@ -4,8 +4,8 @@ import { getMetadata } from "page-metadata-parser";
 import verify from "../_util/token/verify-new";
 
 const getMetadata = async (req, res) => {
-  const { uri } = JSON.parse(req.body);
   try {
+    const { uri } = JSON.parse(req.body);
     const resp = await fetch(uri);
     const respText = await resp.text();
     const doc = domino.createWindow(respText).document;

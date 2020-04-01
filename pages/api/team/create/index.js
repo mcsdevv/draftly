@@ -4,9 +4,9 @@ import request from "request-promise";
 import verify from "../../_util/token/verify-new";
 
 const teamCreate =  (req, res) => {
+  try {
     const { data, email, tokenKey, tokenSecret } = req.body;
     const { name, screen_name, profile_image_url } = data;
-    try {
       // * Create a team
       const dbs = await client.query(
         q.Create(q.Collection("teams"), {

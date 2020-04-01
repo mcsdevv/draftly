@@ -2,8 +2,8 @@ import { client, q } from "../../_util/fauna";
 import verify from "../../_util/token/verify-new";
 
 const teamsDelete = async (req, res) => {
-  const { teams } = req.body;
   try {
+    const { teams } = req.body;
     // * Delete multiple teams
     const dbs = await client.query(
       q.Foreach(

@@ -2,8 +2,8 @@ import { client, q } from "../../_util/fauna";
 import verify from "../../_util/token/verify-new";
 
 const teamDetails = async (req, res) => {
-  const { handle } = req.query;
   try {
+    const { handle } = req.query;
     // * Get details for a team
     const dbs = await client.query(
       q.Get(q.Match(q.Index("all_teams_by_handle"), handle))

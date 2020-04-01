@@ -2,8 +2,8 @@ import { client, q } from "../../_util/fauna";
 import verify from "../../_util/token/verify-new";
 
 const updateTokens = async (req, res) => {
-  const { handle, tokenKey, tokenSecret } = req.body;
   try {
+    const { handle, tokenKey, tokenSecret } = req.body;
     // * Update team tokens
     const dbs = await client.query(
       q.Update(

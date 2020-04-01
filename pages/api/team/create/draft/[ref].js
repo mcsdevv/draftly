@@ -2,9 +2,9 @@ import { client, q } from "../../../_util/fauna";
 import verify from "../../../_util/token/verify-new";
 
 const teamCreateDraft = async (req, res) => {
-  const { handle } = req.body;
-  const { ref } = req.query;
   try {
+    const { handle } = req.body;
+    const { ref } = req.query;
     // * Add draft tweet ref to a team
     await client.query(
       q.Update(

@@ -2,8 +2,8 @@ import { client, q } from "../fauna";
 import jwt from "jsonwebtoken";
 
 const isOwner = handler => async (req, res) => {
-  const { handle } = req.query;
   try {
+    const { handle } = req.query;
     const getOwners = await client.query(
       q.Select(
         ["data", "owners"],

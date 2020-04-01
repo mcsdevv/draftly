@@ -2,9 +2,9 @@ import { client, q } from "../../../_util/fauna";
 import verify from "../../../_util/token/verify-new";
 
 const teamCreatePublished = async (req, res) => {
-  const { handle } = req.body;
-  const { ref } = req.query;
   try {
+    const { handle } = req.body;
+    const { ref } = req.query;
     // * Remove tweet from reviews and add to published for a team
     await client.query(
       q.Update(
