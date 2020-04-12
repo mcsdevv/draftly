@@ -2,28 +2,27 @@ import { client, q } from "../../../_util/fauna";
 import { formatTweets } from "../../../_util/formatTweets";
 import verify from "../../../_util/token/verify";
 
-export default async (req, res) => {
-  verify(req.headers.authorization || req.cookies.access_token, async error => {
-    if (error) res.status(400).json({ error });
+const getReviewTweets = async (req, res) => {
+  try {
     const { handle } = req.query;
-    try {
-      // * Get review tweets for account
-      const dbs = await client.query(
-        q.Map(
-          q.Select(
-            ["data", "reviews"],
-            q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
-          ),
-          q.Lambda("s", q.Get(q.Ref(q.Collection("tweets"), q.Var("s"))))
-        )
-      );
-      // * Format review tweets
-      const reviews = formatTweets(dbs);
-      console.log("Retrieved review tweets for:", handle);
-      res.status(200).json({ reviews });
-    } catch (e) {
-      console.log("ERROR - api/tweets/details/reviews -", e.message);
-      res.status(500).json({ error: e.message });
-    }
-  });
+    // * Get review tweets for account
+    const dbs = await client.query(
+      q.Map(
+        q.Select(
+          ["data", "reviews"],
+          q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+        ),
+        q.Lambda("s", q.Get(q.Ref(q.Collection("tweets"), q.Var("s"))))
+      )
+    );
+    // * Format review tweets
+    const reviews = formatTweets(dbs);
+    console.log("Retrieved review tweets for:", handle);
+    res.status(200).json({ reviews });
+  } catch (err) {
+    console.error("ERROR - api/tweets/details/reviews -", err.message);
+    res.status(500).json({ err: err.message });
+  }
 };
+
+export default verify(getReviewTweets);

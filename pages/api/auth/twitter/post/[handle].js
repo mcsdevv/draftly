@@ -2,9 +2,9 @@ const Twitter = require("twitter");
 import request from "request-promise";
 
 export default async (req, res) => {
-  const { tweet } = req.body;
-  const { handle } = req.query;
   try {
+    const { tweet } = req.body;
+    const { handle } = req.query;
     // * Get auth keys for account
     const authOptions = {
       method: "GET",
@@ -29,12 +29,12 @@ export default async (req, res) => {
       response
     ) {
       if (error) throw error;
-      console.log("Error posting tweet: ", tweet);
+      console.error("Error posting tweet: ", tweet);
     });
     console.log("Tweet successfully posted for:", handle);
     res.status(200).json({ ok: true });
-  } catch (e) {
-    console.log("ERROR - api/twitter/post -", e.message);
-    res.status(500).json({ error: e.message });
+  } catch (err) {
+    console.error("ERROR - api/twitter/post -", err.message);
+    res.status(500).json({ err: err.message });
   }
 };

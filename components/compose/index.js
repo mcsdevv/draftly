@@ -13,7 +13,7 @@ export default function ComposeTweet({
   drafting,
   revalidate,
   setDrafting,
-  startDraft
+  startDraft,
 }) {
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
@@ -31,8 +31,8 @@ export default function ComposeTweet({
       body: JSON.stringify({
         creator: name,
         metadata,
-        tweet: formattedTweet
-      })
+        tweet: formattedTweet,
+      }),
     });
     if (res.status === 200) {
       revalidate();
@@ -43,11 +43,11 @@ export default function ComposeTweet({
         title: "Tweet created.",
         status: "success",
         duration: 9000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     // TODO Improve character limit handling
     if (tweet.length < 280) {
       setTweet(e.target.value);

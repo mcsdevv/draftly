@@ -11,17 +11,17 @@ export default function ChangeTeamName() {
   const { scope, setScope } = useScope();
   const [newName, setNewName] = useState(scope.name);
   const toast = useToast();
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     setNewName(e.target.value);
   };
-  const handleOnSubmitName = async e => {
+  const handleOnSubmitName = async (e) => {
     e.preventDefault();
     const url = `/api/team/update/name/${scope.handle}`;
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
-        newName
-      })
+        newName,
+      }),
     });
     if (res.status === 200) {
       revalidateProfile();
@@ -31,7 +31,7 @@ export default function ChangeTeamName() {
         title: "Team name updated.",
         status: "success",
         duration: 9000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
