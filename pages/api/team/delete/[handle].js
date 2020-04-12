@@ -2,6 +2,7 @@ import { client, q } from "../../_util/fauna";
 import { getRef } from "../../_util/getRef";
 import request from "request-promise";
 import verify from "../../_util/token/verify-new";
+import isOwner from "../../_util/middleware/isOwner";
 
 const teamDelete = async (req, res) => {
   try {
@@ -23,12 +24,12 @@ const teamDelete = async (req, res) => {
       method: "PATCH",
       url: `${process.env.AUTH0_REDIRECT_URI}/api/users/delete/team/${refJoined}`,
       body: {
-        emails
+        emails,
       },
       headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token
+        Authorization: req.headers.authorization || req.cookies.access_token,
       },
-      json: true
+      json: true,
     };
     await request(deleteOptions);
     console.log("Deleted team:", dbs.data.name);
@@ -39,4 +40,4 @@ const teamDelete = async (req, res) => {
   }
 };
 
-export default verify(teamDelete);
+export default verify(isOwner(teamDelete));
