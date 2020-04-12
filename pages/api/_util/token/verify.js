@@ -4,6 +4,7 @@ import { decrypt } from "./encryption";
 const verify = (handler) => async (req, res) => {
   // * Get token from
   const token = req.headers.authorization || req.cookies.access_token;
+  console.log("auth", token);
   // * Provide options to verify the JWT with
   const options = {
     algorithms: ["RS256"],
@@ -14,6 +15,7 @@ const verify = (handler) => async (req, res) => {
     try {
       // * Decrypt token
       const tokenDecrypted = decrypt(token);
+      console.log("decrypted", tokenDecrypted);
       // * Decode decrypted token
       const tokenDecoded = jwt.decode(tokenDecrypted);
       // * Verify audience correct
