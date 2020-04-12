@@ -28,8 +28,6 @@ export default function ComposeTweet({
     const formattedTweet = removeWww(tweet);
     const res = await fetch(url, {
       method: "POST",
-      mode: "same-origin",
-      credentials: "same-origin",
       body: JSON.stringify({
         creator: name,
         metadata,
