@@ -67,7 +67,7 @@ function Drafts() {
           />
         </Box>
         {drafts && drafts.length > 0
-          ? drafts.map(d => (
+          ? drafts.map((d) => (
               <Box alignSelf="center" justifySelf="center" key={d.ref}>
                 <Draft
                   drafts={drafts}

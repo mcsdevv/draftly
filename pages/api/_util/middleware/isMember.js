@@ -2,9 +2,10 @@ import { client, q } from "../fauna";
 import jwt from "jsonwebtoken";
 
 const isMember = (handler) => async (req, res) => {
+  console.log(req.cookies);
   try {
     console.time("isMember");
-    const { handle } = req.query;
+    const handle = req.query.handle || req.body.handle;
     const getMembers = await client.query(
       q.Union(
         q.Select(
@@ -18,7 +19,7 @@ const isMember = (handler) => async (req, res) => {
       )
     );
     const id = jwt.decode(req.cookies.id_token);
-    const isMember = await getMembers.includes(id.email);
+    const isMember = getMembers.includes(id.email);
     console.timeEnd("isMember");
     if (isMember) return handler(req, res);
     else throw "This action requires team membership permissions";

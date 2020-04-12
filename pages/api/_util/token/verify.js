@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken";
 import { decrypt } from "./encryption";
 
-const verify = handler => async (req, res) => {
+const verify = (handler) => async (req, res) => {
   // * Get token from
   const token = req.headers.authorization || req.cookies.access_token;
   // * Provide options to verify the JWT with
   const options = {
     algorithms: ["RS256"],
-    maxAge: "1 day"
+    maxAge: "1 day",
   };
   // * Check token length != false,
   if (!!token?.length) {
