@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const getTeamTokens = async (req, res) => {
   try {

@@ -1,5 +1,5 @@
 import { client, q } from "../../_util/fauna";
-import verify from "../../_util/token/verify-new";
+import verify from "../../_util/token/verify";
 
 const createUser = async (req, res) => {
   try {
@@ -11,8 +11,8 @@ const createUser = async (req, res) => {
           email,
           name,
           picture,
-          teams: []
-        }
+          teams: [],
+        },
       })
     );
     console.log("User created: ", dbs.data);

@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const createUserTeam = async (req, res) => {
   try {
@@ -17,8 +17,8 @@ const createUserTeam = async (req, res) => {
                 ["data", "teams"],
                 q.Get(q.Match(q.Index("all_users_by_email"), email))
               )
-            )
-          }
+            ),
+          },
         }
       )
     );

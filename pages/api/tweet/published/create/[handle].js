@@ -1,7 +1,7 @@
 import { client, q } from "../../../_util/fauna";
 import { getRef } from "../../../_util/getRef";
 import request from "request-promise";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const createPublishedTweet = async (req, res) => {
   try {
@@ -13,20 +13,20 @@ const createPublishedTweet = async (req, res) => {
       method: "POST",
       url: `${process.env.AUTH0_REDIRECT_URI}/api/auth/twitter/post/${handle}`,
       body: {
-        tweet
+        tweet,
       },
       headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token
+        Authorization: req.headers.authorization || req.cookies.access_token,
       },
-      json: true
+      json: true,
     };
     await request(tweetOptions);
     // * Update the tweet type to published
     const dbs = await client.query(
       q.Update(q.Ref(q.Collection("tweets"), ref), {
         data: {
-          type: "published"
-        }
+          type: "published",
+        },
       })
     );
     const draftRef = await dbs.ref;
@@ -36,12 +36,12 @@ const createPublishedTweet = async (req, res) => {
       method: "POST",
       url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/published/${refTrimmed}`,
       body: {
-        handle
+        handle,
       },
       headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token
+        Authorization: req.headers.authorization || req.cookies.access_token,
       },
-      json: true
+      json: true,
     };
     await request(teamOptions);
     console.log("Published tweet created for:", handle);

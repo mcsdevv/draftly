@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 import isOwner from "../../../_util/middleware/isOwner";
 
 const updateReviewsRequired = async (req, res) => {
@@ -15,8 +15,8 @@ const updateReviewsRequired = async (req, res) => {
         ),
         {
           data: {
-            reviewsRequired: reviews
-          }
+            reviewsRequired: reviews,
+          },
         }
       )
     );

@@ -1,7 +1,7 @@
 import { client, q } from "../../../_util/fauna";
 import { getRef } from "../../../_util/getRef";
 import request from "request-promise";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const createReviewTweet = async (req, res) => {
   const { ref } = JSON.parse(req.body);
@@ -11,8 +11,8 @@ const createReviewTweet = async (req, res) => {
     const dbs = await client.query(
       q.Update(q.Ref(q.Collection("tweets"), ref), {
         data: {
-          type: "review"
-        }
+          type: "review",
+        },
       })
     );
     const draftRef = await dbs.ref;
@@ -22,12 +22,12 @@ const createReviewTweet = async (req, res) => {
       method: "POST",
       url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/review/${refTrimmed}`,
       body: {
-        handle
+        handle,
       },
       headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token
+        Authorization: req.headers.authorization || req.cookies.access_token,
       },
-      json: true
+      json: true,
     };
     await request(teamOptions);
     console.log("Created review tweet for:", handle);

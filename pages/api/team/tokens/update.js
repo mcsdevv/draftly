@@ -1,5 +1,5 @@
 import { client, q } from "../../_util/fauna";
-import verify from "../../_util/token/verify-new";
+import verify from "../../_util/token/verify";
 
 const updateTokens = async (req, res) => {
   try {
@@ -15,9 +15,9 @@ const updateTokens = async (req, res) => {
           data: {
             auth: {
               tokenKey,
-              tokenSecret
-            }
-          }
+              tokenSecret,
+            },
+          },
         }
       )
     );

@@ -1,6 +1,6 @@
 import { client, q } from "../../_util/fauna";
 import request from "request-promise";
-import verify from "../../_util/token/verify-new";
+import verify from "../../_util/token/verify";
 
 const deleteUser = async (req, res) => {
   try {
@@ -14,7 +14,7 @@ const deleteUser = async (req, res) => {
     );
     // * List teams to delete if no owners remain after user deletion
     const teamsToDelete = [];
-    teams.forEach(t => {
+    teams.forEach((t) => {
       if (t.owners.length <= 1 && t.owners.includes(email)) {
         teamsToDelete.push(t.handle);
       }
@@ -24,12 +24,12 @@ const deleteUser = async (req, res) => {
       method: "DELETE",
       url: `${process.env.AUTH0_REDIRECT_URI}/api/teams/delete`,
       body: {
-        teams: teamsToDelete
+        teams: teamsToDelete,
       },
       headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token
+        Authorization: req.headers.authorization || req.cookies.access_token,
       },
-      json: true
+      json: true,
     };
     await request(deleteOptions);
     console.log("Deleted user: ", dbs.data.name);

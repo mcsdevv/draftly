@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const teamCreateReview = async (req, res) => {
   try {
@@ -27,8 +27,8 @@ const teamCreateReview = async (req, res) => {
                 ["data", "reviews"],
                 q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
               )
-            )
-          }
+            ),
+          },
         }
       )
     );

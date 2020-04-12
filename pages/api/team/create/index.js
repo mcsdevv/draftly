@@ -1,7 +1,7 @@
 import { client, q } from "../../_util/fauna";
 import { getRef } from "../../_util/getRef";
 import request from "request-promise";
-import verify from "../../_util/token/verify-new";
+import verify from "../../_util/token/verify";
 
 const teamCreate =  (req, res) => {
   try {

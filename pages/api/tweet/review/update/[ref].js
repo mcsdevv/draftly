@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const updateReviewTweet = async (req, res) => {
   try {
@@ -9,8 +9,8 @@ const updateReviewTweet = async (req, res) => {
       q.Update(q.Ref(q.Collection("tweets"), ref), {
         data: {
           metadata,
-          text
-        }
+          text,
+        },
       })
     );
     console.log("Updated review tweet: ", ref);

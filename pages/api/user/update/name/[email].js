@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const updateUserName = async (req, res) => {
   try {
@@ -11,8 +11,8 @@ const updateUserName = async (req, res) => {
         q.Select(["ref"], q.Get(q.Match(q.Index("all_users_by_email"), email))),
         {
           data: {
-            name: newName
-          }
+            name: newName,
+          },
         }
       )
     );

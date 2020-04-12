@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import domino from "domino";
 import { getMetadata } from "page-metadata-parser";
-import verify from "../_util/token/verify-new";
+import verify from "../_util/token/verify";
 
 const getMetadata = async (req, res) => {
   try {

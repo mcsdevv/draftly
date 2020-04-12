@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const deleteUserTeams = async (req, res) => {
   try {
@@ -26,8 +26,8 @@ const deleteUserTeams = async (req, res) => {
               teams: q.Filter(
                 q.Select(["data", "teams"], q.Get(q.Var("u"))),
                 q.Lambda("s", q.Not(q.Equals(ref, q.Var("s"))))
-              )
-            }
+              ),
+            },
           })
         )
       )

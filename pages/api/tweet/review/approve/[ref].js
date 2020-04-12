@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const approveReviewTweet = async (req, res) => {
   try {
@@ -14,8 +14,8 @@ const approveReviewTweet = async (req, res) => {
               ["data", "approvedBy"],
               q.Get(q.Ref(q.Collection("tweets"), ref))
             )
-          )
-        }
+          ),
+        },
       })
     );
     console.log("Approved tweet: ", ref);

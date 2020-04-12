@@ -1,6 +1,6 @@
 import { client, q } from "../../../_util/fauna";
 import { formatTweets } from "../../../_util/formatTweets";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const getReviewTweets = async (req, res) => {
   try {

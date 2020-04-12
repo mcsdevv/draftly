@@ -1,7 +1,7 @@
 import { client, q } from "../../../_util/fauna";
 import { getRef } from "../../../_util/getRef";
 import request from "request-promise";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const createDraftTweet = async (req, res) => {
   try {
@@ -16,8 +16,8 @@ const createDraftTweet = async (req, res) => {
           creator,
           metadata,
           text: tweet,
-          type: "draft"
-        }
+          type: "draft",
+        },
       })
     );
     const { ref } = await dbs;
@@ -27,12 +27,12 @@ const createDraftTweet = async (req, res) => {
       method: "POST",
       url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/draft/${refTrimmed}`,
       body: {
-        handle
+        handle,
       },
       headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token
+        Authorization: req.headers.authorization || req.cookies.access_token,
       },
-      json: true
+      json: true,
     };
     await request(teamOptions);
     console.log("Draft tweet created for:", handle);

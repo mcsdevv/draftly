@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const createTweetComment = async (req, res) => {
   try {
@@ -15,8 +15,8 @@ const createTweetComment = async (req, res) => {
               ["data", "comments"],
               q.Get(q.Ref(q.Collection("tweets"), ref))
             )
-          )
-        }
+          ),
+        },
       })
     );
     const { data } = await dbs;

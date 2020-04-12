@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const deleteTweetComment = async (req, res) => {
   const { id } = JSON.parse(req.body);
@@ -15,8 +15,8 @@ const deleteTweetComment = async (req, res) => {
               q.Get(q.Ref(q.Collection("tweets"), ref))
             ),
             q.Lambda("i", q.Not(q.Equals(id, q.Select(["id"], q.Var("i")))))
-          )
-        }
+          ),
+        },
       })
     );
     const { data } = await dbs;

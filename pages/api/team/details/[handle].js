@@ -1,5 +1,5 @@
 import { client, q } from "../../_util/fauna";
-import verify from "../../_util/token/verify-new";
+import verify from "../../_util/token/verify";
 
 const teamDetails = async (req, res) => {
   try {
@@ -11,7 +11,7 @@ const teamDetails = async (req, res) => {
     // * Delete keys before sending response
     delete dbs.data.auth;
     console.log("Team details:", dbs);
-    res.status(200).json({ ...dbs.data });
+    res.status(200).json(dbs.data);
   } catch (err) {
     console.error("ERROR - api/team/details -", err.message);
     res.status(500).json({ error: err.message });

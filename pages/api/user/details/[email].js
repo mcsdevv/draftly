@@ -1,5 +1,5 @@
 import { client, q } from "../../_util/fauna";
-import verify from "../../_util/token/verify-new";
+import verify from "../../_util/token/verify";
 
 const getUserDetails = async (req, res) => {
   try {
@@ -34,7 +34,7 @@ const getUserDetails = async (req, res) => {
     const teamsData = dbs.slice(1);
     userData.shift();
     const user = userData.shift();
-    const teams = teamsData.map(t => {
+    const teams = teamsData.map((t) => {
       delete t.data.auth;
       return t.data;
     });

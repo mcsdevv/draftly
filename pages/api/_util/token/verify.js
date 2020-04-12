@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import { decrypt } from "../token/encryption";
+import { decrypt } from "./encryption";
 
-// TODO Accept scope parameter, check as part of JWT validation
-
-module.exports = async (token, callback) => {
+const verify = handler => async (req, res) => {
+  // * Get token from
+  const token = req.headers.authorization || req.cookies.access_token;
   // * Provide options to verify the JWT with
   const options = {
     algorithms: ["RS256"],
@@ -11,29 +11,28 @@ module.exports = async (token, callback) => {
   };
   // * Check token length != false,
   if (!!token?.length) {
-    console.log("token", token);
     try {
       // * Decrypt token
       const tokenDecrypted = decrypt(token);
-      console.log("tokenfffff", tokenDecrypted);
       // * Decode decrypted token
       const tokenDecoded = jwt.decode(tokenDecrypted);
       // * Verify audience correct
       if (!tokenDecoded.aud.includes(process.env.AUTH0_AUDIENCE)) {
-        console.error("Error verifying: incorrect audience");
-        return callback("Error verifying: incorrect audience");
+        console.error("Error authenticating: incorrect audience");
+        return res.status(403).json({ err: "Incorrect audience" });
       }
       // * Verify JWT using about methods
       jwt.verify(tokenDecrypted, process.env.AUTH0_PUBLIC_KEY, options);
-      return callback();
+      return handler(req, res);
     } catch (err) {
       console.error("Error verifying:", err.message);
-      callback(err.message);
-      return;
+      return res.status(403).json({ err: err.message });
     }
   } else {
     // * Supply callback with error if token length != true
-    console.error("Error verifying: no token present");
-    return callback("No token present");
+    console.error("Error authenticating: no token present");
+    return res.status(401).json({ err: "No token present" });
   }
 };
+
+export default verify;

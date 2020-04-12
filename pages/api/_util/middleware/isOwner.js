@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 const isOwner = (handler) => async (req, res) => {
   try {
+    console.time("isOwner");
     const { handle } = req.query;
     const getOwners = await client.query(
       q.Select(
@@ -12,6 +13,7 @@ const isOwner = (handler) => async (req, res) => {
     );
     const id = jwt.decode(req.cookies.id_token);
     const isOwner = await getOwners.includes(id.email);
+    console.timeEnd("isOwner");
     if (isOwner) return handler(req, res);
     else throw "This action requires owner permissions";
   } catch (err) {

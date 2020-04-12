@@ -1,9 +1,10 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 import isOwner from "../../../_util/middleware/isOwner";
 
 const updateTeamName = async (req, res) => {
   try {
+    console.time("updateTeamName");
     const { newName } = JSON.parse(req.body);
     const { handle } = req.query;
     // * Update team name
@@ -15,11 +16,12 @@ const updateTeamName = async (req, res) => {
         ),
         {
           data: {
-            name: newName
-          }
+            name: newName,
+          },
         }
       )
     );
+    console.timeEnd("updateTeamName");
     console.log("Team name updated for:", handle);
     res.status(200).json(dbs.data);
   } catch (err) {

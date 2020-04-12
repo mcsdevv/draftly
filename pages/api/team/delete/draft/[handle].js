@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import verify from "../../../_util/token/verify-new";
+import verify from "../../../_util/token/verify";
 
 const teamDeleteDraft = async (req, res) => {
   try {
@@ -20,8 +20,8 @@ const teamDeleteDraft = async (req, res) => {
                 q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
               ),
               q.Lambda("s", q.Not(q.Equals(ref, q.Var("s"))))
-            )
-          }
+            ),
+          },
         }
       )
     );

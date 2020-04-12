@@ -1,7 +1,7 @@
 import { client, q } from "../../_util/fauna";
 import { getRef } from "../../_util/getRef";
 import request from "request-promise";
-import verify from "../../_util/token/verify-new";
+import verify from "../../_util/token/verify";
 import isOwner from "../../_util/middleware/isOwner";
 
 const teamDelete = async (req, res) => {
