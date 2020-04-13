@@ -16,6 +16,7 @@ export default function Header() {
     Cookies.remove("id_token");
     Cookies.remove("access_token");
     Cookies.remove("next");
+    localStorage.removeItem("scope");
     localStorage.removeItem("teams");
     localStorage.removeItem("user");
     router.push("/");
