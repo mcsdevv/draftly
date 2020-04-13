@@ -1,24 +1,17 @@
 const Twitter = require("twitter");
 import { client, q } from "../../../_util/fauna";
 import { getRef } from "../../../_util/getRef";
-import request from "request-promise";
 import verify from "../../../_util/token/verify";
 
 const createPublishedTweet = async (req, res) => {
   try {
     const { ref, tweet } = JSON.parse(req.body);
     const { handle } = req.query;
-    // * Attempt to post tweet
-    // TODO Handle error
-    const authOptions = {
-      method: "GET",
-      url: `${process.env.AUTH0_REDIRECT_URI}/api/team/tokens/get/${handle}`,
-      headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token,
-      },
-      json: true,
-    };
-    const { tokenKey, tokenSecret } = await request(authOptions);
+    // * Get keys to post tweet
+    const keys = await client.query(
+      q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+    );
+    const { tokenKey, tokenSecret } = keys.data.auth;
     // * Create new Twitter client with account and application keys
     const twitterClient = new Twitter({
       consumer_key: process.env.TWITTER_CONSUMER_KEY,
