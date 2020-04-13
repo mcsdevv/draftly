@@ -1,5 +1,4 @@
 import { client, q } from "../../../_util/fauna";
-import request from "request-promise";
 import verify from "../../../_util/token/verify";
 
 const deleteDraftTweet = async (req, res) => {
@@ -11,20 +10,27 @@ const deleteDraftTweet = async (req, res) => {
       q.Delete(q.Select(["ref"], q.Get(q.Ref(q.Collection("tweets"), ref))))
     );
     // * Remove tweet ref from team
-    const deleteOptions = {
-      method: "PATCH",
-      url: `${process.env.AUTH0_REDIRECT_URI}/api/team/delete/draft/${handle}`,
-      body: {
-        ref,
-      },
-      headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token,
-      },
-      json: true,
-    };
-    await request(deleteOptions);
+    await client.query(
+      q.Update(
+        q.Select(
+          ["ref"],
+          q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+        ),
+        {
+          data: {
+            drafts: q.Filter(
+              q.Select(
+                ["data", "drafts"],
+                q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+              ),
+              q.Lambda("s", q.Not(q.Equals(ref, q.Var("s"))))
+            ),
+          },
+        }
+      )
+    );
     console.log("Deleted tweet for:", handle);
-    res.status(200).json({ ...dbs.data });
+    res.status(200).json(dbs.data);
   } catch (err) {
     console.error("ERROR - api/tweet/draft/delete -", err.message);
     res.status(500).json({ err: err.message });
