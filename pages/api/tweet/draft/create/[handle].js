@@ -26,9 +26,9 @@ const createDraftTweet = async (req, res) => {
     // * Update team with the tweet ref
     const teamOptions = {
       method: "POST",
-      url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/draft/${refTrimmed}`,
+      url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/draft/${handle}`,
       body: {
-        handle,
+        refTrimmed,
       },
       headers: {
         Authorization: req.headers.authorization || req.cookies.access_token,

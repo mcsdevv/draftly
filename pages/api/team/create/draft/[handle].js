@@ -3,8 +3,8 @@ import verify from "../../../_util/token/verify";
 
 const teamCreateDraft = async (req, res) => {
   try {
-    const { handle } = req.body;
-    const { ref } = req.query;
+    const { ref } = req.body;
+    const { handle } = req.query;
     // * Add draft tweet ref to a team
     await client.query(
       q.Update(
