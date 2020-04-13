@@ -32,18 +32,32 @@ const createPublishedTweet = async (req, res) => {
     const draftRef = await dbs.ref;
     const refTrimmed = getRef(draftRef);
     // * Update team with the tweet ref
-    const teamOptions = {
-      method: "POST",
-      url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/published/${refTrimmed}`,
-      body: {
-        handle,
-      },
-      headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token,
-      },
-      json: true,
-    };
-    await request(teamOptions);
+    await client.query(
+      q.Update(
+        q.Select(
+          ["ref"],
+          q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+        ),
+        {
+          data: {
+            reviews: q.Filter(
+              q.Select(
+                ["data", "reviews"],
+                q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+              ),
+              q.Lambda("s", q.Not(q.Equals(refTrimmed, q.Var("s"))))
+            ),
+            published: q.Append(
+              refTrimmed,
+              q.Select(
+                ["data", "published"],
+                q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+              )
+            ),
+          },
+        }
+      )
+    );
     console.log("Published tweet created for:", handle);
     res.status(200).json(dbs.data);
   } catch (err) {

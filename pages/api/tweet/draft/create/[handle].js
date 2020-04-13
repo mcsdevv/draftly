@@ -1,6 +1,5 @@
 import { client, q } from "../../../_util/fauna";
 import { getRef } from "../../../_util/getRef";
-import request from "request-promise";
 import verify from "../../../_util/token/verify";
 import isMember from "../../../_util/middleware/isMember";
 
@@ -24,18 +23,25 @@ const createDraftTweet = async (req, res) => {
     const { ref } = await dbs;
     const refTrimmed = getRef(ref);
     // * Update team with the tweet ref
-    const teamOptions = {
-      method: "POST",
-      url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create/draft/${handle}`,
-      body: {
-        refTrimmed,
-      },
-      headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token,
-      },
-      json: true,
-    };
-    await request(teamOptions);
+    await client.query(
+      q.Update(
+        q.Select(
+          ["ref"],
+          q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+        ),
+        {
+          data: {
+            drafts: q.Append(
+              refTrimmed,
+              q.Select(
+                ["data", "drafts"],
+                q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+              )
+            ),
+          },
+        }
+      )
+    );
     console.log("Draft tweet created for:", handle);
     res.status(200).json({ ref: refTrimmed });
   } catch (err) {
