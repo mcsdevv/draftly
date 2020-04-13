@@ -5,6 +5,7 @@ import verify from "../../../_util/token/verify";
 const getPublishedTweets = async (req, res) => {
   try {
     const { handle } = req.query;
+    if (handle === "undefined") return res.status(200).json([]);
     // * Get published tweets for account
     const dbs = await client.query(
       q.Map(
