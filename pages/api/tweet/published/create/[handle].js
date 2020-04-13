@@ -1,3 +1,4 @@
+const Twitter = require("twitter");
 import { client, q } from "../../../_util/fauna";
 import { getRef } from "../../../_util/getRef";
 import request from "request-promise";
@@ -9,18 +10,31 @@ const createPublishedTweet = async (req, res) => {
     const { handle } = req.query;
     // * Attempt to post tweet
     // TODO Handle error
-    const tweetOptions = {
-      method: "POST",
-      url: `${process.env.AUTH0_REDIRECT_URI}/api/auth/twitter/post/${handle}`,
-      body: {
-        tweet,
-      },
+    const authOptions = {
+      method: "GET",
+      url: `${process.env.AUTH0_REDIRECT_URI}/api/team/tokens/get/${handle}`,
       headers: {
         Authorization: req.headers.authorization || req.cookies.access_token,
       },
       json: true,
     };
-    await request(tweetOptions);
+    const { tokenKey, tokenSecret } = await request(authOptions);
+    // * Create new Twitter client with account and application keys
+    const twitterClient = new Twitter({
+      consumer_key: process.env.TWITTER_CONSUMER_KEY,
+      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+      access_token_key: tokenKey,
+      access_token_secret: tokenSecret,
+    });
+    // * Post tweet
+    twitterClient.post("statuses/update", { status: tweet }, function (
+      error,
+      tweet,
+      response
+    ) {
+      if (error) throw error;
+      console.error("Error posting tweet: ", tweet);
+    });
     // * Update the tweet type to published
     const dbs = await client.query(
       q.Update(q.Ref(q.Collection("tweets"), ref), {
