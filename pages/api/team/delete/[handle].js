@@ -1,6 +1,5 @@
 import { client, q } from "../../_util/fauna";
 import { getRef } from "../../_util/getRef";
-import request from "request-promise";
 import verify from "../../_util/token/verify";
 import isOwner from "../../_util/middleware/isOwner";
 
@@ -20,18 +19,32 @@ const teamDelete = async (req, res) => {
     const refJoined = getRef(ref);
     const emails = [...data.members, ...data.owners];
     // * Remove team from all users
-    const deleteOptions = {
-      method: "PATCH",
-      url: `${process.env.AUTH0_REDIRECT_URI}/api/users/delete/team/${refJoined}`,
-      body: {
-        emails,
-      },
-      headers: {
-        Authorization: req.headers.authorization || req.cookies.access_token,
-      },
-      json: true,
-    };
-    await request(deleteOptions);
+    await client.query(
+      q.Foreach(
+        q.Paginate(
+          q.Union(
+            q.Map(
+              emails,
+              q.Lambda(
+                "x",
+                q.Match(q.Index("all_users_by_email"), [q.Var("x")])
+              )
+            )
+          )
+        ),
+        q.Lambda(
+          "u",
+          q.Update(q.Var("u"), {
+            data: {
+              teams: q.Filter(
+                q.Select(["data", "teams"], q.Get(q.Var("u"))),
+                q.Lambda("s", q.Not(q.Equals(refJoined, q.Var("s"))))
+              ),
+            },
+          })
+        )
+      )
+    );
     console.log("Deleted team:", dbs.data.name);
     res.status(200).json(dbs.data);
   } catch (err) {
