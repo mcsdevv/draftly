@@ -2,6 +2,7 @@ import { client, q } from "../../../_util/fauna";
 import { getRef } from "../../../_util/getRef";
 import request from "request-promise";
 import verify from "../../../_util/token/verify";
+import isMember from "../../../_util/middleware/isMember";
 
 const createDraftTweet = async (req, res) => {
   try {
@@ -43,4 +44,4 @@ const createDraftTweet = async (req, res) => {
   }
 };
 
-export default verify(createDraftTweet);
+export default verify(isMember(createDraftTweet));

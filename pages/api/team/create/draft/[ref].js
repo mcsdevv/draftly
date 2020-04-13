@@ -1,9 +1,7 @@
 import { client, q } from "../../../_util/fauna";
 import verify from "../../../_util/token/verify";
-import isMember from "../../../_util/middleware/isMember";
 
 const teamCreateDraft = async (req, res) => {
-  console.log("cookies", req.cookies);
   try {
     const { handle } = req.body;
     const { ref } = req.query;
@@ -35,4 +33,4 @@ const teamCreateDraft = async (req, res) => {
   }
 };
 
-export default verify(isMember(teamCreateDraft));
+export default verify(teamCreateDraft);
