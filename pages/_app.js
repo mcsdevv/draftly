@@ -6,10 +6,12 @@ import { ThemeProvider, CSSReset } from "@chakra-ui/core";
 import theme from "../theme.js";
 import { SWRConfig } from "swr";
 
+import "../styles/global.css";
+
 export default withRouter(
   class MyApp extends App {
     state = {
-      scope: undefined
+      scope: undefined,
     };
     componentDidMount = () => {
       const scopeStored = localStorage.getItem("scope");
@@ -18,7 +20,7 @@ export default withRouter(
         this.setScope(scope);
       }
     };
-    setScope = scope => {
+    setScope = (scope) => {
       localStorage.setItem("scope", JSON.stringify(scope));
       this.setState({ scope });
     };
@@ -28,13 +30,13 @@ export default withRouter(
         <SWRConfig
           value={{
             refreshInterval: 0,
-            fetcher: (...args) => fetch(...args).then(res => res.json())
+            fetcher: (...args) => fetch(...args).then((res) => res.json()),
           }}
         >
           <ScopeContext.Provider
             value={{
               scope: this.state.scope,
-              setScope: this.setScope
+              setScope: this.setScope,
             }}
           >
             <ThemeProvider theme={theme}>

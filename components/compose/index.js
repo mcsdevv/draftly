@@ -7,7 +7,7 @@ import removeWww from "../../lib/removeWww";
 
 import { Box, Heading, Textarea, useToast } from "@chakra-ui/core";
 import Characters from "../card//sections/characters";
-import DefaultButton from "../buttons/default";
+import DefaultButton from "../button/default";
 
 export default function ComposeTweet({
   drafting,

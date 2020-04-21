@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
 
-import AuthButton from "../buttons/auth";
-import LinkButton from "../buttons/link";
+import AuthButton from "../button/auth";
+import LinkButton from "../button/link";
 import ScopePicker from "../scope/picker";
 import { Box, Heading } from "@chakra-ui/core";
 
