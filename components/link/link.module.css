@@ -7,10 +7,10 @@
   height: var(--form-height);
   letter-spacing: -0.1px;
   line-height: 22px;
-  margin-left: 16px;
+  margin-left: 8px;
   max-height: 40px;
   min-width: 96px;
-  padding: 10px 16px;
+  padding: 16px 32px;
   text-transform: uppercase;
   transition: background 0.15s ease;
   user-select: none;
