@@ -1,4 +1,4 @@
-.button {
+.link {
   border-radius: var(--form-border-radius);
   color: var(--light-1);
   font-family: var(--font-family);
@@ -7,8 +7,10 @@
   height: var(--form-height);
   letter-spacing: -0.1px;
   line-height: 22px;
+  margin-left: 16px;
+  max-height: 40px;
   min-width: 96px;
-  padding: 0 16px;
+  padding: 10px 16px;
   text-transform: uppercase;
   transition: background 0.15s ease;
   user-select: none;

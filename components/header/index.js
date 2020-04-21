@@ -3,10 +3,10 @@ import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
 
-import AuthButton from "../button/auth";
-import LinkButton from "../button/link";
 import ScopePicker from "../scope/picker";
 import { Box, Heading } from "@chakra-ui/core";
+
+import Link from "../link";
 
 export default function Header() {
   const { user } = useProfile();
@@ -37,16 +37,26 @@ export default function Header() {
         {user && <ScopePicker />}
       </Box>
       <Box>
-        <LinkButton text="Dashboard" to="/dashboard" />
         {loggedIn && (
           <>
-            <LinkButton text="Drafts" to="/tweets/drafts" />
-            <LinkButton text="Reviews" to="/tweets/reviews" />
-            <LinkButton text="Published" to="/tweets/published" />
-            <LinkButton text="Settings" to="/settings" />
+            <Link href="/tweets/drafts">Drafts</Link>
+            <Link href="/tweets/reviews">Reviews</Link>
+            <Link href="/tweets/published">Published</Link>
+            <Link href="/dashboard" type="secondary">
+              Dashboard
+            </Link>
+            <Link href="/settings" type="secondary">
+              Settings
+            </Link>
           </>
         )}
-        <AuthButton loggedIn={loggedIn} logout={logoutUser} next="/dashboard" />
+        <Link
+          href={loggedIn ? "/" : "/dashboard"}
+          onClick={loggedIn ? logoutUser : null}
+          type="tertiary"
+        >
+          {loggedIn ? "Logout" : "Login"}
+        </Link>
       </Box>
     </Box>
   );
