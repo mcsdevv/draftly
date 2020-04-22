@@ -7,7 +7,7 @@ import removeWww from "../../lib/removeWww";
 
 import { Box, Heading, Textarea, useToast } from "@chakra-ui/core";
 import Characters from "../card//sections/characters";
-import DefaultButton from "../button/default";
+import Button from "../button";
 
 export default function ComposeTweet({
   drafting,
@@ -58,7 +58,7 @@ export default function ComposeTweet({
   return (
     <Box display="flex" flexDirection="column" h="100%" justifyContent="center">
       {!drafting ? (
-        <DefaultButton handleOnClick={startDraft} text="Create Draft" />
+        <Button onClick={startDraft}>Create Draft</Button>
       ) : !saving ? (
         <>
           <Box marginBottom="4">
@@ -71,11 +71,9 @@ export default function ComposeTweet({
             />
             <Characters tweet={tweet} />
           </Box>
-          <DefaultButton
-            disabled={!tweet}
-            handleOnClick={handleSaveDraft}
-            text="Save Draft"
-          />
+          <Button disabled={!tweet} onClick={handleSaveDraft}>
+            Save Draft
+          </Button>
         </>
       ) : (
         <Heading as="h2">Saving Draft...</Heading>
