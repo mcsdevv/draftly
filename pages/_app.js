@@ -2,8 +2,7 @@ import React from "react";
 import App from "next/app";
 import ScopeContext from "../context/scopeContext";
 import { withRouter } from "next/router";
-import { ThemeProvider, CSSReset } from "@chakra-ui/core";
-// import theme from "../theme.js";
+import { ThemeProvider } from "@chakra-ui/core";
 import { SWRConfig } from "swr";
 
 import "../styles/global.css";
