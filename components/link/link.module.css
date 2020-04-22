@@ -13,7 +13,7 @@
   margin-left: var(--gap-1);
   max-height: var(--gap-2);
   min-width: 96px;
-  padding: var(--gap-3) var(--gap-4);
+  padding: var(--gap-2) var(--gap-2);
   text-decoration: none;
   text-transform: uppercase;
   transition: background 0.15s ease;

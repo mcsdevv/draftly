@@ -1,10 +1,11 @@
 .button {
   border-radius: var(--form-border-radius);
   color: var(--light-1);
+  cursor: pointer;
   font-family: var(--font-family);
   font-size: var(--font-size);
   font-weight: 700;
-  height: var(--gap-8);
+  height: var(--gap-6);
   letter-spacing: -0.1px;
   line-height: 22px;
   margin-left: var(--gap-1);
