@@ -1,5 +1,3 @@
-import { Box, Heading, Icon } from "@chakra-ui/core";
-
 import styles from "./top.module.css";
 
 export default function CardTop({ handle, name }) {
