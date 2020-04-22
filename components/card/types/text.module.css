@@ -1,0 +1,8 @@
+.cardText {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family-tweet);
+  font-size: 15px;
+  margin-left: 5px;
+  width: 598px;
+}
