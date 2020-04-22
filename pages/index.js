@@ -11,9 +11,10 @@ export default function Landing() {
       <Heading as="h2">Review...</Heading>
       <Heading as="h2">Publish...</Heading>
       <Button disabled>Drafts</Button>
-      <Button type="secondary">Reviews</Button>
       <Button type="tertiary">Published</Button>
-      <Link href="test">Nice link</Link>
+      <Link href="test" type="secondary">
+        Nice link
+      </Link>
     </Page>
   );
 }
