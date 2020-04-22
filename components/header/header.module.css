@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--gap-2) 0;
+}
+
+.headerLeft,
+.headerRight {
+  display: flex;
+}

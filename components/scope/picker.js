@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useScope, useProfile } from "../../hooks/";
 
-import { Select } from "@chakra-ui/core";
+import Select from "../select";
 
 export default function ScopePicker() {
   const { scope, setScope, updateScope } = useScope();
@@ -13,18 +13,9 @@ export default function ScopePicker() {
   }, [teams]);
   return scope ? (
     <Select
-      maxW="sm"
-      mx="2"
       onChange={updateScope}
+      options={teams}
       value={(scope && scope.handle) || scope.name}
-    >
-      {teams &&
-        teams.map(t => (
-          <option key={t.name} value={t.handle}>
-            {t.name}
-          </option>
-        ))}
-      <option value="new">+ Add New Team</option>
-    </Select>
+    />
   ) : null;
 }

@@ -3,10 +3,9 @@ import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
 
-import ScopePicker from "../scope/picker";
-import { Box, Heading } from "@chakra-ui/core";
-
 import Link from "../link";
+import ScopePicker from "../scope/picker";
+import styles from "./header.module.css";
 
 export default function Header() {
   const { user } = useProfile();
@@ -23,20 +22,12 @@ export default function Header() {
   };
   const loggedIn = Cookies.get("id_token");
   return (
-    <Box
-      as="header"
-      display="flex"
-      h="72px"
-      justifyContent="space-between"
-      py="4"
-    >
-      <Box display="flex">
-        <Heading as="h1" size="xl">
-          T/R
-        </Heading>
+    <header className={styles.header}>
+      <div className={styles.headerLeft}>
+        <h1>T/R</h1>
         {user && <ScopePicker />}
-      </Box>
-      <Box>
+      </div>
+      <div className={styles.headerRight}>
         {loggedIn && (
           <>
             <Link href="/tweets/drafts">Drafts</Link>
@@ -57,7 +48,7 @@ export default function Header() {
         >
           {loggedIn ? "Logout" : "Login"}
         </Link>
-      </Box>
-    </Box>
+      </div>
+    </header>
   );
 }

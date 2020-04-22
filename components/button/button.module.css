@@ -4,11 +4,12 @@
   font-family: var(--font-family);
   font-size: var(--font-size);
   font-weight: 700;
-  height: var(--form-height);
+  height: var(--gap-8);
   letter-spacing: -0.1px;
   line-height: 22px;
+  margin-left: var(--gap-1);
   min-width: 96px;
-  padding: 0 16px;
+  padding: 0 var(--gap-4);
   text-transform: uppercase;
   transition: background 0.15s ease;
   user-select: none;
@@ -16,12 +17,15 @@
 
 .primary {
   background: var(--primary-1);
+  border: var(--primary-2);
 }
 
 .secondary {
   background: var(--secondary-1);
+  border: var(--secondary-2);
 }
 
 .tertiary {
   background: var(--tertiary-1);
+  border: var(--tertiary-2);
 }

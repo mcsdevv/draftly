@@ -3,3 +3,8 @@
   --font-size: 14px;
   --font-family: "Heebo", -apple-system;
 }
+
+h1 {
+  font-size: 3.8em;
+  font-family: var(--font-family);
+}
