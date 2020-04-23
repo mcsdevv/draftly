@@ -5,9 +5,12 @@ import parseJwt from "../../lib/parseJwt";
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import { Box, Heading, Textarea, useToast } from "@chakra-ui/core";
-import Characters from "../card//sections/characters";
+import { useToast } from "@chakra-ui/core";
 import Button from "../button";
+import Characters from "../characters";
+import Textarea from "../textarea";
+
+import styles from "./compose.module.css";
 
 export default function ComposeTweet({
   drafting,
@@ -56,28 +59,26 @@ export default function ComposeTweet({
     }
   };
   return (
-    <Box display="flex" flexDirection="column" h="100%" justifyContent="center">
+    <div className={styles.compose}>
       {!drafting ? (
         <Button onClick={startDraft}>Create Draft</Button>
       ) : !saving ? (
         <>
-          <Box marginBottom="4">
+          <div className={styles.container}>
             <Textarea
               placeholder="Draft your tweet..."
-              height="200px"
               onChange={handleOnChange}
-              width="400px"
               value={tweet}
             />
-            <Characters tweet={tweet} />
-          </Box>
+            <Characters progress={(tweet.length / 280) * 100} />
+          </div>
           <Button disabled={!tweet} onClick={handleSaveDraft}>
             Save Draft
           </Button>
         </>
       ) : (
-        <Heading as="h2">Saving Draft...</Heading>
+        <h2>Saving Draft...</h2>
       )}
-    </Box>
+    </div>
   );
 }

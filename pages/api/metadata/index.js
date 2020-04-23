@@ -3,7 +3,7 @@ import domino from "domino";
 import { getMetadata } from "page-metadata-parser";
 import verify from "../_util/token/verify";
 
-const getMetadata = async (req, res) => {
+const getCardMetadata = async (req, res) => {
   try {
     const { uri } = JSON.parse(req.body);
     const resp = await fetch(uri);
@@ -18,4 +18,4 @@ const getMetadata = async (req, res) => {
   }
 };
 
-export default verify(getMetadata);
+export default verify(getCardMetadata);
