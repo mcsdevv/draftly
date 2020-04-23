@@ -1,6 +1,7 @@
 import { Heading } from "@chakra-ui/core";
 import Button from "../components/button";
 import Link from "../components/link";
+import Characters from "../components/characters";
 
 import Page from "../components/page";
 
@@ -15,6 +16,7 @@ export default function Landing() {
       <Link href="test" type="secondary">
         Nice link
       </Link>
+      <Characters progress={25} />
     </Page>
   );
 }

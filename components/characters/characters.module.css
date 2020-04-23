@@ -1,0 +1,13 @@
+.characters {
+  display: block;
+  margin: 20px auto;
+  max-width: 100%;
+}
+
+.background {
+  fill: none;
+}
+
+.circle {
+  fill: none;
+}
