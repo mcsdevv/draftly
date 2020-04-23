@@ -1,5 +1,5 @@
-import SummaryLarge from "./types/summary-large";
-import Summary from "./types/summary";
+import Large from "./types/large";
+import Small from "./types/small";
 import Text from "./types/text";
 
 import removeUrl from "../../lib/removeUrl";
@@ -10,13 +10,13 @@ export default function Card({
   handleOnChange,
   metadata,
   scope,
-  text
+  text,
 }) {
   // * Removes URL if it is the last item present in the tweet text
   const tweetText = removeUrl(metadata, text);
   if (metadata.cardType === "summary-large") {
     return (
-      <SummaryLarge
+      <Large
         editing={editing}
         editTweet={editTweet}
         handleOnChange={handleOnChange}
@@ -28,7 +28,7 @@ export default function Card({
   }
   if (metadata.cardType === "summary") {
     return (
-      <Summary
+      <Small
         editing={editing}
         editTweet={editTweet}
         handleOnChange={handleOnChange}

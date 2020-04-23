@@ -1,0 +1,28 @@
+.cardLarge {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  margin-left: 5px;
+}
+
+.cardText {
+  margin-bottom: 0;
+}
+
+.cardText > a {
+  color: rgb(27, 149, 224);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.cardText > a:hover {
+  text-decoration: underline;
+}
+
+.cardText > a:visited {
+  color: rgb(27, 149, 224);
+}
+
+.cardLink {
+  text-decoration: none;
+}
