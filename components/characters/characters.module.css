@@ -1,13 +1,7 @@
 .characters {
-  display: block;
-  margin: 20px auto;
-  max-width: 100%;
-}
-
-.background {
-  fill: none;
-}
-
-.circle {
-  fill: none;
+  height: 0px;
+  margin-left: auto;
+  top: -24px;
+  position: relative;
+  width: fit-content;
 }

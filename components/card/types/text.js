@@ -2,7 +2,9 @@ import Linkify from "react-linkify";
 
 import CardTop from "../sections/top";
 import CardBottom from "../sections/bottom";
-import Characters from "../sections/characters";
+// import Characters from "../sections/characters";
+
+import Characters from "../../characters";
 
 import styles from "./text.module.css";
 
@@ -30,7 +32,7 @@ export default function Text({
           <Textarea onChange={handleOnChange} value={editTweet} />
         )}
       </Linkify>
-      {editing && <Characters tweet={editTweet} />}
+      {editing && <Characters progress={(editTweet.length / 280) * 100} />}
       <CardBottom />
     </div>
   );

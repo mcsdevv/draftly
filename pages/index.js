@@ -16,7 +16,7 @@ export default function Landing() {
       <Link href="test" type="secondary">
         Nice link
       </Link>
-      <Characters progress={25} />
+      <Characters progress={50} />
     </Page>
   );
 }
