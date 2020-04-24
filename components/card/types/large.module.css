@@ -26,3 +26,53 @@
 .cardLink {
   text-decoration: none;
 }
+
+.cardContainer {
+  border: 1px solid rgb(204, 214, 221);
+  border-radius: 14px;
+  margin-top: 10px;
+}
+
+.imageContainer {
+  border-bottom: 1px solid rgb(204, 214, 221);
+  height: 265px;
+}
+
+.image {
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  height: 100%;
+  max-width: 100%;
+  width: 100%;
+}
+
+.contentContainer {
+  font-family: var(--font-family-tweet);
+  padding: 10px;
+}
+
+.title {
+  color: rgb(20, 23, 26);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.description {
+  color: rgb(101, 119, 134);
+  font-weight: 400;
+}
+
+.linkContainer {
+  align-items: center;
+  display: flex;
+  color: rgb(101, 119, 134);
+  font-weight: 400;
+}
+
+.link {
+  height: 14px;
+  margin-right: 2px;
+  margin-top: 4px;
+  stroke: rgb(101, 119, 134);
+  width: 14px;
+}
