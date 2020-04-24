@@ -1,0 +1,8 @@
+.container {
+  font-family: var(--font-family);
+  height: var(--gap-2);
+}
+
+.input {
+  font-family: var(--font-family);
+}

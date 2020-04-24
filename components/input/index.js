@@ -1,20 +1,23 @@
-import { Input } from "@chakra-ui/core";
+import styles from "./input.module.css";
 
-export default function InputField({
-  label,
+const Input = ({
+  disabled = false,
+  label = false,
   max,
   min,
   name,
   onChange,
   text,
   type,
-  value
-}) {
+  value,
+}) => {
   return (
-    <>
+    <div className={styles.container}>
       <label>{label}</label>
       <p>{text}</p>
-      <Input
+      <input
+        className={styles.input}
+        disabled={disabled}
         max={max}
         min={min}
         my="2"
@@ -23,6 +26,8 @@ export default function InputField({
         type={type}
         value={value || ""}
       />
-    </>
+    </div>
   );
-}
+};
+
+export default Input;
