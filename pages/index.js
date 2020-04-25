@@ -2,6 +2,7 @@ import { Heading } from "@chakra-ui/core";
 import Button from "../components/button";
 import Link from "../components/link";
 import Input from "../components/input";
+import Form from "../components/form";
 
 import Page from "../components/page";
 
@@ -16,7 +17,11 @@ export default function Landing() {
       <Link href="test" type="secondary">
         Nice link
       </Link>
-      <Input placeholder="Email..." />
+      <Form>
+        <Input placeholder="Email..." />
+        <Input placeholder="Email..." />
+        <Input placeholder="Email..." />
+      </Form>
     </Page>
   );
 }

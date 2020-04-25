@@ -4,18 +4,18 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  FormHelperText
+  FormHelperText,
 } from "@chakra-ui/core";
 
-export default function Form({
+const Form = ({
   buttonText,
   children,
   disabled,
   helperText,
   htmlFor,
   label,
-  onSubmit
-}) {
+  onSubmit,
+}) => {
   return (
     <form onSubmit={onSubmit}>
       <FormControl mb="4">
@@ -30,4 +30,6 @@ export default function Form({
       </FormControl>
     </form>
   );
-}
+};
+
+export default Form;

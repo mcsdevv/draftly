@@ -1,0 +1,12 @@
+.container {
+  max-height: 700px;
+  overflow: scroll;
+  padding: 0 var(--gap-1);
+}
+
+.addComment {
+  display: flex;
+  height: 100px;
+  position: sticky;
+  top: 0px;
+}
