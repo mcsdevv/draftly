@@ -17,11 +17,9 @@ export default function Landing() {
       <Link href="test" type="secondary">
         Nice link
       </Link>
-      <Form>
-        <Input placeholder="Email..." />
-        <Input placeholder="Email..." />
-        <Input placeholder="Email..." />
-      </Form>
+      <Input placeholder="Email..." withButton buttonText="Hey y'all!" />
+      <Input placeholder="Email..." />
+      <Input placeholder="Email..." />
     </Page>
   );
 }

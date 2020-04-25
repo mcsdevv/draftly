@@ -6,7 +6,6 @@ import uuidv4 from "uuid/v4";
 import styles from "./comments.module.css";
 
 import { Box, useToast } from "@chakra-ui/core";
-import Button from "../button";
 import Comment from "./comment";
 import Input from "../input";
 
@@ -85,10 +84,15 @@ export default function Comments({ comments, reviews, tweetRef }) {
   return (
     <div className={styles.container}>
       <div className={styles.addComment}>
-        <Input label="Add Comment" onChange={handleOnChange} value={comment} />
-        <Button disabled={comment === ""} onClick={handleSubmitComment}>
-          Comment
-        </Button>
+        <Input
+          buttonDisabled={comment === ""}
+          buttonText="Comment"
+          label="Add Comment"
+          onChange={handleOnChange}
+          onSubmit={handleSubmitComment}
+          value={comment}
+          withButton
+        />
       </div>
       <Box>
         {comments.length

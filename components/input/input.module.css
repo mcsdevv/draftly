@@ -1,10 +1,18 @@
 .container {
   font-family: var(--font-family);
+  width: 100%;
+}
+
+.wrapper {
+  display: flex;
   height: var(--gap-6);
 }
 
 .input {
+  border: 1px solid var(--light-2);
+  border-radius: var(--form-border-radius);
   box-sizing: border-box;
+  flex-grow: 1;
   font-family: var(--font-family);
   font-size: 16px;
   height: 100%;
