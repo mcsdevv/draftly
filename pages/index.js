@@ -16,7 +16,7 @@ export default function Landing() {
       <Link href="test" type="secondary">
         Nice link
       </Link>
-      <Input />
+      <Input placeholder="Email..." />
     </Page>
   );
 }

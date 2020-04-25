@@ -1,8 +1,13 @@
 .container {
   font-family: var(--font-family);
-  height: var(--gap-2);
+  height: var(--gap-6);
 }
 
 .input {
+  box-sizing: border-box;
   font-family: var(--font-family);
+  font-size: 16px;
+  height: 100%;
+  letter-spacing: -0.1px;
+  padding: var(--gap-1) var(--gap-2);
 }

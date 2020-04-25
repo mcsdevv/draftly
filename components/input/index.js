@@ -7,6 +7,7 @@ const Input = ({
   min,
   name,
   onChange,
+  placeholder = "",
   text,
   type,
   value,
@@ -23,6 +24,7 @@ const Input = ({
         my="2"
         name={name}
         onChange={onChange}
+        placeholder={placeholder}
         type={type}
         value={value || ""}
       />
