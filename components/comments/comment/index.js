@@ -7,7 +7,7 @@ export default function Comment({
   addedBy,
   avatar,
   comment,
-  handleDeleteComment
+  handleDeleteComment,
 }) {
   return (
     <Box mb="8">

@@ -5,3 +5,9 @@
   margin-top: 10px;
   max-width: 425px;
 }
+
+.icon {
+  color: rgb(101, 119, 134);
+  height: 16.75px;
+  width: 16.75px;
+}

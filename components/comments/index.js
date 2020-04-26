@@ -5,7 +5,7 @@ import { mutate } from "swr";
 import uuidv4 from "uuid/v4";
 import styles from "./comments.module.css";
 
-import { Box, useToast } from "@chakra-ui/core";
+import { useToast } from "@chakra-ui/core";
 import Comment from "./comment";
 import Input from "../input";
 
@@ -94,7 +94,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
           withButton
         />
       </div>
-      <Box>
+      <div>
         {comments.length
           ? comments.map((c) => (
               <Comment
@@ -107,7 +107,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
               />
             ))
           : null}
-      </Box>
+      </div>
     </div>
   );
 }
