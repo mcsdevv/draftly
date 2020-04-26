@@ -2,18 +2,15 @@ import { useProfile, useScope } from "../hooks";
 import styles from "../styles/pages/settings.module.css";
 import RequireLogin from "../lib/requireLogin";
 
-import { Heading } from "@chakra-ui/core";
 import Page from "../components/page";
-
-import Members from "../components/settings/members";
-import Plan from "../components/settings/plan";
-import Reviews from "../components/settings/reviews";
-
-import ChangeTeamName from "../components/settings/team/changeName";
-import DeleteTeam from "../components/settings/team/delete";
 
 import ChangeUserName from "../components/settings/user/changeName";
 import DeleteUser from "../components/settings/user/delete";
+import ChangeTeamName from "../components/settings/team/changeName";
+import DeleteTeam from "../components/settings/team/delete";
+import Members from "../components/settings/members";
+import Plan from "../components/settings/plan";
+import Reviews from "../components/settings/reviews";
 
 function Settings() {
   const { scope } = useScope();
