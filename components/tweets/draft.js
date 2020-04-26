@@ -31,26 +31,26 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
     const res = await fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
-        ref: tweet.ref
-      })
+        ref: tweet.ref,
+      }),
     });
     if (res.status === 200) {
       mutate(`/api/tweets/details/drafts/${scope.handle}`, {
-        drafts: drafts.filter(d => d.ref !== tweet.ref)
+        drafts: drafts.filter((d) => d.ref !== tweet.ref),
       });
       setDeleting(false);
       toast({
         title: "Tweet deleted.",
         status: "success",
         duration: 9000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
   const handleEditDraft = () => {
     setEditing(true);
   };
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     // TODO Improve character limit handling
     if (editTweet.length < 280) {
       setEditTweet(e.target.value);
@@ -66,8 +66,8 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
       body: JSON.stringify({
         creator: tweet.creator,
         ref: tweet.ref,
-        tweet: tweet.text
-      })
+        tweet: tweet.text,
+      }),
     });
     if (res.status === 200) {
       revalidate();
@@ -75,7 +75,7 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
         title: "Tweet sent for review.",
         status: "success",
         duration: 9000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
@@ -96,20 +96,20 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
       method: "PATCH",
       body: JSON.stringify({
         metadata,
-        text: formattedTweet
-      })
+        text: formattedTweet,
+      }),
     });
     if (res.status === 200) {
       const newDraft = await res.json();
       mutate(`/api/tweets/details/drafts/${scope.handle}`, {
-        drafts: drafts.map(d => (d.ref === tweet.ref ? { ...newDraft } : d))
+        drafts: drafts.map((d) => (d.ref === tweet.ref ? { ...newDraft } : d)),
       });
       setSaving(false);
       toast({
         title: "Tweet updated.",
         status: "success",
         duration: 9000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
