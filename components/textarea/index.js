@@ -1,8 +1,12 @@
+import cn from "classnames";
 import styles from "./textarea.module.css";
 
-const Textarea = ({ onChange, placeholder = "", value }) => (
+const Textarea = ({ onChange, placeholder = "", type = "edit", value }) => (
   <textarea
-    className={styles.textarea}
+    className={cn(styles.textarea, {
+      [styles.edit]: type === "edit",
+      [styles.compose]: type === "compose",
+    })}
     onChange={onChange}
     placeholder={placeholder}
     value={value}

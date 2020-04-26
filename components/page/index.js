@@ -1,13 +1,23 @@
 import styles from "./page.module.css";
 
+import Button from "../button";
 import Divider from "../divider";
 import Header from "../header";
 
-export default function Page({ children, divider = true, name }) {
+export default function Page({
+  buttonText,
+  children,
+  divider = true,
+  name,
+  onClick,
+}) {
   return (
     <div className={styles.page}>
       <Header />
-      <h2 className={styles.heading}>{name}</h2>
+      <div className={styles.content}>
+        <h2 className={styles.heading}>{name}</h2>
+        {buttonText && <Button onClick={onClick}>{buttonText}</Button>}
+      </div>
       {divider && <Divider />}
       {children}
     </div>

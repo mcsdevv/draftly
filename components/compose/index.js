@@ -5,23 +5,16 @@ import parseJwt from "../../lib/parseJwt";
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import { useToast } from "@chakra-ui/core";
 import Button from "../button";
 import Characters from "../characters";
 import Textarea from "../textarea";
 
 import styles from "./compose.module.css";
 
-export default function ComposeTweet({
-  drafting,
-  revalidate,
-  setDrafting,
-  startDraft,
-}) {
+export default function ComposeTweet({ revalidate, setDrafting }) {
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
-  const toast = useToast();
   const handleSaveDraft = async () => {
     setSaving(true);
     const metadata = await getMeta(tweet);
@@ -38,16 +31,11 @@ export default function ComposeTweet({
       }),
     });
     if (res.status === 200) {
+      // TODO Mutate for instant update
       revalidate();
       setDrafting(false);
       setSaving(false);
       setTweet("");
-      toast({
-        title: "Tweet created.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
     }
   };
   const handleOnChange = (e) => {
@@ -60,21 +48,29 @@ export default function ComposeTweet({
   };
   return (
     <div className={styles.compose}>
-      {!drafting ? (
-        <Button onClick={startDraft}>Create Draft</Button>
-      ) : !saving ? (
+      {!saving ? (
         <>
           <div className={styles.container}>
             <Textarea
               placeholder="Draft your tweet..."
               onChange={handleOnChange}
+              type="compose"
               value={tweet}
             />
             <Characters progress={(tweet.length / 280) * 100} />
           </div>
-          <Button disabled={!tweet} onClick={handleSaveDraft}>
-            Save Draft
-          </Button>
+          <div className={styles.buttons}>
+            <Button
+              margin={false}
+              onClick={() => setDrafting(false)}
+              type="secondary"
+            >
+              Cancel Draft
+            </Button>
+            <Button disabled={!tweet} onClick={handleSaveDraft}>
+              Save Draft
+            </Button>
+          </div>
         </>
       ) : (
         <h2>Saving Draft...</h2>

@@ -8,3 +8,7 @@
 .container {
   margin-bottom: var(--gap-1);
 }
+
+.buttons {
+  display: flex;
+}
