@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useScope, useProfile } from "../../hooks";
 
 import { useToast } from "@chakra-ui/core";
-import Form from "../form";
 import Input from "../input";
 
 export default function Reviews() {
@@ -10,17 +9,17 @@ export default function Reviews() {
   const { scope, setScope } = useScope();
   const [reviews, setReviews] = useState(scope.reviewsRequired.toString());
   const toast = useToast();
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     setReviews(e.target.value);
   };
-  const handleOnSubmitReviews = async e => {
+  const handleOnSubmitReviews = async (e) => {
     e.preventDefault();
     const url = `/api/team/update/reviews/${scope.handle}`;
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
-        reviews
-      })
+        reviews,
+      }),
     });
     if (res.status === 200) {
       revalidateProfile();
@@ -30,26 +29,22 @@ export default function Reviews() {
         title: "Required number of reviews updated.",
         status: "success",
         duration: 9000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
   return (
-    <>
-      <Form
-        disabled={reviews === scope.reviewsRequired.toString()}
-        label="Reviews Required to Publish"
-        onSubmit={handleOnSubmitReviews}
-      >
-        <Input
-          max={3}
-          min={0}
-          name="updateReviewsRequired"
-          onChange={handleOnChange}
-          type="number"
-          value={reviews}
-        />
-      </Form>
-    </>
+    <Input
+      buttonDisabled={reviews === scope.reviewsRequired.toString()}
+      buttonText="Update"
+      label="Reviews Required to Publish"
+      max={3}
+      min={0}
+      name="updateReviewsRequired"
+      onChange={handleOnChange}
+      onSubmit={handleOnSubmitReviews}
+      type="number"
+      value={reviews}
+    />
   );
 }

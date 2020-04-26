@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useScope, useProfile } from "../../hooks/";
 
-import { Select } from "@chakra-ui/core";
+import Link from "../link";
+import Select from "../select";
 
 export default function ScopePicker() {
   const { scope, setScope, updateScope } = useScope();
@@ -11,20 +12,13 @@ export default function ScopePicker() {
       setScope({ ...teams[0] });
     }
   }, [teams]);
-  return scope ? (
+  return scope && teams?.length > 0 ? (
     <Select
-      maxW="sm"
-      mx="2"
       onChange={updateScope}
+      options={teams}
       value={(scope && scope.handle) || scope.name}
-    >
-      {teams &&
-        teams.map(t => (
-          <option key={t.name} value={t.handle}>
-            {t.name}
-          </option>
-        ))}
-      <option value="new">+ Add New Team</option>
-    </Select>
-  ) : null;
+    />
+  ) : (
+    <Link href="/api/auth/twitter/connect">+ Add New Team</Link>
+  );
 }

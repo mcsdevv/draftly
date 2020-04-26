@@ -1,0 +1,38 @@
+.container {
+  margin-bottom: var(--gap-1);
+}
+
+.top {
+  display: flex;
+}
+
+.comment {
+  width: 100%;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 49px;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.addedBy {
+  color: var(--light-2);
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.trash {
+  cursor: pointer;
+  fill: none;
+  height: 24px;
+  stroke: var(--light-2);
+  stroke-width: 1px;
+  width: 24px;
+}

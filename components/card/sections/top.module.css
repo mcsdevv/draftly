@@ -1,0 +1,56 @@
+.cardTop {
+  box-sizing: border-box;
+  display: flex;
+  font-family: var(--font-family-tweet);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 22.5px;
+  margin-bottom: 2px;
+}
+
+.name {
+  font-family: var(--font-family-tweet);
+  font-weight: 700;
+}
+
+.padlock {
+  height: 18.75px;
+  margin-left: 1.5px;
+  margin-top: 2px;
+  width: 18.75px;
+}
+
+.handle {
+  font-weight: 400;
+  color: rgb(101, 119, 134);
+  margin-left: 5px;
+}
+
+.dot {
+  align-content: center;
+  color: rgb(101, 119, 134);
+  display: grid;
+  font-weight: 400;
+  height: 12px;
+  padding: 2px 5px;
+}
+
+.date {
+  color: rgb(101, 119, 134);
+  display: flex;
+}
+
+.month {
+  font-weight: 400;
+  margin-right: 5px;
+}
+
+.day {
+  font-weight: 400;
+}
+
+.arrow {
+  color: rgb(101, 119, 134);
+  margin-left: auto;
+  width: 15px;
+}

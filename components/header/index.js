@@ -3,10 +3,9 @@ import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
 
-import AuthButton from "../buttons/auth";
-import LinkButton from "../buttons/link";
+import Link from "../link";
 import ScopePicker from "../scope/picker";
-import { Box, Heading } from "@chakra-ui/core";
+import styles from "./header.module.css";
 
 export default function Header() {
   const { user } = useProfile();
@@ -23,31 +22,33 @@ export default function Header() {
   };
   const loggedIn = Cookies.get("id_token");
   return (
-    <Box
-      as="header"
-      display="flex"
-      h="72px"
-      justifyContent="space-between"
-      py="4"
-    >
-      <Box display="flex">
-        <Heading as="h1" size="xl">
-          T/R
-        </Heading>
+    <header className={styles.header}>
+      <div className={styles.headerLeft}>
+        <h1 className={styles.brand}>T/R</h1>
         {user && <ScopePicker />}
-      </Box>
-      <Box>
-        <LinkButton text="Dashboard" to="/dashboard" />
+      </div>
+      <div className={styles.headerRight}>
         {loggedIn && (
           <>
-            <LinkButton text="Drafts" to="/tweets/drafts" />
-            <LinkButton text="Reviews" to="/tweets/reviews" />
-            <LinkButton text="Published" to="/tweets/published" />
-            <LinkButton text="Settings" to="/settings" />
+            <Link href="/tweets/drafts">Drafts</Link>
+            <Link href="/tweets/reviews">Reviews</Link>
+            <Link href="/tweets/published">Published</Link>
+            <Link href="/dashboard" type="secondary">
+              Dashboard
+            </Link>
+            <Link href="/settings" type="secondary">
+              Settings
+            </Link>
           </>
         )}
-        <AuthButton loggedIn={loggedIn} logout={logoutUser} next="/dashboard" />
-      </Box>
-    </Box>
+        <Link
+          href={loggedIn ? "/" : "/dashboard"}
+          onClick={loggedIn ? logoutUser : null}
+          type="tertiary"
+        >
+          {loggedIn ? "Logout" : "Login"}
+        </Link>
+      </div>
+    </header>
   );
 }

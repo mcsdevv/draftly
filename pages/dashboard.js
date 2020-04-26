@@ -10,13 +10,13 @@ function Dashboard() {
   const { published } = usePublished();
   const { user } = useProfile();
   return (
-    <Page>
-      <h3>Hello {user?.name}, the following items need your attention:</h3>
+    <Page name="Dashboard">
+      <h3>Hello {user?.name}, here are some stats:</h3>
       <ul>
         <li>{drafts?.length} drafts to complete.</li>
         <li>{reviews?.length} reviews to complete.</li>
+        <li>{published?.length} tweets published so far.</li>
       </ul>
-      You've published a total of {published?.length} tweets.
     </Page>
   );
 }

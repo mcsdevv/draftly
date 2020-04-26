@@ -1,0 +1,6 @@
+.textarea {
+  font-family: var(--font-family-tweet);
+  font-size: 15px;
+  height: 56px;
+  width: 100%;
+}

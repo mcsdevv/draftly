@@ -1,43 +1,36 @@
 import Linkify from "react-linkify";
+import styles from "./text.module.css";
 
-import { Box, Link, Textarea } from "@chakra-ui/core";
 import CardTop from "../sections/top";
 import CardBottom from "../sections/bottom";
-import Characters from "../sections/characters";
+
+import Characters from "../../characters";
+import Textarea from "../../textarea";
 
 export default function Text({
   editing,
   editTweet,
   handleOnChange,
   scope,
-  text
+  text,
 }) {
   return (
-    <Box
-      as="section"
-      display="flex"
-      flexDirection="column"
-      fontSize="15px"
-      marginLeft="5px"
-      w="100%"
-    >
+    <div className={styles.cardText}>
       <CardTop handle={scope.handle} name={scope.name} />
-      <Link width="501px">
-        <Linkify
-          properties={{
-            target: "_blank",
-            style: { color: "red", fontWeight: "bold" }
-          }}
-        >
-          {!editing ? (
-            text
-          ) : (
-            <Textarea onChange={handleOnChange} value={editTweet} />
-          )}
-        </Linkify>
-      </Link>
-      {editing && <Characters tweet={editTweet} />}
+      <Linkify
+        properties={{
+          target: "_blank",
+          style: { color: "red", fontWeight: "bold" },
+        }}
+      >
+        {!editing ? (
+          text
+        ) : (
+          <Textarea onChange={handleOnChange} value={editTweet} />
+        )}
+      </Linkify>
+      {editing && <Characters progress={(editTweet.length / 280) * 100} />}
       <CardBottom />
-    </Box>
+    </div>
   );
 }
