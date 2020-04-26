@@ -29,7 +29,10 @@
 }
 
 .trash {
+  cursor: pointer;
   fill: none;
+  height: 24px;
   stroke: var(--light-2);
   stroke-width: 1px;
+  width: 24px;
 }

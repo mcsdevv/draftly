@@ -24,7 +24,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.headerLeft}>
-        <h1>T/R</h1>
+        <h1 className={styles.brand}>T/R</h1>
         {user && <ScopePicker />}
       </div>
       <div className={styles.headerRight}>

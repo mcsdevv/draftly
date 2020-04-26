@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useScope, useProfile } from "../../../hooks";
 
 import { useToast } from "@chakra-ui/core";
-import Form from "../../form";
 import Input from "../../input";
 
 export default function ChangeTeamName() {
@@ -36,20 +35,15 @@ export default function ChangeTeamName() {
     }
   };
   return (
-    <>
-      <Form
-        onSubmit={handleOnSubmitName}
-        disabled={newName === scope.name}
-        htmlFor="updateName"
-        label={"Change Team Name"}
-      >
-        <Input
-          name="updateName"
-          onChange={handleOnChange}
-          type="text"
-          value={newName}
-        />
-      </Form>
-    </>
+    <Input
+      buttonDisabled={newName === scope.name}
+      buttonText="Update"
+      label="Change Team Name"
+      name="updateName"
+      onChange={handleOnChange}
+      onSubmit={handleOnSubmitName}
+      type="text"
+      value={newName}
+    />
   );
 }

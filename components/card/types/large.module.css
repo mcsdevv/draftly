@@ -6,6 +6,7 @@
 }
 
 .cardText {
+  font-family: var(--font-family-tweet);
   margin-bottom: 0;
 }
 

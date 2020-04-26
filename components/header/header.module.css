@@ -8,3 +8,7 @@
 .headerRight {
   display: flex;
 }
+
+.brand {
+  margin-bottom: 0;
+}

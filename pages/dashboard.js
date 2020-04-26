@@ -10,7 +10,7 @@ function Dashboard() {
   const { published } = usePublished();
   const { user } = useProfile();
   return (
-    <Page>
+    <Page name="Dashboard">
       <h3>Hello {user?.name}, here are some stats:</h3>
       <ul>
         <li>{drafts?.length} drafts to complete.</li>

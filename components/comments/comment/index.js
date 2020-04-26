@@ -1,6 +1,4 @@
-import { Box, Heading, Image } from "@chakra-ui/core";
 import styles from "./comment.module.css";
-import { Trash2 } from "react-feather";
 import ago from "s-ago";
 
 export default function Comment({
@@ -24,9 +22,7 @@ export default function Comment({
         </span>
         <svg
           className={styles.trash}
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          onClick={handleDeleteComment}
           viewBox="0 0 24 24"
         >
           <polyline points="3 6 5 6 21 6"></polyline>

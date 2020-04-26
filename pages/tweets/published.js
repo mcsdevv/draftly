@@ -50,14 +50,14 @@ function Published() {
     }
   };
   return (
-    <Page>
+    <Page name="Published">
       <Grid
         gridGap="24px"
         templateColumns="repeat(2, 1fr)"
         templateRows="600px"
       >
         {published
-          ? published.map(p => (
+          ? published.map((p) => (
               <>
                 <Box alignSelf="center" justifySelf="center" key={p.ref}>
                   <Publish published={published} tweet={p} />

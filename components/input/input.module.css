@@ -6,6 +6,7 @@
 .wrapper {
   display: flex;
   height: var(--gap-6);
+  padding: var(--gap-1) 0;
 }
 
 .input {
@@ -18,4 +19,9 @@
   height: 100%;
   letter-spacing: -0.1px;
   padding: var(--gap-1) var(--gap-2);
+}
+
+.text {
+  color: var(--light-2);
+  font-size: 14px;
 }

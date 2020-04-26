@@ -16,12 +16,10 @@ const Input = ({
   text,
   type,
   value,
-  withButton,
 }) => {
   return (
     <div className={styles.container}>
-      <label>{label}</label>
-      <p>{text}</p>
+      <label htmlFor={name}>{label}</label>
       <div className={styles.wrapper}>
         <input
           className={styles.input}
@@ -35,12 +33,13 @@ const Input = ({
           type={type}
           value={value || ""}
         />
-        {withButton && (
+        {buttonText && (
           <Button disabled={buttonDisabled} onClick={onSubmit}>
             {buttonText}
           </Button>
         )}
       </div>
+      <p className={styles.text}>{text}</p>
     </div>
   );
 };

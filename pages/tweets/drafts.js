@@ -52,7 +52,7 @@ function Drafts() {
     setDrafting(true);
   };
   return (
-    <Page>
+    <Page name="Drafts">
       <Grid
         gridGap="24px"
         templateColumns="repeat(2, 1fr)"

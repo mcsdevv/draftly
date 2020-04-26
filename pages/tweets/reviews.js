@@ -51,14 +51,14 @@ function Reviews() {
     }
   };
   return (
-    <Page>
+    <Page name="Reviews">
       <Grid
         gridGap="24px"
         templateColumns="repeat(2, 1fr)"
         templateRows="600px"
       >
         {reviews && reviews.length > 0
-          ? reviews.map(r => (
+          ? reviews.map((r) => (
               <>
                 <Box alignSelf="center" justifySelf="center">
                   <Review

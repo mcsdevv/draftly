@@ -2,7 +2,6 @@
   border-radius: var(--form-border-radius);
   color: var(--light-1);
   cursor: pointer;
-  font-family: var(--font-family);
   font-size: var(--font-size);
   font-weight: 700;
   height: var(--gap-6);

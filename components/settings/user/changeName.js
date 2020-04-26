@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useScope, useProfile } from "../../../hooks";
 
 import { useToast } from "@chakra-ui/core";
-import Form from "../../form";
 import Input from "../../input";
 
 export default function ChangeUserName() {
@@ -11,17 +10,17 @@ export default function ChangeUserName() {
   const { scope, setScope } = useScope();
   const [newName, setNewName] = useState(scope.name);
   const toast = useToast();
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     setNewName(e.target.value);
   };
-  const handleOnSubmitName = async e => {
+  const handleOnSubmitName = async (e) => {
     e.preventDefault();
     const url = `/api/user/update/name/${scope.handle}`;
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
-        newName
-      })
+        newName,
+      }),
     });
     if (res.status === 200) {
       revalidateProfile();
@@ -31,25 +30,20 @@ export default function ChangeUserName() {
         title: "Display name updated.",
         status: "success",
         duration: 9000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
   return (
-    <>
-      <Form
-        onSubmit={handleOnSubmitName}
-        disabled={user && newName === user.name}
-        htmlFor="updateName"
-        label={"Change Display Name"}
-      >
-        <Input
-          name="updateName"
-          onChange={handleOnChange}
-          type="text"
-          value={newName}
-        />
-      </Form>
-    </>
+    <Input
+      buttonDisabled={user && newName === user.name}
+      buttonText="Update"
+      label={"Change Display Name"}
+      name="updateName"
+      onChange={handleOnChange}
+      onSubmit={handleOnSubmitName}
+      type="text"
+      value={newName}
+    />
   );
 }
