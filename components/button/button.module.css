@@ -29,3 +29,7 @@
   background: var(--tertiary-1);
   border: var(--tertiary-2);
 }
+
+.noMargin {
+  margin-left: 0;
+}

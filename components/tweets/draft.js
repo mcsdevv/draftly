@@ -1,14 +1,13 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { mutate } from "swr";
-import { Check, Edit, ThumbsUp, Trash2, X } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import { Box, Image, useToast } from "@chakra-ui/core";
+import { Box, Image } from "@chakra-ui/core";
+import Button from "../button";
 import Card from "../card";
-import Icon from "../icon";
 
 export default function Draft({ drafts, revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
@@ -17,7 +16,6 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
   const [reviewing, setReviewing] = useState(false);
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
-  const toast = useToast();
   const getStateMessage = () => {
     if (deleting) return <h2>Deleting draft...</h2>;
     if (saving) return <h2>Saving draft...</h2>;
@@ -70,13 +68,8 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
       }),
     });
     if (res.status === 200) {
+      // TODO Mutate
       revalidate();
-      toast({
-        title: "Tweet sent for review.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
     }
   };
   const handleUpdateDraft = async () => {
@@ -153,37 +146,35 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
           <Box alignContent="center" display="flex">
             {!editing ? (
               <>
-                <Icon
-                  as={Trash2}
+                <Button
                   onClick={handleDeleteDraft}
-                  tooltip="Delete draft."
-                />
-                <Icon
-                  as={Edit}
-                  onClick={handleEditDraft}
-                  tooltip="Edit tweet."
-                />
+                  margin={false}
+                  type="tertiary"
+                >
+                  Delete
+                </Button>
+                <Button onClick={handleEditDraft} type="secondary">
+                  Edit
+                </Button>
               </>
             ) : (
               <>
-                <Icon
-                  as={Check}
-                  onClick={handleUpdateDraft}
-                  tooltip="Complete edit."
-                />
-                <Icon
-                  as={X}
+                <Button
                   onClick={handleCancelEdit}
-                  tooltip="Cancel edit."
-                />
+                  margin={false}
+                  type="tertiary"
+                >
+                  Cancel
+                </Button>
+                <Button onClick={handleUpdateDraft} type="secondary">
+                  Update
+                </Button>
               </>
             )}
             {!editing && (
-              <Icon
-                as={ThumbsUp}
-                onClick={handleReviewReady}
-                tooltip="Ready for review."
-              />
+              <Button onClick={handleReviewReady} type="primary">
+                Review
+              </Button>
             )}
           </Box>
         </>

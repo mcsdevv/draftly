@@ -2,13 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { useProfile } from "../../hooks";
 import { mutate } from "swr";
-import { Check, CheckCircle, Edit, Send, Trash2, X } from "react-feather";
 
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import { Box, Image, Text, useToast } from "@chakra-ui/core";
-import Icon from "../icon";
+import { Box, Image, Text } from "@chakra-ui/core";
+import Button from "../button";
 import Card from "../card";
 
 export default function Review({ revalidate, reviews, tweet }) {
@@ -20,7 +19,6 @@ export default function Review({ revalidate, reviews, tweet }) {
   const [publishing, setPublishing] = useState(false);
   const { scope } = useContext(ScopeContext);
   const { user, teams } = useProfile();
-  const toast = useToast();
   useEffect(() => {
     function getReviewsRequired() {
       const required = scope.reviewsRequired - tweet.approvedBy.length;
@@ -38,8 +36,8 @@ export default function Review({ revalidate, reviews, tweet }) {
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        email: user.email
-      })
+        email: user.email,
+      }),
     });
     if (res.status === 200) {
       revalidate();
@@ -47,7 +45,7 @@ export default function Review({ revalidate, reviews, tweet }) {
         title: "Tweet approved.",
         status: "success",
         duration: 9000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
@@ -60,26 +58,20 @@ export default function Review({ revalidate, reviews, tweet }) {
     const res = await fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
-        ref: tweet.ref
-      })
+        ref: tweet.ref,
+      }),
     });
     if (res.status === 200) {
       mutate(`/api/tweets/details/reviews/${scope.handle}`, {
-        reviews: reviews.filter(d => d.ref !== tweet.ref)
+        reviews: reviews.filter((d) => d.ref !== tweet.ref),
       });
       setDeleting(false);
-      toast({
-        title: "Tweet deleted.",
-        status: "success",
-        duration: 9000,
-        isClosable: true
-      });
     }
   };
   const handleEditReview = () => {
     setEditing(true);
   };
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     // TODO Improve character limit handling
     if (editTweet.length < 280) {
       setEditTweet(e.target.value);
@@ -103,21 +95,17 @@ export default function Review({ revalidate, reviews, tweet }) {
       method: "PATCH",
       body: JSON.stringify({
         metadata,
-        text: formattedTweet
-      })
+        text: formattedTweet,
+      }),
     });
     if (res.status === 200) {
       const newDraft = await res.json();
       mutate(`/api/tweets/details/reviews/${scope.handle}`, {
-        reviews: reviews.map(d => (d.ref === tweet.ref ? { ...newDraft } : d))
+        reviews: reviews.map((d) =>
+          d.ref === tweet.ref ? { ...newDraft } : d
+        ),
       });
       setSaving(false);
-      toast({
-        title: "Tweet updated.",
-        status: "success",
-        duration: 9000,
-        isClosable: true
-      });
     }
   };
   const handlePublishTweet = async () => {
@@ -128,18 +116,12 @@ export default function Review({ revalidate, reviews, tweet }) {
       body: JSON.stringify({
         creator: tweet.creator,
         ref: tweet.ref,
-        tweet: tweet.text
-      })
+        tweet: tweet.text,
+      }),
     });
     if (res.status === 200) {
       revalidate();
       setPublishing(false);
-      toast({
-        title: "Tweet published.",
-        status: "success",
-        duration: 9000,
-        isClosable: true
-      });
     }
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
@@ -176,52 +158,52 @@ export default function Review({ revalidate, reviews, tweet }) {
           <Box alignContent="center" display="flex">
             {!editing ? (
               <>
-                <Icon
-                  as={Trash2}
+                <Button
                   onClick={handleDeleteReview}
-                  tooltip="Delete tweet."
-                />
-                <Icon
-                  as={Edit}
-                  onClick={handleEditReview}
-                  tooltip="Edit tweet."
-                />
-                <Text m="6">
-                  {tweet.approvedBy.length} / {scope.reviewsRequired}
-                </Text>
+                  margin={false}
+                  type="tertiary"
+                >
+                  Delete
+                </Button>
+                <Button onClick={handleEditReview} type="secondary">
+                  Edit
+                </Button>
+                {scope.reviewsRequired > 0 && (
+                  <Text m="6">
+                    {tweet.approvedBy.length} / {scope.reviewsRequired}
+                  </Text>
+                )}
               </>
             ) : (
               <>
-                <Icon
-                  as={Check}
-                  onClick={handleUpdateReview}
-                  tooltip="Complete edit."
-                />
-                <Icon
-                  as={X}
+                <Button
                   onClick={handleCancelEdit}
-                  tooltip="Cancel edit."
-                />
+                  margin={false}
+                  type="tertiary"
+                >
+                  Cancel
+                </Button>
+                <Button onClick={handleUpdateReview} type="secondary">
+                  Update
+                </Button>
               </>
             )}
             {!editing && (
               <>
-                <Icon
-                  as={CheckCircle}
+                <Button
                   disabled={user?.name === tweet.creator}
                   onClick={handleApproveTweet}
-                  tooltip="Approve tweet."
-                  tooltipDisabled="You cannot approve your own tweet."
-                />
-                <Icon
-                  as={Send}
+                  type="primary"
+                >
+                  Approve
+                </Button>
+                <Button
                   disabled={reviewsRequired !== 0}
                   onClick={handlePublishTweet}
-                  tooltip="Publish tweet."
-                  tooltipDisabled={`${reviewsRequired} Review${
-                    reviewsRequired > 1 ? "s" : ""
-                  } required.`}
-                />
+                  type="primary"
+                >
+                  Publish
+                </Button>
               </>
             )}
           </Box>

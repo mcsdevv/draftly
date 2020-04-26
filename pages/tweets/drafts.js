@@ -52,20 +52,26 @@ function Drafts() {
     setDrafting(true);
   };
   return (
-    <Page name="Drafts">
+    <Page
+      buttonText="Create Draft"
+      name="Drafts"
+      onClick={() => setDrafting(true)}
+    >
       <Grid
         gridGap="24px"
         templateColumns="repeat(2, 1fr)"
         templateRows="600px"
       >
-        <Box alignSelf="center" justifySelf="center">
-          <ComposeTweet
-            drafting={drafting}
-            revalidate={revalidateDrafts}
-            setDrafting={setDrafting}
-            startDraft={startDraft}
-          />
-        </Box>
+        {drafting && (
+          <Box alignSelf="center" justifySelf="center">
+            <ComposeTweet
+              drafting={drafting}
+              revalidate={revalidateDrafts}
+              setDrafting={setDrafting}
+              startDraft={startDraft}
+            />
+          </Box>
+        )}
         {drafts && drafts.length > 0
           ? drafts.map((d) => (
               <Box alignSelf="center" justifySelf="center" key={d.ref}>
