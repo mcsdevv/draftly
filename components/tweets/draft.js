@@ -37,12 +37,6 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
         drafts: drafts.filter((d) => d.ref !== tweet.ref),
       });
       setDeleting(false);
-      toast({
-        title: "Tweet deleted.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
     }
   };
   const handleEditDraft = () => {
@@ -98,23 +92,11 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
         drafts: drafts.map((d) => (d.ref === tweet.ref ? { ...newDraft } : d)),
       });
       setSaving(false);
-      toast({
-        title: "Tweet updated.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
     }
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
-    <Box
-      as="section"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      maxW="598px"
-    >
+    <Box display="flex" flexDirection="column" alignItems="center" maxW="598px">
       {!deleting && !saving ? (
         <>
           <Box

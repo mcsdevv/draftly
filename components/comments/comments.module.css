@@ -1,4 +1,7 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   max-height: 700px;
   overflow: scroll;
   padding: 0 var(--gap-1);

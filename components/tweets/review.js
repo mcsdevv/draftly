@@ -41,12 +41,6 @@ export default function Review({ revalidate, reviews, tweet }) {
     });
     if (res.status === 200) {
       revalidate();
-      toast({
-        title: "Tweet approved.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
     }
   };
   const handleCancelEdit = () => {

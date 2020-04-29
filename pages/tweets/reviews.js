@@ -54,7 +54,7 @@ function Reviews() {
   return (
     <Page name="Reviews">
       <Grid>
-        {reviews && reviews.length > 0
+        {reviews?.length > 0
           ? reviews.map((r) => (
               <>
                 <Box alignSelf="center" justifySelf="center">
@@ -64,18 +64,11 @@ function Reviews() {
                     tweet={r}
                   />
                 </Box>
-                <Box
-                  alignSelf="center"
-                  justifySelf="center"
-                  key={r.ref + 1}
-                  w="100%"
-                >
-                  <Comments
-                    comments={r.comments}
-                    reviews={reviews}
-                    tweetRef={r.ref}
-                  />
-                </Box>
+                <Comments
+                  comments={r.comments}
+                  reviews={reviews}
+                  tweetRef={r.ref}
+                />
               </>
             ))
           : renderPageState()}
