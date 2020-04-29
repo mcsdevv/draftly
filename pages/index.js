@@ -1,4 +1,5 @@
 import Page from "../components/page";
+import CardPlaceholder from "../components/placeholders/card";
 
 export default function Landing() {
   return (
@@ -6,6 +7,7 @@ export default function Landing() {
       <h2>Draft...</h2>
       <h2>Review...</h2>
       <h2>Publish...</h2>
+      <CardPlaceholder />
     </Page>
   );
 }
