@@ -2,7 +2,6 @@ import React from "react";
 import App from "next/app";
 import ScopeContext from "../context/scopeContext";
 import { withRouter } from "next/router";
-import { ThemeProvider } from "@chakra-ui/core";
 import { SWRConfig } from "swr";
 
 import "../styles/global.css";
@@ -38,9 +37,7 @@ export default withRouter(
               setScope: this.setScope,
             }}
           >
-            <ThemeProvider>
-              <Component {...pageProps} />
-            </ThemeProvider>
+            <Component {...pageProps} />
           </ScopeContext.Provider>
         </SWRConfig>
       );
