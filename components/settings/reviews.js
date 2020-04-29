@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useScope, useProfile } from "../../hooks";
 
-import { useToast } from "@chakra-ui/core";
 import Input from "../input";
 
 export default function Reviews() {
   const { revalidateProfile } = useProfile();
   const { scope, setScope } = useScope();
   const [reviews, setReviews] = useState(scope.reviewsRequired.toString());
-  const toast = useToast();
   const handleOnChange = (e) => {
     setReviews(e.target.value);
   };
@@ -25,12 +23,6 @@ export default function Reviews() {
       revalidateProfile();
       const newScope = await res.json();
       setScope({ ...newScope });
-      toast({
-        title: "Required number of reviews updated.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
     }
   };
   return (

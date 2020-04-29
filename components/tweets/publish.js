@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
 import { useProfile } from "../../hooks";
 
-import { Box, Image, useToast } from "@chakra-ui/core";
+import { Box, Image } from "@chakra-ui/core";
 import Card from "../card";
 
 export default function Publish({ revalidate, reviews, tweet }) {
@@ -12,7 +12,6 @@ export default function Publish({ revalidate, reviews, tweet }) {
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
   const { user, teams } = useProfile();
-  const toast = useToast();
   const getStateMessage = () => {
     if (deleting) return <h2>Deleting review...</h2>;
     if (saving) return <h2>Saving draft...</h2>;

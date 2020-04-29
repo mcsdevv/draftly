@@ -39,7 +39,6 @@ export default withRouter(
             }}
           >
             <ThemeProvider>
-              {/* <CSSReset /> */}
               <Component {...pageProps} />
             </ThemeProvider>
           </ScopeContext.Provider>

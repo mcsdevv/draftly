@@ -1,4 +1,3 @@
-import { Icon } from "@chakra-ui/core";
 import styles from "./bottom.module.css";
 
 export default function CardBottom() {
