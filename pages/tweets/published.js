@@ -3,8 +3,9 @@ import { useProfile, usePublished } from "../../hooks";
 
 import RequireLogin from "../../lib/requireLogin";
 
-import { Box, Grid, Heading } from "@chakra-ui/core";
+import { Box, Heading } from "@chakra-ui/core";
 import CardPlaceholder from "../../components/placeholders/card";
+import Grid from "../../components/layout/grid";
 import Page from "../../components/page";
 import Publish from "../../components/tweets/publish";
 
@@ -51,11 +52,7 @@ function Published() {
   };
   return (
     <Page name="Published">
-      <Grid
-        gridGap="24px"
-        templateColumns="repeat(2, 1fr)"
-        templateRows="600px"
-      >
+      <Grid>
         {published
           ? published.map((p) => (
               <>

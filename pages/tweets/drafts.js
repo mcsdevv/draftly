@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDrafts } from "../../hooks";
 
-import { Box, Grid, Heading } from "@chakra-ui/core";
+import { Box, Heading } from "@chakra-ui/core";
 import CardPlaceholder from "../../components/placeholders/card";
 import ComposeTweet from "../../components/compose";
 import Draft from "../../components/tweets/draft";
+import Grid from "../../components/layout/grid";
 import Page from "../../components/page";
 
 import RequireLogin from "../../lib/requireLogin";
@@ -57,11 +58,7 @@ function Drafts() {
       name="Drafts"
       onClick={() => setDrafting(true)}
     >
-      <Grid
-        gridGap="24px"
-        templateColumns="repeat(2, 1fr)"
-        templateRows="600px"
-      >
+      <Grid>
         {drafting && (
           <Box alignSelf="center" justifySelf="center">
             <ComposeTweet

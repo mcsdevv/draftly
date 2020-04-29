@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useReviews } from "../../hooks";
 import React from "react";
 
-import { Box, Grid, Heading } from "@chakra-ui/core";
+import { Box, Heading } from "@chakra-ui/core";
 import CardPlaceholder from "../../components/placeholders/card";
 import Comments from "../../components/comments";
+import Grid from "../../components/layout/grid";
 import Page from "../../components/page";
 import Review from "../../components/tweets/review";
 
@@ -52,11 +53,7 @@ function Reviews() {
   };
   return (
     <Page name="Reviews">
-      <Grid
-        gridGap="24px"
-        templateColumns="repeat(2, 1fr)"
-        templateRows="600px"
-      >
+      <Grid>
         {reviews && reviews.length > 0
           ? reviews.map((r) => (
               <>
