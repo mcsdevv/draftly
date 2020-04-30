@@ -1,0 +1,25 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  max-width: 598px;
+}
+
+.tweet {
+  border: 1px solid rgb(230, 236, 240);
+  display: flex;
+  padding: 10px 15px;
+  width: 100%;
+}
+
+.avatarWrapper {
+  height: 100%;
+  margin-right: 5px;
+}
+
+.avatar {
+  border-radius: 50%;
+  margin-right: 2px;
+  max-width: 49px;
+  width: 49px;
+}
