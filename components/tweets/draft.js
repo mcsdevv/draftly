@@ -5,9 +5,9 @@ import { mutate } from "swr";
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import { Box, Image } from "@chakra-ui/core";
+import { Box } from "@chakra-ui/core";
 import Button from "../button";
-import Card from "../card";
+import Tweet from "../tweet";
 
 export default function Draft({ drafts, revalidate, size, tweet }) {
   const [deleting, setDeleting] = useState(false);
@@ -96,75 +96,46 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" maxW="598px">
-      {!deleting && !saving ? (
-        <>
-          <Box
-            as="article"
-            border="1px solid rgb(230, 236, 240)"
-            display="flex"
-            py="10px"
-            px="15px"
-            w="100%"
-          >
-            <Box h="100%" marginRight="5px">
-              <Image
-                src={scope.avatar}
-                borderRadius="50%"
-                marginRight="2px"
-                maxW="49px"
-                w="49px"
-              />
-            </Box>
-            <Card
-              editing={editing}
-              editTweet={editTweet}
-              handleOnChange={handleOnChange}
-              metadata={tweet.metadata}
-              scope={scope}
-              text={tweet.text}
-            />
-          </Box>
-          <Box alignContent="center" display="flex">
-            {!editing ? (
-              <>
-                <Button
-                  onClick={handleDeleteDraft}
-                  margin={false}
-                  type="tertiary"
-                >
-                  Delete
-                </Button>
-                <Button onClick={handleEditDraft} type="secondary">
-                  Edit
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  onClick={handleCancelEdit}
-                  margin={false}
-                  type="tertiary"
-                >
-                  Cancel
-                </Button>
-                <Button onClick={handleUpdateDraft} type="secondary">
-                  Update
-                </Button>
-              </>
-            )}
-            {!editing && (
-              <Button onClick={handleReviewReady} type="primary">
-                Review
+    <Tweet
+      editing={editing}
+      editTweet={editTweet}
+      handleOnChange={handleOnChange}
+      metadata={tweet.metadata}
+      scope={scope}
+      text={tweet.text}
+    >
+      <>
+        <Box alignContent="center" display="flex">
+          {!editing ? (
+            <>
+              <Button
+                onClick={handleDeleteDraft}
+                margin={false}
+                type="tertiary"
+              >
+                Delete
               </Button>
-            )}
-          </Box>
-        </>
-      ) : (
-        <Box alignItems="center" display="flex" h="500px">
-          {getStateMessage()}
+              <Button onClick={handleEditDraft} type="secondary">
+                Edit
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button onClick={handleCancelEdit} margin={false} type="tertiary">
+                Cancel
+              </Button>
+              <Button onClick={handleUpdateDraft} type="secondary">
+                Update
+              </Button>
+            </>
+          )}
+          {!editing && (
+            <Button onClick={handleReviewReady} type="primary">
+              Review
+            </Button>
+          )}
         </Box>
-      )}
-    </Box>
+      </>
+    </Tweet>
   );
 }

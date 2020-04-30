@@ -6,9 +6,9 @@ import { mutate } from "swr";
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import { Box, Image, Text } from "@chakra-ui/core";
+import { Box, Text } from "@chakra-ui/core";
 import Button from "../button";
-import Card from "../card";
+import Tweet from "../tweet";
 
 export default function Review({ revalidate, reviews, tweet }) {
   const [deleting, setDeleting] = useState(false);
@@ -26,7 +26,6 @@ export default function Review({ revalidate, reviews, tweet }) {
     }
     getReviewsRequired();
   }, [scope, tweet]);
-  console.log(user);
   const getStateMessage = () => {
     if (deleting) return <h2>Deleting review...</h2>;
     if (saving) return <h2>Saving draft...</h2>;
@@ -120,93 +119,58 @@ export default function Review({ revalidate, reviews, tweet }) {
   };
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" maxW="598px">
-      {!deleting && !saving ? (
-        <>
-          <Box
-            as="article"
-            border="1px solid rgb(230, 236, 240)"
-            display="flex"
-            py="10px"
-            px="15px"
-            w="100%"
-          >
-            <Box h="100%" marginRight="5px">
-              <Image
-                borderRadius="50%"
-                marginRight="2px"
-                maxW="49px"
-                src={scope.avatar}
-                w="49px"
-              />
-            </Box>
-            <Card
-              editing={editing}
-              editTweet={editTweet}
-              handleOnChange={handleOnChange}
-              metadata={tweet.metadata}
-              scope={scope}
-              text={tweet.text}
-            />
-          </Box>
-          <Box alignContent="center" display="flex">
-            {!editing ? (
-              <>
-                <Button
-                  onClick={handleDeleteReview}
-                  margin={false}
-                  type="tertiary"
-                >
-                  Delete
-                </Button>
-                <Button onClick={handleEditReview} type="secondary">
-                  Edit
-                </Button>
-                {scope.reviewsRequired > 0 && (
-                  <Text m="6">
-                    {tweet.approvedBy.length} / {scope.reviewsRequired}
-                  </Text>
-                )}
-              </>
-            ) : (
-              <>
-                <Button
-                  onClick={handleCancelEdit}
-                  margin={false}
-                  type="tertiary"
-                >
-                  Cancel
-                </Button>
-                <Button onClick={handleUpdateReview} type="secondary">
-                  Update
-                </Button>
-              </>
+    <Tweet
+      editing={editing}
+      editTweet={editTweet}
+      handleOnChange={handleOnChange}
+      metadata={tweet.metadata}
+      scope={scope}
+      text={tweet.text}
+    >
+      <Box alignContent="center" display="flex">
+        {!editing ? (
+          <>
+            <Button onClick={handleDeleteReview} margin={false} type="tertiary">
+              Delete
+            </Button>
+            <Button onClick={handleEditReview} type="secondary">
+              Edit
+            </Button>
+            {scope.reviewsRequired > 0 && (
+              <Text m="6">
+                {tweet.approvedBy.length} / {scope.reviewsRequired}
+              </Text>
             )}
-            {!editing && (
-              <>
-                <Button
-                  disabled={user?.name === tweet.creator}
-                  onClick={handleApproveTweet}
-                  type="primary"
-                >
-                  Approve
-                </Button>
-                <Button
-                  disabled={reviewsRequired !== 0}
-                  onClick={handlePublishTweet}
-                  type="primary"
-                >
-                  Publish
-                </Button>
-              </>
-            )}
-          </Box>
-        </>
-      ) : (
-        <Box alignItems="center" display="flex" h="500px">
-          {getStateMessage()}
-        </Box>
-      )}
-    </Box>
+          </>
+        ) : (
+          <>
+            <Button onClick={handleCancelEdit} margin={false} type="tertiary">
+              Cancel
+            </Button>
+            <Button onClick={handleUpdateReview} type="secondary">
+              Update
+            </Button>
+          </>
+        )}
+        {!editing && (
+          <>
+            <Button
+              disabled={user?.name === tweet.creator}
+              onClick={handleApproveTweet}
+              type="primary"
+            >
+              Approve
+            </Button>
+            <Button
+              disabled={reviewsRequired !== 0}
+              onClick={handlePublishTweet}
+              type="primary"
+            >
+              Publish
+            </Button>
+          </>
+        )}
+      </Box>
+    </Tweet>
   );
 }

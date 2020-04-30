@@ -1,6 +1,6 @@
 import styles from "./tweet.module.css";
 
-import Card from "../../card";
+import Card from "../card";
 
 const Tweet = ({
   children,
