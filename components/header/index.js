@@ -16,6 +16,10 @@ const Header = () => {
     getLoggedIn();
   });
   const router = useRouter();
+  const loginUser = () => {
+    Cookies.set("next", "dashboard");
+    router.push("/api/auth/login");
+  };
   const logoutUser = () => {
     fetch("/api/auth/logout");
     Cookies.remove("id_token");
