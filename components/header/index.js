@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import { useProfile } from "../../hooks/";
+import { useProfile } from "../../hooks/";
 import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
@@ -16,7 +16,7 @@ const Header = () => {
     }
     getLoggedIn();
   });
-  // const { user } = useProfile();
+  const { user } = useProfile();
   const router = useRouter();
   const logoutUser = () => {
     fetch("/api/auth/logout");
@@ -28,7 +28,6 @@ const Header = () => {
     localStorage.removeItem("user");
     router.push("/");
   };
-  console.log("LOGGED IN", loggedIn);
   return (
     <header className={styles.header}>
       <div className={styles.headerLeft}>

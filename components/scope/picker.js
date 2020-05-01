@@ -12,13 +12,15 @@ export default function ScopePicker() {
       setScope({ ...teams[0] });
     }
   }, [teams]);
-  return scope && teams?.length > 0 ? (
-    <Select
-      onChange={updateScope}
-      options={teams}
-      value={(scope && scope.handle) || scope.name}
-    />
-  ) : (
-    <Link href="/api/auth/twitter/connect">+ Add New Team</Link>
-  );
+  return teams !== undefined ? (
+    teams?.length > 0 ? (
+      <Select
+        onChange={updateScope}
+        options={teams}
+        value={(scope && scope.handle) || scope.name}
+      />
+    ) : (
+      <Link href="/api/auth/twitter/connect">+ Add New Team</Link>
+    )
+  ) : null;
 }
