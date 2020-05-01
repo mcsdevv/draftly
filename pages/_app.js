@@ -1,4 +1,3 @@
-import React from "react";
 import App from "next/app";
 import ScopeContext from "../context/scopeContext";
 import { SWRConfig } from "swr";
