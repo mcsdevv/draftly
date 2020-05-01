@@ -30,7 +30,7 @@ export default function Header() {
       <div className={styles.headerRight}>
         {loggedIn && (
           <>
-            <Link href="/tweets/drafts" type="primary">
+            <Link href="/tweets/drafts/" type="primary">
               Drafts
             </Link>
             <Link href="/tweets/reviews" type="primary">
