@@ -1,4 +1,5 @@
-import { useProfile } from "../../hooks/";
+import { useEffect, useState } from "react";
+// import { useProfile } from "../../hooks/";
 import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
@@ -8,7 +9,14 @@ import ScopePicker from "../scope/picker";
 import styles from "./header.module.css";
 
 const Header = () => {
-  const { user } = useProfile();
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    function getLoggedIn() {
+      if (!!Cookies.get("id_token")) setLoggedIn(true);
+    }
+    getLoggedIn();
+  });
+  // const { user } = useProfile();
   const router = useRouter();
   const logoutUser = () => {
     fetch("/api/auth/logout");
@@ -20,14 +28,15 @@ const Header = () => {
     localStorage.removeItem("user");
     router.push("/");
   };
+  console.log("LOGGED IN", loggedIn);
   return (
     <header className={styles.header}>
       <div className={styles.headerLeft}>
         <h1 className={styles.brand}>T/R</h1>
-        {user && <ScopePicker />}
+        {loggedIn && <ScopePicker />}
       </div>
       <div className={styles.headerRight}>
-        {user && (
+        {loggedIn && (
           <>
             <Link href="/tweets/drafts" type="primary">
               Drafts
@@ -47,11 +56,11 @@ const Header = () => {
           </>
         )}
         <Link
-          href={user ? "/" : "/dashboard"}
-          onClick={user ? logoutUser : null}
+          href={loggedIn ? "/" : "/dashboard"}
+          onClick={loggedIn ? logoutUser : null}
           type="tertiary"
         >
-          {user ? "Logout" : "Login"}
+          {loggedIn ? "Logout" : "Login"}
         </Link>
       </div>
     </header>
