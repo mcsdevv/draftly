@@ -10,7 +10,7 @@ export default class MyApp extends App {
   };
   componentDidMount = () => {
     const scopeStored = localStorage.getItem("scope");
-    if (scopeStored !== undefined) {
+    if (scopeStored !== undefined && scopeStored !== null) {
       const scope = JSON.parse(scopeStored);
       this.setScope(scope);
     }
