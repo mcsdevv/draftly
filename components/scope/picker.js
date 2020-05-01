@@ -13,7 +13,7 @@ export default function ScopePicker() {
     }
   }, [teams]);
   return teams !== undefined ? (
-    teams?.length > 0 ? (
+    teams.length > 0 ? (
       <Select
         onChange={updateScope}
         options={teams}
