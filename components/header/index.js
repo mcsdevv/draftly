@@ -53,13 +53,13 @@ const Header = () => {
           </>
         )}
         {/* CHANGE TO BUTTON ASAP */}
-        <Link
-          href={loggedIn ? "/" : "/dashboard"}
-          onClick={loggedIn ? logoutUser : null}
+        <Button
+          // href={loggedIn ? "/" : "/dashboard"}
+          onClick={loggedIn ? logoutUser : loginUser}
           type="tertiary"
         >
           {loggedIn ? "Logout" : "Login"}
-        </Link>
+        </Button>
       </div>
     </header>
   );
