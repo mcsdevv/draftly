@@ -7,7 +7,7 @@ import Link from "../link";
 import ScopePicker from "../scope/picker";
 import styles from "./header.module.css";
 
-export default function Header() {
+const Header = () => {
   const { user } = useProfile();
   const router = useRouter();
   const logoutUser = () => {
@@ -57,4 +57,6 @@ export default function Header() {
       </div>
     </header>
   );
-}
+};
+
+export default Header;
