@@ -8,7 +8,7 @@ export default function ScopePicker() {
   const { scope, setScope, updateScope } = useScope();
   const { teams } = useProfile();
   useEffect(() => {
-    if (scope === null && teams) {
+    if (!scope && teams) {
       setScope({ ...teams[0] });
     }
   }, [teams]);

@@ -11,7 +11,6 @@ export default function Page({
   name,
   onClick,
 }) {
-  console.log("renderrrr");
   return (
     <div className={styles.page}>
       <Header />
