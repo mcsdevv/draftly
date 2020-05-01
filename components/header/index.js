@@ -20,7 +20,6 @@ const Header = () => {
     localStorage.removeItem("user");
     router.push("/");
   };
-  const loggedIn = !!Cookies.get("id_token");
   return (
     <header className={styles.header}>
       <div className={styles.headerLeft}>
@@ -28,7 +27,7 @@ const Header = () => {
         {user && <ScopePicker />}
       </div>
       <div className={styles.headerRight}>
-        {loggedIn && (
+        {user && (
           <>
             <Link href="/tweets/drafts" type="primary">
               Drafts
@@ -48,11 +47,11 @@ const Header = () => {
           </>
         )}
         <Link
-          href={loggedIn ? "/" : "/dashboard"}
-          onClick={loggedIn ? logoutUser : null}
+          href={user ? "/" : "/dashboard"}
+          onClick={user ? logoutUser : null}
           type="tertiary"
         >
-          {loggedIn ? "Logout" : "Login"}
+          {user ? "Logout" : "Login"}
         </Link>
       </div>
     </header>
