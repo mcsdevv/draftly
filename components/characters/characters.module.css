@@ -1,6 +1,7 @@
 .characters {
   height: 0px;
   margin-left: auto;
+  right: 4px;
   top: -24px;
   position: relative;
   width: fit-content;

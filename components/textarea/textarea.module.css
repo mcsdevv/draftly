@@ -1,13 +1,14 @@
 .textarea {
   border: 2px solid var(--primary-1);
   border-radius: var(--border-radius);
+  box-sizing: border-box;
   font-family: var(--font-family-tweet);
   font-size: 15px;
   resize: none;
 }
 
 .edit {
-  height: 56px;
+  height: 80px;
   width: 100%;
 }
 
