@@ -7,7 +7,6 @@ export default function Landing() {
       <h2>Draft...</h2>
       <h2>Review...</h2>
       <h2>Publish...</h2>
-      <CardPlaceholder />
     </Page>
   );
 }

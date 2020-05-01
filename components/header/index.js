@@ -20,7 +20,7 @@ export default function Header() {
     localStorage.removeItem("user");
     router.push("/");
   };
-  const loggedIn = Cookies.get("id_token");
+  const loggedIn = !!Cookies.get("id_token");
   return (
     <header className={styles.header}>
       <div className={styles.headerLeft}>
@@ -30,7 +30,7 @@ export default function Header() {
       <div className={styles.headerRight}>
         {loggedIn && (
           <>
-            <Link href="/tweets/drafts/" type="primary">
+            <Link href="/tweets/drafts" type="primary">
               Drafts
             </Link>
             <Link href="/tweets/reviews" type="primary">
