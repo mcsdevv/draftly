@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
 
+import Button from "../button";
 import Link from "../link";
 import ScopePicker from "../scope/picker";
 import styles from "./header.module.css";
