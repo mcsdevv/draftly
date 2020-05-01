@@ -1,11 +1,11 @@
 import Linkify from "react-linkify";
 import styles from "./text.module.css";
 
-import CardTop from "../sections/top";
-import CardBottom from "../sections/bottom";
+import CardTop from "../../sections/top";
+import CardBottom from "../../sections/bottom";
 
-import Characters from "../../characters";
-import Textarea from "../../textarea";
+import Characters from "../../../characters";
+import Textarea from "../../../textarea";
 
 export default function Text({
   editing,

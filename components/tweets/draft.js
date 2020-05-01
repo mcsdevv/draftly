@@ -75,7 +75,6 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
     // * Changes made, update tweet
     setEditing(false);
     setSaving(true);
-    console.log(editTweet);
     const metadata = await getMeta(editTweet);
     const url = `/api/tweet/draft/update/${tweet.ref}`;
     const formattedTweet = removeWww(editTweet);
