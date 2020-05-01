@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
 
-import Button from "../button";
 import Link from "../link";
 import ScopePicker from "../scope/picker";
 import styles from "./header.module.css";
@@ -17,10 +16,6 @@ const Header = () => {
     getLoggedIn();
   });
   const router = useRouter();
-  const loginUser = () => {
-    Cookies.set("next", "dashboard");
-    router.push("/api/auth/login");
-  };
   const logoutUser = () => {
     fetch("/api/auth/logout");
     Cookies.remove("id_token");
@@ -59,8 +54,8 @@ const Header = () => {
         )}
         {/* CHANGE TO BUTTON ASAP */}
         <Button
-          // href={loggedIn ? "/" : "/dashboard"}
-          onClick={loggedIn ? logoutUser : loginUser}
+          href={loggedIn ? "/" : "/dashboard"}
+          onClick={loggedIn ? logoutUser : null}
           type="tertiary"
         >
           {loggedIn ? "Logout" : "Login"}
