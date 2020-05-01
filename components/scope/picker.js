@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useScope, useProfile } from "../../hooks/";
 
+import Cookies from "js-cookie";
+
 import Link from "../link";
 import Select from "../select";
 
@@ -8,7 +10,7 @@ export default function ScopePicker() {
   const { scope, setScope, updateScope } = useScope();
   const { teams } = useProfile();
   useEffect(() => {
-    if (!scope && teams) {
+    if (!scope && teams && Cookies.get("id_token")) {
       setScope({ ...teams[0] });
     }
   }, [teams]);
