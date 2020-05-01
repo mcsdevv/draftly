@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useProfile } from "../../hooks/";
 import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
@@ -16,7 +15,6 @@ const Header = () => {
     }
     getLoggedIn();
   });
-  const { user } = useProfile();
   const router = useRouter();
   const logoutUser = () => {
     fetch("/api/auth/logout");
