@@ -3,7 +3,6 @@ import { useProfile, usePublished } from "../../hooks";
 
 import RequireLogin from "../../lib/requireLogin";
 
-import { Box, Heading } from "@chakra-ui/core";
 import CardPlaceholder from "../../components/placeholders/card";
 import Grid from "../../components/layout/grid";
 import Page from "../../components/page";
@@ -47,7 +46,7 @@ function Published() {
       );
     }
     if (showNoPublished) {
-      return <Heading as="h2">No Published...</Heading>;
+      return <h2>No Published...</h2>;
     }
   };
   return (
@@ -56,17 +55,8 @@ function Published() {
         {published
           ? published.map((p) => (
               <>
-                <Box alignSelf="center" justifySelf="center" key={p.ref}>
-                  <Publish published={published} tweet={p} />
-                </Box>
-                <Box
-                  alignSelf="center"
-                  justifySelf="center"
-                  key={p.ref + 1}
-                  w="100%"
-                >
-                  Here be metrics...
-                </Box>
+                <Publish key={p.ref} published={published} tweet={p} />
+                <h2 key={p.ref + 1}>Here be metrics...</h2>
               </>
             ))
           : renderPageState()}

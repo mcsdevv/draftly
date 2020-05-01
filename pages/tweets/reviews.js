@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useReviews } from "../../hooks";
 import React from "react";
 
-import { Box, Heading } from "@chakra-ui/core";
 import CardPlaceholder from "../../components/placeholders/card";
 import Comments from "../../components/comments";
 import Grid from "../../components/layout/grid";
@@ -48,7 +47,7 @@ function Reviews() {
       );
     }
     if (showNoReviews) {
-      return <Heading as="h2">No Reviews...</Heading>;
+      return <h2>No Reviews...</h2>;
     }
   };
   return (
@@ -57,13 +56,11 @@ function Reviews() {
         {reviews?.length > 0
           ? reviews.map((r) => (
               <>
-                <Box alignSelf="center" justifySelf="center">
-                  <Review
-                    reviews={reviews}
-                    revalidate={revalidateReviews}
-                    tweet={r}
-                  />
-                </Box>
+                <Review
+                  reviews={reviews}
+                  revalidate={revalidateReviews}
+                  tweet={r}
+                />
                 <Comments
                   comments={r.comments}
                   reviews={reviews}

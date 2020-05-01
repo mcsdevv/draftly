@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDrafts } from "../../hooks";
 
-import { Box, Heading } from "@chakra-ui/core";
 import CardPlaceholder from "../../components/placeholders/card";
 import ComposeTweet from "../../components/compose";
 import Draft from "../../components/tweets/draft";
@@ -46,7 +45,7 @@ function Drafts() {
       );
     }
     if (showNoDrafts) {
-      return <Heading as="h2">No Drafts...</Heading>;
+      return <h2>No Drafts...</h2>;
     }
   };
   const startDraft = () => {
@@ -60,24 +59,21 @@ function Drafts() {
     >
       <Grid>
         {drafting && (
-          <Box alignSelf="center" justifySelf="center">
-            <ComposeTweet
-              drafting={drafting}
-              revalidate={revalidateDrafts}
-              setDrafting={setDrafting}
-              startDraft={startDraft}
-            />
-          </Box>
+          <ComposeTweet
+            drafting={drafting}
+            revalidate={revalidateDrafts}
+            setDrafting={setDrafting}
+            startDraft={startDraft}
+          />
         )}
         {drafts?.length > 0
           ? drafts.map((d) => (
-              <Box alignSelf="center" justifySelf="center" key={d.ref}>
-                <Draft
-                  drafts={drafts}
-                  revalidate={revalidateDrafts}
-                  tweet={d}
-                />
-              </Box>
+              <Draft
+                drafts={drafts}
+                key={d.ref}
+                revalidate={revalidateDrafts}
+                tweet={d}
+              />
             ))
           : renderPageState()}
       </Grid>
