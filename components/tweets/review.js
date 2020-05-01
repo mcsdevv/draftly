@@ -6,8 +6,7 @@ import { mutate } from "swr";
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import { Box, Text } from "@chakra-ui/core";
-import Button from "../button";
+import Controls from "../controls";
 import Tweet from "../tweet";
 
 export default function Review({ revalidate, reviews, tweet }) {
@@ -26,11 +25,7 @@ export default function Review({ revalidate, reviews, tweet }) {
     }
     getReviewsRequired();
   }, [scope, tweet]);
-  const getStateMessage = () => {
-    if (deleting) return <h2>Deleting review...</h2>;
-    if (saving) return <h2>Saving draft...</h2>;
-  };
-  const handleApproveTweet = async () => {
+  const handleApprove = async () => {
     const url = `/api/tweet/review/approve/${tweet.ref}`;
     const res = await fetch(url, {
       method: "POST",
@@ -45,7 +40,7 @@ export default function Review({ revalidate, reviews, tweet }) {
   const handleCancelEdit = () => {
     setEditing(false);
   };
-  const handleDeleteReview = async () => {
+  const handleDelete = async () => {
     setDeleting(true);
     const url = `/api/tweet/review/delete/${scope.handle}`;
     const res = await fetch(url, {
@@ -61,7 +56,7 @@ export default function Review({ revalidate, reviews, tweet }) {
       setDeleting(false);
     }
   };
-  const handleEditReview = () => {
+  const handleEdit = () => {
     setEditing(true);
   };
   const handleOnChange = (e) => {
@@ -72,7 +67,7 @@ export default function Review({ revalidate, reviews, tweet }) {
       alert("over the limit bud");
     }
   };
-  const handleUpdateReview = async () => {
+  const handleUpdate = async () => {
     // * No changes made, no need to update
     if (tweet.text === editTweet) {
       setEditing(false);
@@ -101,7 +96,7 @@ export default function Review({ revalidate, reviews, tweet }) {
       setSaving(false);
     }
   };
-  const handlePublishTweet = async () => {
+  const handlePublish = async () => {
     setPublishing(true);
     const url = `/api/tweet/published/create/${scope.handle}`;
     const res = await fetch(url, {
@@ -127,50 +122,18 @@ export default function Review({ revalidate, reviews, tweet }) {
       scope={scope}
       text={tweet.text}
     >
-      <Box alignContent="center" display="flex">
-        {!editing ? (
-          <>
-            <Button onClick={handleDeleteReview} margin={false} type="tertiary">
-              Delete
-            </Button>
-            <Button onClick={handleEditReview} type="secondary">
-              Edit
-            </Button>
-            {scope.reviewsRequired > 0 && (
-              <Text m="6">
-                {tweet.approvedBy.length} / {scope.reviewsRequired}
-              </Text>
-            )}
-          </>
-        ) : (
-          <>
-            <Button onClick={handleCancelEdit} margin={false} type="tertiary">
-              Cancel
-            </Button>
-            <Button onClick={handleUpdateReview} type="secondary">
-              Update
-            </Button>
-          </>
-        )}
-        {!editing && (
-          <>
-            <Button
-              disabled={user?.name === tweet.creator}
-              onClick={handleApproveTweet}
-              type="primary"
-            >
-              Approve
-            </Button>
-            <Button
-              disabled={reviewsRequired !== 0}
-              onClick={handlePublishTweet}
-              type="primary"
-            >
-              Publish
-            </Button>
-          </>
-        )}
-      </Box>
+      <Controls
+        disableApprove={user?.name === tweet.creator}
+        disablePublish={reviewsRequired !== 0}
+        editing={editing}
+        handleApprove={handleApprove}
+        handleCancelEdit={handleCancelEdit}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        handlePublish={handlePublish}
+        handleUpdate={handleUpdate}
+        type="review"
+      />
     </Tweet>
   );
 }

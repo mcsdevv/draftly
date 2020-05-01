@@ -5,8 +5,8 @@ import { mutate } from "swr";
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
 
-import { Box } from "@chakra-ui/core";
 import Button from "../button";
+import Controls from "../controls";
 import Tweet from "../tweet";
 
 export default function Draft({ drafts, revalidate, size, tweet }) {
@@ -23,7 +23,7 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
   const handleCancelEdit = () => {
     setEditing(false);
   };
-  const handleDeleteDraft = async () => {
+  const handleDelete = async () => {
     setDeleting(true);
     const url = `/api/tweet/draft/delete/${scope.handle}`;
     const res = await fetch(url, {
@@ -39,7 +39,7 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
       setDeleting(false);
     }
   };
-  const handleEditDraft = () => {
+  const handleEdit = () => {
     setEditing(true);
   };
   const handleOnChange = (e) => {
@@ -66,7 +66,7 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
       revalidate();
     }
   };
-  const handleUpdateDraft = async () => {
+  const handleUpdate = async () => {
     // * No changes made, no need to update
     if (tweet.text === editTweet) {
       setEditing(false);
@@ -104,38 +104,15 @@ export default function Draft({ drafts, revalidate, size, tweet }) {
       scope={scope}
       text={tweet.text}
     >
-      <>
-        <Box alignContent="center" display="flex">
-          {!editing ? (
-            <>
-              <Button
-                onClick={handleDeleteDraft}
-                margin={false}
-                type="tertiary"
-              >
-                Delete
-              </Button>
-              <Button onClick={handleEditDraft} type="secondary">
-                Edit
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button onClick={handleCancelEdit} margin={false} type="tertiary">
-                Cancel
-              </Button>
-              <Button onClick={handleUpdateDraft} type="secondary">
-                Update
-              </Button>
-            </>
-          )}
-          {!editing && (
-            <Button onClick={handleReviewReady} type="primary">
-              Review
-            </Button>
-          )}
-        </Box>
-      </>
+      <Controls
+        editing={editing}
+        handleCancelEdit={handleCancelEdit}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        handleUpdate={handleUpdate}
+        handleReviewReady={handleReviewReady}
+        type="draft"
+      />
     </Tweet>
   );
 }
