@@ -57,7 +57,7 @@ function Drafts() {
       name="Drafts"
       onClick={() => setDrafting(true)}
     >
-      <Grid>
+      <Grid columns="double">
         {drafting && (
           <ComposeTweet
             drafting={drafting}

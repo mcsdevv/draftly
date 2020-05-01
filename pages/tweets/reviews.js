@@ -52,7 +52,7 @@ function Reviews() {
   };
   return (
     <Page name="Reviews">
-      <Grid>
+      <Grid columns="single">
         {reviews?.length > 0
           ? reviews.map((r) => (
               <>

@@ -1,6 +1,13 @@
 .grid {
   display: grid;
   grid-gap: var(--gap-3);
-  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 600px;
+}
+
+.single {
+  grid-template-columns: 1;
+}
+
+.double {
+  grid-template-columns: repeat(2, 1fr);
 }

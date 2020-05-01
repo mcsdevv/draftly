@@ -51,7 +51,7 @@ function Published() {
   };
   return (
     <Page name="Published">
-      <Grid>
+      <Grid columns="single">
         {published
           ? published.map((p) => (
               <>
