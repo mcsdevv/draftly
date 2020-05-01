@@ -52,6 +52,7 @@ const Header = () => {
             </Link>
           </>
         )}
+        {/* CHANGE TO BUTTON ASAP */}
         <Link
           href={loggedIn ? "/" : "/dashboard"}
           onClick={loggedIn ? logoutUser : null}
