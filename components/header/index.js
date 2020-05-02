@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
 
@@ -15,7 +14,6 @@ const Header = () => {
     }
     getLoggedIn();
   });
-  const router = useRouter();
   const logoutUser = () => {
     fetch("/api/auth/logout");
     Cookies.remove("id_token");
@@ -24,7 +22,7 @@ const Header = () => {
     localStorage.removeItem("scope");
     localStorage.removeItem("teams");
     localStorage.removeItem("user");
-    router.push("/");
+    window.location = "/";
   };
   return (
     <header className={styles.header}>

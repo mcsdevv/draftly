@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
 import ScopeContext from "../context/scopeContext";
 
 import { useProfile } from "../hooks/";
@@ -7,15 +6,22 @@ import { useProfile } from "../hooks/";
 export const useScope = () => {
   const { scope, setScope } = useContext(ScopeContext);
   const { teams } = useProfile();
-  const router = useRouter();
-  const updateScope = (e) => {
-    const name = e.target.value;
-    if (name === "new") {
-      router.push("/api/auth/twitter/connect");
-      return;
-    }
-    const scopeDetails = teams.find((t) => t.handle === name);
-    setScope({ ...scopeDetails });
+  const setStoredScope = (newScope) => {
+    localStorage.setItem("scope", JSON.stringify(newScope));
+    setScope(newScope);
   };
-  return { scope, setScope, updateScope };
+  useEffect(() => {
+    function getStoredScope() {
+      const scopeStored = localStorage.getItem("scope");
+      if (scopeStored !== undefined && scopeStored != null) {
+        const newScope = JSON.parse(scopeStored);
+        setStoredScope(newScope);
+      }
+      if (teams) {
+        setStoredScope(teams[0]);
+      }
+    }
+    getStoredScope();
+  }, [scope, teams]);
+  return { scope, setStoredScope };
 };
