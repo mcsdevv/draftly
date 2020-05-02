@@ -3,7 +3,7 @@ import ScopeContext from "../context/scopeContext";
 import { SWRConfig } from "swr";
 
 import "../styles/global.css";
-
+// test
 export default class MyApp extends App {
   state = {
     scope: undefined,
