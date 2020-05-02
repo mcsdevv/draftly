@@ -11,7 +11,6 @@ const App = ({ Component, pageProps }) => {
       const scopeStored = localStorage.getItem("scope");
       if (scopeStored !== undefined && scopeStored !== null) {
         const scope = JSON.parse(scopeStored);
-        console.log("setting scope - FUNCTION");
         setStoredScope(scope);
       }
     }
