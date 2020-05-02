@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import ScopeContext from "../context/scopeContext";
 import { useRouter } from "next/router";
+import ScopeContext from "../context/scopeContext";
 
 import { useProfile } from "../hooks/";
 
