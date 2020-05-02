@@ -16,7 +16,7 @@ export default function Text({
 }) {
   return (
     <div className={styles.cardText}>
-      <CardTop handle={scope.handle} name={scope.name} />
+      <CardTop handle={scope?.handle} name={scope?.name} />
       <Linkify
         properties={{
           target: "_blank",

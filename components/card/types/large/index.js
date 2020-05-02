@@ -18,7 +18,7 @@ export default function Large({
 }) {
   return (
     <div className={styles.cardLarge}>
-      <CardTop handle={scope.handle} name={scope.name} />
+      <CardTop handle={scope?.handle} name={scope?.name} />
       <p className={styles.cardText}>
         <Linkify>
           {!editing ? (

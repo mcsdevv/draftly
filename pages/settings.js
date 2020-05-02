@@ -15,7 +15,7 @@ import Reviews from "../components/settings/reviews";
 function Settings() {
   const { scope } = useScope();
   const { user } = useProfile();
-  const isOwner = scope.owners.includes(user && user.email);
+  const isOwner = scope?.owners.includes(user && user.email);
   return (
     <Page name="Settings">
       <div className={styles.container}>
