@@ -14,7 +14,7 @@ const Tweet = ({
   <div className={styles.container}>
     <div className={styles.tweet}>
       <div className={styles.avatarWrapper}>
-        <img className={styles.avatar} src={scope.avatar} />
+        <img className={styles.avatar} src={scope?.avatar} />
       </div>
       <Card
         editing={editing}
