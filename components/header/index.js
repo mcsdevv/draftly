@@ -52,14 +52,13 @@ const Header = () => {
             </Link>
           </>
         )}
-        {/* CHANGE TO BUTTON ASAP */}
-        <Button
+        <Link
           href={loggedIn ? "/" : "/dashboard"}
           onClick={loggedIn ? logoutUser : null}
           type="tertiary"
         >
           {loggedIn ? "Logout" : "Login"}
-        </Button>
+        </Link>
       </div>
     </header>
   );

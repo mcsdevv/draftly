@@ -10,6 +10,7 @@ export default function ScopePicker() {
   const { scope, setScope, updateScope } = useScope();
   const { teams } = useProfile();
   useEffect(() => {
+    console.log(setScope);
     if (!scope && teams?.length > 0 && Cookies.get("id_token")) {
       setScope({ ...teams[0] });
     }
