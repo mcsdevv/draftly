@@ -6,7 +6,7 @@ export const useReviews = () => {
   const { scope } = useScope();
   const handle = scope?.handle;
   const { data, isValidating, revalidate } = useSWR(
-    () => `/api/tweets/details/reviews/${handle}`
+    handle ? `/api/tweets/details/reviews/${handle}` : null
   );
   return { ...data, isValidating, revalidateReviews: revalidate };
 };
