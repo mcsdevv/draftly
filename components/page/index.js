@@ -31,4 +31,6 @@ const Page = ({ buttonText, children, divider = true, name, onClick }) => {
   );
 };
 
+// Page.whyDidYouRender = true;
+
 export default Page;
