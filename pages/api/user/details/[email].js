@@ -5,6 +5,7 @@ const getUserDetails = async (req, res) => {
   try {
     const { email } = req.query;
     // * Get user details along with teams they are part of
+    console.time("Get user + teams");
     const dbs = await client.query(
       q.Drop(
         2,
@@ -29,6 +30,7 @@ const getUserDetails = async (req, res) => {
         )
       )
     );
+    console.timeEnd("Get user + teams");
     // * Extract user and teams from db response
     const userData = dbs[0];
     const teamsData = dbs.slice(1);
