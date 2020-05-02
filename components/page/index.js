@@ -1,16 +1,23 @@
 import styles from "./page.module.css";
 
+import {
+  useDrafts,
+  useProfile,
+  usePublished,
+  useReviews,
+  useScope,
+} from "../../hooks";
+
 import Button from "../button";
 import Divider from "../divider";
 import Header from "../header";
 
-export default function Page({
-  buttonText,
-  children,
-  divider = true,
-  name,
-  onClick,
-}) {
+const Page = ({ buttonText, children, divider = true, name, onClick }) => {
+  const { drafts } = useDrafts();
+  const { teams, user } = useProfile();
+  const { published } = usePublished();
+  const { reviews } = useReviews();
+  const { scope } = useScope();
   return (
     <div className={styles.page}>
       <Header />
@@ -22,4 +29,6 @@ export default function Page({
       {children}
     </div>
   );
-}
+};
+
+export default Page;

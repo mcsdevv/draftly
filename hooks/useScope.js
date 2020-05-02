@@ -13,7 +13,7 @@ export const useScope = () => {
   useEffect(() => {
     function getStoredScope() {
       const scopeStored = localStorage.getItem("scope");
-      if (scopeStored !== undefined && scopeStored != null) {
+      if (!!scopeStored) {
         const newScope = JSON.parse(scopeStored);
         setStoredScope(newScope);
       }
