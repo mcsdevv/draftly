@@ -1,0 +1,103 @@
+.cardSmall {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  margin-left: 5px;
+}
+
+.cardSmall * {
+  font-family: var(--font-family-tweet);
+}
+
+.cardText {
+  margin-bottom: 0;
+}
+
+.cardText > a {
+  color: rgb(27, 149, 224);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.cardText > a:hover {
+  text-decoration: underline;
+}
+
+.cardText > a:visited {
+  color: rgb(27, 149, 224);
+}
+
+.cardLink {
+  text-decoration: none;
+}
+
+.summary {
+  border: 1px solid rgb(204, 214, 221);
+  border-radius: 14px;
+  box-sizing: border-box;
+  display: flex;
+  height: 126px;
+  margin-top: 10px;
+  width: 507px;
+}
+
+.imageContainer {
+  border-right: 1px solid rgb(204, 214, 221);
+  width: 124px;
+  z-index: 1;
+}
+
+.image {
+  border-bottom-left-radius: 13px;
+  border-top-left-radius: 13px;
+  height: 100%;
+  position: relative;
+  z-index: -1;
+}
+
+.contentContainer {
+  background: #fff;
+  border-bottom-right-radius: 14px;
+  border-top-right-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 20px;
+  padding: 10px;
+  width: 100%;
+  z-index: 1;
+}
+
+.title {
+  color: rgb(20, 23, 26);
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+.description {
+  color: rgb(101, 119, 134);
+  font-weight: 400;
+  height: 38px;
+  margin-bottom: 2px;
+  width: 100%;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+
+.linkContainer {
+  align-items: center;
+  display: flex;
+  color: rgb(101, 119, 134);
+  font-weight: 400;
+}
+
+.linkIcon {
+  fill: rgb(101, 119, 134);
+  height: 16px;
+  margin-right: 2px;
+  margin-top: 4px;
+  stroke: rgb(101, 119, 134);
+  stroke-width: 0.01em;
+  width: 16px;
+}
