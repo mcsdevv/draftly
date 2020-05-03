@@ -14,7 +14,7 @@ const getCardMetadata = async (req, res) => {
     let post = {
       canonical: $('link[rel="canonical"]').attr("href"),
       // Get OG Values
-      og_description: $('meta[name="og:description"]').attr("content"),
+      og_description: $('meta[property="og:description"]').attr("content"),
       og_img: $('meta[property="og:image"]').attr("content"),
       og_title: $('meta[property="og:title"]').attr("content"),
       og_type: $('meta[property="og:type"]').attr("content"),
