@@ -16,7 +16,7 @@ const updateUserName = async (req, res) => {
         }
       )
     );
-    console.log("User name updated: ", dbs);
+    console.log("User name updated:", dbs);
     res.status(200).json(dbs.data);
   } catch (err) {
     console.error("ERROR - api/user/update/name -", err.message);

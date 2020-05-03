@@ -18,7 +18,7 @@ const approveReviewTweet = async (req, res) => {
         },
       })
     );
-    console.log("Approved tweet: ", ref);
+    console.log("Approved tweet:", ref);
     res.status(200).json({ ...dbs.data, ref, updated: dbs.ts });
   } catch (err) {
     console.error("ERROR - api/tweet/review/approve -", err.message);

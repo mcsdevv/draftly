@@ -35,7 +35,7 @@ const deleteUser = async (req, res) => {
         q.Lambda("u", q.Delete(q.Var("u")))
       )
     );
-    console.log("Deleted user: ", dbs.data.name);
+    console.log("Deleted user:", dbs.data.name);
     res.status(200).json(dbs.data);
   } catch (err) {
     console.error("ERROR - api/user/delete -", err.message);

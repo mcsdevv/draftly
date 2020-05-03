@@ -15,7 +15,7 @@ const createUser = async (req, res) => {
         },
       })
     );
-    console.log("User created: ", dbs.data);
+    console.log("User created:", dbs.data);
     res.status(200).json(dbs.data);
   } catch (err) {
     console.error("ERROR - api/user/create -", err.message);

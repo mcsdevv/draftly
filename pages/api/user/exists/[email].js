@@ -8,7 +8,7 @@ const userExists = async (req, res) => {
     const exists = await client.query(
       q.Exists(q.Match(q.Index("all_users_by_email"), email))
     );
-    console.log("Existing user: ", exists);
+    console.log("Existing user:", exists);
     res.status(200).json({ exists });
   } catch (err) {
     console.error("ERROR - api/user/exists -", err.message);

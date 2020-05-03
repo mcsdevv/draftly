@@ -40,9 +40,8 @@ const getUserDetails = async (req, res) => {
       delete t.data.auth;
       return t.data;
     });
-    console.log("User details: ", user);
-    console.log("Teams details: ", teams);
-    // res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate");
+    console.log("User details:", user);
+    console.log("Teams details:", teams);
     res.status(200).json({ user, teams });
   } catch (err) {
     console.error("ERROR - api/user/details -", err.message);

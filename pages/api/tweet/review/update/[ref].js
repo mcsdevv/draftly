@@ -14,7 +14,7 @@ const updateReviewTweet = async (req, res) => {
         },
       })
     );
-    console.log("Updated review tweet: ", ref);
+    console.log("Updated review tweet:", ref);
     res.status(200).json({ ...dbs.data, ref, updated: dbs.ts });
   } catch (err) {
     console.error("ERROR - api/tweet/review/update -", err.message);
