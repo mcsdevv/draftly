@@ -19,13 +19,17 @@ function Settings() {
   return (
     <Page name="Settings">
       <div className={styles.container}>
-        <ChangeUserName loading={!!user} />
-        <DeleteUser loading={!!user} />
-        <ChangeTeamName disabled={!isOwner} loading={!!user} />
-        <DeleteTeam disabled={!isOwner} loading={!!user} />
-        <Reviews disabled={!isOwner} loading={!!user} />
-        <Plan disabled={!isOwner} loading={!!user} />
-        <Members disabled={!isOwner} loading={!!user} />
+        {scope ? (
+          <>
+            <ChangeUserName loading={!!user} />
+            <DeleteUser loading={!!user} />
+            <ChangeTeamName disabled={!isOwner} loading={!!user} />
+            <DeleteTeam disabled={!isOwner} loading={!!user} />
+            <Reviews disabled={!isOwner} loading={!!user} />
+            <Plan disabled={!isOwner} loading={!!user} />
+            <Members disabled={!isOwner} loading={!!user} />
+          </>
+        ) : null}
       </div>
     </Page>
   );

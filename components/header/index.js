@@ -62,6 +62,4 @@ const Header = memo(() => {
   );
 });
 
-Header.whyDidYouRender = true;
-
 export default Header;

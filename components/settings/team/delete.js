@@ -7,7 +7,7 @@ import Input from "../../input";
 export default function DeleteTeam() {
   const { revalidateProfile, teams } = useProfile();
   const { scope, setScope } = useScope();
-  const [teamName, setTeamName] = useState("");
+  const [teamName, setTeamName] = useState(scope.name);
   const handleOnChange = (e) => {
     setTeamName(e.target.value);
   };
@@ -21,8 +21,10 @@ export default function DeleteTeam() {
       }),
     });
     if (status === 200) {
+      // TODO Must mutate
       revalidateProfile();
       //   ! Update scope
+      // * If no teams, take to /create
       setScope({ ...user });
     }
   };
