@@ -8,6 +8,7 @@ const updateReviewTweet = async (req, res) => {
     const dbs = await client.query(
       q.Update(q.Ref(q.Collection("tweets"), ref), {
         data: {
+          approvedBy: [],
           metadata,
           text,
         },

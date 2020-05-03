@@ -7,7 +7,7 @@ import Input from "../../input";
 export default function ChangeUserName() {
   const { revalidateProfile, user } = useProfile();
   const { scope, setScope } = useScope();
-  const [newName, setNewName] = useState(scope.name);
+  const [newName, setNewName] = useState(user.name);
   const handleOnChange = (e) => {
     setNewName(e.target.value);
   };
