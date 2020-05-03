@@ -13,12 +13,12 @@ const getCardMetadata = async (req, res) => {
 
     let post = {
       canonical: $('link[rel="canonical"]').attr("href"),
-      description: $('meta[name="description"]').attr("content"),
       // Get OG Values
-      og_title: $('meta[property="og:title"]').attr("content"),
-      og_url: $('meta[property="og:url"]').attr("content"),
+      og_description: $('meta[name="og:description"]').attr("content"),
       og_img: $('meta[property="og:image"]').attr("content"),
+      og_title: $('meta[property="og:title"]').attr("content"),
       og_type: $('meta[property="og:type"]').attr("content"),
+      og_url: $('meta[property="og:url"]').attr("content"),
       // Get Twitter Values
       twitter_app_name_googleplay: $(
         'meta[name="twitter:app:name:googleplay"]'
