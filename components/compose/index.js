@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
-import ScopeContext from "../../context/scopeContext";
+import { mutate } from "swr";
 import Cookies from "js-cookie";
+import ScopeContext from "../../context/scopeContext";
 import parseJwt from "../../lib/parseJwt";
 import getMeta from "../../lib/getMeta";
 import removeWww from "../../lib/removeWww";
@@ -11,7 +12,7 @@ import Textarea from "../textarea";
 
 import styles from "./compose.module.css";
 
-export default function ComposeTweet({ revalidate, setDrafting }) {
+export default function ComposeTweet({ drafts, setDrafting }) {
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
@@ -31,8 +32,10 @@ export default function ComposeTweet({ revalidate, setDrafting }) {
       }),
     });
     if (res.status === 200) {
-      // TODO Mutate for instant update
-      revalidate();
+      const newDraft = await res.json();
+      mutate(`/api/tweets/details/drafts/${scope.handle}`, {
+        drafts: [newDraft, ...drafts],
+      });
       setDrafting(false);
       setSaving(false);
       setTweet("");

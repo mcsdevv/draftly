@@ -20,7 +20,7 @@ const createDraftTweet = async (req, res) => {
         },
       })
     );
-    const { ref } = await dbs;
+    const { data, ref } = await dbs;
     const refTrimmed = getRef(ref);
     // * Update team with the tweet ref
     await client.query(
@@ -43,7 +43,7 @@ const createDraftTweet = async (req, res) => {
       )
     );
     console.log("Draft tweet created for:", handle);
-    res.status(200).json({ ref: refTrimmed });
+    res.status(200).json({ ...data });
   } catch (err) {
     console.error("ERROR - api/tweet/draft/create -", err.message);
     res.status(500).json({ err: err.message });

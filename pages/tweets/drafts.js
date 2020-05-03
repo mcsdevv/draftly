@@ -60,6 +60,7 @@ function Drafts() {
       <Grid columns="double">
         {drafting && (
           <ComposeTweet
+            drafts={drafts}
             drafting={drafting}
             revalidate={revalidateDrafts}
             setDrafting={setDrafting}
