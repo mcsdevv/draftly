@@ -42,7 +42,7 @@
 }
 
 .imageContainer {
-  border-right: 1px solid rgb(204, 214, 221);
+  box-sizing: border-box;
   width: 124px;
   z-index: 1;
 }
@@ -57,14 +57,16 @@
 
 .contentContainer {
   background: #fff;
+  border-left: 1px solid rgb(204, 214, 221);
   border-bottom-right-radius: 14px;
   border-top-right-radius: 14px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   line-height: 20px;
+  max-width: 381px;
   padding: 10px;
-  width: 100%;
   z-index: 1;
 }
 
@@ -73,6 +75,10 @@
   font-size: 15px;
   font-weight: 400;
   margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: auto;
 }
 
 .description {
@@ -80,9 +86,9 @@
   font-weight: 400;
   height: 38px;
   margin-bottom: 2px;
+  overflow: hidden;
   width: 100%;
   white-space: pre-wrap;
-  overflow: hidden;
 }
 
 .linkContainer {
