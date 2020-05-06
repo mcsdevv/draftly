@@ -33,8 +33,9 @@ export default function Large({
         <div className={styles.cardContainer}>
           <div className={styles.imageContainer}>
             <img
+              alt={meta.twitter_img_alt || meta.og_img_alt || "Image."}
               className={styles.image}
-              src={meta.twitter_image_src || meta.twitter_image || meta.og_img}
+              src={meta.twitter_img_src || meta.twitter_img || meta.og_img}
             />
           </div>
           <div className={styles.contentContainer}>

@@ -16,7 +16,6 @@ export default function Small({
   scope,
   text,
 }) {
-  console.log(meta.twitter_img_src || meta.og_img || meta.twitter_img);
   return (
     <div className={styles.cardSmall}>
       <CardTop handle={scope?.handle} name={scope?.name} />
