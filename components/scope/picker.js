@@ -16,8 +16,9 @@ export default function ScopePicker() {
     const scopeDetails = teams.find((t) => t.handle === name);
     setStoredScope(scopeDetails);
   };
-  return teams?.length > 0 ? (
-    scope ? (
+  console.log(scope, teams);
+  return scope !== null && teams ? (
+    teams?.length ? (
       <Select
         onChange={handleOnChange}
         options={teams}

@@ -22,6 +22,6 @@ export const useScope = () => {
       }
     }
     getStoredScope();
-  }, [scope, teams]);
+  }, [teams]);
   return { scope, setStoredScope };
 };
