@@ -4,5 +4,6 @@
   font-family: var(--font-family-tweet);
   font-size: 15px;
   margin-left: 5px;
+  white-space: pre-wrap;
   width: 598px;
 }
