@@ -43,7 +43,7 @@ export default function Large({
               {meta.twitter_title || meta.og_title}
             </span>
             <p className={styles.description}>
-              {meta.twitter_description || meta.description}
+              {meta.twitter_description || meta.og_description}
             </p>
             <div className={styles.linkContainer}>
               <svg className={styles.linkIcon} viewBox="0 0 24 24">

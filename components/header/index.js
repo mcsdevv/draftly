@@ -26,10 +26,7 @@ const Header = memo(() => {
   };
   return (
     <header className={styles.header}>
-      <div className={styles.headerLeft}>
-        <h1 className={styles.brand}>T/R</h1>
-        {loggedIn && <ScopePicker />}
-      </div>
+      <div className={styles.headerLeft}>{loggedIn && <ScopePicker />}</div>
       <div className={styles.headerRight}>
         {loggedIn && (
           <>
