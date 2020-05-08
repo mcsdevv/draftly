@@ -112,7 +112,6 @@ export default function Review({ revalidate, reviews, tweet }) {
       setPublishing(false);
     }
   };
-  // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
     <Tweet
       editing={editing}
@@ -123,6 +122,8 @@ export default function Review({ revalidate, reviews, tweet }) {
       text={tweet.text}
     >
       <Controls
+        approvals={tweet.approvedBy.length}
+        approvalsRequired={scope.reviewsRequired}
         disableApprove={user?.name === tweet.creator}
         disablePublish={reviewsRequired !== 0}
         editing={editing}

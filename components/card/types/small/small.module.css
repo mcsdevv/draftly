@@ -40,6 +40,7 @@
   height: 126px;
   margin-top: 10px;
   width: 507px;
+  z-index: 2;
 }
 
 .imageContainer {
@@ -54,6 +55,22 @@
   height: 100%;
   position: relative;
   z-index: -1;
+}
+
+.fallback {
+  align-items: center;
+  background: rgb(245, 248, 250);
+  border-bottom-left-radius: 13px;
+  border-top-left-radius: 13px;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.fallbackIcon {
+  color: rgb(101, 119, 134);
+  fill: rgb(101, 119, 134);
+  height: 30px;
 }
 
 .contentContainer {
@@ -85,7 +102,7 @@
 .description {
   color: rgb(101, 119, 134);
   font-weight: 400;
-  height: 38px;
+  height: 40px;
   margin-bottom: 2px;
   overflow: hidden;
   width: 100%;

@@ -3,6 +3,8 @@ import styles from "./controls.module.css";
 import Button from "../button";
 
 const Controls = ({
+  approvals,
+  approvalsRequired,
   disableApprove,
   disablePublish,
   editing,
@@ -38,6 +40,7 @@ const Controls = ({
           onClick={handleApprove}
           type="primary"
         >
+          {approvalsRequired > 0 && `${approvals} / ${approvalsRequired}`}{" "}
           Approve
         </Button>
         <Button

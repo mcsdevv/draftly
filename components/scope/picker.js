@@ -16,7 +16,6 @@ export default function ScopePicker() {
     const scopeDetails = teams.find((t) => t.handle === name);
     setStoredScope(scopeDetails);
   };
-  console.log(scope, teams);
   return scope !== null && teams ? (
     teams?.length ? (
       <Select
