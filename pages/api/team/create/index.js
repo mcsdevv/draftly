@@ -5,14 +5,15 @@ import verify from "../../_util/token/verify";
 const teamCreate = async (req, res) => {
   try {
     const { data, email, tokenKey, tokenSecret } = req.body;
-    const { name, screen_name, profile_image_url } = data;
+    console.log("data", data);
+    const { name, screen_name, profile_image_url_https } = data;
     // * Create a team
     const dbs = await client.query(
       q.Create(q.Collection("teams"), {
         data: {
           name,
           handle: screen_name,
-          avatar: profile_image_url,
+          avatar: profile_image_url_https,
           protected: data.protected,
           plan: "free",
           members: [],

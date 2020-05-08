@@ -14,7 +14,6 @@ const verify = (handler) => async (req, res) => {
     try {
       // * Decrypt token
       const tokenDecrypted = decrypt(token);
-      console.log("decrypted", tokenDecrypted);
       // * Decode decrypted token
       const tokenDecoded = jwt.decode(tokenDecrypted);
       // * Verify audience correct
