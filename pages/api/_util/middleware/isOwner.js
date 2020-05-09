@@ -2,7 +2,6 @@ import { client, q } from "../fauna";
 import jwt from "jsonwebtoken";
 
 const isOwner = (handler) => async (req, res) => {
-  console.log(req.cookies);
   try {
     console.time("isOwner");
     const handle = req.query.handle || req.body.handle;

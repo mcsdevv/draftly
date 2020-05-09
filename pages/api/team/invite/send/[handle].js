@@ -1,15 +1,16 @@
-// using Twilio SendGrid's v3 Node.js Library
-// https://github.com/sendgrid/sendgrid-nodejs
 const sgMail = require("@sendgrid/mail");
+import isOwner from "../../../_util/middleware/isOwner";
+import verify from "../../../_util/token/verify";
 
 const sendInvite = async (req, res) => {
   sgMail.setApiKey(process.env.SENDGRID_KEY);
+  // TODO Include email, invite code, and team handle in POST
   const msg = {
     to: "matthew@vercel.com",
     from: "mail@mcs.dev",
     subject: "Sending with Twilio SendGrid is Fun",
     text: "and easy to do anywhere, even with Node.js",
-    // html: "<strong>and easy to do anywhere, even with Node.js</strong>",
+    html: "<strong>and easy to do anywhere, even with Node.js</strong>",
   };
   try {
     const tets = await sgMail.send(msg);
@@ -21,4 +22,4 @@ const sendInvite = async (req, res) => {
   }
 };
 
-export default sendInvite;
+export default verify(isOwner(sendInvite));
