@@ -14,6 +14,7 @@ export default function Members() {
   const handleOnSubmit = async () => {
     console.log("submit");
   };
+  // TODO Create endpoint to get details for all team members
   return (
     <>
       <h3>Add Team Member</h3>
