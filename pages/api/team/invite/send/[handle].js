@@ -3,14 +3,16 @@ import isOwner from "../../../_util/middleware/isOwner";
 import verify from "../../../_util/token/verify";
 
 const sendInvite = async (req, res) => {
+  const { team, to } = req.body;
   sgMail.setApiKey(process.env.SENDGRID_KEY);
   // TODO Include email, invite code, and team handle in POST
   const msg = {
-    to: "matthew@vercel.com",
+    to,
     from: "mail@mcs.dev",
-    subject: "Sending with Twilio SendGrid is Fun",
-    text: "and easy to do anywhere, even with Node.js",
-    html: "<strong>and easy to do anywhere, even with Node.js</strong>",
+    subject: `Invitation to join the ${team} on Twintegrations`,
+    text: "Hello, click this button to join the team!",
+    html:
+      "<strong>Hello, click this button to join the team!</strong><a href='https://tweet-review.now.sh'>Join</a>",
   };
   try {
     const tets = await sgMail.send(msg);
