@@ -3,13 +3,12 @@ import verify from "../../../_util/token/verify";
 
 const approveReviewTweet = async (req, res) => {
   try {
-    const { email } = JSON.parse(req.body);
     const { ref } = req.query;
     const dbs = await client.query(
       q.Update(q.Ref(q.Collection("tweets"), ref), {
         data: {
           approvedBy: q.Append(
-            email,
+            req.cookies.user_id,
             q.Select(
               ["data", "approvedBy"],
               q.Get(q.Ref(q.Collection("tweets"), ref))

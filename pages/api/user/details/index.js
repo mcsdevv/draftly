@@ -3,25 +3,25 @@ import verify from "../../_util/token/verify";
 
 const getUserDetails = async (req, res) => {
   try {
-    const { email } = req.query;
     // * Get user details along with teams they are part of
+    console.log(req.cookies.user_id);
     console.time("Get user + teams");
     const dbs = await client.query(
       q.Drop(
         2,
         q.Union(
-          q.ToArray(q.Get(q.Match(q.Index("all_users_by_email"), email))),
+          q.ToArray(q.Get(q.Ref(q.Collection("users"), req.cookies.user_id))),
           q.If(
             q.IsNonEmpty(
               q.Select(
                 ["data", "teams"],
-                q.Get(q.Match(q.Index("all_users_by_email"), email))
+                q.Get(q.Ref(q.Collection("users"), req.cookies.user_id))
               )
             ),
             q.Map(
               q.Select(
                 ["data", "teams"],
-                q.Get(q.Match(q.Index("all_users_by_email"), email))
+                q.Get(q.Ref(q.Collection("users"), req.cookies.user_id))
               ),
               q.Lambda("s", q.Get(q.Ref(q.Collection("teams"), q.Var("s"))))
             ),

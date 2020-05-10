@@ -5,10 +5,12 @@ const updateUserName = async (req, res) => {
   try {
     // * Update user name
     const { newName } = JSON.parse(req.body);
-    const { email } = req.query;
     const dbs = await client.query(
       q.Update(
-        q.Select(["ref"], q.Get(q.Match(q.Index("all_users_by_email"), email))),
+        q.Select(
+          ["ref"],
+          q.Get(q.Ref(q.Collection("users"), req.cookies.user_id))
+        ),
         {
           data: {
             name: newName,

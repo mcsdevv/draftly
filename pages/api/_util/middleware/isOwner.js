@@ -1,5 +1,4 @@
 import { client, q } from "../fauna";
-import jwt from "jsonwebtoken";
 
 const isOwner = (handler) => async (req, res) => {
   try {
@@ -11,8 +10,7 @@ const isOwner = (handler) => async (req, res) => {
         q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
       )
     );
-    const id = jwt.decode(req.cookies.id_token);
-    const isOwner = getOwners.includes(id.email);
+    const isOwner = getOwners.includes(req.cookies.user_id);
     console.timeEnd("isOwner");
     if (isOwner) return handler(req, res);
     else throw "This action requires owner permissions";

@@ -4,7 +4,7 @@ import verify from "../../_util/token/verify";
 
 const teamCreate = async (req, res) => {
   try {
-    const { data, email, tokenKey, tokenSecret } = req.body;
+    const { data, ownerRef, tokenKey, tokenSecret } = req.body;
     console.log("data", data);
     const { name, screen_name, profile_image_url_https } = data;
     // * Create a team
@@ -17,7 +17,7 @@ const teamCreate = async (req, res) => {
           protected: data.protected,
           plan: "free",
           members: [],
-          owners: [email],
+          owners: [ownerRef],
           reviewsRequired: 0,
           drafts: [],
           reviews: [],
@@ -29,24 +29,23 @@ const teamCreate = async (req, res) => {
         },
       })
     );
+
     const { ref } = await dbs;
     const refTrimmed = getRef(ref);
     // * Update user with the team ref
+    console.log("ownerRef", ownerRef);
     await client.query(
-      q.Update(
-        q.Select(["ref"], q.Get(q.Match(q.Index("all_users_by_email"), email))),
-        {
-          data: {
-            teams: q.Append(
-              refTrimmed,
-              q.Select(
-                ["data", "teams"],
-                q.Get(q.Match(q.Index("all_users_by_email"), email))
-              )
-            ),
-          },
-        }
-      )
+      q.Update(q.Ref(q.Collection("users"), ownerRef), {
+        data: {
+          teams: q.Append(
+            refTrimmed,
+            q.Select(
+              ["data", "teams"],
+              q.Get(q.Ref(q.Collection("users"), ownerRef))
+            )
+          ),
+        },
+      })
     );
     console.log("Created team:", name);
     res.status(200).json({ update: true });

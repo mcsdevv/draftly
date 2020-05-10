@@ -1,6 +1,8 @@
 import oauth from "../../../_util/oauth";
 import request from "request-promise";
 import jwt from "jsonwebtoken";
+import { client, q } from "../../../_util/fauna";
+import { getRef } from "../../../_util/getRef";
 
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
@@ -9,15 +11,15 @@ export default (req, res) => {
     oauth_token,
     process.env.TWITTER_ACCESS_TOKEN_SECRET,
     oauth_verifier,
-    async function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
+    async function (error, oauthAccessToken, oauthAccessTokenSecret, results) {
       // * Verify credentials prior to saving in the database
       oauth.get(
         "https://api.twitter.com/1.1/account/verify_credentials.json",
         oauthAccessToken,
         oauthAccessTokenSecret,
-        async function(error, data, response) {
+        async function (error, data, response) {
           if (error) {
-            res.send("Error getting twitter screen name : " + error);
+            res.send("Error getting twitter screen name:" + error);
           } else {
             const accountData = JSON.parse(data);
             // * Check if the team exists currently
@@ -25,9 +27,9 @@ export default (req, res) => {
               method: "GET",
               url: `${process.env.AUTH0_REDIRECT_URI}/api/team/exists/${accountData.screen_name}`,
               headers: {
-                Authorization: req.cookies.access_token
+                Authorization: req.cookies.access_token,
               },
-              json: true
+              json: true,
             };
             const { exists } = await request(existsOptions);
             // * If it exists, update tokens, else create team
@@ -38,35 +40,40 @@ export default (req, res) => {
                 body: {
                   handle: accountData.screen_name,
                   tokenKey: oauthAccessToken,
-                  tokenSecret: oauthAccessTokenSecret
+                  tokenSecret: oauthAccessTokenSecret,
                 },
                 headers: {
-                  Authorization: req.cookies.access_token
+                  Authorization: req.cookies.access_token,
                 },
-                json: true
+                json: true,
               };
               await request(updateTokenOptions);
             } else {
               // * Get email from id_token to set team owner
               const { email } = jwt.decode(req.cookies.id_token);
+              // * Get ref from database using email
+              const { ref } = await client.query(
+                q.Get(q.Match(q.Index("all_users_by_email"), email))
+              );
+              const refTrimmed = getRef(ref);
               const createTeamOptions = {
                 method: "POST",
                 url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create`,
                 body: {
                   data: accountData,
-                  email,
+                  ownerRef: refTrimmed,
                   tokenKey: oauthAccessToken,
-                  tokenSecret: oauthAccessTokenSecret
+                  tokenSecret: oauthAccessTokenSecret,
                 },
                 headers: {
-                  Authorization: req.cookies.access_token
+                  Authorization: req.cookies.access_token,
                 },
-                json: true
+                json: true,
               };
               await request(createTeamOptions);
             }
             res.writeHead(301, {
-              Location: "/dashboard"
+              Location: "/dashboard",
             });
             res.end();
           }

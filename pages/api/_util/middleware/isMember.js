@@ -1,5 +1,4 @@
 import { client, q } from "../fauna";
-import jwt from "jsonwebtoken";
 
 const isMember = (handler) => async (req, res) => {
   console.log(req.cookies);
@@ -18,8 +17,7 @@ const isMember = (handler) => async (req, res) => {
         )
       )
     );
-    const id = jwt.decode(req.cookies.id_token);
-    const isMember = getMembers.includes(id.email);
+    const isMember = getMembers.includes(req.cookies.user_id);
     console.timeEnd("isMember");
     if (isMember) return handler(req, res);
     else throw "This action requires team membership permissions";
