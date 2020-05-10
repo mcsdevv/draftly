@@ -1,5 +1,5 @@
 import Page from "../components/page";
-console.log("KEYYYYY", process.env.AUTH0_PUBLIC_KEY);
+console.log("KEYYYYYT", process.env.AUTH0_PUBLIC_KEY);
 const Landing = () => (
   <Page divider={false}>
     <h2>Draft...</h2>
