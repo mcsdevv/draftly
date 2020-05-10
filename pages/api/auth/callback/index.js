@@ -6,6 +6,7 @@ import { encrypt } from "../../_util/token/encryption";
 
 export default async (req, res) => {
   // * Confirm state match to mitigate CSRF
+  console.log("KEYYYYY", process.env.AUTH0_PUBLIC_KEY);
   if (req.query.state === req.cookies.state) {
     // * Prepare options for token exchange
     const authOptions = {
@@ -30,7 +31,6 @@ export default async (req, res) => {
       // * Encrypt access token
       const access_token = encrypt(auth.access_token);
       // * Confirm nonce match to mitigate token replay attack
-      console.log("KEYYYYY", process.env.AUTH0_PUBLIC_KEY);
       if (req.cookies.nonce === id_token.nonce) {
         const existsOptions = {
           method: "GET",
