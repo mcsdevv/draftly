@@ -13,7 +13,7 @@ export default function ChangeUserName() {
   };
   const handleOnSubmitName = async (e) => {
     e.preventDefault();
-    const url = `/api/user/update/name/${scope.handle}`;
+    const url = `/api/user/update/name`;
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({

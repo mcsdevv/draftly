@@ -17,27 +17,20 @@ const teamDelete = async (req, res) => {
     );
     const { data, ref } = await dbs;
     const refJoined = getRef(ref);
-    const emails = [...data.members, ...data.owners];
+    const refs = [...data.members, ...data.owners];
     // * Remove team from all users
     await client.query(
-      q.Foreach(
-        q.Paginate(
-          q.Union(
-            q.Map(
-              emails,
-              q.Lambda(
-                "x",
-                q.Match(q.Index("all_users_by_email"), [q.Var("x")])
-              )
-            )
-          )
-        ),
+      q.Map(
+        refs,
         q.Lambda(
           "u",
-          q.Update(q.Var("u"), {
+          q.Update(q.Ref(q.Collection("users"), q.Var("u")), {
             data: {
               teams: q.Filter(
-                q.Select(["data", "teams"], q.Get(q.Var("u"))),
+                q.Select(
+                  ["data", "teams"],
+                  q.Get(q.Ref(q.Collection("users"), q.Var("u")))
+                ),
                 q.Lambda("s", q.Not(q.Equals(refJoined, q.Var("s"))))
               ),
             },
@@ -48,7 +41,7 @@ const teamDelete = async (req, res) => {
     console.log("Deleted team:", dbs.data.name);
     res.status(200).json(dbs.data);
   } catch (err) {
-    console.error("ERROR - api/team/delete -", err.message);
+    console.error("ERROR - api/team/delete -", err);
     res.status(500).json({ err: err.message });
   }
 };

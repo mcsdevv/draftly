@@ -4,17 +4,14 @@ import verify from "../../_util/token/verify";
 const deleteUser = async (req, res) => {
   try {
     const { teams } = JSON.parse(req.body);
-    const { email } = req.query;
     // * Delete user
     const dbs = await client.query(
-      q.Delete(
-        q.Select(["ref"], q.Get(q.Match(q.Index("all_users_by_email"), email)))
-      )
+      q.Delete(q.Ref(q.Collection("tweets"), req.cookies.user_id))
     );
     // * List teams to delete if no owners remain after user deletion
     const teamsToDelete = [];
     teams.forEach((t) => {
-      if (t.owners.length <= 1 && t.owners.includes(email)) {
+      if (t.owners.length <= 1 && t.owners.includes(req.cookies.user_id)) {
         teamsToDelete.push(t.handle);
       }
     });
@@ -35,6 +32,7 @@ const deleteUser = async (req, res) => {
         q.Lambda("u", q.Delete(q.Var("u")))
       )
     );
+    // TODO Remove user from all teams even when an owner remains
     console.log("Deleted user:", dbs.data.name);
     res.status(200).json(dbs.data);
   } catch (err) {

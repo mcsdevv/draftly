@@ -17,9 +17,9 @@ export default async (req, res) => {
         client_id: process.env.AUTH0_CLIENT_ID,
         client_secret: process.env.AUTH0_CLIENT_SECRET,
         code: req.query.code,
-        redirect_uri: `${process.env.AUTH0_REDIRECT_URI}/api/auth/callback/`
+        redirect_uri: `${process.env.AUTH0_REDIRECT_URI}/api/auth/callback/`,
       },
-      json: true
+      json: true,
     };
     // * Send request for token exchange
     const auth = await request(authOptions);
@@ -35,30 +35,31 @@ export default async (req, res) => {
           method: "GET",
           url: `${process.env.AUTH0_REDIRECT_URI}/api/user/exists/${id_token.email}`,
           headers: {
-            Authorization: access_token
+            Authorization: access_token,
           },
-          json: true
+          json: true,
         };
-        const { exists } = await request(existsOptions);
+        const { ref } = await request(existsOptions);
         // * If user does not exist, create in db
-        if (!exists) {
+        if (!ref) {
           const createOptions = {
             method: "POST",
             url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create`,
             body: {
               email: id_token.email,
               name: id_token.name,
-              picture: id_token.picture
+              picture: id_token.picture,
             },
             headers: {
-              Authorization: access_token
+              Authorization: access_token,
             },
-            json: true
+            json: true,
           };
           await request(createOptions);
         }
-        // * Add id_token (browser) + access_token (httpOnly) as cookies
+        // * Add user_id (ref), id_token (browser), and access_token (httpOnly) as cookies
         res.setHeader("Set-Cookie", [
+          cookie.serialize("user_id", String(ref), cookieOptions(false, false)),
           cookie.serialize(
             "id_token",
             String(auth.id_token),
@@ -68,7 +69,7 @@ export default async (req, res) => {
             "access_token",
             String(access_token),
             cookieOptions(true, false)
-          )
+          ),
         ]);
         // * Send response using redirect code
         res.status(302).end();
