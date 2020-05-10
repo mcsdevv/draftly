@@ -1,5 +1,9 @@
 import { client, q } from "../../../_util/fauna";
-import { getDocRef, getDocByRef } from "../../../_util/fauna/queries";
+import {
+  getDocProperty,
+  getDocRef,
+  getDocByRef,
+} from "../../../_util/fauna/queries";
 import verify from "../../../_util/token/verify";
 
 const deleteTweetComment = async (req, res) => {
@@ -11,7 +15,7 @@ const deleteTweetComment = async (req, res) => {
       q.Update(getDocRef("tweets", ref), {
         data: {
           comments: q.Filter(
-            q.Select(["data", "comments"], getDocByRef("tweets", ref)),
+            getDocProperty(["data", "comments"], getDocByRef("tweets", ref)),
             q.Lambda("i", q.Not(q.Equals(id, q.Select(["id"], q.Var("i")))))
           ),
         },

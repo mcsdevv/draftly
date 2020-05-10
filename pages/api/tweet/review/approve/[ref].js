@@ -1,5 +1,9 @@
 import { client, q } from "../../../_util/fauna";
-import { getDocRef, getDocByRef } from "../../../_util/fauna/queries";
+import {
+  getDocProperty,
+  getDocRef,
+  getDocByRef,
+} from "../../../_util/fauna/queries";
 import verify from "../../../_util/token/verify";
 
 const approveReviewTweet = async (req, res) => {
@@ -10,7 +14,7 @@ const approveReviewTweet = async (req, res) => {
         data: {
           approvedBy: q.Append(
             req.cookies.user_id,
-            q.Select(["data", "approvedBy"], getDocByRef("tweets", ref))
+            getDocProperty(["data", "approvedBy"], getDocByRef("tweets", ref))
           ),
         },
       })

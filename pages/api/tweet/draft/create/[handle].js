@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import { getDocByIndex } from "../../../_util/fauna/queries";
+import { getDocProperty, getDocByIndex } from "../../../_util/fauna/queries";
 import { getRef } from "../../../_util/getRef";
 import verify from "../../../_util/token/verify";
 import isMember from "../../../_util/middleware/isMember";
@@ -26,12 +26,12 @@ const createDraftTweet = async (req, res) => {
     // * Update team with the tweet ref
     await client.query(
       q.Update(
-        q.Select(["ref"], getDocByIndex("all_teams_by_handle", handle)),
+        getDocProperty(["ref"], getDocByIndex("all_teams_by_handle", handle)),
         {
           data: {
             drafts: q.Append(
               refTrimmed,
-              q.Select(
+              getDocProperty(
                 ["data", "drafts"],
                 getDocByIndex("all_teams_by_handle", handle)
               )

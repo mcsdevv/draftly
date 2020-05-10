@@ -1,6 +1,10 @@
 const Twitter = require("twitter");
 import { client, q } from "../../../_util/fauna";
-import { getDocByIndex, getDocRef } from "../../../_util/fauna/queries";
+import {
+  getDocProperty,
+  getDocByIndex,
+  getDocRef,
+} from "../../../_util/fauna/queries";
 import { getRef } from "../../../_util/getRef";
 import verify from "../../../_util/token/verify";
 
@@ -42,11 +46,11 @@ const createPublishedTweet = async (req, res) => {
     // * Update team with the tweet ref
     await client.query(
       q.Update(
-        q.Select(["ref"], getDocByIndex("all_teams_by_handle", handle)),
+        getDocProperty(["ref"], getDocByIndex("all_teams_by_handle", handle)),
         {
           data: {
             reviews: q.Filter(
-              q.Select(
+              getDocProperty(
                 ["data", "reviews"],
                 getDocByIndex("all_teams_by_handle", handle)
               ),
@@ -54,7 +58,7 @@ const createPublishedTweet = async (req, res) => {
             ),
             published: q.Append(
               refTrimmed,
-              q.Select(
+              getDocProperty(
                 ["data", "published"],
                 getDocByIndex("all_teams_by_handle", handle)
               )

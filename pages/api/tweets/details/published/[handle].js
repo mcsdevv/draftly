@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import { getDocByIndex } from "../../../_util/fauna/queries";
+import { getDocProperty, getDocByIndex } from "../../../_util/fauna/queries";
 import { formatTweets } from "../../../_util/formatTweets";
 import verify from "../../../_util/token/verify";
 
@@ -10,7 +10,7 @@ const getPublishedTweets = async (req, res) => {
     // * Get published tweets for account
     const dbs = await client.query(
       q.Map(
-        q.Select(
+        getDocProperty(
           ["data", "published"],
           getDocByIndex("all_teams_by_handle", handle)
         ),

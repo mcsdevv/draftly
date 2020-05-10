@@ -1,5 +1,9 @@
 import { client, q } from "../../../_util/fauna";
-import { getDocRef, getDocByRef } from "../../../_util/fauna/queries";
+import {
+  getDocProperty,
+  getDocRef,
+  getDocByRef,
+} from "../../../_util/fauna/queries";
 import verify from "../../../_util/token/verify";
 
 const createTweetComment = async (req, res) => {
@@ -12,7 +16,7 @@ const createTweetComment = async (req, res) => {
         data: {
           comments: q.Prepend(
             comment,
-            q.Select(["data", "comments"], getDocByRef("tweets", ref))
+            getDocProperty(["data", "comments"], getDocByRef("tweets", ref))
           ),
         },
       })

@@ -1,5 +1,5 @@
 import { client, q } from "../../../_util/fauna";
-import { getDocByIndex } from "../../../_util/fauna/queries";
+import { getDocProperty, getDocByIndex } from "../../../_util/fauna/queries";
 import verify from "../../../_util/token/verify";
 import isOwner from "../../../_util/middleware/isOwner";
 
@@ -10,7 +10,7 @@ const updateReviewsRequired = async (req, res) => {
     // * Update number of reviews required to publish a tweet for a team
     const dbs = await client.query(
       q.Update(
-        q.Select(["ref"], getDocByIndex("all_teams_by_handle", handle)),
+        getDocProperty(["ref"], getDocByIndex("all_teams_by_handle", handle)),
         {
           data: {
             reviewsRequired: reviews,

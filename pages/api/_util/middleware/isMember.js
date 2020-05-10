@@ -1,5 +1,5 @@
 import { client, q } from "../fauna";
-import { getDocByIndex } from "../fauna/queries";
+import { getDocProperty, getDocByIndex } from "../fauna/queries";
 
 const isMember = (handler) => async (req, res) => {
   console.log(req.cookies);
@@ -8,11 +8,11 @@ const isMember = (handler) => async (req, res) => {
     const handle = req.query.handle || req.body.handle;
     const getMembers = await client.query(
       q.Union(
-        q.Select(
+        getDocProperty(
           ["data", "owners"],
           getDocByIndex("all_teams_by_handle", handle)
         ),
-        q.Select(
+        getDocProperty(
           ["data", "members"],
           getDocByIndex("all_teams_by_handle", handle)
         )

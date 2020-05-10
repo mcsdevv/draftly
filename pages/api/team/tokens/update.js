@@ -1,5 +1,5 @@
 import { client, q } from "../../_util/fauna";
-import { getDocByIndex } from "../../_util/fauna/queries";
+import { getDocProperty, getDocByIndex } from "../../_util/fauna/queries";
 import verify from "../../_util/token/verify";
 
 const updateTokens = async (req, res) => {
@@ -8,7 +8,7 @@ const updateTokens = async (req, res) => {
     // * Update team tokens
     const dbs = await client.query(
       q.Update(
-        q.Select(["ref"], getDocByIndex("all_teams_by_handle", handle)),
+        getDocProperty(["ref"], getDocByIndex("all_teams_by_handle", handle)),
         {
           data: {
             auth: {

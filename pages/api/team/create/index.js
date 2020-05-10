@@ -1,5 +1,9 @@
 import { client, q } from "../../_util/fauna";
-import { getDocRef, getDocByRef } from "../../_util/fauna/queries";
+import {
+  getDocProperty,
+  getDocRef,
+  getDocByRef,
+} from "../../_util/fauna/queries";
 import { getRef } from "../../_util/getRef";
 import verify from "../../_util/token/verify";
 
@@ -40,7 +44,7 @@ const teamCreate = async (req, res) => {
         data: {
           teams: q.Append(
             refTrimmed,
-            q.Select(["data", "teams"], getDocByRef("users", ownerRef))
+            getDocProperty(["data", "teams"], getDocByRef("users", ownerRef))
           ),
         },
       })
