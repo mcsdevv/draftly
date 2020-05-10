@@ -1,4 +1,5 @@
 import { client, q } from "../../_util/fauna";
+import { getDocRef, getDocByRef } from "../../_util/fauna/queries";
 import { getRef } from "../../_util/getRef";
 import verify from "../../_util/token/verify";
 
@@ -35,14 +36,11 @@ const teamCreate = async (req, res) => {
     // * Update user with the team ref
     console.log("ownerRef", ownerRef);
     await client.query(
-      q.Update(q.Ref(q.Collection("users"), ownerRef), {
+      q.Update(getDocRef("users", ownerRef), {
         data: {
           teams: q.Append(
             refTrimmed,
-            q.Select(
-              ["data", "teams"],
-              q.Get(q.Ref(q.Collection("users"), ownerRef))
-            )
+            q.Select(["data", "teams"], getDocByRef("users", ownerRef))
           ),
         },
       })

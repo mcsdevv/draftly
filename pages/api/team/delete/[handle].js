@@ -1,4 +1,5 @@
 import { client, q } from "../../_util/fauna";
+import { getDocByIndex } from "../../_util/fauna/queries";
 import { getRef } from "../../_util/getRef";
 import verify from "../../_util/token/verify";
 import isOwner from "../../_util/middleware/isOwner";
@@ -8,12 +9,7 @@ const teamDelete = async (req, res) => {
     const { handle } = req.query;
     // * Delete a team
     const dbs = await client.query(
-      q.Delete(
-        q.Select(
-          ["ref"],
-          q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
-        )
-      )
+      q.Delete(q.Select(["ref"], getDocByIndex("all_teams_by_handle", handle)))
     );
     const { data, ref } = await dbs;
     const refJoined = getRef(ref);

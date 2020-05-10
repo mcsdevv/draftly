@@ -1,4 +1,5 @@
 import { client, q } from "../../../_util/fauna";
+import { getDocByIndex } from "../../../_util/fauna/queries";
 import verify from "../../../_util/token/verify";
 import isOwner from "../../../_util/middleware/isOwner";
 
@@ -10,10 +11,7 @@ const updateTeamName = async (req, res) => {
     // * Update team name
     const dbs = await client.query(
       q.Update(
-        q.Select(
-          ["ref"],
-          q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
-        ),
+        q.Select(["ref"], getDocByIndex("all_teams_by_handle", handle)),
         {
           data: {
             name: newName,

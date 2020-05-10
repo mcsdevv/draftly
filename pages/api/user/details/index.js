@@ -1,4 +1,5 @@
 import { client, q } from "../../_util/fauna";
+import { getDocByRef } from "../../_util/fauna/queries";
 import verify from "../../_util/token/verify";
 
 const getUserDetails = async (req, res) => {
@@ -10,18 +11,18 @@ const getUserDetails = async (req, res) => {
       q.Drop(
         2,
         q.Union(
-          q.ToArray(q.Get(q.Ref(q.Collection("users"), req.cookies.user_id))),
+          q.ToArray(getDocByRef("users", req.cookies.user_id)),
           q.If(
             q.IsNonEmpty(
               q.Select(
                 ["data", "teams"],
-                q.Get(q.Ref(q.Collection("users"), req.cookies.user_id))
+                getDocByRef("users", req.cookies.user_id)
               )
             ),
             q.Map(
               q.Select(
                 ["data", "teams"],
-                q.Get(q.Ref(q.Collection("users"), req.cookies.user_id))
+                getDocByRef("users", req.cookies.user_id)
               ),
               q.Lambda("s", q.Get(q.Ref(q.Collection("teams"), q.Var("s"))))
             ),
