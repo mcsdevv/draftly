@@ -23,7 +23,6 @@ export default (req, res) => {
           } else {
             const accountData = JSON.parse(data);
             // * Check if the team exists currently
-            console.log("KEYYYYY", process.env.AUTH0_PUBLIC_KEY);
             const existsOptions = {
               method: "GET",
               url: `${process.env.AUTH0_REDIRECT_URI}/api/team/exists/${accountData.screen_name}`,

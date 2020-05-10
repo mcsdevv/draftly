@@ -30,6 +30,7 @@ export default async (req, res) => {
       // * Encrypt access token
       const access_token = encrypt(auth.access_token);
       // * Confirm nonce match to mitigate token replay attack
+      console.log("KEYYYYY", process.env.AUTH0_PUBLIC_KEY);
       if (req.cookies.nonce === id_token.nonce) {
         const existsOptions = {
           method: "GET",
