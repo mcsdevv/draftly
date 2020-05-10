@@ -1,18 +1,16 @@
 import { client, q } from "../../../_util/fauna";
+import { getDocRef, getDocByRef } from "../../../_util/fauna/queries";
 import verify from "../../../_util/token/verify";
 
 const approveReviewTweet = async (req, res) => {
   try {
     const { ref } = req.query;
     const dbs = await client.query(
-      q.Update(q.Ref(q.Collection("tweets"), ref), {
+      q.Update(getDocRef("tweets", ref), {
         data: {
           approvedBy: q.Append(
             req.cookies.user_id,
-            q.Select(
-              ["data", "approvedBy"],
-              q.Get(q.Ref(q.Collection("tweets"), ref))
-            )
+            q.Select(["data", "approvedBy"], getDocByRef("tweets", ref))
           ),
         },
       })

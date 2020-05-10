@@ -1,5 +1,6 @@
 const Twitter = require("twitter");
 import { client, q } from "../../../_util/fauna";
+import { getDocByIndex, getDocRef } from "../../../_util/fauna/queries";
 import { getRef } from "../../../_util/getRef";
 import verify from "../../../_util/token/verify";
 
@@ -9,7 +10,7 @@ const createPublishedTweet = async (req, res) => {
     const { handle } = req.query;
     // * Get keys to post tweet
     const keys = await client.query(
-      q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+      getDocByIndex("all_teams_by_handle", handle)
     );
     const { tokenKey, tokenSecret } = keys.data.auth;
     // * Create new Twitter client with account and application keys
@@ -30,7 +31,7 @@ const createPublishedTweet = async (req, res) => {
     });
     // * Update the tweet type to published
     const dbs = await client.query(
-      q.Update(q.Ref(q.Collection("tweets"), ref), {
+      q.Update(getDocRef("tweets", ref), {
         data: {
           type: "published",
         },
@@ -41,16 +42,13 @@ const createPublishedTweet = async (req, res) => {
     // * Update team with the tweet ref
     await client.query(
       q.Update(
-        q.Select(
-          ["ref"],
-          q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
-        ),
+        q.Select(["ref"], getDocByIndex("all_teams_by_handle", handle)),
         {
           data: {
             reviews: q.Filter(
               q.Select(
                 ["data", "reviews"],
-                q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+                getDocByIndex("all_teams_by_handle", handle)
               ),
               q.Lambda("s", q.Not(q.Equals(refTrimmed, q.Var("s"))))
             ),
@@ -58,7 +56,7 @@ const createPublishedTweet = async (req, res) => {
               refTrimmed,
               q.Select(
                 ["data", "published"],
-                q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+                getDocByIndex("all_teams_by_handle", handle)
               )
             ),
           },

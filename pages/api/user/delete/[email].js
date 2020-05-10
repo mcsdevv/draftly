@@ -1,4 +1,5 @@
 import { client, q } from "../../_util/fauna";
+import { getDocRef } from "../../_util/fauna/queries";
 import verify from "../../_util/token/verify";
 
 const deleteUser = async (req, res) => {
@@ -6,7 +7,7 @@ const deleteUser = async (req, res) => {
     const { teams } = JSON.parse(req.body);
     // * Delete user
     const dbs = await client.query(
-      q.Delete(q.Ref(q.Collection("tweets"), req.cookies.user_id))
+      q.Delete(getDocRef("tweets", req.cookies.user_id))
     );
     // * List teams to delete if no owners remain after user deletion
     const teamsToDelete = [];

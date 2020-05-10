@@ -1,4 +1,5 @@
 import { client, q } from "../../../_util/fauna";
+import { getDocByRef } from "../../../_util/fauna/queries";
 import verify from "../../../_util/token/verify";
 
 const updateUserName = async (req, res) => {
@@ -6,17 +7,11 @@ const updateUserName = async (req, res) => {
     // * Update user name
     const { newName } = JSON.parse(req.body);
     const dbs = await client.query(
-      q.Update(
-        q.Select(
-          ["ref"],
-          q.Get(q.Ref(q.Collection("users"), req.cookies.user_id))
-        ),
-        {
-          data: {
-            name: newName,
-          },
-        }
-      )
+      q.Update(q.Select(["ref"], getDocByRef("users", req.cookies.user_id)), {
+        data: {
+          name: newName,
+        },
+      })
     );
     console.log("User name updated:", dbs);
     res.status(200).json(dbs.data);

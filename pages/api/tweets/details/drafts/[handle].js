@@ -1,4 +1,5 @@
 import { client, q } from "../../../_util/fauna";
+import { getDocByIndex } from "../../../_util/fauna/queries";
 import { formatTweets } from "../../../_util/formatTweets";
 import verify from "../../../_util/token/verify";
 
@@ -11,7 +12,7 @@ const getDraftTweets = async (req, res) => {
       q.Map(
         q.Select(
           ["data", "drafts"],
-          q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+          getDocByIndex("all_teams_by_handle", handle)
         ),
         q.Lambda("s", q.Get(q.Ref(q.Collection("tweets"), q.Var("s"))))
       )

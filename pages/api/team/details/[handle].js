@@ -1,4 +1,5 @@
-import { client, q } from "../../_util/fauna";
+import { client } from "../../_util/fauna";
+import { getDocByIndex } from "../../_util/fauna/queries";
 import verify from "../../_util/token/verify";
 
 const teamDetails = async (req, res) => {
@@ -6,7 +7,7 @@ const teamDetails = async (req, res) => {
     const { handle } = req.query;
     // * Get details for a team
     const dbs = await client.query(
-      q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+      getDocByIndex("all_teams_by_handle", handle)
     );
     // * Delete keys before sending response
     delete dbs.data.auth;

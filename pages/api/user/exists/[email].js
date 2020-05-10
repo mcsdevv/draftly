@@ -1,4 +1,5 @@
-import { client, q } from "../../_util/fauna";
+import { client } from "../../_util/fauna";
+import { getDocByIndex } from "../../_util/fauna/queries";
 import { getRef } from "../../_util/getRef";
 import verify from "../../_util/token/verify";
 
@@ -7,7 +8,7 @@ const userExists = async (req, res) => {
     const { email } = req.query;
     // * Establish whether the user exists already
     const { ref } = await client.query(
-      q.Get(q.Match(q.Index("all_users_by_email"), email))
+      getDocByIndex("all_users_by_email", email)
     );
     const refTrimmed = getRef(ref);
     console.log("Existing user:", !!ref);

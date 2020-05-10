@@ -1,4 +1,5 @@
 import { client, q } from "../../../_util/fauna";
+import { getDocRef } from "../../../_util/fauna/queries";
 import verify from "../../../_util/token/verify";
 
 const updateDraftTweet = async (req, res) => {
@@ -7,7 +8,7 @@ const updateDraftTweet = async (req, res) => {
     const { ref } = req.query;
     // * Update a draft tweet
     const dbs = await client.query(
-      q.Update(q.Ref(q.Collection("tweets"), ref), {
+      q.Update(getDocRef("tweets", ref), {
         data: {
           metadata,
           text,

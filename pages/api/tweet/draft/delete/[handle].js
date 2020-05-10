@@ -1,4 +1,5 @@
 import { client, q } from "../../../_util/fauna";
+import { getDocByIndex, getDocByRef } from "../../../_util/fauna/queries";
 import verify from "../../../_util/token/verify";
 
 const deleteDraftTweet = async (req, res) => {
@@ -7,21 +8,18 @@ const deleteDraftTweet = async (req, res) => {
     const { ref } = JSON.parse(req.body);
     // * Delete a draft tweet
     const dbs = await client.query(
-      q.Delete(q.Select(["ref"], q.Get(q.Ref(q.Collection("tweets"), ref))))
+      q.Delete(q.Select(["ref"], getDocByRef("tweets", ref)))
     );
     // * Remove tweet ref from team
     await client.query(
       q.Update(
-        q.Select(
-          ["ref"],
-          q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
-        ),
+        q.Select(["ref"], getDocByIndex("all_teams_by_handle", handle)),
         {
           data: {
             drafts: q.Filter(
               q.Select(
                 ["data", "drafts"],
-                q.Get(q.Match(q.Index("all_teams_by_handle"), handle))
+                getDocByIndex("all_teams_by_handle", handle)
               ),
               q.Lambda("s", q.Not(q.Equals(ref, q.Var("s"))))
             ),

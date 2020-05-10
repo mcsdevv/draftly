@@ -1,7 +1,8 @@
 import oauth from "../../../_util/oauth";
 import request from "request-promise";
 import jwt from "jsonwebtoken";
-import { client, q } from "../../../_util/fauna";
+import { client } from "../../../_util/fauna";
+import { getDocByIndex } from "../../../_util/fauna/queries";
 import { getRef } from "../../../_util/getRef";
 
 export default (req, res) => {
@@ -53,7 +54,7 @@ export default (req, res) => {
               const { email } = jwt.decode(req.cookies.id_token);
               // * Get ref from database using email
               const { ref } = await client.query(
-                q.Get(q.Match(q.Index("all_users_by_email"), email))
+                getDocByIndex("all_users_by_email", email)
               );
               const refTrimmed = getRef(ref);
               const createTeamOptions = {
