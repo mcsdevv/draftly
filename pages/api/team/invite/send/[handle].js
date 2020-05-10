@@ -4,7 +4,7 @@ import verify from "../../../_util/token/verify";
 
 const sendInvite = async (req, res) => {
   const { team, to } = req.body;
-  sgMail.setApiKey(process.env.SENDGRID_KEY);
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   // TODO Include email, invite code, and team handle in POST
   const msg = {
     to,

@@ -12,6 +12,8 @@ module.exports = {
     TWITTER_CONSUMER_SECRET: process.env.TWITTER_CONSUMER_SECRET,
     TWITTER_ACCESS_TOKEN: process.env.TWITTER_ACCESS_TOKEN,
     TWITTER_ACCESS_TOKEN_SECRET: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+    FAUNADB_SECRET_KEY: process.env.FAUNADB_SECRET_KEY,
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
   },
   reactStrictMode: true,
   experimental: { reactRefresh: true },
