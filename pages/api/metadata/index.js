@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import verify from "../_util/token/verify";
 const cheerio = require("cheerio");
 const htmlparser2 = require("htmlparser2");
