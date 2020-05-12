@@ -1,28 +1,28 @@
-import request from "request-promise";
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
+import { getRef } from "../../_util/getRef";
 import cookieOptions from "../../_util/cookie/options";
 import { encrypt } from "../../_util/token/encryption";
 
 export default async (req, res) => {
   // * Confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
-    // * Prepare options for token exchange
-    const authOptions = {
-      method: "POST",
-      url: `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
-      headers: { "content-type": "application/x-www-form-urlencoded" },
-      form: {
-        grant_type: "authorization_code",
-        client_id: process.env.AUTH0_CLIENT_ID,
-        client_secret: process.env.AUTH0_CLIENT_SECRET,
-        code: req.query.code,
-        redirect_uri: `${process.env.AUTH0_REDIRECT_URI}/api/auth/callback/`,
-      },
-      json: true,
-    };
     // * Send request for token exchange
-    const auth = await request(authOptions);
+    const authRes = await fetch(
+      `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
+      {
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          grant_type: "authorization_code",
+          client_id: process.env.AUTH0_CLIENT_ID,
+          client_secret: process.env.AUTH0_CLIENT_SECRET,
+          code: req.query.code,
+          redirect_uri: `${process.env.AUTH0_REDIRECT_URI}/api/auth/callback/`,
+        }),
+      }
+    );
+    const auth = await authRes.json();
     // * Check no error on token exchange
     if (!auth.error) {
       res.setHeader("Location", `${req.cookies.next}`);
@@ -31,35 +31,45 @@ export default async (req, res) => {
       const access_token = encrypt(auth.access_token);
       // * Confirm nonce match to mitigate token replay attack
       if (req.cookies.nonce === id_token.nonce) {
-        const existsOptions = {
-          method: "GET",
-          url: `${process.env.AUTH0_REDIRECT_URI}/api/user/exists/${id_token.email}`,
-          headers: {
-            Authorization: access_token,
-          },
-          json: true,
-        };
-        const { ref } = await request(existsOptions);
-        // * If user does not exist, create in db
-        if (!ref) {
-          const createOptions = {
-            method: "POST",
-            url: `${process.env.AUTH0_REDIRECT_URI}/api/user/create`,
-            body: {
-              email: id_token.email,
-              name: id_token.name,
-              picture: id_token.picture,
-            },
+        const exists = await fetch(
+          `${process.env.AUTH0_REDIRECT_URI}/api/user/exists/${id_token.email}`,
+          {
             headers: {
               Authorization: access_token,
             },
-            json: true,
-          };
-          await request(createOptions);
+          }
+        );
+        let user_id;
+        const { ref: existsRef } = await exists.json();
+        user_id = existsRef;
+        // * If user does not exist, create in db
+        if (!existsRef) {
+          const user = await fetch(
+            `${process.env.AUTH0_REDIRECT_URI}/api/user/create`,
+            {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({
+                email: id_token.email,
+                name: id_token.name,
+                picture: id_token.picture,
+              }),
+              headers: {
+                Authorization: access_token,
+              },
+            }
+          );
+          const { ref: newRef } = await user.json();
+          console.log("ref", newRef);
+          user_id = getRef(newRef);
         }
         // * Add user_id (ref), id_token (browser), and access_token (httpOnly) as cookies
         res.setHeader("Set-Cookie", [
-          cookie.serialize("user_id", String(ref), cookieOptions(false, false)),
+          cookie.serialize(
+            "user_id",
+            String(user_id),
+            cookieOptions(false, false)
+          ),
           cookie.serialize(
             "id_token",
             String(auth.id_token),

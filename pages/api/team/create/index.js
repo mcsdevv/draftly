@@ -9,7 +9,7 @@ import verify from "../../_util/token/verify";
 
 const teamCreate = async (req, res) => {
   try {
-    const { data, ownerRef, tokenKey, tokenSecret } = req.body;
+    const { data, ownerRef, tokenKey, tokenSecret } = JSON.parse(req.body);
     console.log("data", data);
     const { name, screen_name, profile_image_url_https } = data;
     // * Create a team

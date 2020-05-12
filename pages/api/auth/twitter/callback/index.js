@@ -1,5 +1,4 @@
 import oauth from "../../../_util/oauth";
-import request from "request-promise";
 import jwt from "jsonwebtoken";
 import { client } from "../../../_util/fauna";
 import { getDocByIndex } from "../../../_util/fauna/queries";
@@ -24,31 +23,31 @@ export default (req, res) => {
           } else {
             const accountData = JSON.parse(data);
             // * Check if the team exists currently
-            const existsOptions = {
-              method: "GET",
-              url: `${process.env.AUTH0_REDIRECT_URI}/api/team/exists/${accountData.screen_name}`,
-              headers: {
-                Authorization: req.cookies.access_token,
-              },
-              json: true,
-            };
-            const { exists } = await request(existsOptions);
-            // * If it exists, update tokens, else create team
-            if (exists) {
-              const updateTokenOptions = {
-                method: "PATCH",
-                url: `${process.env.AUTH0_REDIRECT_URI}/api/team/tokens/update`,
-                body: {
-                  handle: accountData.screen_name,
-                  tokenKey: oauthAccessToken,
-                  tokenSecret: oauthAccessTokenSecret,
-                },
+            const teamExists = await fetch(
+              `${process.env.AUTH0_REDIRECT_URI}/api/team/exists/${accountData.screen_name}`,
+              {
                 headers: {
                   Authorization: req.cookies.access_token,
                 },
-                json: true,
-              };
-              await request(updateTokenOptions);
+              }
+            );
+            const { exists } = await teamExists.json();
+            // * If it exists, update tokens, else create team
+            if (exists) {
+              const updateTokens = await fetch(
+                `${process.env.AUTH0_REDIRECT_URI}/api/team/tokens/update`,
+                {
+                  method: "PATCH",
+                  body: JSON.stringify({
+                    handle: accountData.screen_name,
+                    tokenKey: oauthAccessToken,
+                    tokenSecret: oauthAccessTokenSecret,
+                  }),
+                  headers: {
+                    Authorization: req.cookies.access_token,
+                  },
+                }
+              );
             } else {
               // * Get email from id_token to set team owner
               const { email } = jwt.decode(req.cookies.id_token);
@@ -57,21 +56,21 @@ export default (req, res) => {
                 getDocByIndex("all_users_by_email", email)
               );
               const refTrimmed = getRef(ref);
-              const createTeamOptions = {
-                method: "POST",
-                url: `${process.env.AUTH0_REDIRECT_URI}/api/team/create`,
-                body: {
-                  data: accountData,
-                  ownerRef: refTrimmed,
-                  tokenKey: oauthAccessToken,
-                  tokenSecret: oauthAccessTokenSecret,
-                },
-                headers: {
-                  Authorization: req.cookies.access_token,
-                },
-                json: true,
-              };
-              await request(createTeamOptions);
+              const createTeam = await fetch(
+                `${process.env.AUTH0_REDIRECT_URI}/api/team/create`,
+                {
+                  method: "POST",
+                  body: JSON.stringify({
+                    data: accountData,
+                    ownerRef: refTrimmed,
+                    tokenKey: oauthAccessToken,
+                    tokenSecret: oauthAccessTokenSecret,
+                  }),
+                  headers: {
+                    Authorization: req.cookies.access_token,
+                  },
+                }
+              );
             }
             res.writeHead(301, {
               Location: "/dashboard",
