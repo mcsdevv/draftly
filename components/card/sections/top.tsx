@@ -1,6 +1,11 @@
 import styles from "./top.module.css";
 
-export default function CardTop({ handle, name }) {
+interface CardTopProps {
+  handle: string;
+  name: string;
+}
+
+const CardTop = ({ handle, name }: CardTopProps) => {
   const date = new Date();
   return (
     <div className={styles.cardTop}>
@@ -39,4 +44,6 @@ export default function CardTop({ handle, name }) {
       </svg>
     </div>
   );
-}
+};
+
+export default CardTop;

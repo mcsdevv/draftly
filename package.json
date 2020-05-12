@@ -7,6 +7,8 @@
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^7.1.0",
+    "@types/classnames": "^2.2.10",
+    "@types/react-linkify": "^1.0.0",
     "cheerio": "^1.0.0-rc.3",
     "classnames": "^2.2.6",
     "cookie": "^0.4.0",
@@ -32,5 +34,9 @@
   },
   "engines": {
     "node": "10.x"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.35",
+    "typescript": "^3.8.3"
   }
 }

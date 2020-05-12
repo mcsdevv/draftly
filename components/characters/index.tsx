@@ -1,6 +1,10 @@
 import styles from "./characters.module.css";
 
-const Characters = ({ progress = 0 }) => {
+interface CharactersProps {
+  progress: number;
+}
+
+const Characters = ({ progress = 0 }: CharactersProps) => {
   const radius = 175;
   const diameter = Math.round(Math.PI * radius * 2);
   const getOffset = (val = 0) =>

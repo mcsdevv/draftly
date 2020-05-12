@@ -4,14 +4,27 @@ import Text from "./types/text";
 
 import removeUrl from "../../lib/removeUrl";
 
-export default function Card({
+interface Metadata {
+  cardType: string;
+}
+
+interface CardProps {
+  editing: boolean;
+  editTweet: string;
+  handleOnChange: () => void;
+  metadata: Metadata;
+  scope: any;
+  text: string;
+}
+
+const Card = ({
   editing,
   editTweet,
   handleOnChange,
   metadata,
   scope,
   text,
-}) {
+}: CardProps) => {
   // * Removes URL if it is the last item present in the tweet text
   const tweetText = removeUrl(metadata, text);
   if (metadata.cardType === "summary-large") {
@@ -49,4 +62,6 @@ export default function Card({
       />
     );
   }
-}
+};
+
+export default Card;
