@@ -20,7 +20,7 @@ interface Scope {
 interface SmallProps {
   editing: boolean;
   editTweet: string;
-  handleOnChange: () => void;
+  handleOnChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   meta: any;
   scope: Scope;
   text: string;

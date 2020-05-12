@@ -10,7 +10,7 @@ interface InputProps {
   max?: number;
   min?: number;
   name?: string;
-  onChange: () => void;
+  onChange: (e: React.FormEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
   placeholder?: string;
   text?: string;
@@ -49,7 +49,7 @@ const Input = ({
           value={value || ""}
         />
         {buttonText && (
-          <Button disabled={buttonDisabled} onClick={onSubmit}>
+          <Button disabled={buttonDisabled} type="submit" onClick={onSubmit}>
             {buttonText}
           </Button>
         )}

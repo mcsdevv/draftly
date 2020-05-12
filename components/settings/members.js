@@ -26,13 +26,13 @@ export default function Members() {
       />
       <h3>Owners</h3>
       <ul>
-        {scope.owners.map((o) => (
+        {scope?.owners.map((o) => (
           <li key={o}>{o}</li>
         ))}
       </ul>
       <h3>Members</h3>
       <ul>
-        {scope.members.map((o) => (
+        {scope?.members.map((o) => (
           <li key={o}>{o}</li>
         ))}
       </ul>

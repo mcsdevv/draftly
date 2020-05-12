@@ -1,7 +1,19 @@
 import cn from "classnames";
 import styles from "./textarea.module.css";
 
-const Textarea = ({ onChange, placeholder = "", type = "edit", value }) => (
+interface TextareaProps {
+  onChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
+  placeholder?: string;
+  type?: string;
+  value: string;
+}
+
+const Textarea = ({
+  onChange,
+  placeholder = "",
+  type = "edit",
+  value,
+}: TextareaProps) => (
   <textarea
     className={cn(styles.textarea, {
       [styles.edit]: type === "edit",

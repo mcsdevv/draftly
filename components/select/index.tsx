@@ -2,7 +2,7 @@ import styles from "./select.module.css";
 
 interface SelectProps {
   disabled?: boolean;
-  onChange: () => void;
+  onChange: (e: React.FormEvent<HTMLSelectElement>) => void;
   options: any;
   value: string;
 }

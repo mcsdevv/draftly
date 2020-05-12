@@ -15,7 +15,7 @@ interface Scope {
 interface TextProps {
   editing: boolean;
   editTweet: string;
-  handleOnChange: () => void;
+  handleOnChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   scope: Scope;
   text: string;
 }

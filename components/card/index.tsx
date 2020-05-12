@@ -11,7 +11,7 @@ interface Metadata {
 interface CardProps {
   editing: boolean;
   editTweet: string;
-  handleOnChange: () => void;
+  handleOnChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   metadata: Metadata;
   scope: any;
   text: string;
@@ -51,17 +51,15 @@ const Card = ({
       />
     );
   }
-  if (metadata.cardType === "text") {
-    return (
-      <Text
-        editing={editing}
-        editTweet={editTweet}
-        handleOnChange={handleOnChange}
-        scope={scope}
-        text={tweetText}
-      />
-    );
-  }
+  return (
+    <Text
+      editing={editing}
+      editTweet={editTweet}
+      handleOnChange={handleOnChange}
+      scope={scope}
+      text={tweetText}
+    />
+  );
 };
 
 export default Card;

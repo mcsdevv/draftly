@@ -1,23 +1,26 @@
 import { useContext, useEffect, useState } from "react";
-import ScopeContext from "../../context/scopeContext";
-import { useProfile } from "../../hooks";
+import ScopeContext from "../../../context/scopeContext";
+import { useProfile } from "../../../hooks";
 import { mutate } from "swr";
 
-import getMeta from "../../lib/getMeta";
-import removeWww from "../../lib/removeWww";
+import getMeta from "../../../lib/getMeta";
+import removeWww from "../../../lib/removeWww";
 
-import Controls from "../controls";
-import Tweet from "../tweet";
+import Controls from "../../controls";
+import Tweet from "../../tweet";
 
-export default function Review({ revalidate, reviews, tweet }) {
-  const [deleting, setDeleting] = useState(false);
+interface ReviewProps {
+  revalidate: any;
+  reviews: any[];
+  tweet: any;
+}
+
+const Review = ({ revalidate, reviews, tweet }: ReviewProps) => {
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
-  const [reviewsRequired, setReviewsRequired] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [publishing, setPublishing] = useState(false);
+  const [reviewsRequired, setReviewsRequired] = useState(0);
   const { scope } = useContext(ScopeContext);
-  const { user, teams } = useProfile();
+  const { user } = useProfile();
   useEffect(() => {
     function getReviewsRequired() {
       const required = scope.reviewsRequired - tweet.approvedBy.length;
@@ -41,7 +44,6 @@ export default function Review({ revalidate, reviews, tweet }) {
     setEditing(false);
   };
   const handleDelete = async () => {
-    setDeleting(true);
     const url = `/api/tweet/review/delete/${scope.handle}`;
     const res = await fetch(url, {
       method: "DELETE",
@@ -53,16 +55,15 @@ export default function Review({ revalidate, reviews, tweet }) {
       mutate(`/api/tweets/details/reviews/${scope.handle}`, {
         reviews: reviews.filter((d) => d.ref !== tweet.ref),
       });
-      setDeleting(false);
     }
   };
   const handleEdit = () => {
     setEditing(true);
   };
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     // TODO Improve character limit handling
     if (editTweet.length < 280) {
-      setEditTweet(e.target.value);
+      setEditTweet(e.currentTarget.value);
     } else {
       alert("over the limit bud");
     }
@@ -75,7 +76,6 @@ export default function Review({ revalidate, reviews, tweet }) {
     }
     // * Changes made, update tweet
     setEditing(false);
-    setSaving(true);
     const metadata = await getMeta(editTweet);
     const url = `/api/tweet/review/update/${tweet.ref}`;
     const formattedTweet = removeWww(editTweet);
@@ -93,11 +93,9 @@ export default function Review({ revalidate, reviews, tweet }) {
           d.ref === tweet.ref ? { ...newDraft } : d
         ),
       });
-      setSaving(false);
     }
   };
   const handlePublish = async () => {
-    setPublishing(true);
     const url = `/api/tweet/published/create/${scope.handle}`;
     const res = await fetch(url, {
       method: "POST",
@@ -109,7 +107,6 @@ export default function Review({ revalidate, reviews, tweet }) {
     });
     if (res.status === 200) {
       revalidate();
-      setPublishing(false);
     }
   };
   return (
@@ -137,4 +134,6 @@ export default function Review({ revalidate, reviews, tweet }) {
       />
     </Tweet>
   );
-}
+};
+
+export default Review;

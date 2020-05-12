@@ -8,13 +8,13 @@ interface ControlsProps {
   disableApprove?: boolean;
   disablePublish?: boolean;
   editing?: boolean;
-  handleApprove: () => void;
+  handleApprove?: () => void;
   handleCancelEdit: () => void;
   handleDelete: () => void;
   handleEdit: () => void;
-  handlePublish: () => void;
+  handlePublish?: () => void;
   handleUpdate: () => void;
-  handleReviewReady: () => void;
+  handleReviewReady?: () => void;
   type: string;
 }
 
@@ -44,12 +44,12 @@ const Controls = ({
     <Button onClick={!editing ? handleEdit : handleUpdate} type="secondary">
       {!editing ? "Edit" : "Update"}
     </Button>
-    {!editing && type === "draft" && (
+    {!editing && type === "draft" && handleReviewReady && (
       <Button onClick={handleReviewReady} type="primary">
         Review
       </Button>
     )}
-    {!editing && type === "review" && (
+    {!editing && type === "review" && handleApprove && handlePublish && (
       <>
         <Button
           disabled={disableApprove}

@@ -46,8 +46,7 @@ export default function Comments({
       });
     }
   };
-  const handleSubmitComment = async (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleSubmitComment = async () => {
     const commentObject = {
       comment,
       addedAt: new Date(),
@@ -85,6 +84,7 @@ export default function Comments({
           label="Add Comment"
           onChange={handleOnChange}
           onSubmit={handleSubmitComment}
+          type="text"
           value={comment}
         />
       </div>
