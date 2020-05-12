@@ -2,8 +2,8 @@
   "name": "tweet-review",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:msweeneydev/tweet-review.git",
-  "author": "msweeneydev <mail@msweeneydev.com>",
+  "repository": "git@github.com:mcsdevv/tweet-review.git",
+  "author": "mcsdevv <mail@mcs.dev>",
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^7.1.0",
