@@ -7,15 +7,25 @@ import styles from "./comments.module.css";
 import Comment from "./comment";
 import Input from "../input";
 
-export default function Comments({ comments, reviews, tweetRef }) {
+interface CommentsProps {
+  comments: any;
+  reviews: any;
+  tweetRef: string;
+}
+
+export default function Comments({
+  comments,
+  reviews,
+  tweetRef,
+}: CommentsProps) {
   const [comment, setComment] = useState("");
   const { scope } = useContext(ScopeContext);
   const { user } = useProfile();
-  const handleOnChange = (e) => {
-    const newComment = e.target.value;
+  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const newComment = e.currentTarget.value;
     setComment(newComment);
   };
-  const handleDeleteComment = async (id) => {
+  const handleDeleteComment = async (id: string) => {
     const url = `/api/tweet/comment/delete/${tweetRef}`;
     const res = await fetch(url, {
       method: "DELETE",
@@ -25,7 +35,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
     });
     const commentJson = await res.json();
     if (res.status === 200) {
-      const newReviews = reviews.map((r) => {
+      const newReviews = reviews.map((r: any) => {
         if (r.ref === tweetRef) {
           return { ...r, comments: commentJson };
         }
@@ -36,7 +46,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
       });
     }
   };
-  const handleSubmitComment = async (e) => {
+  const handleSubmitComment = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const commentObject = {
       comment,
@@ -55,7 +65,7 @@ export default function Comments({ comments, reviews, tweetRef }) {
     });
     const commentJson = await res.json();
     if (res.status === 200) {
-      const newReviews = reviews.map((r) => {
+      const newReviews = reviews.map((r: any) => {
         if (r.ref === tweetRef) {
           return { ...r, comments: commentJson };
         }
@@ -76,12 +86,11 @@ export default function Comments({ comments, reviews, tweetRef }) {
           onChange={handleOnChange}
           onSubmit={handleSubmitComment}
           value={comment}
-          withButton
         />
       </div>
       <div>
         {comments.length
-          ? comments.map((c) => (
+          ? comments.map((c: any) => (
               <Comment
                 addedAt={c.addedAt}
                 addedBy={c.addedBy}

@@ -4,9 +4,9 @@ import styles from "./button.module.css";
 interface ButtonProps {
   children: React.ReactNode;
   disabled?: boolean;
-  margin: boolean;
+  margin?: boolean;
   onClick: () => void;
-  type: string;
+  type?: string;
 }
 
 const Button = ({

@@ -2,11 +2,27 @@ import styles from "./input.module.css";
 
 import Button from "../button";
 
+interface InputProps {
+  buttonDisabled?: boolean;
+  buttonText?: string;
+  disabled?: boolean;
+  label?: string;
+  max?: number;
+  min?: number;
+  name?: string;
+  onChange: () => void;
+  onSubmit: () => void;
+  placeholder?: string;
+  text?: string;
+  type: string;
+  value: string | number;
+}
+
 const Input = ({
   buttonDisabled = false,
-  buttonText = null,
+  buttonText = undefined,
   disabled = false,
-  label = false,
+  label = undefined,
   max,
   min,
   name,
@@ -16,7 +32,7 @@ const Input = ({
   text,
   type,
   value,
-}) => {
+}: InputProps) => {
   return (
     <div className={styles.container}>
       <label htmlFor={name}>{label}</label>
@@ -26,7 +42,6 @@ const Input = ({
           disabled={disabled}
           max={max}
           min={min}
-          my="2"
           name={name}
           onChange={onChange}
           placeholder={placeholder}

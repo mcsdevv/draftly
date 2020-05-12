@@ -2,6 +2,22 @@ import styles from "./controls.module.css";
 
 import Button from "../button";
 
+interface ControlsProps {
+  approvals?: number;
+  approvalsRequired?: number;
+  disableApprove?: boolean;
+  disablePublish?: boolean;
+  editing?: boolean;
+  handleApprove: () => void;
+  handleCancelEdit: () => void;
+  handleDelete: () => void;
+  handleEdit: () => void;
+  handlePublish: () => void;
+  handleUpdate: () => void;
+  handleReviewReady: () => void;
+  type: string;
+}
+
 const Controls = ({
   approvals,
   approvalsRequired,
@@ -16,7 +32,7 @@ const Controls = ({
   handleUpdate,
   handleReviewReady,
   type,
-}) => (
+}: ControlsProps) => (
   <div className={styles.container}>
     <Button
       onClick={!editing ? handleDelete : handleCancelEdit}
@@ -40,7 +56,9 @@ const Controls = ({
           onClick={handleApprove}
           type="primary"
         >
-          {approvalsRequired > 0 && `${approvals} / ${approvalsRequired}`}{" "}
+          {approvalsRequired &&
+            approvalsRequired > 0 &&
+            `${approvals} / ${approvalsRequired}`}{" "}
           Approve
         </Button>
         <Button

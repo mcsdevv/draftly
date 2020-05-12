@@ -2,7 +2,15 @@ import cn from "classnames";
 import NextLink from "next/link";
 import styles from "./link.module.css";
 
-const Link = ({ as, disabled, children, href, onClick, type = "primary" }) => {
+interface LinkProps {
+  as?: string;
+  children: React.ReactNode;
+  href: string;
+  onClick?: () => void;
+  type?: string;
+}
+
+const Link = ({ as, children, href, onClick, type = "primary" }: LinkProps) => {
   return (
     <NextLink as={as || href} href={href}>
       <a
@@ -11,7 +19,6 @@ const Link = ({ as, disabled, children, href, onClick, type = "primary" }) => {
           [styles.secondary]: type === "secondary",
           [styles.tertiary]: type === "tertiary",
         })}
-        disabled={disabled}
         onClick={onClick}
       >
         {children}

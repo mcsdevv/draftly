@@ -3,7 +3,7 @@ import { memo, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 import Link from "../link";
-import ScopePicker from "../scope/picker";
+import Scope from "../scope";
 import styles from "./header.module.css";
 
 const Header = memo(() => {
@@ -22,11 +22,11 @@ const Header = memo(() => {
     localStorage.removeItem("scope");
     localStorage.removeItem("teams");
     localStorage.removeItem("user");
-    window.location = "/";
+    window.location.href = "/";
   };
   return (
     <header className={styles.header}>
-      <div className={styles.headerLeft}>{loggedIn && <ScopePicker />}</div>
+      <div className={styles.headerLeft}>{loggedIn && <Scope />}</div>
       <div className={styles.headerRight}>
         {loggedIn && (
           <>

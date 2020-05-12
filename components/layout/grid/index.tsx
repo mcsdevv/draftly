@@ -1,7 +1,12 @@
 import cn from "classnames";
 import styles from "./grid.module.css";
 
-const Grid = ({ children, columns = "single" }) => (
+interface GridProps {
+  children: React.ReactNode;
+  columns?: string;
+}
+
+const Grid = ({ children, columns = "single" }: GridProps) => (
   <div
     className={cn(styles.grid, {
       [styles.single]: columns === "single",

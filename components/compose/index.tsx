@@ -12,7 +12,12 @@ import Textarea from "../textarea";
 
 import styles from "./compose.module.css";
 
-export default function ComposeTweet({ drafts, setDrafting }) {
+interface ComposeTweetProps {
+  drafts: any;
+  setDrafting: (k: boolean) => void;
+}
+
+const ComposeTweet = ({ drafts, setDrafting }: ComposeTweetProps) => {
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
   const { scope } = useContext(ScopeContext);
@@ -41,10 +46,10 @@ export default function ComposeTweet({ drafts, setDrafting }) {
       setTweet("");
     }
   };
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     // TODO Improve character limit handling
     if (tweet.length < 280) {
-      setTweet(e.target.value);
+      setTweet(e.currentTarget.value);
     } else {
       alert("over the limit bud");
     }
@@ -80,4 +85,6 @@ export default function ComposeTweet({ drafts, setDrafting }) {
       )}
     </div>
   );
-}
+};
+
+export default ComposeTweet;
