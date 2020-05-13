@@ -60,7 +60,6 @@ export default async (req, res) => {
             }
           );
           const { ref: newRef } = await user.json();
-          console.log("ref", newRef);
           user_id = getRef(newRef);
         }
         // * Add user_id (ref), id_token (browser), and access_token (httpOnly) as cookies
