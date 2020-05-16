@@ -12,7 +12,16 @@ export default function Members() {
     setMemberEmail(e.target.value);
   };
   const handleOnSubmit = async () => {
-    console.log("submit");
+    const res = await fetch(`/api/team/invite/send/${scope.handle}`, {
+      method: "POST",
+      body: JSON.stringify({
+        code: scope.code,
+        team: scope.handle,
+        to: memberEmail,
+      }),
+    });
+    const resJson = await res.json();
+    console.log("resJson", resJson);
   };
   // TODO Create endpoint to get details for all team members
   return (
@@ -22,6 +31,7 @@ export default function Members() {
         buttonText="Invite"
         onChange={handleOnChange}
         onSubmit={handleOnSubmit}
+        type="email"
         value={memberEmail}
       />
       <h3>Owners</h3>

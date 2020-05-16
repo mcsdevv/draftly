@@ -5,6 +5,7 @@ import Button from "../button";
 interface InputProps {
   buttonDisabled?: boolean;
   buttonText?: string;
+  buttonType?: string;
   disabled?: boolean;
   label?: string;
   max?: number;
@@ -21,6 +22,7 @@ interface InputProps {
 const Input = ({
   buttonDisabled = false,
   buttonText = undefined,
+  buttonType = "primary",
   disabled = false,
   label = undefined,
   max,
@@ -49,7 +51,11 @@ const Input = ({
           value={value || ""}
         />
         {buttonText && (
-          <Button disabled={buttonDisabled} type="submit" onClick={onSubmit}>
+          <Button
+            disabled={buttonDisabled}
+            type={buttonType}
+            onClick={onSubmit}
+          >
             {buttonText}
           </Button>
         )}

@@ -10,6 +10,9 @@ import verify from "../../_util/token/verify";
 const teamCreate = async (req, res) => {
   try {
     const { data, ownerRef, tokenKey, tokenSecret } = JSON.parse(req.body);
+    const inviteCode =
+      Math.random().toString(14).substring(2, 7) +
+      Math.random().toString(14).substring(2, 7);
     console.log("data", data);
     const { name, screen_name, profile_image_url_https } = data;
     // * Create a team
@@ -27,6 +30,7 @@ const teamCreate = async (req, res) => {
           drafts: [],
           reviews: [],
           published: [],
+          inviteCode,
           auth: {
             tokenKey,
             tokenSecret,

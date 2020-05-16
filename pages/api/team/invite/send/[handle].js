@@ -3,24 +3,22 @@ import isOwner from "../../../_util/middleware/isOwner";
 import verify from "../../../_util/token/verify";
 
 const sendInvite = async (req, res) => {
-  const { team, to } = req.body;
+  const { code, team, to } = JSON.parse(req.body);
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  // TODO Include email, invite code, and team handle in POST
   const msg = {
     to,
     from: "mail@mcs.dev",
     subject: `Invitation to join the ${team} on Twintegrations`,
-    text: "Hello, click this button to join the team!",
-    html:
-      "<strong>Hello, click this button to join the team!</strong><a href='https://tweet-review.now.sh'>Join</a>",
+    text: `Hello, click this button to join the ${team} team!`,
+    html: `<strong>Hello, click this button to join the ${team} team!</strong><a href='https://tweet-review.now.sh/invite/join/${code}'>Join</a>`,
   };
   try {
-    const tets = await sgMail.send(msg);
-    console.log("tets", tets);
+    await sgMail.send(msg);
+    console.log("Invite sent to:", to);
     res.status(200).end("sent");
-  } catch (e) {
-    console.log("errr", e);
-    res.json(e);
+  } catch (err) {
+    console.error("ERROR - api/team/exists -", err);
+    res.status(500).json({ err });
   }
 };
 

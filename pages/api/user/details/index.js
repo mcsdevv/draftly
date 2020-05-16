@@ -39,6 +39,9 @@ const getUserDetails = async (req, res) => {
     const user = userData.shift();
     const teams = teamsData.map((t) => {
       delete t.data.auth;
+      if (!t.data.owners.includes(req.cookies.user_id)) {
+        delete t.data.inviteCode;
+      }
       return t.data;
     });
     console.log("User details:", user);
