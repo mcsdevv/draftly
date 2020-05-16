@@ -71,8 +71,12 @@
 
 .description {
   color: rgb(101, 119, 134);
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
   font-weight: 400;
+  -webkit-line-clamp: 2;
   margin-bottom: 2px;
+  overflow: hidden;
 }
 
 .linkContainer {
