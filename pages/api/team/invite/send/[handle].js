@@ -10,7 +10,7 @@ const sendInvite = async (req, res) => {
     from: "mail@mcs.dev",
     subject: `Invitation to join the ${team} on Twintegrations`,
     text: `Hello, click this button to join the ${team} team!`,
-    html: `<strong>Hello, click this button to join the ${team} team!</strong><a href='https://tweet-review.now.sh/invite/join/${code}'>Join</a>`,
+    html: `<strong>Hello, click this button to join the ${team} team!</strong><a href=https://tweet-review.now.sh/invite/join?team=${team}&code=${code}>Join</a>`,
   };
   try {
     await sgMail.send(msg);

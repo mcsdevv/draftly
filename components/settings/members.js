@@ -15,13 +15,14 @@ export default function Members() {
     const res = await fetch(`/api/team/invite/send/${scope.handle}`, {
       method: "POST",
       body: JSON.stringify({
-        code: scope.code,
+        code: scope.inviteCode,
         team: scope.handle,
         to: memberEmail,
       }),
     });
-    const resJson = await res.json();
-    console.log("resJson", resJson);
+    if (res.ok) {
+      console.log("Invite sent!");
+    }
   };
   // TODO Create endpoint to get details for all team members
   return (
