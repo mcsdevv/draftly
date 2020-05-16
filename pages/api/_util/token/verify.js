@@ -22,7 +22,6 @@ const verify = (handler) => async (req, res) => {
         return res.status(403).json({ err: "Incorrect audience" });
       }
       // * Verify JWT using about methods
-      console.log("KEY-SF", process.env.AUTH0_PUBLIC_KEY);
       jwt.verify(tokenDecrypted, process.env.AUTH0_PUBLIC_KEY, options);
       return handler(req, res);
     } catch (err) {

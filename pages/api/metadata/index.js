@@ -4,6 +4,7 @@ const htmlparser2 = require("htmlparser2");
 
 const getCardMetadata = async (req, res) => {
   try {
+    console.time("getCardMetadata");
     const { uri } = JSON.parse(req.body);
     const resp = await fetch(uri);
     const respText = await resp.text();
@@ -95,7 +96,7 @@ const getCardMetadata = async (req, res) => {
       // fb_appid: $('meta[property="fb:app_id"]').attr("content"),
       // fb_pages: $('meta[property="fb:pages"]').attr("content"),
     };
-
+    console.timeEnd("getCardMetadata");
     console.log("Returned metadata:", post);
     res.status(200).json(post);
   } catch (err) {
