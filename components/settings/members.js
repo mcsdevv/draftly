@@ -16,6 +16,7 @@ export default function Members() {
       method: "POST",
       body: JSON.stringify({
         code: scope.inviteCode,
+        ref: scope.ref,
         team: scope.handle,
         to: memberEmail,
       }),

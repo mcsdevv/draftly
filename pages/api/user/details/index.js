@@ -1,5 +1,6 @@
 import { client, q } from "../../_util/fauna";
 import { getDocProperty, getDocByRef } from "../../_util/fauna/queries";
+import { getRef } from "../../_util/getRef";
 import verify from "../../_util/token/verify";
 
 const getUserDetails = async (req, res) => {
@@ -32,9 +33,11 @@ const getUserDetails = async (req, res) => {
       )
     );
     console.timeEnd("Get user + teams");
+    console.log("DBS", dbs);
     // * Extract user and teams from db response
     const userData = dbs[0];
     const teamsData = dbs.slice(1);
+    console.log("TEAMS DATA", teamsData);
     userData.shift();
     const user = userData.shift();
     const teams = teamsData.map((t) => {
@@ -42,7 +45,7 @@ const getUserDetails = async (req, res) => {
       if (!t.data.owners.includes(req.cookies.user_id)) {
         delete t.data.inviteCode;
       }
-      return t.data;
+      return { ref: getRef(t.ref), ...t.data };
     });
     console.log("User details:", user);
     console.log("Teams details:", teams);

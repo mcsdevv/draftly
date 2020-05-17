@@ -3,6 +3,13 @@ import jwt from "jsonwebtoken";
 import { getRef } from "../../_util/getRef";
 import cookieOptions from "../../_util/cookie/options";
 import { encrypt } from "../../_util/token/encryption";
+import { client, q } from "../../_util/fauna";
+import {
+  getDocByRef,
+  getDocProperty,
+  getDocRef,
+  getDocRefByIndex,
+} from "../../_util/fauna/queries";
 
 export default async (req, res) => {
   // * Confirm state match to mitigate CSRF
@@ -62,8 +69,31 @@ export default async (req, res) => {
           const { ref: newRef } = await user.json();
           user_id = getRef(newRef);
         }
+        // * If handling callback from a user being invited to a team
+        console.log("IS USER INVITED?", req.cookies.invited_to, user_id);
+        if (req.cookies.invited_to) {
+          await client.query(
+            q.Update(getDocRef("users", user_id), {
+              data: {
+                teams: q.Append(
+                  req.cookies.invited_to,
+                  getDocProperty(
+                    ["data", "teams"],
+                    getDocByRef("users", user_id)
+                  )
+                ),
+              },
+            })
+          );
+          // TODO Add user to team also
+        }
         // * Add user_id (ref), id_token (browser), and access_token (httpOnly) as cookies
         res.setHeader("Set-Cookie", [
+          cookie.serialize(
+            "invited_to",
+            String(""),
+            cookieOptions(false, false)
+          ),
           cookie.serialize(
             "user_id",
             String(user_id),
@@ -80,6 +110,7 @@ export default async (req, res) => {
             cookieOptions(true, false)
           ),
         ]);
+        console.log("RESSSS", res);
         // * Send response using redirect code
         res.status(302).end();
       } else {

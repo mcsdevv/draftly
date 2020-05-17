@@ -3,14 +3,15 @@ import isOwner from "../../../_util/middleware/isOwner";
 import verify from "../../../_util/token/verify";
 
 const sendInvite = async (req, res) => {
-  const { code, team, to } = JSON.parse(req.body);
+  const { code, ref, team, to } = JSON.parse(req.body);
+  console.log("REF1", ref);
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const msg = {
     to,
     from: "mail@mcs.dev",
     subject: `Invitation to join the ${team} on Twintegrations`,
     text: `Hello, click this button to join the ${team} team!`,
-    html: `<strong>Hello, click this button to join the ${team} team!</strong><a href=https://tweet-review.now.sh/invite/join?team=${team}&code=${code}>Join</a>`,
+    html: `<strong>Hello, click this button to join the ${team} team! <br/> </strong><a href=${process.env.AUTH0_REDIRECT_URI}/api/team/invite/accept?team=${team}&code=${code}&ref=${ref}>Join</a>`,
   };
   try {
     await sgMail.send(msg);

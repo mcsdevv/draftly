@@ -16,6 +16,7 @@ const Scope = () => {
     const scopeDetails = teams.find((t: any) => t.handle === name);
     setStoredScope(scopeDetails);
   };
+  console.log("teams", teams);
   return scope !== null && teams ? (
     teams?.length ? (
       <Select
