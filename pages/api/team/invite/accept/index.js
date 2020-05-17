@@ -29,9 +29,14 @@ const acceptInvite = async (req, res) => {
           )
         )
       );
-      const isMember = getMembers.includes(req.cookies.user_id);
+      const isMember = getMembers.includes(user_id);
       if (isMember) {
-        throw "Member is already present in team.";
+        console.log("USER IS ALREADY A MEMBER OF THIS TEAM");
+        res.writeHead(302, {
+          Location: `${process.env.AUTH0_REDIRECT_URI}/dashboard`,
+        });
+        res.end();
+        return;
       }
       // * Add to team as a member
       console.log("ADDING INVITED USER TO TEAM AS MEMBER");

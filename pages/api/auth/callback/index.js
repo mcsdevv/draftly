@@ -38,15 +38,20 @@ export default async (req, res) => {
       const access_token = encrypt(auth.access_token);
       // * Confirm nonce match to mitigate token replay attack
       if (req.cookies.nonce === id_token.nonce) {
-        const userExists = await client.query(
-          getDocByIndex("all_users_by_email", id_token.email)
-        );
-        console.log("DOES THE USER EXIST ALREADY?", userExists);
         let user_id;
-        const { ref: existsRef } = await userExists;
-        user_id = getRef(existsRef);
+        try {
+          console.log("DOES THE USER EXIST ALREADY?");
+          const userExists = await client.query(
+            getDocByIndex("all_users_by_email", id_token.email)
+          );
+          console.log("USER EXISTS");
+          const { ref: existsRef } = await userExists;
+          user_id = getRef(existsRef);
+        } catch (err) {
+          console.log("USER DOES NOT EXIST");
+        }
         // * If user does not exist, create in db
-        if (!existsRef) {
+        if (!user_id) {
           const newUser = await client.query(
             q.Create(q.Collection("users"), {
               data: {
@@ -77,39 +82,40 @@ export default async (req, res) => {
               )
             )
           );
-          const isMember = getMembers.includes(req.cookies.user_id);
+          const isMember = getMembers.includes(user_id);
           if (isMember) {
             console.log("USER IS ALREADY A MEMBER OF THIS TEAM");
-            throw "Member is already present in team.";
           }
-          console.log("ADDING TEAM TO USER");
-          await client.query(
-            q.Update(getDocRef("users", user_id), {
-              data: {
-                teams: q.Append(
-                  req.cookies.invited_to,
-                  getDocProperty(
-                    ["data", "teams"],
-                    getDocByRef("users", user_id)
-                  )
-                ),
-              },
-            })
-          );
-          console.log("ADDING USER TO TEAM");
-          await client.query(
-            q.Update(getDocRef("teams", req.cookies.invited_to), {
-              data: {
-                members: q.Append(
-                  user_id,
-                  getDocProperty(
-                    ["data", "members"],
-                    getDocByRef("teams", req.cookies.invited_to)
-                  )
-                ),
-              },
-            })
-          );
+          if (!isMember) {
+            console.log("ADDING TEAM TO USER");
+            await client.query(
+              q.Update(getDocRef("users", user_id), {
+                data: {
+                  teams: q.Append(
+                    req.cookies.invited_to,
+                    getDocProperty(
+                      ["data", "teams"],
+                      getDocByRef("users", user_id)
+                    )
+                  ),
+                },
+              })
+            );
+            console.log("ADDING USER TO TEAM");
+            await client.query(
+              q.Update(getDocRef("teams", req.cookies.invited_to), {
+                data: {
+                  members: q.Append(
+                    user_id,
+                    getDocProperty(
+                      ["data", "members"],
+                      getDocByRef("teams", req.cookies.invited_to)
+                    )
+                  ),
+                },
+              })
+            );
+          }
         }
         // * Add user_id (ref), id_token (browser), and access_token (httpOnly) as cookies
         res.setHeader("Set-Cookie", [
