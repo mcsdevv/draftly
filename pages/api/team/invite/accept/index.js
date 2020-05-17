@@ -6,7 +6,6 @@ import {
   getDocByIndex,
   getDocByRef,
 } from "../../../_util/fauna/queries";
-// import { getRef } from "../../../_util/getRef";
 import cookieOptions from "../../../_util/cookie/options";
 
 const acceptInvite = async (req, res) => {
@@ -15,7 +14,7 @@ const acceptInvite = async (req, res) => {
   console.log("REF", ref);
   // * Differing action if user exists and is logged in
   if (id_token && user_id) {
-    console.log("EXISTING");
+    console.log("CHECKING IF USER IS AN EXISTING MEMBER OF THE TEAM");
     try {
       // * Check the user is not currently a member of the team
       const getMembers = await client.query(
@@ -35,6 +34,7 @@ const acceptInvite = async (req, res) => {
         throw "Member is already present in team.";
       }
       // * Add to team as a member
+      console.log("ADDING INVITED USER TO TEAM AS MEMBER");
       await client.query(
         q.Update(
           getDocProperty(["ref"], getDocByIndex("all_teams_by_handle", team)),
@@ -52,6 +52,7 @@ const acceptInvite = async (req, res) => {
         )
       );
       // * Add team to user
+      console.log("ADDING TEAM TO INVITED USER");
       await client.query(
         q.Update(getDocRef("users", user_id), {
           data: {
@@ -73,6 +74,7 @@ const acceptInvite = async (req, res) => {
     }
     // * User does not exist or is not logged in
   } else {
+    console.log("NEW USER OR NOT LOGGED IN");
     try {
       res.setHeader("Set-Cookie", [
         cookie.serialize(
@@ -90,11 +92,11 @@ const acceptInvite = async (req, res) => {
         Location: `${process.env.AUTH0_REDIRECT_URI}/api/auth/login`,
       });
       res.end();
-    } catch (err) {}
-    console.log("USER LOGGED OUT", code, team);
+    } catch (err) {
+      console.error("ERROR - api/team/invite/accept -", err.message);
+      res.status(500).json({ err: err.message });
+    }
   }
-  console.error("ERROR - api/team/invite/accept -", err.message);
-  res.status(500).json({ err: err.message });
 };
 
 export default acceptInvite;

@@ -5,10 +5,10 @@ import cookieOptions from "../../_util/cookie/options";
 import { encrypt } from "../../_util/token/encryption";
 import { client, q } from "../../_util/fauna";
 import {
+  getDocByIndex,
   getDocByRef,
   getDocProperty,
   getDocRef,
-  getDocRefByIndex,
 } from "../../_util/fauna/queries";
 
 export default async (req, res) => {
@@ -38,40 +38,51 @@ export default async (req, res) => {
       const access_token = encrypt(auth.access_token);
       // * Confirm nonce match to mitigate token replay attack
       if (req.cookies.nonce === id_token.nonce) {
-        const exists = await fetch(
-          `${process.env.AUTH0_REDIRECT_URI}/api/user/exists/${id_token.email}`,
-          {
-            headers: {
-              Authorization: access_token,
-            },
-          }
+        const userExists = await client.query(
+          getDocByIndex("all_users_by_email", id_token.email)
         );
+        console.log("DOES THE USER EXIST ALREADY?", userExists);
         let user_id;
-        const { ref: existsRef } = await exists.json();
-        user_id = existsRef;
+        const { ref: existsRef } = await userExists;
+        user_id = getRef(existsRef);
         // * If user does not exist, create in db
         if (!existsRef) {
-          const user = await fetch(
-            `${process.env.AUTH0_REDIRECT_URI}/api/user/create`,
-            {
-              method: "POST",
-              headers: { "content-type": "application/json" },
-              body: JSON.stringify({
+          const newUser = await client.query(
+            q.Create(q.Collection("users"), {
+              data: {
                 email: id_token.email,
                 name: id_token.name,
                 picture: id_token.picture,
-              }),
-              headers: {
-                Authorization: access_token,
+                teams: [],
               },
-            }
+            })
           );
-          const { ref: newRef } = await user.json();
+          const { ref: newRef } = await newUser;
+          console.log("NEW USER REF", newRef);
           user_id = getRef(newRef);
         }
         // * If handling callback from a user being invited to a team
-        console.log("IS USER INVITED?", req.cookies.invited_to, user_id);
+        console.log("IS USER INVITED?", req.cookies.invited_to);
         if (req.cookies.invited_to) {
+          console.log("IS USER MEMBER OF EXISTING TEAM?");
+          const getMembers = await client.query(
+            q.Union(
+              getDocProperty(
+                ["data", "owners"],
+                getDocByRef("teams", req.cookies.invited_to)
+              ),
+              getDocProperty(
+                ["data", "members"],
+                getDocByRef("teams", req.cookies.invited_to)
+              )
+            )
+          );
+          const isMember = getMembers.includes(req.cookies.user_id);
+          if (isMember) {
+            console.log("USER IS ALREADY A MEMBER OF THIS TEAM");
+            throw "Member is already present in team.";
+          }
+          console.log("ADDING TEAM TO USER");
           await client.query(
             q.Update(getDocRef("users", user_id), {
               data: {
@@ -85,7 +96,20 @@ export default async (req, res) => {
               },
             })
           );
-          // TODO Add user to team also
+          console.log("ADDING USER TO TEAM");
+          await client.query(
+            q.Update(getDocRef("teams", req.cookies.invited_to), {
+              data: {
+                members: q.Append(
+                  user_id,
+                  getDocProperty(
+                    ["data", "members"],
+                    getDocByRef("teams", req.cookies.invited_to)
+                  )
+                ),
+              },
+            })
+          );
         }
         // * Add user_id (ref), id_token (browser), and access_token (httpOnly) as cookies
         res.setHeader("Set-Cookie", [
@@ -110,7 +134,6 @@ export default async (req, res) => {
             cookieOptions(true, false)
           ),
         ]);
-        console.log("RESSSS", res);
         // * Send response using redirect code
         res.status(302).end();
       } else {

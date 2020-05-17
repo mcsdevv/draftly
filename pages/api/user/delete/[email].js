@@ -7,7 +7,7 @@ const deleteUser = async (req, res) => {
     const { teams } = JSON.parse(req.body);
     // * Delete user
     const dbs = await client.query(
-      q.Delete(getDocRef("tweets", req.cookies.user_id))
+      q.Delete(getDocRef("users", req.cookies.user_id))
     );
     // * List teams to delete if no owners remain after user deletion
     const teamsToDelete = [];
@@ -16,6 +16,7 @@ const deleteUser = async (req, res) => {
         teamsToDelete.push(t.handle);
       }
     });
+    console.log("GOT TEAMS", teamsToDelete);
     // * Delete teams with no remaining owners
     await client.query(
       q.Foreach(
