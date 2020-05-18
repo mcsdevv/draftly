@@ -42,14 +42,18 @@ export default function Members() {
       <ul>
         {teamMembers &&
           scope?.owners.map((o) => {
-            return <li key={o}>{teamMembers.find((t) => t.ref === o).name}</li>;
+            return (
+              <li key={o}>{teamMembers?.find((t) => t.ref === o).name}</li>
+            );
           })}
       </ul>
       <h3>Members</h3>
       <ul>
         {teamMembers &&
           scope?.members.map((o) => {
-            return <li key={o}>{teamMembers.find((t) => t.ref === o).name}</li>;
+            return (
+              <li key={o}>{teamMembers?.find((t) => t.ref === o).name}</li>
+            );
           })}
       </ul>
     </>
