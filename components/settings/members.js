@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
-import { useProfile } from "../../hooks";
+import { useProfile, useTeamMembers } from "../../hooks";
 
 import Input from "../input";
 
 export default function Members() {
+  const { teamMembers } = useTeamMembers();
   const [memberEmail, setMemberEmail] = useState();
   const { user } = useProfile();
   const { scope } = useContext(ScopeContext);
@@ -26,6 +27,7 @@ export default function Members() {
     }
   };
   // TODO Create endpoint to get details for all team members
+  console.log(teamMembers);
   return (
     <>
       <h3>Add Team Member</h3>
@@ -38,15 +40,17 @@ export default function Members() {
       />
       <h3>Owners</h3>
       <ul>
-        {scope?.owners.map((o) => (
-          <li key={o}>{o}</li>
-        ))}
+        {teamMembers &&
+          scope?.owners.map((o) => {
+            return <li key={o}>{teamMembers.find((t) => t.ref === o).name}</li>;
+          })}
       </ul>
       <h3>Members</h3>
       <ul>
-        {scope?.members.map((o) => (
-          <li key={o}>{o}</li>
-        ))}
+        {teamMembers &&
+          scope?.members.map((o) => {
+            return <li key={o}>{teamMembers.find((t) => t.ref === o).name}</li>;
+          })}
       </ul>
     </>
   );

@@ -6,7 +6,6 @@ import verify from "../../_util/token/verify";
 const getUserDetails = async (req, res) => {
   try {
     // * Get user details along with teams they are part of
-    console.log(req.cookies.user_id);
     console.time("Get user + teams");
     const dbs = await client.query(
       q.Drop(
@@ -33,7 +32,6 @@ const getUserDetails = async (req, res) => {
       )
     );
     console.timeEnd("Get user + teams");
-    console.log("DBS", dbs);
     // * Extract user and teams from db response
     const userData = dbs[0];
     const teamsData = dbs.slice(1);

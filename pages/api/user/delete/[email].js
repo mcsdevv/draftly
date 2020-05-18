@@ -16,7 +16,6 @@ const deleteUser = async (req, res) => {
         teamsToDelete.push(t.handle);
       }
     });
-    console.log("GOT TEAMS", teamsToDelete);
     // * Delete teams with no remaining owners
     await client.query(
       q.Foreach(
@@ -24,10 +23,7 @@ const deleteUser = async (req, res) => {
           q.Union(
             q.Map(
               teamsToDelete,
-              q.Lambda(
-                "x",
-                q.Match(q.Index("all_teams_by_handle"), [q.Var("x")])
-              )
+              q.Lambda("x", q.Match(q.Index("all_teams_by_handle"), q.Var("x")))
             )
           )
         ),
