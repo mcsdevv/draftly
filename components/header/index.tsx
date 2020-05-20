@@ -51,7 +51,7 @@ const Header = memo(() => {
         )}
         <Link
           href={loggedIn ? "/" : "/dashboard"}
-          onClick={loggedIn ? logoutUser : null}
+          onClick={loggedIn ? logoutUser : undefined}
           type="tertiary"
         >
           {loggedIn ? "Logout" : "Login"}
