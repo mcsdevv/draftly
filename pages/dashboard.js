@@ -11,7 +11,7 @@ function Dashboard() {
   const { user } = useProfile();
   return (
     <Page name="Dashboard">
-      <h3>Hello {user?.name}, here are some stats:</h3>
+      <h3>Hello {user?.name}, here are some stats for you:</h3>
       <ul>
         <li>{drafts?.length} drafts to complete.</li>
         <li>{reviews?.length} reviews to complete.</li>
