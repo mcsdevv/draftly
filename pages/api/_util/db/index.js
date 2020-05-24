@@ -1,4 +1,5 @@
 const { Client } = require("pg");
+const escape = require("sql-template-strings");
 
 export const query = async (text, params, callback) => {
   const db = new Client({

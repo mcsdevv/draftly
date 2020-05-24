@@ -7,9 +7,9 @@ import { query } from "../../../_util/db";
 
 const getDraftTweets = async (req, res) => {
   console.time("sql");
-  const db = await query("SELECT * FROM users", []);
+  const db = await query("SELECT members FROM teams WHERE teamId = $1", [1]);
+  console.log("query", db.rows[0].members);
   console.timeEnd("sql");
-  console.log("query", db.rows);
   try {
     const { handle } = req.query;
     if (handle === "undefined") return res.status(200).json([]);
