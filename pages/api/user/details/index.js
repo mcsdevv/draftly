@@ -3,6 +3,8 @@ import { getDocProperty, getDocByRef } from "../../_util/fauna/queries";
 import { getRef } from "../../_util/getRef";
 import verify from "../../_util/token/verify";
 
+import { query } from "../../_util/db";
+
 const getUserDetails = async (req, res) => {
   try {
     // * Get user details along with teams they are part of
