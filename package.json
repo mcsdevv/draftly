@@ -22,11 +22,12 @@
     "jsonwebtoken": "^8.5.1",
     "next": "^9.4.0",
     "oauth": "^0.9.15",
-    "pg": "7.4.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-linkify": "^1.0.0-alpha",
     "s-ago": "^2.1.0",
+    "serverless-mysql": "^1.5.4",
+    "sql-template-strings": "^2.2.2",
     "swr": "^0.2.0",
     "twitter": "^1.7.1",
     "uuid": "^3.3.3"

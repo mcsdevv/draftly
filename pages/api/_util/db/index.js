@@ -1,15 +1,22 @@
-const { Client } = require("pg");
+const mysql = require("serverless-mysql");
 
-export const query = async (text, params, callback) => {
-  const db = new Client({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
-  });
-  await db.connect();
-  const res = await db.query(text, params, callback);
-  await db.end();
-  return res;
+// TODO Use escape strings module
+
+const db = mysql({
+  config: {
+    host: process.env.MYSQL_HOST,
+    database: process.env.MYSQL_DATABASE,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+  },
+});
+
+export const query = async (q) => {
+  try {
+    const results = await db.query(q);
+    await db.end();
+    return results;
+  } catch (error) {
+    return { error };
+  }
 };

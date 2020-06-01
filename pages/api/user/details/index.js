@@ -4,9 +4,19 @@ import { getRef } from "../../_util/getRef";
 import verify from "../../_util/token/verify";
 
 import { query } from "../../_util/db";
+const escape = require("sql-template-strings");
 
 const getUserDetails = async (req, res) => {
   try {
+    // TODO Use JOIN
+    console.time("SQL-DETAILS");
+    const userQuery = await query(
+      escape`SELECT * FROM users WHERE uid = ${req.cookies.uid}`
+    );
+    const teamsQuery = await query(
+      escape`SELECT * FROM teams WHERE uid = ${req.cookies.uid}`
+    );
+    console.timeEnd("SQL-DETAILS");
     // * Get user details along with teams they are part of
     console.time("Get user + teams");
     const dbs = await client.query(
