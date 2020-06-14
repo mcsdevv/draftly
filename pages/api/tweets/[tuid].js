@@ -4,9 +4,9 @@ const escape = require("sql-template-strings");
 
 const getDraftTweets = async (req, res) => {
   try {
-    // * Get all tweets for team
     const { tuid } = req.query;
-    console.time("QUERIES");
+
+    // * Get all tweets for team
     const tweetsQuery = await query(
       escape`SELECT * FROM tweets
       WHERE tuid = ${tuid}`
@@ -23,9 +23,9 @@ const getDraftTweets = async (req, res) => {
       LEFT JOIN tweets ON tweets.twuid = tweets_approvals.twuid
       WHERE tweets_approvals.twuid = '56f1267b-a223-4635-8748-c2708c127042'`
     );
-    console.timeEnd("QUERIES");
+
     // TODO Get all tweet comments
-    console.time("TWEETS");
+
     const tweets = tweetsQuery.map((t) => {
       return {
         ...t,
@@ -42,7 +42,7 @@ const getDraftTweets = async (req, res) => {
     const published = tweets.filter((t) => {
       return t.type === "published";
     });
-    console.timeEnd("TWEETS");
+
     console.log("Retrieved draft tweets for:", tuid);
     res.status(200).json({ drafts, reviews, published });
   } catch (err) {
