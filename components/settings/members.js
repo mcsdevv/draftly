@@ -1,13 +1,14 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
-import { useProfile, useTeamMembers } from "../../hooks";
+import { useUser } from "../../hooks";
 
 import Input from "../input";
 
 export default function Members() {
-  const { teamMembers } = useTeamMembers();
+  // TODO Fix
+  const teamMembers = [];
   const [memberEmail, setMemberEmail] = useState();
-  const { user } = useProfile();
+  const { user } = useUser();
   const { scope } = useContext(ScopeContext);
   const handleOnChange = (e) => {
     setMemberEmail(e.target.value);
@@ -26,8 +27,6 @@ export default function Members() {
       console.log("Invite sent!");
     }
   };
-  // TODO Create endpoint to get details for all team members
-  // console.log(teamMembers);
   return (
     <>
       <h3>Add Team Member</h3>

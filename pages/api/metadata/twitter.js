@@ -11,15 +11,16 @@ const getCardMetadata = async (req, res) => {
     const dom = htmlparser2.parseDOM(respText, {});
     const $ = cheerio.load(dom);
 
-    let post = {
+    const post = {
       canonical: $('link[rel="canonical"]').attr("href"),
-      // Get OG Values
+      // * Get OG Values
       og_description: $('meta[property="og:description"]').attr("content"),
       og_img: $('meta[property="og:image"]').attr("content"),
       og_title: $('meta[property="og:title"]').attr("content"),
       og_type: $('meta[property="og:type"]').attr("content"),
       og_url: $('meta[property="og:url"]').attr("content"),
-      // Get Twitter Values
+
+      // * Get Twitter Values
       twitter_app_name_googleplay:
         $('meta[name="twitter:app:name:googleplay"]').attr("content") ||
         $('meta[property="twitter:app:name:googleplay"]').attr("content"),
@@ -100,7 +101,7 @@ const getCardMetadata = async (req, res) => {
     console.log("Returned metadata:", post);
     res.status(200).json(post);
   } catch (err) {
-    console.error("ERROR - api/metadata -", err.message);
+    console.error("ERROR - api/metadata/twitter -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

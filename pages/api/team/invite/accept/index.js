@@ -1,35 +1,23 @@
 import cookie from "cookie";
-import { client, q } from "../../../_util/fauna";
-import {
-  getDocProperty,
-  getDocRef,
-  getDocByIndex,
-  getDocByRef,
-} from "../../../_util/fauna/queries";
 import cookieOptions from "../../../_util/cookie/options";
+import { escape, query } from "../../../_util/db";
 
 const acceptInvite = async (req, res) => {
-  const { id_token, user_id } = req.cookies;
+  const { id_token, uid } = req.cookies;
   const { code, ref, team } = req.query;
-  console.log("REF", ref);
   // * Differing action if user exists and is logged in
-  if (id_token && user_id) {
+  if (id_token && uid) {
     console.log("CHECKING IF USER IS AN EXISTING MEMBER OF THE TEAM");
     try {
+      // TODO Check code matches that of team, else error
+
       // * Check the user is not currently a member of the team
-      const getMembers = await client.query(
-        q.Union(
-          getDocProperty(
-            ["data", "owners"],
-            getDocByIndex("all_teams_by_handle", team)
-          ),
-          getDocProperty(
-            ["data", "members"],
-            getDocByIndex("all_teams_by_handle", team)
-          )
-        )
+      const membersQuery = await query(
+        escape`SELECT * FROM teams_members
+        LEFT JOIN users ON users.uid = teams_members.uid
+        WHERE tuid = ${team}`
       );
-      const isMember = getMembers.includes(user_id);
+      const isMember = membersQuery.includes(uid);
       if (isMember) {
         console.log("USER IS ALREADY A MEMBER OF THIS TEAM");
         res.writeHead(302, {
@@ -38,36 +26,13 @@ const acceptInvite = async (req, res) => {
         res.end();
         return;
       }
+
       // * Add to team as a member
-      console.log("ADDING INVITED USER TO TEAM AS MEMBER");
-      await client.query(
-        q.Update(
-          getDocProperty(["ref"], getDocByIndex("all_teams_by_handle", team)),
-          {
-            data: {
-              members: q.Append(
-                user_id,
-                getDocProperty(
-                  ["data", "members"],
-                  getDocByIndex("all_teams_by_handle", team)
-                )
-              ),
-            },
-          }
-        )
+      await query(
+        escape`INSERT INTO team_members (uid, tuid, role)
+        VALUES (${uid}, ${team}, 'member')`
       );
-      // * Add team to user
-      console.log("ADDING TEAM TO INVITED USER");
-      await client.query(
-        q.Update(getDocRef("users", user_id), {
-          data: {
-            teams: q.Append(
-              ref,
-              getDocProperty(["data", "teams"], getDocByRef("users", user_id))
-            ),
-          },
-        })
-      );
+
       res.writeHead(302, {
         Location: `${process.env.AUTH0_REDIRECT_URI}/dashboard`,
       });

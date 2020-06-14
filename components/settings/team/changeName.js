@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import { useScope, useProfile } from "../../../hooks";
+import { useScope, useUser } from "../../../hooks";
 
 import Input from "../../input";
 
 export default function ChangeTeamName() {
-  const { revalidateProfile, teams } = useProfile();
+  const { revalidateProfile, teams } = useUser();
   const { scope, setScope } = useScope();
   const [newName, setNewName] = useState(scope.name);
   const handleOnChange = (e) => {

@@ -1,4 +1,4 @@
-import { useProfile, useScope } from "../../hooks";
+import { useScope, useUser } from "../../hooks";
 import styles from "../../styles/pages/settings.module.css";
 import RequireLogin from "../../lib/requireLogin";
 
@@ -8,7 +8,7 @@ import Members from "../../components/settings/members";
 
 function TeamMembers() {
   const { scope } = useScope();
-  const { teams, user } = useProfile();
+  const { teams, user } = useUser();
   const isOwner = scope?.owners.includes(user && user.email);
   return (
     <Page name="Settings - Team Members">

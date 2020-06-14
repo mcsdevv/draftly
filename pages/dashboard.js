@@ -1,14 +1,12 @@
-import { useDrafts, useProfile, useReviews, usePublished } from "../hooks";
+import { useUser, useTweets } from "../hooks";
 
 import RequireLogin from "../lib/requireLogin";
 
 import Page from "../components/page";
 
 function Dashboard() {
-  const { drafts } = useDrafts();
-  const { reviews } = useReviews();
-  const { published } = usePublished();
-  const { user } = useProfile();
+  const { drafts, reviews, published } = useTweets();
+  const { user } = useUser();
   return (
     <Page name="Dashboard">
       <h3>Hello {user?.name}, here are some stats for you:</h3>

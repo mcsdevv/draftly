@@ -1,4 +1,4 @@
-import { useProfile, useScope } from "../../hooks";
+import { useScope, useUser } from "../../hooks";
 import { useRouter } from "next/router";
 
 import Link from "../link";
@@ -6,7 +6,7 @@ import Select from "../select";
 
 const Scope = () => {
   const { scope, setStoredScope } = useScope();
-  const { teams } = useProfile();
+  const { teams } = useUser();
   const router = useRouter();
   const handleOnChange = (e: React.FormEvent<HTMLSelectElement>) => {
     const name = e.currentTarget.value;

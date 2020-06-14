@@ -20,3 +20,5 @@ export const query = async (q) => {
     return { error };
   }
 };
+
+export const escape = require("sql-template-strings");

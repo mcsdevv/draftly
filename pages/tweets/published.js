@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useProfile, usePublished } from "../../hooks";
+import { useTweets } from "../../hooks";
 
 import RequireLogin from "../../lib/requireLogin";
 
@@ -9,8 +9,7 @@ import Page from "../../components/page";
 import Publish from "../../components/tweets/publish";
 
 function Published() {
-  const { user } = useProfile();
-  const { published } = usePublished();
+  const { published } = useTweets();
   const [showLoading, setShowLoading] = useState(false);
   const [showNoPublished, setShowNoPublished] = useState(false);
   useEffect(() => {

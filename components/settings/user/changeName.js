@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import { useScope, useProfile } from "../../../hooks";
+import { useScope, useUser } from "../../../hooks";
 
 import Input from "../../input";
 
 export default function ChangeUserName() {
-  const { revalidateProfile, user } = useProfile();
+  const { revalidateProfile, user } = useUser();
   const { scope, setScope } = useScope();
   const [newName, setNewName] = useState(user.name);
   const handleOnChange = (e) => {

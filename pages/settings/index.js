@@ -1,4 +1,4 @@
-import { useProfile, useScope } from "../../hooks";
+import { useScope, useUser } from "../../hooks";
 import styles from "../../styles/pages/settings.module.css";
 import RequireLogin from "../../lib/requireLogin";
 
@@ -14,7 +14,7 @@ import Reviews from "../../components/settings/reviews";
 
 function Settings() {
   const { scope } = useScope();
-  const { user } = useProfile();
+  const { user } = useUser();
   const isOwner = scope?.owners.includes(user && user.email);
   return (
     <Page name="Settings - General">

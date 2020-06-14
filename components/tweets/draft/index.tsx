@@ -94,7 +94,7 @@ const Draft = ({ drafts, revalidate, tweet }: DraftProps) => {
       editing={editing}
       editTweet={editTweet}
       handleOnChange={handleOnChange}
-      metadata={tweet.metadata}
+      metadata={tweet.meta}
       scope={scope}
       text={tweet.text}
     >

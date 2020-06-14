@@ -1,9 +1,8 @@
 import oauth from "../../_util/oauth";
 
-import { query } from "../../_util/db";
+import { escape, query } from "../../_util/db";
 import uuidv4 from "uuid/v4";
 import createInviteCode from "../../../../lib/createInviteCode";
-const escape = require("sql-template-strings");
 
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
@@ -20,7 +19,7 @@ export default (req, res) => {
         oauthAccessTokenSecret,
         async function (error, data, response) {
           if (error) {
-            res.send("Error getting twitter screen name:" + error);
+            res.status(404).send("Error getting twitter screen name:" + error);
           } else {
             const accountData = JSON.parse(data);
 
@@ -32,21 +31,11 @@ export default (req, res) => {
 
             // * If it exists, update tokens, else create team
             if (exists) {
-              // TODO Update tokens for the team
-              // await fetch(
-              //   `${process.env.AUTH0_REDIRECT_URI}/api/team/tokens/update`,
-              //   {
-              //     method: "PATCH",
-              //     body: JSON.stringify({
-              //       handle: accountData.screen_name,
-              //       tokenKey: oauthAccessToken,
-              //       tokenSecret: oauthAccessTokenSecret,
-              //     }),
-              //     headers: {
-              //       Authorization: req.cookies.access_token,
-              //     },
-              //   }
-              // );
+              await query(
+                escape`UPDATE teams 
+                SET token_key = ${oauthAccessToken} token_secret = ${oauthAccessTokenSecret} 
+                WHERE handle = ${accountData.screen_name}`
+              );
             } else {
               // * Prepare data for insert
               const uuid = uuidv4();

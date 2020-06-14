@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import { useScope, useProfile } from "../../../hooks";
+import { useScope, useUser } from "../../../hooks";
 
 import Input from "../../input";
 
 export default function DeleteUser() {
-  const { revalidateProfile, teams, user } = useProfile();
+  const { revalidateProfile, teams, user } = useUser();
   const { scope, setScope } = useScope();
   const [userName, setUserName] = useState("");
   const handleOnChange = (e) => {

@@ -1,7 +1,6 @@
 const Twitter = require("twitter");
 import verify from "../../_util/token/verify";
-import { query } from "../../_util/db";
-const escape = require("sql-template-strings");
+import { escape, query } from "../../_util/db";
 
 const createPublishedTweet = async (req, res) => {
   try {

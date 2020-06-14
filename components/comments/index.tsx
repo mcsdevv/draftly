@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import ScopeContext from "../../context/scopeContext";
-import { useProfile } from "../../hooks";
+import { useUser } from "../../hooks";
 import { mutate } from "swr";
 import uuidv4 from "uuid/v4";
 import styles from "./comments.module.css";
@@ -20,7 +20,7 @@ export default function Comments({
 }: CommentsProps) {
   const [comment, setComment] = useState("");
   const { scope } = useContext(ScopeContext);
-  const { user } = useProfile();
+  const { user } = useUser();
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     const newComment = e.currentTarget.value;
     setComment(newComment);

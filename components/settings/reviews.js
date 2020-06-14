@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useScope, useProfile } from "../../hooks";
+import { useScope, useUser } from "../../hooks";
 
 import Input from "../input";
 
 export default function Reviews() {
-  const { revalidateProfile } = useProfile();
+  const { revalidateProfile } = useUser();
   const { scope, setScope } = useScope();
   const [reviews, setReviews] = useState(scope?.reviewsRequired.toString());
   const handleOnChange = (e) => {

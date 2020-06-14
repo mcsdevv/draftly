@@ -2,8 +2,7 @@ import { client, q } from "../../_util/fauna";
 import { getDocRef } from "../../_util/fauna/queries";
 import verify from "../../_util/token/verify";
 
-import { query } from "../../_util/db";
-const escape = require("sql-template-strings");
+import { escape, query } from "../../_util/db";
 
 const deleteUser = async (req, res, uid) => {
   try {

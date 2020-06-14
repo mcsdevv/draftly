@@ -1,11 +1,11 @@
 import { useContext, useEffect } from "react";
 import ScopeContext from "../context/scopeContext";
 
-import { useProfile } from "../hooks/";
+import { useUser } from "./";
 
 export const useScope = () => {
   const { scope, setScope } = useContext(ScopeContext);
-  const { teams } = useProfile();
+  const { teams } = useUser();
   const setStoredScope = (newScope) => {
     localStorage.setItem("scope", JSON.stringify(newScope));
     setScope(newScope);
