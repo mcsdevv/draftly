@@ -4,3 +4,6 @@ export { usePublished } from "./usePublished";
 export { useReviews } from "./useReviews";
 export { useScope } from "./useScope";
 export { useTeamMembers } from "./useTeamMembers";
+
+export { useTweets } from "./use-tweets";
+export { useUser } from "./use-user";

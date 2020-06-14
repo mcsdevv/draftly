@@ -29,11 +29,11 @@ const Review = ({ revalidate, reviews, tweet }: ReviewProps) => {
     getReviewsRequired();
   }, [scope, tweet]);
   const handleApprove = async () => {
-    const url = `/api/tweet/review/approve/${tweet.ref}`;
+    const url = "/api/tweet/review/approve";
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        email: user.email,
+        twuid: scope.twuid,
       }),
     });
     if (res.status === 200) {
@@ -96,12 +96,11 @@ const Review = ({ revalidate, reviews, tweet }: ReviewProps) => {
     }
   };
   const handlePublish = async () => {
-    const url = `/api/tweet/published/create/${scope.handle}`;
+    const url = "/api/tweet/published/create";
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        creator: tweet.creator,
-        ref: tweet.ref,
+        tuid: scope.tuid,
         tweet: tweet.text,
       }),
     });

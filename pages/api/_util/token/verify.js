@@ -4,6 +4,9 @@ import { decrypt } from "./encryption";
 const verify = (handler) => async (req, res) => {
   // * Get token from
   const token = req.headers.authorization || req.cookies.access_token;
+  // console.log("ACCESS", token);
+  // console.log("ID", req.cookies.id_token);
+  console.log("REQCOOKIES", req.cookies.id_token);
   // * Provide options to verify the JWT with
   const options = {
     algorithms: ["RS256"],
@@ -21,9 +24,14 @@ const verify = (handler) => async (req, res) => {
         console.error("Error authenticating: incorrect audience");
         return res.status(403).json({ err: "Incorrect audience" });
       }
-      // * Verify JWT using about methods
+      // * Verify access_token
       jwt.verify(tokenDecrypted, process.env.AUTH0_PUBLIC_KEY, options);
-      return handler(req, res);
+      // * Verify id_token to prevent false representation
+      jwt.verify(req.cookies.id_token, process.env.AUTH0_PUBLIC_KEY, options);
+      // * Decrypt uid to prevent false representation
+      const uid = decrypt(req.cookies.uid);
+      // * Return handler with uid added
+      return handler(req, res, uid);
     } catch (err) {
       console.error("Error verifying:", err.message);
       return res.status(403).json({ err: err.message });

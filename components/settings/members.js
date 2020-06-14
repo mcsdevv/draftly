@@ -27,7 +27,7 @@ export default function Members() {
     }
   };
   // TODO Create endpoint to get details for all team members
-  console.log(teamMembers);
+  // console.log(teamMembers);
   return (
     <>
       <h3>Add Team Member</h3>

@@ -26,7 +26,7 @@ const ComposeTweet = ({ drafts, setDrafting }: ComposeTweetProps) => {
     const metadata = await getMeta(tweet);
     const id = Cookies.get("id_token");
     const { name } = parseJwt(id);
-    const url = `/api/tweet/draft/create/${scope.handle}`;
+    const url = "/api/tweet/draft/create";
     const formattedTweet = removeWww(tweet);
     const res = await fetch(url, {
       method: "POST",
@@ -34,6 +34,7 @@ const ComposeTweet = ({ drafts, setDrafting }: ComposeTweetProps) => {
         creator: name,
         metadata,
         tweet: formattedTweet,
+        tuid: scope.tuid,
       }),
     });
     if (res.status === 200) {

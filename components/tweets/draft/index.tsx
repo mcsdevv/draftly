@@ -22,11 +22,11 @@ const Draft = ({ drafts, revalidate, tweet }: DraftProps) => {
     setEditing(false);
   };
   const handleDelete = async () => {
-    const url = `/api/tweet/draft/delete/${scope.handle}`;
+    const url = "/api/tweet/draft/delete";
     const res = await fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
-        ref: tweet.ref,
+        twuid: tweet.twuid,
       }),
     });
     if (res.status === 200) {
@@ -70,13 +70,15 @@ const Draft = ({ drafts, revalidate, tweet }: DraftProps) => {
     // * Changes made, update tweet
     setEditing(false);
     const metadata = await getMeta(editTweet);
-    const url = `/api/tweet/draft/update/${tweet.ref}`;
+    const url = "/api/tweet/draft/update";
     const formattedTweet = removeWww(editTweet);
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
         metadata,
         text: formattedTweet,
+        tuid: tweet.tuid,
+        twuid: tweet.twuid,
       }),
     });
     if (res.status === 200) {

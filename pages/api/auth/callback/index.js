@@ -1,6 +1,6 @@
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
-import { getRef } from "../../_util/getRef";
+import { getRef } from "../../../../lib/getRef";
 import cookieOptions from "../../_util/cookie/options";
 import { encrypt } from "../../_util/token/encryption";
 import { client, q } from "../../_util/fauna";
@@ -38,10 +38,12 @@ export default async (req, res) => {
     if (!auth.error) {
       res.setHeader("Location", `${req.cookies.next}`);
       const id_token = jwt.decode(auth.id_token);
+      console.log("ID_TOKEN", id_token);
       // * Encrypt access token
       const access_token = encrypt(auth.access_token);
       // * Confirm nonce match to mitigate token replay attack
       if (req.cookies.nonce === id_token.nonce) {
+        console.log;
         let user_id;
         let uid;
         try {
@@ -146,7 +148,11 @@ export default async (req, res) => {
             String(user_id),
             cookieOptions(false, false)
           ),
-          cookie.serialize("uid", String(uid), cookieOptions(false, false)),
+          cookie.serialize(
+            "uid",
+            String(encrypt(uid || "birb")),
+            cookieOptions(false, false)
+          ),
           cookie.serialize(
             "id_token",
             String(auth.id_token),

@@ -2,7 +2,10 @@ import { client, q } from "../../../_util/fauna";
 import { getDocProperty, getDocByRef } from "../../../_util/fauna/queries";
 import verify from "../../../_util/token/verify";
 
-const updateUserName = async (req, res) => {
+import { query } from "../../../_util/db";
+const escape = require("sql-template-strings");
+
+const updateUserName = async (req, res, uid) => {
   try {
     // * Update user name
     const { newName } = JSON.parse(req.body);
@@ -16,6 +19,11 @@ const updateUserName = async (req, res) => {
         }
       )
     );
+
+    const updateNameQuery = await query(
+      escape`UPDATE user SET name=${newName} WHERE uid=${uid}`
+    );
+
     console.log("User name updated:", dbs);
     res.status(200).json(dbs.data);
   } catch (err) {

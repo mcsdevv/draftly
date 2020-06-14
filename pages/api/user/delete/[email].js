@@ -2,7 +2,10 @@ import { client, q } from "../../_util/fauna";
 import { getDocRef } from "../../_util/fauna/queries";
 import verify from "../../_util/token/verify";
 
-const deleteUser = async (req, res) => {
+import { query } from "../../_util/db";
+const escape = require("sql-template-strings");
+
+const deleteUser = async (req, res, uid) => {
   try {
     const { teams } = JSON.parse(req.body);
     // * Delete user
@@ -30,6 +33,11 @@ const deleteUser = async (req, res) => {
         q.Lambda("u", q.Delete(q.Var("u")))
       )
     );
+
+    const deleteUserQuery = await query(
+      escape`DELETE FROM users WHERE uid = ${uid}`
+    );
+
     // TODO Remove user from all teams even when an owner remains
     console.log("Deleted user:", dbs.data.name);
     res.status(200).json(dbs.data);

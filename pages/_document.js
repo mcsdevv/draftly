@@ -25,7 +25,11 @@ export default class MyDocument extends Document {
   -    preconnect which makes it marginally faster than the default. */}
 
           {/* <!-- [1] --> */}
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="true"
+          />
 
           {/* <!-- [2] --> */}
           <link
@@ -39,7 +43,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Heebo&display=swap"
             media="print"
-            onload="this.media='all'"
+            onLoad="this.media='all'"
           />
 
           {/* <!-- [4] --> */}

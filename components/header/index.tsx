@@ -13,10 +13,9 @@ const Header = memo(() => {
       if (!!Cookies.get("id_token")) setLoggedIn(true);
     }
     getLoggedIn();
-    console.log(loggedIn);
   });
-  const logoutUser = () => {
-    fetch("/api/auth/logout");
+  const logoutUser = async () => {
+    await fetch("/api/auth/logout");
     Cookies.remove("id_token");
     Cookies.remove("access_token");
     Cookies.remove("user_id");

@@ -1,8 +1,13 @@
 import oauth from "../../../_util/oauth";
 import jwt from "jsonwebtoken";
-import { client } from "../../../_util/fauna";
+import { client, q } from "../../../_util/fauna";
 import { getDocByIndex } from "../../../_util/fauna/queries";
-import { getRef } from "../../../_util/getRef";
+import { getRef } from "../../../../../lib/getRef";
+
+import { query } from "../../../_util/db";
+import uuidv4 from "uuid/v4";
+import createInviteCode from "../../../../../lib/createInviteCode";
+const escape = require("sql-template-strings");
 
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
@@ -23,18 +28,14 @@ export default (req, res) => {
           } else {
             const accountData = JSON.parse(data);
             // * Check if the team exists currently
-            const teamExists = await fetch(
-              `${process.env.AUTH0_REDIRECT_URI}/api/team/exists/${accountData.screen_name}`,
-              {
-                headers: {
-                  Authorization: req.cookies.access_token,
-                },
-              }
+            const exists = await client.query(
+              q.Exists(
+                q.Match(q.Index("all_teams_by_handle"), accountData.screen_name)
+              )
             );
-            const { exists } = await teamExists.json();
             // * If it exists, update tokens, else create team
             if (exists) {
-              const updateTokens = await fetch(
+              await fetch(
                 `${process.env.AUTH0_REDIRECT_URI}/api/team/tokens/update`,
                 {
                   method: "PATCH",
@@ -56,20 +57,25 @@ export default (req, res) => {
                 getDocByIndex("all_users_by_email", email)
               );
               const refTrimmed = getRef(ref);
-              const createTeam = await fetch(
-                `${process.env.AUTH0_REDIRECT_URI}/api/team/create`,
-                {
-                  method: "POST",
-                  body: JSON.stringify({
-                    data: accountData,
-                    ownerRef: refTrimmed,
-                    tokenKey: oauthAccessToken,
-                    tokenSecret: oauthAccessTokenSecret,
-                  }),
-                  headers: {
-                    Authorization: req.cookies.access_token,
-                  },
-                }
+
+              const uuid = uuidv4();
+              const inviteCode = createInviteCode();
+              const {
+                name,
+                profile_image_url_https,
+                screen_name,
+              } = accountData;
+
+              // * Create team
+              await query(
+                escape`INSERT INTO teams (tuid, name, protected, handle, avatar, reviews_required, plan, token_secret, token_key, invite_code)
+                VALUES (${uuid}, ${name}, ${accountData.protected}, ${screen_name}, ${profile_image_url_https}, 0, 'free', ${oauthAccessTokenSecret}, ${oauthAccessToken}, ${inviteCode})`
+              );
+
+              // * Insert team member
+              await query(
+                escape`INSERT INTO team_members (uid, tuid, role)
+                VALUES (${req.cookies.uid}, ${uuid}, 'owner')`
               );
             }
             res.writeHead(301, {

@@ -18,7 +18,7 @@ const sendInvite = async (req, res) => {
     console.log("Invite sent to:", to);
     res.status(200).end("sent");
   } catch (err) {
-    console.error("ERROR - api/team/exists -", err);
+    console.error("ERROR - api/team/invites/send -", err);
     res.status(500).json({ err });
   }
 };
