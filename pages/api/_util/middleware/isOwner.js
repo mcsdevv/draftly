@@ -1,22 +1,20 @@
-import { client } from "../fauna";
-import { getDocProperty, getDocByIndex } from "../fauna/queries";
+import { escape, query } from "../db";
 
-const isOwner = (handler) => async (req, res) => {
+const isOwner = (handler) => async (req, res, uid) => {
   try {
     console.time("isOwner");
-    const handle = req.query.handle || req.body.handle;
-    const getOwners = await client.query(
-      getDocProperty(
-        ["data", "owners"],
-        getDocByIndex("all_teams_by_handle", handle)
-      )
+
+    // * Get all instances of user in team
+    const ownership = await query(
+      escape`SELECT * FROM teams_members
+      WHERE uid = ${uid} AND tuid = ${req.cookies.tuid} AND role = 'owner'`
     );
-    const isOwner = getOwners.includes(req.cookies.user_id);
+
     console.timeEnd("isOwner");
-    if (isOwner) return handler(req, res);
-    else throw "This action requires owner permissions";
+    if (ownership.length) return handler(req, res);
+    else throw "This action requires team membership permissions";
   } catch (err) {
-    console.error("Error authorizing: user is not an owner of the team");
+    console.error("Error authorizing: user is not a member of the team");
     return res.status(403).json({ err: err.message });
   }
 };

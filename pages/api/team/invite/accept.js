@@ -1,10 +1,12 @@
 import cookie from "cookie";
-import cookieOptions from "../../../_util/cookie/options";
-import { escape, query } from "../../../_util/db";
+import cookieOptions from "../../_util/cookie/options";
+import { escape, query } from "../../_util/db";
+import createInviteCode from "../../../../lib/createInviteCode";
 
 const acceptInvite = async (req, res) => {
   const { id_token, uid } = req.cookies;
   const { code, ref, team } = req.query;
+
   // * Differing action if user exists and is logged in
   if (id_token && uid) {
     console.log("CHECKING IF USER IS AN EXISTING MEMBER OF THE TEAM");
@@ -17,6 +19,8 @@ const acceptInvite = async (req, res) => {
         LEFT JOIN users ON users.uid = teams_members.uid
         WHERE tuid = ${team}`
       );
+
+      // * Confirm the user is not a member of the team else return error
       const isMember = membersQuery.includes(uid);
       if (isMember) {
         console.log("USER IS ALREADY A MEMBER OF THIS TEAM");
@@ -33,11 +37,16 @@ const acceptInvite = async (req, res) => {
         VALUES (${uid}, ${team}, 'member')`
       );
 
+      // * Update invite code name
+      const inviteCode = createInviteCode();
+      await query(
+        escape`UPDATE teams SET invite_code = ${inviteCode} WHERE tuid = ${team}`
+      );
+
       res.writeHead(302, {
         Location: `${process.env.AUTH0_REDIRECT_URI}/dashboard`,
       });
       res.end();
-      // TODO Change the invite code after
     } catch (err) {
       console.error("ERROR - api/team/invite/accept -", err.message);
       res.status(500).json({ err: err.message });

@@ -6,7 +6,7 @@ const updateUserName = async (req, res, uid) => {
     const { newName } = JSON.parse(req.body);
 
     // * Update user name
-    await query(escape`UPDATE user SET name=${newName} WHERE uid=${uid}`);
+    await query(escape`UPDATE user SET name = ${newName} WHERE uid = ${uid}`);
 
     console.log("User name updated:", uid);
     res.status(200).json(newName);

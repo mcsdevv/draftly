@@ -13,11 +13,12 @@ export default function ChangeTeamName() {
   };
   const handleOnSubmitName = async (e) => {
     e.preventDefault();
-    const url = `/api/team/update/name/${scope.handle}`;
+    const url = "/api/team/update/name";
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
         newName,
+        tuid: scope.tuid,
       }),
     });
     if (res.status === 200) {

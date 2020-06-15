@@ -14,7 +14,6 @@
     "cheerio": "^1.0.0-rc.3",
     "classnames": "^2.2.6",
     "cookie": "^0.4.0",
-    "faunadb": "^2.10.2",
     "get-urls": "^9.2.0",
     "htmlparser2": "^4.1.0",
     "is-url": "^1.2.4",

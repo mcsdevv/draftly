@@ -23,7 +23,6 @@ const getUserDetails = async (req, res, uid) => {
 
     // * Get all team members for listed teams
     const getTeamMembers = async () => {
-      console.log("tnk", teamsNoKeys);
       const [members] = await Promise.all(
         teamsNoKeys.map((t) => {
           return query(

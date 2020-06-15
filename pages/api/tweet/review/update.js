@@ -8,20 +8,21 @@ const updateReviewTweet = async (req, res) => {
     const { metadata, text, twuid } = JSON.parse(req.body);
     const sqlUpdate = sqlQuery.update();
 
-    // TODO Reset approvals
-
-    // * Update draft tweet
+    // * Update review tweet
     await query(escape`UPDATE tweets SET text=${text} WHERE twuid=${twuid}`);
+
+    // * Reset review approvals
+    await query(escape`DELETE FROM tweets_approvals WHERE twuid = ${twuid}`);
 
     // * Format meta
     const meta = { twuid, ...metadata };
 
-    // * Insert meta
+    // * Update review meta
     const metaQuery = sqlUpdate.into("tweets_meta").set(meta).build();
     await query(metaQuery);
 
     console.log("Updated review tweet:", twuid);
-    res.status(200).json({ ...dbs.data, ref, updated: dbs.ts });
+    res.status(200).json(twuid);
   } catch (err) {
     console.error("ERROR - api/tweet/review/update -", err.message);
     res.status(500).json({ err: err.message });

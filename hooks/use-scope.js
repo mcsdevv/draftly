@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import ScopeContext from "../context/scopeContext";
+import Cookies from "js-cookie";
 
 import { useUser } from "./";
 
@@ -8,6 +9,7 @@ export const useScope = () => {
   const { teams } = useUser();
   const setStoredScope = (newScope) => {
     localStorage.setItem("scope", JSON.stringify(newScope));
+    Cookies.set("tuid", scope.tuid);
     setScope(newScope);
   };
   useEffect(() => {

@@ -10,14 +10,10 @@ import Input from "../input";
 interface CommentsProps {
   comments: any;
   reviews: any;
-  tweetRef: string;
+  twuid: string;
 }
 
-export default function Comments({
-  comments,
-  reviews,
-  tweetRef,
-}: CommentsProps) {
+export default function Comments({ comments, reviews, twuid }: CommentsProps) {
   const [comment, setComment] = useState("");
   const { scope } = useContext(ScopeContext);
   const { user } = useUser();
@@ -26,7 +22,7 @@ export default function Comments({
     setComment(newComment);
   };
   const handleDeleteComment = async (id: string) => {
-    const url = `/api/tweet/comment/delete/${tweetRef}`;
+    const url = `/api/tweet/comment/delete/${twuid}`;
     const res = await fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
@@ -36,7 +32,7 @@ export default function Comments({
     const commentJson = await res.json();
     if (res.status === 200) {
       const newReviews = reviews.map((r: any) => {
-        if (r.ref === tweetRef) {
+        if (r.ref === twuid) {
           return { ...r, comments: commentJson };
         }
         return r;
@@ -49,23 +45,19 @@ export default function Comments({
   const handleSubmitComment = async () => {
     const commentObject = {
       comment,
-      addedAt: new Date(),
-      addedBy: user.name,
-      avatar: user.picture,
-      id: uuidv4(),
+      tcuid: uuidv4(),
+      twuid,
     };
-    const url = `/api/tweet/comment/create/${tweetRef}`;
+    const url = "/api/tweet/comment/create";
     setComment("");
     const res = await fetch(url, {
       method: "POST",
-      body: JSON.stringify({
-        ...commentObject,
-      }),
+      body: JSON.stringify(commentObject),
     });
     const commentJson = await res.json();
     if (res.status === 200) {
       const newReviews = reviews.map((r: any) => {
-        if (r.ref === tweetRef) {
+        if (r.ref === twuid) {
           return { ...r, comments: commentJson };
         }
         return r;

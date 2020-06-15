@@ -13,11 +13,11 @@ export default function DeleteTeam() {
   };
   const handleOnSubmitDelete = async (e) => {
     e.preventDefault();
-    const url = `/api/team/delete/${scope.handle}`;
+    const url = "/api/team/delete";
     const { status } = await fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
-        teams,
+        tuid: scope.tuid,
       }),
     });
     if (status === 200) {

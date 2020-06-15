@@ -1,26 +1,17 @@
-import { client, q } from "../fauna";
-import { getDocProperty, getDocByIndex } from "../fauna/queries";
+import { escape, query } from "../db";
 
-const isMember = (handler) => async (req, res) => {
-  console.log(req.cookies);
+const isMember = (handler) => async (req, res, uid) => {
   try {
     console.time("isMember");
-    const handle = req.query.handle || req.body.handle;
-    const getMembers = await client.query(
-      q.Union(
-        getDocProperty(
-          ["data", "owners"],
-          getDocByIndex("all_teams_by_handle", handle)
-        ),
-        getDocProperty(
-          ["data", "members"],
-          getDocByIndex("all_teams_by_handle", handle)
-        )
-      )
+
+    // * Get all instances of user in team
+    const membership = await query(
+      escape`SELECT * FROM teams_members
+      WHERE uid = ${uid} AND tuid = ${req.cookies.tuid}`
     );
-    const isMember = getMembers.includes(req.cookies.user_id);
+
     console.timeEnd("isMember");
-    if (isMember) return handler(req, res);
+    if (membership.length) return handler(req, res);
     else throw "This action requires team membership permissions";
   } catch (err) {
     console.error("Error authorizing: user is not a member of the team");

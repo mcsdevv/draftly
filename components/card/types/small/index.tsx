@@ -49,7 +49,7 @@ const Small = ({
     <a className={styles.cardLink} href={meta.og_url}>
       <div className={styles.summary}>
         <div className={styles.imageContainer}>
-          {!meta.fallbackImg ? (
+          {meta.fallbackImg !== "0" ? (
             <img
               alt={meta.twitter_img_alt || meta.og_img_alt || "Image."}
               className={styles.image}
