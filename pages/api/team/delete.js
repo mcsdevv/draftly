@@ -1,6 +1,6 @@
-import verify from "../../_util/token/verify";
-import isOwner from "../../_util/middleware/isOwner";
-import { escape, query } from "../../_util/db";
+import verify from "../_util/token/verify";
+import isOwner from "../_util/middleware/isOwner";
+import { escape, query } from "../_util/db";
 
 const teamDelete = async (req, res) => {
   try {
