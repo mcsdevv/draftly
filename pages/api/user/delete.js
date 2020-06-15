@@ -1,5 +1,5 @@
-import verify from "../../_util/token/verify";
-import { escape, query } from "../../_util/db";
+import verify from "../_util/token/verify";
+import { escape, query } from "../_util/db";
 
 const deleteUser = async (req, res, uid) => {
   try {
@@ -26,7 +26,6 @@ const deleteUser = async (req, res, uid) => {
 
     await deleteTeams();
 
-    // TODO Chain queries to remove meta, comments, and remaining members
     console.log("Deleted user:", uid);
     res.status(200).json(uid);
   } catch (err) {
