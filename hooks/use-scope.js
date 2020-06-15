@@ -9,7 +9,7 @@ export const useScope = () => {
   const { teams } = useUser();
   const setStoredScope = (newScope) => {
     localStorage.setItem("scope", JSON.stringify(newScope));
-    Cookies.set("tuid", scope.tuid);
+    Cookies.set("tuid", newScope.tuid);
     setScope(newScope);
   };
   useEffect(() => {
