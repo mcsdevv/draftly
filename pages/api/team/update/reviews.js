@@ -1,4 +1,4 @@
-import isOwner from "../../../_util/middleware/isOwner";
+import isOwner from "../../_util/middleware/isOwner";
 import verify from "../../_util/token/verify";
 import { escape, query } from "../../_util/db";
 
