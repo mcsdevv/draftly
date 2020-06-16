@@ -2,36 +2,44 @@ import jwt from "jsonwebtoken";
 import { decrypt } from "./encryption";
 
 const verify = (handler) => async (req, res) => {
-  // * Get token from
+  // * Get token from headers or cookies
   const token = req.headers.authorization || req.cookies.access_token;
-  // console.log("ACCESS", token);
-  // console.log("ID", req.cookies.id_token);
-  console.log("REQCOOKIES", req.cookies.id_token);
+
   // * Provide options to verify the JWT with
   const options = {
     algorithms: ["RS256"],
     maxAge: "1 day",
   };
+
   // * Check token length != false,
   if (!!token?.length) {
     try {
       // * Decrypt token
       const tokenDecrypted = decrypt(token);
+
       // * Decode decrypted token
       const tokenDecoded = jwt.decode(tokenDecrypted);
+
       // * Verify audience correct
       if (!tokenDecoded.aud.includes(process.env.AUTH0_AUDIENCE)) {
         console.error("Error authenticating: incorrect audience");
         return res.status(403).json({ err: "Incorrect audience" });
       }
+
       // * Verify access_token
       jwt.verify(tokenDecrypted, process.env.AUTH0_PUBLIC_KEY, options);
+
       // * Verify id_token to prevent false representation
       jwt.verify(req.cookies.id_token, process.env.AUTH0_PUBLIC_KEY, options);
+
       // * Decrypt uid to prevent false representation
       const uid = decrypt(req.cookies.uid);
+
+      // * Get tuid scope from cookies;
+      const { tuid } = req.cookies;
+
       // * Return handler with uid added
-      return handler(req, res, uid);
+      return handler(req, res, uid, tuid);
     } catch (err) {
       console.error("Error verifying:", err.message);
       return res.status(403).json({ err: err.message });

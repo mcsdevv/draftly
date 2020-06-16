@@ -1,6 +1,6 @@
 import verify from "../_util/token/verify";
 import { escape, query } from "../_util/db";
-import isMember from "../../../lib/isMember";
+import isMember from "../../../lib/api/middleware/isMember";
 
 const getDraftTweets = async (req, res) => {
   try {
