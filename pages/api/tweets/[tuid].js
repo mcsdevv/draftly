@@ -1,5 +1,6 @@
 import verify from "../_util/token/verify";
 import { escape, query } from "../_util/db";
+import isMember from "../../../lib/isMember";
 
 const getDraftTweets = async (req, res) => {
   try {
@@ -50,4 +51,4 @@ const getDraftTweets = async (req, res) => {
   }
 };
 
-export default verify(getDraftTweets);
+export default verify(isMember(getDraftTweets));

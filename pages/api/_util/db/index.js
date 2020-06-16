@@ -1,7 +1,5 @@
 const mysql = require("serverless-mysql");
 
-// TODO Use escape strings module
-
 const db = mysql({
   config: {
     host: process.env.MYSQL_HOST,
