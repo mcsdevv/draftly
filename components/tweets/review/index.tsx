@@ -23,7 +23,7 @@ const Review = ({ revalidate, reviews, tweet }: ReviewProps) => {
   const { user } = useUser();
   useEffect(() => {
     function getReviewsRequired() {
-      const required = scope.reviewsRequired - tweet.approvedBy.length;
+      const required = scope.reviews_required - tweet.approvedBy.length;
       setReviewsRequired(required);
     }
     getReviewsRequired();
@@ -119,7 +119,7 @@ const Review = ({ revalidate, reviews, tweet }: ReviewProps) => {
     >
       <Controls
         approvals={tweet.approvedBy.length}
-        approvalsRequired={scope.reviewsRequired}
+        approvalsRequired={scope.reviews_required}
         disableApprove={user?.name === tweet.creator}
         disablePublish={reviewsRequired !== 0}
         editing={editing}

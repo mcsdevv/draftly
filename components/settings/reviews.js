@@ -6,7 +6,7 @@ import Input from "../input";
 export default function Reviews() {
   const { revalidateProfile } = useUser();
   const { scope, setScope } = useScope();
-  const [reviews, setReviews] = useState(scope?.reviewsRequired.toString());
+  const [reviews, setReviews] = useState(scope?.reviews_required.toString());
   const handleOnChange = (e) => {
     setReviews(e.target.value);
   };
@@ -27,7 +27,7 @@ export default function Reviews() {
   };
   return (
     <Input
-      buttonDisabled={reviews === scope?.reviewsRequired.toString()}
+      buttonDisabled={reviews === scope?.reviews_required.toString()}
       buttonText="Update"
       label="Reviews Required to Publish"
       max={3}
