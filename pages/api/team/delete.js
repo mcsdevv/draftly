@@ -1,4 +1,4 @@
-import verify from ".@lib/api/token/verify";
+import verify from "@lib/api/token/verify";
 import isOwner from "@lib/api/middleware/isOwner";
 import { escape, query } from "@lib/api/db";
 
