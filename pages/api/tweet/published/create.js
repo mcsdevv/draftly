@@ -1,5 +1,5 @@
 const Twitter = require("twitter");
-import verify from "../../_util/token/verify";
+import verify from "@lib/api/token/verify";
 import { escape, query } from "@lib/api/db";
 
 const createPublishedTweet = async (req, res) => {

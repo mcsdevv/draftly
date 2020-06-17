@@ -1,5 +1,5 @@
 import cookie from "cookie";
-import cookieOptions from "../../_util/cookie/options";
+import cookieOptions from "@lib/api/cookie/options";
 import { escape, query } from "@lib/api/db";
 import createInviteCode from "@lib/api/createInviteCode";
 

@@ -1,4 +1,4 @@
-import verify from "../_util/token/verify";
+import verify from "@lib/api/token/verify";
 const cheerio = require("cheerio");
 const htmlparser2 = require("htmlparser2");
 

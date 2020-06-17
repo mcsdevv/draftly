@@ -1,6 +1,6 @@
 const sgMail = require("@sendgrid/mail");
 import isOwner from "@lib/api/middleware/isOwner";
-import verify from "../../_util/token/verify";
+import verify from "@lib/api/token/verify";
 
 const sendInvite = async (req, res) => {
   const { code, ref, team, to } = JSON.parse(req.body);

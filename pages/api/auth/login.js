@@ -1,6 +1,6 @@
 import cookie from "cookie";
 import uuidv4 from "uuid/v4";
-import cookieOptions from "../_util/cookie/options";
+import cookieOptions from "@lib/api/cookie/options";
 
 export default async (req, res) => {
   // * Generate random opaque value for state and nonce

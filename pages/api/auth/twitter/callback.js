@@ -1,4 +1,4 @@
-import oauth from "../../_util/oauth";
+import oauth from "@lib/api/oauth";
 
 import { escape, query } from "@lib/api/db";
 import uuidv4 from "uuid/v4";

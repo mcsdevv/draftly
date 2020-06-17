@@ -1,8 +1,8 @@
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
-import cookieOptions from "../_util/cookie/options";
+import cookieOptions from "@lib/api/cookie/options";
 import uuidv4 from "uuid/v4";
-import { encrypt } from "../_util/token/encryption";
+import { encrypt } from "@lib/api/token/encryption";
 import { escape, query } from "@lib/api/db";
 
 export default async (req, res) => {

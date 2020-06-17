@@ -1,4 +1,4 @@
-import verify from "../../_util/token/verify";
+import verify from "@lib/api/token/verify";
 import { query } from "@lib/api/db";
 const sql = require("sql-query");
 const sqlQuery = sql.Query();
