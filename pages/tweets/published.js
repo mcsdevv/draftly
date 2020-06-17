@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTweets } from "../../hooks";
 
-import RequireLogin from "../../lib/requireLogin";
+import RequireLogin from "@lib/client/requireLogin";
 
 import CardPlaceholder from "../../components/placeholders/card";
 import Grid from "../../components/layout/grid";

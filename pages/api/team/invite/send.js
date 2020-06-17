@@ -1,5 +1,5 @@
 const sgMail = require("@sendgrid/mail");
-import isOwner from "../../_util/middleware/isOwner";
+import isOwner from "@lib/api/middleware/isOwner";
 import verify from "../../_util/token/verify";
 
 const sendInvite = async (req, res) => {

@@ -1,5 +1,5 @@
 import verify from "../../_util/token/verify";
-import { escape, query } from "../../_util/db";
+import { escape, query } from "@lib/api/db";
 const sql = require("sql-query");
 const sqlQuery = sql.Query();
 

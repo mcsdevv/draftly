@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import RequireLogin from "../../lib/requireLogin";
+import RequireLogin from "@lib/client/requireLogin";
 
 function Tweets() {
   const router = useRouter();

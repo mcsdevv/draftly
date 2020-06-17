@@ -1,7 +1,7 @@
 import cookie from "cookie";
 import cookieOptions from "../../_util/cookie/options";
-import { escape, query } from "../../_util/db";
-import createInviteCode from "../../../../lib/createInviteCode";
+import { escape, query } from "@lib/api/db";
+import createInviteCode from "@lib/client/createInviteCode";
 
 const acceptInvite = async (req, res) => {
   const { id_token, uid } = req.cookies;

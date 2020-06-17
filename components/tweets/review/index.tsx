@@ -3,8 +3,8 @@ import ScopeContext from "../../../context/scopeContext";
 import { useUser } from "../../../hooks";
 import { mutate } from "swr";
 
-import getMeta from "../../../lib/getMeta";
-import removeWww from "../../../lib/removeWww";
+import getMeta from "@lib/client/getMeta";
+import removeWww from "@lib/client/removeWww";
 
 import Controls from "../../controls";
 import Tweet from "../../tweet";

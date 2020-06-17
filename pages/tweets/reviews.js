@@ -7,7 +7,7 @@ import Grid from "../../components/layout/grid";
 import Page from "../../components/page";
 import Review from "../../components/tweets/review";
 
-import RequireLogin from "../../lib/requireLogin";
+import RequireLogin from "@lib/client/requireLogin";
 
 function Reviews() {
   const { reviews } = useTweets();

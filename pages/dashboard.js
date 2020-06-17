@@ -1,6 +1,6 @@
 import { useUser, useTweets } from "../hooks";
 
-import RequireLogin from "../lib/requireLogin";
+import RequireLogin from "@lib/client/requireLogin";
 
 import Page from "../components/page";
 

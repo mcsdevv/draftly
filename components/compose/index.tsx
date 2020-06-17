@@ -2,9 +2,9 @@ import { useContext, useState } from "react";
 import { mutate } from "swr";
 import Cookies from "js-cookie";
 import ScopeContext from "../../context/scopeContext";
-import parseJwt from "../../lib/parseJwt";
-import getMeta from "../../lib/getMeta";
-import removeWww from "../../lib/removeWww";
+import parseJwt from "@lib/client/client/parseJwt";
+import getMeta from "@lib/client/client/getMeta";
+import removeWww from "@lib/client/client/removeWww";
 
 import Button from "../button";
 import Characters from "../characters";

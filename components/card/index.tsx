@@ -2,7 +2,7 @@ import Large from "./types/large";
 import Small from "./types/small";
 import Text from "./types/text";
 
-import removeUrl from "../../lib/removeUrl";
+import removeUrl from "@lib/client/removeUrl";
 
 interface Metadata {
   cardType: string;

@@ -1,8 +1,8 @@
 import oauth from "../../_util/oauth";
 
-import { escape, query } from "../../_util/db";
+import { escape, query } from "@lib/api/db";
 import uuidv4 from "uuid/v4";
-import createInviteCode from "../../../../lib/createInviteCode";
+import createInviteCode from "@lib/api/createInviteCode";
 
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;

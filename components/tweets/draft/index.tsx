@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import ScopeContext from "../../../context/scopeContext";
 import { mutate } from "swr";
 
-import getMeta from "../../../lib/getMeta";
-import removeWww from "../../../lib/removeWww";
+import getMeta from "@lib/client/client/getMeta";
+import removeWww from "@lib/client/client/removeWww";
 
 import Controls from "../../controls";
 import Tweet from "../../tweet";

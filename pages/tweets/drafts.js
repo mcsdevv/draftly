@@ -7,7 +7,7 @@ import Draft from "../../components/tweets/draft";
 import Grid from "../../components/layout/grid";
 import Page from "../../components/page";
 
-import RequireLogin from "../../lib/requireLogin";
+import RequireLogin from "@lib/client/requireLogin";
 
 function Drafts() {
   const { drafts } = useTweets();

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import cookieOptions from "../_util/cookie/options";
 import uuidv4 from "uuid/v4";
 import { encrypt } from "../_util/token/encryption";
-import { escape, query } from "../_util/db";
+import { escape, query } from "@lib/api/db";
 
 export default async (req, res) => {
   // * Confirm state match to mitigate CSRF

@@ -1,6 +1,6 @@
 import { useScope, useUser } from "../../hooks";
 import styles from "../../styles/pages/settings.module.css";
-import RequireLogin from "../../lib/requireLogin";
+import RequireLogin from "@lib/client/requireLogin";
 
 import Page from "../../components/page";
 

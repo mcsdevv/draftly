@@ -1,6 +1,6 @@
-import isOwner from "../../_util/middleware/isOwner";
+import isOwner from "@lib/api/middleware/isOwner";
 import verify from "../../_util/token/verify";
-import { escape, query } from "../../_util/db";
+import { escape, query } from "@lib/api/db";
 
 const updateReviewsRequired = async (req, res) => {
   try {
