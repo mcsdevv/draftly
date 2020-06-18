@@ -5,7 +5,7 @@ import Link from "../link";
 import Select from "../select";
 
 const Scope = () => {
-  const { scope, setStoredScope } = useScope();
+  const { scope, setScope } = useScope();
   const { teams } = useUser();
   const router = useRouter();
   const handleOnChange = (e: React.FormEvent<HTMLSelectElement>) => {
@@ -14,7 +14,7 @@ const Scope = () => {
       return router.push("/api/auth/twitter/connect");
     }
     const scopeDetails = teams.find((t: any) => t.handle === name);
-    setStoredScope(scopeDetails);
+    setScope(scopeDetails);
   };
   return scope !== null && teams ? (
     teams?.length ? (
