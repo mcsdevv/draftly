@@ -20,9 +20,6 @@ const Header = memo(() => {
     Cookies.remove("access_token");
     Cookies.remove("user_id");
     Cookies.remove("next");
-    localStorage.removeItem("scope");
-    localStorage.removeItem("teams");
-    localStorage.removeItem("user");
     window.location.href = "/";
   };
   return (
