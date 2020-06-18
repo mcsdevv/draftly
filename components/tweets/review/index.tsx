@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import ScopeContext from "../../../context/scopeContext";
-import { useUser } from "../../../hooks";
+import { useEffect, useState } from "react";
+import { useScope, useUser } from "../../../hooks";
 import { mutate } from "swr";
 
 import getMeta from "@lib/client/getMeta";
@@ -19,7 +18,7 @@ const Review = ({ revalidate, reviews, tweet }: ReviewProps) => {
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
   const [reviewsRequired, setReviewsRequired] = useState(0);
-  const { scope } = useContext(ScopeContext);
+  const { scope } = useScope();
   const { user } = useUser();
   useEffect(() => {
     function getReviewsRequired() {

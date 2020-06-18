@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import ScopeContext from "../../../context/scopeContext";
+import { useScope } from "../../../hooks";
 
 import Tweet from "../../tweet";
 
@@ -8,7 +7,7 @@ interface PublishProps {
 }
 
 const Publish = ({ tweet }: PublishProps) => {
-  const { scope } = useContext(ScopeContext);
+  const { scope } = useScope();
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
     <Tweet

@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
-import ScopeContext from "../../../context/scopeContext";
+import { useState } from "react";
 import { mutate } from "swr";
+import { useScope } from "../../../hooks";
 
 import getMeta from "@lib/client/getMeta";
 import removeWww from "@lib/client/removeWww";
@@ -17,7 +17,7 @@ interface DraftProps {
 const Draft = ({ drafts, revalidate, tweet }: DraftProps) => {
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
-  const { scope } = useContext(ScopeContext);
+  const { scope } = useScope();
   const handleCancelEdit = () => {
     setEditing(false);
   };
