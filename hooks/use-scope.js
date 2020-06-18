@@ -7,23 +7,15 @@ import { useUser } from "./";
 export const useScope = () => {
   const { scope, setScope } = useContext(ScopeContext);
   const { teams } = useUser();
-  const setStoredScope = (newScope) => {
-    localStorage.setItem("scope", JSON.stringify(newScope));
-    Cookies.set("tuid", newScope.tuid);
-    setScope(newScope);
-  };
   useEffect(() => {
-    function getStoredScope() {
-      const scopeStored = localStorage.getItem("scope");
-      if (!!scopeStored && scopeStored !== "undefined") {
-        const newScope = JSON.parse(scopeStored);
-        setStoredScope(newScope);
-      }
+    function setNewScope() {
       if (teams) {
-        setStoredScope(teams[0]);
+        const newScope = teams[0];
+        Cookies.set("tuid", newScope.tuid);
+        setScope(newScope);
       }
     }
-    getStoredScope();
+    setNewScope();
   }, [teams]);
   return { scope, setStoredScope };
 };
