@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
-import ScopeContext from "../../context/scopeContext";
-import { useUser } from "../../hooks";
+import { useState } from "react";
+import { useScope } from "../../hooks";
 
 import Input from "../input";
 
@@ -8,8 +7,7 @@ export default function Members() {
   // TODO Fix
   const teamMembers = [];
   const [memberEmail, setMemberEmail] = useState();
-  const { user } = useUser();
-  const { scope } = useContext(ScopeContext);
+  const { scope } = useScope();
   const handleOnChange = (e) => {
     setMemberEmail(e.target.value);
   };

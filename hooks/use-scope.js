@@ -1,11 +1,10 @@
-import { useContext, useEffect } from "react";
-import ScopeContext from "../context/scopeContext";
+import { useEffect } from "react";
 import Cookies from "js-cookie";
-
+import useSWR from "swr";
 import { useUser } from "./";
 
 export const useScope = () => {
-  const { scope, setScope } = useContext(ScopeContext);
+  const { data: scope, mutate: setScope } = useSWR("scope", { initiaData: "" });
   const { teams } = useUser();
   useEffect(() => {
     function setNewScope() {
@@ -17,5 +16,5 @@ export const useScope = () => {
     }
     setNewScope();
   }, [teams]);
-  return { scope, setStoredScope };
+  return { scope, setScope };
 };

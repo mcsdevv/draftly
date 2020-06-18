@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { mutate } from "swr";
 import Cookies from "js-cookie";
-import ScopeContext from "../../context/scopeContext";
+import { useScope } from "../../hooks";
 import parseJwt from "@lib/client/parseJwt";
 import getMeta from "@lib/client/getMeta";
 import removeWww from "@lib/client/removeWww";
@@ -20,7 +20,7 @@ interface ComposeTweetProps {
 const ComposeTweet = ({ drafts, setDrafting }: ComposeTweetProps) => {
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
-  const { scope } = useContext(ScopeContext);
+  const { scope } = useScope();
   const handleSaveDraft = async () => {
     setSaving(true);
     const metadata = await getMeta(tweet);
