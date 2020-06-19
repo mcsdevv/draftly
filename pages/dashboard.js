@@ -3,7 +3,7 @@ import useUser from "@hooks/use-user";
 
 import RequireLogin from "@lib/client/requireLogin";
 
-import Page from "../components/page";
+import Page from "@components/page";
 
 function Dashboard() {
   const { drafts, reviews, published } = useTweets();

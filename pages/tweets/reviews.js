@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 
 import useTweets from "@hooks/use-tweets";
 
-import CardPlaceholder from "../../components/placeholders/card";
-import Comments from "../../components/comments";
-import Grid from "../../components/layout/grid";
-import Page from "../../components/page";
-import Review from "../../components/tweets/review";
+import CardPlaceholder from "@components/placeholders/card";
+import Comments from "@components/comments";
+import Grid from "@components/layout/grid";
+import Page from "@components/page";
+import Review from "@components/tweets/review";
 
 import RequireLogin from "@lib/client/requireLogin";
 

@@ -1,18 +1,18 @@
 import useScope from "@hooks/use-scope";
 import useUser from "@hooks/use-user";
 
-import styles from "../../styles/pages/settings.module.css";
+import styles from "@styles/pages/settings.module.css";
 import RequireLogin from "@lib/client/requireLogin";
 
-import Page from "../../components/page";
+import Page from "@components/page";
 
-import ChangeUserName from "../../components/settings/user/changeName";
-import DeleteUser from "../../components/settings/user/delete";
-import ChangeTeamName from "../../components/settings/team/changeName";
-import DeleteTeam from "../../components/settings/team/delete";
-import Members from "../../components/settings/members";
-// import Plan from "../components/settings/plan";
-import Reviews from "../../components/settings/reviews";
+import ChangeUserName from "@components/settings/user/changeName";
+import DeleteUser from "@components/settings/user/delete";
+import ChangeTeamName from "@components/settings/team/changeName";
+import DeleteTeam from "@components/settings/team/delete";
+import Members from "@components/settings/members";
+// import Plan from "@components/settings/plan";
+import Reviews from "@components/settings/reviews";
 
 function Settings() {
   const [scope] = useScope();

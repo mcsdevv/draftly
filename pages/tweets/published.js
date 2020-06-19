@@ -4,10 +4,10 @@ import useTweets from "@hooks/use-tweets";
 
 import RequireLogin from "@lib/client/requireLogin";
 
-import CardPlaceholder from "../../components/placeholders/card";
-import Grid from "../../components/layout/grid";
-import Page from "../../components/page";
-import Publish from "../../components/tweets/publish";
+import CardPlaceholder from "@components/placeholders/card";
+import Grid from "@components/layout/grid";
+import Page from "@components/page";
+import Publish from "@components/tweets/publish";
 
 function Published() {
   const { published } = useTweets();
