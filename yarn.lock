@@ -1047,29 +1047,29 @@
   resolved "https://registry.yarnpkg.com/@next/react-refresh-utils/-/react-refresh-utils-9.4.4.tgz#d94cbb3b354a07f1f5b80e554d6b9e34aba99e41"
   integrity sha512-9nKENeWRI6kQk44TbeqleIVtNLfcS3klVUepzl/ZCqzR5Bi06uqBCD277hdVvG/wL1pxA+R/pgJQLqnF5E2wPQ==
 
-"@sendgrid/client@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@sendgrid/client/-/client-7.1.0.tgz#ce52f099a81613b6bfad773bd8d54b53dcb308fa"
-  integrity sha512-w0g0CCFKRnA68+tk1BTdibgRSLI9e3RC6H8HmN4HVAKfGHTxkbwM/nb+NDrvWUJ7g1etNS/7PXRzZNOVQJVydA==
+"@sendgrid/client@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@sendgrid/client/-/client-7.2.0.tgz#485112263458e177b8e98817fe12d6bf221b502c"
+  integrity sha512-ORlsU2cErvCUZsx96d5jaCCOajZ3kLiTInwr3yxFiXzqVRfP1ipCEajFxcS2LZDMoww/uCSflRcOVLmttBdJbw==
   dependencies:
-    "@sendgrid/helpers" "^7.0.1"
+    "@sendgrid/helpers" "^7.2.0"
     axios "^0.19.2"
 
-"@sendgrid/helpers@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/@sendgrid/helpers/-/helpers-7.0.1.tgz#b97debc793ed3f9f56102e12c2a6d2bbbf0ffb78"
-  integrity sha512-i/zsissq1upgdywtuJKysaplJJZC24GdtEKiJC1IRlXvBHzIjH4eU+rqUFO8h+hGji3UMURGgMFuLUXTUYvZ9w==
+"@sendgrid/helpers@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@sendgrid/helpers/-/helpers-7.2.0.tgz#75cbde76815fa0f8b7966b3e2a0650fc125c3276"
+  integrity sha512-Ps8rc3xFpaQvIWoW1zlWi9G7QnxYwXFOeq0915DzXf5knoiOgXdFk/XBXbCFjr2lf/JIzjgFUtAV/dN8Z8jzHw==
   dependencies:
     chalk "^2.0.1"
     deepmerge "^4.2.2"
 
 "@sendgrid/mail@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@sendgrid/mail/-/mail-7.1.0.tgz#828aa975f885fecb36217e7db55ca6006b689873"
-  integrity sha512-rafioHd98gz2eVhCN3jE/6XwXf4rr02ap5oN7+6M0nuRXbl1h5jla30JD4ZCwBlo+2qT8TnMi+H9T4Yj0F0zUA==
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@sendgrid/mail/-/mail-7.2.0.tgz#262fde8a93093074fc873c42103cfa842134327b"
+  integrity sha512-iAA4LCd4eBpBVsYVgHPUd1B9CSwDVS/LNApT4Wn79nikAEfkJCT2n3BipU6CO2vPYUJNRQiStJ55RfdKe9Hulg==
   dependencies:
-    "@sendgrid/client" "^7.1.0"
-    "@sendgrid/helpers" "^7.0.1"
+    "@sendgrid/client" "^7.2.0"
+    "@sendgrid/helpers" "^7.2.0"
 
 "@types/classnames@^2.2.10":
   version "2.2.10"
@@ -1115,7 +1115,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.9.35":
+"@types/react@*":
   version "16.9.35"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.35.tgz#a0830d172e8aadd9bd41709ba2281a3124bbd368"
   integrity sha512-q0n0SsWcGc8nDqH2GJfWQWUOmZSJhXV64CjVN5SvcNti3TdEaA3AH0D8DwNmMdzjMAC/78tB8nAZIlV8yTz+zQ==
@@ -1123,10 +1123,18 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/react@^16.9.35":
+  version "16.9.38"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.38.tgz#868405dace93a4095d3e054f4c4a1de7a1ac0680"
+  integrity sha512-pHAeZbjjNRa/hxyNuLrvbxhhnKyKNiLC6I5fRF2Zr/t/S6zS41MiyzH4+c+1I9vVfvuRt1VS2Lodjr4ZWnxrdA==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
+
 "@types/uuid@^7.0.3":
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-7.0.3.tgz#45cd03e98e758f8581c79c535afbd4fc27ba7ac8"
-  integrity sha512-PUdqTZVrNYTNcIhLHkiaYzoOIaUi5LFg/XLerAdgvwQrUCx+oSbtoBze1AMyvYbcwzUSNC+Isl58SM4Sm/6COw==
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-7.0.4.tgz#00a5749810b4ad80bff73a61f9cc9d0d521feb3c"
+  integrity sha512-WGZCqBZZ0mXN2RxvLHL6/7RCu+OWs28jgQMP04LWfpyJlQUMTR6YU9CNJAKDgbw+EV/u687INXuLUc7FuML/4g==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -5303,9 +5311,9 @@ run-queue@^1.0.0, run-queue@^1.0.3:
     aproba "^1.1.1"
 
 s-ago@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/s-ago/-/s-ago-2.1.0.tgz#70ac180803cbb6af22480caa379215d6abb6b50e"
-  integrity sha512-7leN5IaS79lNyO3s47NHQfMBgYLjx0IEWipN1VSf5uX7Jp1N8sX/2TrNJX30MPM63admF10hQOZFCzej8O4t3g==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/s-ago/-/s-ago-2.2.0.tgz#4143a9d0176b3100dcf649c78e8a1ec8a59b1312"
+  integrity sha512-t6Q/aFCCJSBf5UUkR/WH0mDHX8EGm2IBQ7nQLobVLsdxOlkryYMbOlwu2D4Cf7jPUp0v1LhfPgvIZNoi9k8lUA==
 
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
@@ -5797,9 +5805,9 @@ svgo@^1.0.0:
     util.promisify "~1.0.0"
 
 swr@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/swr/-/swr-0.2.0.tgz#2088271bc0a8044089cf2badde013648f98783ee"
-  integrity sha512-8IZCdM0deUPhDiqOmyaj0BsnNjav1fu83nD0d07PEAzOHOn+lxcJOxwXeDBShwF6qCeZ8u8ab+a2yXkjD8yT3A==
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-0.2.3.tgz#e0fb260d27f12fafa2388312083368f45127480d"
+  integrity sha512-JhuuD5ojqgjAQpZAhoPBd8Di0Mr1+ykByVKuRJdtKaxkUX/y8kMACWKkLgLQc8pcDOKEAnbIreNjU7HfqI9nHQ==
   dependencies:
     fast-deep-equal "2.0.1"
 
@@ -5975,9 +5983,9 @@ typedarray@^0.0.6:
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
 typescript@^3.8.3:
-  version "3.8.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
-  integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
+  version "3.9.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.5.tgz#586f0dba300cde8be52dd1ac4f7e1009c1b13f36"
+  integrity sha512-hSAifV3k+i6lEoCJ2k6R2Z/rp/H3+8sdmcn5NrS3/3kE7+RyZXm9aqvxWqjEXHAd8b0pShatpcdMTvEdvAJltQ==
 
 uc.micro@^1.0.1:
   version "1.0.6"
