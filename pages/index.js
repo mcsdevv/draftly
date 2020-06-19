@@ -1,11 +1,11 @@
 import Page from "../components/page";
 
-import { useTweets, useUser } from "../hooks";
+import useUser from "@hooks/use-user";
 
 const Landing = () => {
-  const tweets = useTweets();
+  // const tweets = useTweets();
   const user = useUser();
-  console.log("TWEEEEEETSt", tweets);
+  // console.log("TWEEEEEETSt", tweets);
   console.log("USERRRR", user);
   return (
     <Page divider={false}>

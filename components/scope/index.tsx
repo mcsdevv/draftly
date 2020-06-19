@@ -1,5 +1,7 @@
-import { useScope, useUser } from "../../hooks";
 import { useRouter } from "next/router";
+
+import useScope from "@hooks/use-scope";
+import useUser from "@hooks/use-user";
 
 import Link from "../link";
 import Select from "../select";

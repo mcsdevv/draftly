@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useTweets } from "../../hooks";
+
+import useTweets from "@hooks/use-tweets";
 
 import CardPlaceholder from "../../components/placeholders/card";
 import Comments from "../../components/comments";

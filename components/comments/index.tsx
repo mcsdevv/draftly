@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { mutate } from "swr";
 import uuidv4 from "uuid/v4";
-import { useScope } from "../../hooks";
+import useScope from "@hooks/use-scope";
 import styles from "./comments.module.css";
 import Comment from "./comment";
 import Input from "../input";

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { mutate } from "swr";
-import { useScope } from "../../../hooks";
+
+import useScope from "@hooks/use-scope";
 
 import getMeta from "@lib/client/getMeta";
 import removeWww from "@lib/client/removeWww";

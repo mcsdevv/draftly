@@ -1,4 +1,4 @@
-import { useScope } from "../../../hooks";
+import useScope from "@hooks/use-scope";
 
 import Tweet from "../../tweet";
 

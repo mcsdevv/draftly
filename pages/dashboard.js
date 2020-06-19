@@ -1,4 +1,5 @@
-import { useUser, useTweets } from "../hooks";
+import useTweets from "@hooks/use-tweets";
+import useUser from "@hooks/use-user";
 
 import RequireLogin from "@lib/client/requireLogin";
 

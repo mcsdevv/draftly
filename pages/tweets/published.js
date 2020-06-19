@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useTweets } from "../../hooks";
+
+import useTweets from "@hooks/use-tweets";
 
 import RequireLogin from "@lib/client/requireLogin";
 

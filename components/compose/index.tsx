@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { mutate } from "swr";
 import Cookies from "js-cookie";
-import { useScope } from "../../hooks";
+import useScope from "@hooks/use-scope";
 import parseJwt from "@lib/client/parseJwt";
 import getMeta from "@lib/client/getMeta";
 import removeWww from "@lib/client/removeWww";

@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import useSWR from "swr";
-import { useUser } from "./";
+import useUser from "./use-user";
 
-export const useScope = () => {
-  const { data: scope, mutate: setScope } = useSWR("/scope", {
+export default function useScope() {
+  const options = {
     fetcher: undefined,
     initiaData: {},
-  });
+  };
+  const { data: scope, mutate: setScope } = useSWR("/scope", options);
   const { teams } = useUser();
   useEffect(() => {
     function setNewScope() {
@@ -20,4 +21,4 @@ export const useScope = () => {
     setNewScope();
   }, [teams]);
   return [scope, setScope];
-};
+}

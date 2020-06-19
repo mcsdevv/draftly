@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useScope } from "../../hooks";
+
+import useScope from "@hooks/use-scope";
 
 import Input from "../input";
 
