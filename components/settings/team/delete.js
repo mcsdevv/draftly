@@ -6,7 +6,7 @@ import Input from "../../input";
 
 export default function DeleteTeam() {
   const { revalidateProfile, teams } = useUser();
-  const { scope, setScope } = useScope();
+  const [scope, setScope] = useScope();
   const [teamName, setTeamName] = useState(scope.name);
   const handleOnChange = (e) => {
     setTeamName(e.target.value);

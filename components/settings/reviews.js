@@ -5,7 +5,7 @@ import Input from "../input";
 
 export default function Reviews() {
   const { revalidateProfile } = useUser();
-  const { scope, setScope } = useScope();
+  const [scope, setScope] = useScope();
   const [reviews, setReviews] = useState(scope?.reviews_required.toString());
   const handleOnChange = (e) => {
     setReviews(e.target.value);

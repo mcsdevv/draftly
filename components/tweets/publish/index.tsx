@@ -7,7 +7,7 @@ interface PublishProps {
 }
 
 const Publish = ({ tweet }: PublishProps) => {
-  const { scope } = useScope();
+  const [scope] = useScope();
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
     <Tweet

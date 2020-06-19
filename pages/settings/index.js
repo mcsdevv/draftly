@@ -13,7 +13,7 @@ import Members from "../../components/settings/members";
 import Reviews from "../../components/settings/reviews";
 
 function Settings() {
-  const { scope } = useScope();
+  const [scope] = useScope();
   const { user } = useUser();
   const isOwner = scope?.owners.includes(user && user.email);
   return (

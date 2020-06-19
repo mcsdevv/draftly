@@ -6,7 +6,7 @@ import Input from "../../input";
 
 export default function DeleteUser() {
   const { revalidateProfile, teams, user } = useUser();
-  const { scope, setScope } = useScope();
+  const [scope, setScope] = useScope();
   const [userName, setUserName] = useState("");
   const handleOnChange = (e) => {
     setUserName(e.target.value);

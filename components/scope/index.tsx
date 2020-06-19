@@ -5,7 +5,7 @@ import Link from "../link";
 import Select from "../select";
 
 const Scope = () => {
-  const { scope, setScope } = useScope();
+  const [scope, setScope] = useScope();
   const { teams } = useUser();
   const router = useRouter();
   const handleOnChange = (e: React.FormEvent<HTMLSelectElement>) => {

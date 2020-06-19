@@ -14,7 +14,7 @@ interface CommentsProps {
 
 export default function Comments({ comments, reviews, twuid }: CommentsProps) {
   const [comment, setComment] = useState("");
-  const { scope } = useScope();
+  const [scope] = useScope();
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     const newComment = e.currentTarget.value;
     setComment(newComment);

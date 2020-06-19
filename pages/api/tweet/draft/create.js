@@ -4,9 +4,9 @@ import uuidv4 from "uuid/v4";
 const sql = require("sql-query");
 const sqlQuery = sql.Query();
 
-const createDraftTweet = async (req, res, uid) => {
+const createDraftTweet = async (req, res, uid, tuid) => {
   try {
-    const { metadata, tweet, tuid } = JSON.parse(req.body);
+    const { metadata, tweet } = JSON.parse(req.body);
     const sqlInsert = sqlQuery.insert();
 
     // * Format draft insert query

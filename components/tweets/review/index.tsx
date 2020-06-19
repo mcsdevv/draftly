@@ -18,7 +18,7 @@ const Review = ({ revalidate, reviews, tweet }: ReviewProps) => {
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
   const [reviewsRequired, setReviewsRequired] = useState(0);
-  const { scope } = useScope();
+  const [scope] = useScope();
   const { user } = useUser();
   useEffect(() => {
     function getReviewsRequired() {

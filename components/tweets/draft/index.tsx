@@ -17,7 +17,7 @@ interface DraftProps {
 const Draft = ({ drafts, revalidate, tweet }: DraftProps) => {
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
-  const { scope } = useScope();
+  const [scope] = useScope();
   const handleCancelEdit = () => {
     setEditing(false);
   };

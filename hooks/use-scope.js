@@ -4,9 +4,9 @@ import useSWR from "swr";
 import { useUser } from "./";
 
 export const useScope = () => {
-  const { data: scope, mutate: setScope } = useSWR("scope", {
+  const { data: scope, mutate: setScope } = useSWR("/scope", {
     fetcher: undefined,
-    initiaData: "",
+    initiaData: {},
   });
   const { teams } = useUser();
   useEffect(() => {
@@ -14,10 +14,10 @@ export const useScope = () => {
       if (teams) {
         const newScope = teams[0];
         Cookies.set("tuid", newScope.tuid);
-        setScope("scope", newScope);
+        setScope({ ...newScope });
       }
     }
     setNewScope();
   }, [teams]);
-  return { scope, setScope };
+  return [scope, setScope];
 };

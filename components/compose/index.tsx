@@ -20,7 +20,7 @@ interface ComposeTweetProps {
 const ComposeTweet = ({ drafts, setDrafting }: ComposeTweetProps) => {
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
-  const { scope } = useScope();
+  const [scope] = useScope();
   const handleSaveDraft = async () => {
     setSaving(true);
     const metadata = await getMeta(tweet);

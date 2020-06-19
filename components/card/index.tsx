@@ -25,9 +25,9 @@ const Card = ({
   scope,
   text,
 }: CardProps) => {
-  console.log("tweet", metadata, text);
   // * Removes URL if it is the last item present in the tweet text
   const tweetText = removeUrl(metadata, text);
+
   if (metadata.cardType === "summary-large") {
     return (
       <Large

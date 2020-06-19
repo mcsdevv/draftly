@@ -7,7 +7,7 @@ export default function Members() {
   // TODO Fix
   const teamMembers = [];
   const [memberEmail, setMemberEmail] = useState();
-  const { scope } = useScope();
+  const [scope] = useScope();
   const handleOnChange = (e) => {
     setMemberEmail(e.target.value);
   };
