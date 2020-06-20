@@ -8,9 +8,9 @@ import Input from "../../input";
 export default function ChangeTeamName() {
   const { revalidateProfile, teams } = useUser();
   const [scope, setScope] = useScope();
-  const [newName, setNewName] = useState(scope.name);
+  const [name, setName] = useState(scope?.name);
   const handleOnChange = (e) => {
-    setNewName(e.target.value);
+    setName(e.target.value);
   };
   const handleOnSubmitName = async (e) => {
     e.preventDefault();
@@ -18,26 +18,24 @@ export default function ChangeTeamName() {
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
-        newName,
-        tuid: scope.tuid,
+        name,
       }),
     });
     if (res.status === 200) {
       revalidateProfile();
-      const newScope = await res.json();
-      setScope({ ...newScope });
+      setScope({ ...scope, name });
     }
   };
   return (
     <Input
-      buttonDisabled={newName === scope.name}
+      buttonDisabled={name === scope.name}
       buttonText="Update"
       label="Change Team Name"
       name="updateName"
       onChange={handleOnChange}
       onSubmit={handleOnSubmitName}
       type="text"
-      value={newName}
+      value={name}
     />
   );
 }

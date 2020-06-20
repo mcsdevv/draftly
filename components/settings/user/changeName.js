@@ -20,7 +20,7 @@ export default function ChangeUserName() {
       }),
     });
     if (res.status === 200) {
-      setUser({ user: { ...user, name: name } });
+      setUser({ user: { ...user, name } });
     }
   };
   return (

@@ -1,17 +1,15 @@
 import verify from "@lib/api/token/verify";
 import { escape, query } from "@lib/api/db";
 
-const updateTeamName = async (req, res, uid) => {
+const updateTeamName = async (req, res, uid, tuid) => {
   try {
-    const { tuid, newName } = JSON.parse(req.body);
+    const { name } = JSON.parse(req.body);
 
     // * Update team name
-    await query(
-      escape`UPDATE teams SET name = ${newName} WHERE tuid = ${tuid}`
-    );
+    await query(escape`UPDATE teams SET name = ${name} WHERE tuid = ${tuid}`);
 
-    console.log("Team name updated:", uid);
-    res.status(200).json(newName);
+    console.log("Team name updated:", tuid);
+    res.status(200).send(name);
   } catch (err) {
     console.error("ERROR - api/team/update/name -", err.message);
     res.status(500).json({ err: err.message });
