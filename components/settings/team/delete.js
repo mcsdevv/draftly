@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
+
+import Cookies from "js-cookie";
 
 import useScope from "@hooks/use-scope";
 import useUser from "@hooks/use-user";
@@ -6,7 +9,8 @@ import useUser from "@hooks/use-user";
 import Input from "../../input";
 
 export default function DeleteTeam() {
-  const { revalidateProfile, teams } = useUser();
+  const router = useRouter();
+  const { setUser, teams, user } = useUser();
   const [scope, setScope] = useScope();
   const [teamName, setTeamName] = useState(scope.name);
   const handleOnChange = (e) => {
@@ -17,16 +21,17 @@ export default function DeleteTeam() {
     const url = "/api/team/delete";
     const { status } = await fetch(url, {
       method: "DELETE",
-      body: JSON.stringify({
-        tuid: scope.tuid,
-      }),
     });
     if (status === 200) {
-      // TODO Must mutate
-      revalidateProfile();
-      //   ! Update scope
-      // * If no teams, take to /create
-      setScope({ ...user });
+      const filteredTeams = teams.filter((t) => t.tuid !== scope.tuid);
+      setUser({ user, teams: filteredTeams });
+      if (filteredTeams) {
+        setScope(filteredTeams[0]);
+      } else {
+        Cookies.remove("tuid");
+        setScope(null);
+      }
+      router.push("/dashboard");
     }
   };
   return (

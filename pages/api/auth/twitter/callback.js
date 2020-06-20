@@ -3,6 +3,7 @@ import oauth from "@lib/api/oauth";
 import { escape, query } from "@lib/api/db";
 import uuidv4 from "uuid/v4";
 import createInviteCode from "@lib/api/createInviteCode";
+import { decrypt } from "@lib/api/token/encryption";
 
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
@@ -24,13 +25,14 @@ export default (req, res) => {
             const accountData = JSON.parse(data);
 
             // * Check if the team exists currently
-            const exists = await query(
+            const [exists] = await query(
               escape`SELECT * FROM teams
               WHERE handle = ${accountData.screen_name}`
             );
 
             // * If it exists, update tokens, else create team
             if (exists) {
+              console.log("Team already exists:", exists.tuid);
               await query(
                 escape`UPDATE teams 
                 SET token_key = ${oauthAccessToken} token_secret = ${oauthAccessTokenSecret} 
@@ -38,7 +40,8 @@ export default (req, res) => {
               );
             } else {
               // * Prepare data for insert
-              const uuid = uuidv4();
+              console.log("Team does not exist.");
+              const tuid = uuidv4();
               const inviteCode = createInviteCode();
               const {
                 name,
@@ -49,14 +52,17 @@ export default (req, res) => {
               // * Insert team into database
               await query(
                 escape`INSERT INTO teams (tuid, name, protected, handle, avatar, reviews_required, plan, token_secret, token_key, invite_code)
-                VALUES (${uuid}, ${name}, ${accountData.protected}, ${screen_name}, ${profile_image_url_https}, 0, 'free', ${oauthAccessTokenSecret}, ${oauthAccessToken}, ${inviteCode})`
+                VALUES (${tuid}, ${name}, ${accountData.protected}, ${screen_name}, ${profile_image_url_https}, 0, 'free', ${oauthAccessTokenSecret}, ${oauthAccessToken}, ${inviteCode})`
               );
 
               // * Insert team member
               await query(
-                escape`INSERT INTO team_members (uid, tuid, role)
-                VALUES (${req.cookies.uid}, ${uuid}, 'owner')`
+                escape`INSERT INTO teams_members (uid, tuid, role)
+                VALUES (${decrypt(req.cookies.uid)}, ${tuid}, 'owner')`
               );
+
+              console.log("Team created:", tuid);
+              console.log("Team created by:", decrypt(req.cookies.uid));
             }
             res.writeHead(301, {
               Location: "/dashboard",

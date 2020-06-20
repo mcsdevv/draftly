@@ -14,8 +14,10 @@ export default function useScope() {
     function setNewScope() {
       if (teams) {
         const newScope = teams[0];
-        Cookies.set("tuid", newScope.tuid);
-        setScope({ ...newScope });
+        if (newScope) {
+          Cookies.set("tuid", newScope?.tuid);
+          setScope({ ...newScope });
+        }
       }
     }
     setNewScope();
