@@ -19,7 +19,7 @@ const updateDraftTweet = async (req, res) => {
     await query(metaQuery);
 
     console.log("Updated draft tweet:", twuid);
-    res.status(200).json(twuid);
+    res.status(200).json(meta);
   } catch (err) {
     console.error("ERROR - api/tweet/draft/update -", err.message);
     res.status(500).json({ err: err.message });

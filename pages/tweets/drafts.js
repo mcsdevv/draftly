@@ -11,8 +11,7 @@ import Page from "@components/page";
 import RequireLogin from "@lib/client/requireLogin";
 
 function Drafts() {
-  const { drafts } = useTweets();
-  console.log("drafts", drafts);
+  const { drafts, reviews, published, setTweets } = useTweets();
   const [drafting, setDrafting] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [showNoDrafts, setShowNoDrafts] = useState(false);
@@ -75,6 +74,9 @@ function Drafts() {
                 drafts={drafts}
                 key={d.ref}
                 // revalidate={revalidateDrafts}
+                published={published}
+                reviews={reviews}
+                setTweets={setTweets}
                 tweet={d}
               />
             ))

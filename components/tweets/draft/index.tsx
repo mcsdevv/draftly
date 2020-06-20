@@ -11,11 +11,21 @@ import Tweet from "../../tweet";
 
 interface DraftProps {
   drafts: any[];
+  published: any[];
   revalidate: () => void;
+  reviews: any[];
+  setTweets: any;
   tweet: any;
 }
 
-const Draft = ({ drafts, revalidate, tweet }: DraftProps) => {
+const Draft = ({
+  drafts,
+  published,
+  reviews,
+  revalidate,
+  setTweets,
+  tweet,
+}: DraftProps) => {
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
   const [scope] = useScope();
@@ -31,8 +41,10 @@ const Draft = ({ drafts, revalidate, tweet }: DraftProps) => {
       }),
     });
     if (res.status === 200) {
-      mutate(`/api/tweets/details/drafts/${scope.handle}`, {
-        drafts: drafts.filter((d) => d.ref !== tweet.ref),
+      setTweets({
+        drafts: drafts.filter((d) => d.twuid !== tweet.twuid),
+        published,
+        reviews,
       });
     }
   };
@@ -83,9 +95,13 @@ const Draft = ({ drafts, revalidate, tweet }: DraftProps) => {
       }),
     });
     if (res.status === 200) {
-      const newDraft = await res.json();
-      mutate(`/api/tweets/details/drafts/${scope.handle}`, {
-        drafts: drafts.map((d) => (d.ref === tweet.ref ? { ...newDraft } : d)),
+      const meta = await res.json();
+      setTweets({
+        drafts: drafts.map((d) =>
+          d.twuid === tweet.twuid ? { ...d, ...meta, text: formattedTweet } : d
+        ),
+        published,
+        reviews,
       });
     }
   };
