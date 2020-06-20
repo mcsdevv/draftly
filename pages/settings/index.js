@@ -17,7 +17,6 @@ import Reviews from "@components/settings/reviews";
 function Settings() {
   const [scope] = useScope();
   const { user } = useUser();
-  console.log("USER", user);
   const isOwner = scope?.owners.includes(user && user.email);
   return (
     <Page name="Settings - General">

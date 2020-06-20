@@ -12,7 +12,7 @@ export default function ChangeUserName() {
   };
   const handleOnSubmitName = async (e) => {
     e.preventDefault();
-    const url = `/api/user/update/name`;
+    const url = "/api/user/update/name";
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
@@ -20,10 +20,7 @@ export default function ChangeUserName() {
       }),
     });
     if (res.status === 200) {
-      const newName = await res.text();
-      const newUser = { ...user, name: newName };
-      console.log("NEW", newUser);
-      setUser(newUser);
+      setUser({ user: { ...user, name: name } });
     }
   };
   return (
