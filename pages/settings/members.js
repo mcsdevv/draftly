@@ -11,7 +11,6 @@ import Members from "@components/settings/members";
 function TeamMembers() {
   const [scope] = useScope();
   const { teams, user } = useUser();
-  const isOwner = scope?.owners.includes(user && user.email);
   return (
     <Page name="Settings - Team Members">
       <div className={styles.container}>

@@ -1,16 +1,14 @@
 import { useState } from "react";
 
-import useScope from "@hooks/use-scope";
 import useUser from "@hooks/use-user";
 
 import Input from "../../input";
 
 export default function ChangeUserName() {
-  const { revalidateProfile, user } = useUser();
-  const [scope, setScope] = useScope();
-  const [newName, setNewName] = useState(user.name);
+  const { setUser, user } = useUser();
+  const [name, setName] = useState(user?.name);
   const handleOnChange = (e) => {
-    setNewName(e.target.value);
+    setName(e.target.value);
   };
   const handleOnSubmitName = async (e) => {
     e.preventDefault();
@@ -18,25 +16,26 @@ export default function ChangeUserName() {
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
-        newName,
+        name,
       }),
     });
     if (res.status === 200) {
-      revalidateProfile();
-      const newScope = await res.json();
-      setScope({ ...newScope });
+      const newName = await res.text();
+      const newUser = { ...user, name: newName };
+      console.log("NEW", newUser);
+      setUser(newUser);
     }
   };
   return (
     <Input
-      buttonDisabled={user && newName === user.name}
+      buttonDisabled={user && name === user.name}
       buttonText="Update"
       label={"Change Display Name"}
       name="updateName"
       onChange={handleOnChange}
       onSubmit={handleOnSubmitName}
       type="text"
-      value={newName}
+      value={name}
     />
   );
 }

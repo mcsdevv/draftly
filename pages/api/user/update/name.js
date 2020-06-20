@@ -3,13 +3,15 @@ import { escape, query } from "@lib/api/db";
 
 const updateUserName = async (req, res, uid) => {
   try {
-    const { newName } = JSON.parse(req.body);
+    const { name } = JSON.parse(req.body);
+
+    console.log("NEW NAME", name);
 
     // * Update user name
-    await query(escape`UPDATE user SET name = ${newName} WHERE uid = ${uid}`);
+    await query(escape`UPDATE users SET name = ${name} WHERE uid = ${uid}`);
 
     console.log("User name updated:", uid);
-    res.status(200).json(newName);
+    res.status(200).send(name);
   } catch (err) {
     console.error("ERROR - api/user/update/name -", err.message);
     res.status(500).json({ err: err.message });

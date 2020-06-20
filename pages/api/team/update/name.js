@@ -10,7 +10,7 @@ const updateTeamName = async (req, res, uid) => {
       escape`UPDATE teams SET name = ${newName} WHERE tuid = ${tuid}`
     );
 
-    console.log("User name updated:", uid);
+    console.log("Team name updated:", uid);
     res.status(200).json(newName);
   } catch (err) {
     console.error("ERROR - api/team/update/name -", err.message);

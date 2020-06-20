@@ -5,8 +5,6 @@ import useScope from "@hooks/use-scope";
 import Input from "../input";
 
 export default function Members() {
-  // TODO Fix
-  const teamMembers = [];
   const [memberEmail, setMemberEmail] = useState();
   const [scope] = useScope();
   const handleOnChange = (e) => {
@@ -38,21 +36,15 @@ export default function Members() {
       />
       <h3>Owners</h3>
       <ul>
-        {teamMembers &&
-          scope?.owners.map((o) => {
-            return (
-              <li key={o}>{teamMembers?.find((t) => t.ref === o).name}</li>
-            );
-          })}
+        {scope?.owners.map((o) => (
+          <li key={o}>{o.name}</li>
+        ))}
       </ul>
       <h3>Members</h3>
       <ul>
-        {teamMembers &&
-          scope?.members.map((o) => {
-            return (
-              <li key={o}>{teamMembers?.find((t) => t.ref === o).name}</li>
-            );
-          })}
+        {scope?.members.map((o) => (
+          <li key={o}>{o.name}</li>
+        ))}
       </ul>
     </>
   );
