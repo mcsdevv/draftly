@@ -14,7 +14,7 @@ export default function Reviews() {
   };
   const handleOnSubmitReviews = async (e) => {
     e.preventDefault();
-    const url = `/api/team/update/reviews/${scope.handle}`;
+    const url = "/api/team/update/reviews";
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
@@ -23,8 +23,7 @@ export default function Reviews() {
     });
     if (res.status === 200) {
       revalidateProfile();
-      const newScope = await res.json();
-      setScope({ ...newScope });
+      setScope({ ...scope, reviews_required: reviews });
     }
   };
   return (

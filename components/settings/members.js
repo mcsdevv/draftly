@@ -37,13 +37,13 @@ export default function Members() {
       <h3>Owners</h3>
       <ul>
         {scope?.owners.map((o) => (
-          <li key={o}>{o.name}</li>
+          <li key={o.uid}>{o.name}</li>
         ))}
       </ul>
       <h3>Members</h3>
       <ul>
         {scope?.members.map((o) => (
-          <li key={o}>{o.name}</li>
+          <li key={o.uid}>{o.name}</li>
         ))}
       </ul>
     </>
