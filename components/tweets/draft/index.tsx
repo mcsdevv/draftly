@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { mutate } from "swr";
 
 import useScope from "@hooks/use-scope";
 
