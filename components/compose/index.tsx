@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { mutate } from "swr";
-import Cookies from "js-cookie";
-import useScope from "@hooks/use-scope";
-import parseJwt from "@lib/client/parseJwt";
+
+import useTweets from "@hooks/use-tweets";
+
 import getMeta from "@lib/client/getMeta";
 import removeWww from "@lib/client/removeWww";
 
@@ -13,35 +12,28 @@ import Textarea from "../textarea";
 import styles from "./compose.module.css";
 
 interface ComposeTweetProps {
-  drafts: any;
   setDrafting: (k: boolean) => void;
 }
 
-const ComposeTweet = ({ drafts, setDrafting }: ComposeTweetProps) => {
+const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
-  const [scope] = useScope();
+  const { drafts, published, reviews, setTweets } = useTweets();
   const handleSaveDraft = async () => {
     setSaving(true);
     const metadata = await getMeta(tweet);
-    const id = Cookies.get("id_token");
-    const { name } = parseJwt(id);
     const url = "/api/tweet/draft/create";
     const formattedTweet = removeWww(tweet);
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        creator: name,
         metadata,
         tweet: formattedTweet,
-        tuid: scope.tuid,
       }),
     });
     if (res.status === 200) {
       const newDraft = await res.json();
-      mutate(`/api/tweets/details/drafts/${scope.handle}`, {
-        drafts: [newDraft, ...drafts],
-      });
+      setTweets({ drafts: [newDraft, ...drafts], published, reviews });
       setDrafting(false);
       setSaving(false);
       setTweet("");

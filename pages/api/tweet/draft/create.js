@@ -32,7 +32,7 @@ const createDraftTweet = async (req, res, uid, tuid) => {
     await query(metaQuery);
 
     console.log("Draft tweet created for:", tuid);
-    res.status(200).json(draft);
+    res.status(200).json({ ...draft, meta });
   } catch (err) {
     console.error("ERROR - api/tweet/draft/create -", err.message);
     res.status(500).json({ err: err.message });

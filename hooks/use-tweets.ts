@@ -8,5 +8,5 @@ export default function useTweets() {
   const { data, isValidating, mutate: setTweets, revalidate } = useSWR(
     tuid ? `/api/tweets/${tuid}` : null
   );
-  return { ...data, isValidating, revalidateDrafts: revalidate, setTweets };
+  return { ...data, isValidating, revalidateTweets: revalidate, setTweets };
 }

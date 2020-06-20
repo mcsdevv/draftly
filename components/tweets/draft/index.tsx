@@ -26,7 +26,7 @@ const Draft = ({
   tweet,
 }: DraftProps) => {
   const [editing, setEditing] = useState(false);
-  const [editTweet, setEditTweet] = useState(tweet.text);
+  const [editTweet, setEditTweet] = useState("");
   const [scope] = useScope();
   const handleCancelEdit = () => {
     setEditing(false);
@@ -49,28 +49,30 @@ const Draft = ({
   };
   const handleEdit = () => {
     setEditing(true);
+    setEditTweet(tweet.text);
   };
   const handleOnChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     // TODO Improve character limit handling
-    if (editTweet.length < 280) {
+    if (editTweet?.length < 280) {
       setEditTweet(e.currentTarget.value);
     } else {
       alert("over the limit bud");
     }
   };
   const handleReviewReady = async () => {
-    const url = `/api/tweet/review/create/${scope.handle}`;
+    const url = "/api/tweet/review/create";
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        creator: tweet.creator,
-        ref: tweet.ref,
-        tweet: tweet.text,
+        twuid: tweet.twuid,
       }),
     });
     if (res.status === 200) {
-      // TODO Mutate
-      revalidate();
+      setTweets({
+        drafts: drafts.filter((d) => d.twuid !== tweet.twuid),
+        published,
+        reviews: [...reviews, tweet],
+      });
     }
   };
   const handleUpdate = async () => {

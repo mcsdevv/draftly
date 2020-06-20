@@ -4,14 +4,16 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
 import useScope from "@hooks/use-scope";
+import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
 import Input from "../../input";
 
 export default function DeleteTeam() {
   const router = useRouter();
-  const { setUser, teams, user } = useUser();
   const [scope, setScope] = useScope();
+  const { revalidateTweets, setTweets } = useTweets();
+  const { setUser, teams, user } = useUser();
   const [teamName, setTeamName] = useState(scope.name);
   const handleOnChange = (e) => {
     setTeamName(e.target.value);
@@ -25,8 +27,10 @@ export default function DeleteTeam() {
     if (status === 200) {
       const filteredTeams = teams.filter((t) => t.tuid !== scope.tuid);
       setUser({ user, teams: filteredTeams });
+      setTweets([]);
       if (filteredTeams) {
         setScope(filteredTeams[0]);
+        revalidateTweets();
       } else {
         Cookies.remove("tuid");
         setScope(null);
