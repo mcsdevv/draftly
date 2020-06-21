@@ -5,17 +5,21 @@ import isMember from "@lib/api/middleware/isMember";
 const getDraftTweets = async (_req, res, _uid, tuid) => {
   try {
     // * Get all tweets for team
+    console.time("getTweets");
     const tweetsQuery = await query(
       escape`SELECT * FROM tweets
       WHERE tuid = ${tuid}`
     );
+    console.timeEnd("getTweets");
 
     // * Get all tweet metadata
+    console.time("getMeta");
     const metaQuery = await query(
       escape`SELECT * FROM tweets_meta
       LEFT JOIN tweets ON tweets.twuid = tweets_meta.twuid
       WHERE tuid = ${tuid}`
     );
+    console.timeEnd("getMeta");
 
     // * Get all tweet approvals
     const approvalsQuery = async () => {
@@ -31,8 +35,12 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
     };
 
     // * Flatten approvals array
+    console.time("getApprovals");
     const tweetApprovals = await approvalsQuery();
+    console.timeEnd("getApprovals");
+    console.time("flattenApprovals");
     const approvals = [].concat.apply([], tweetApprovals);
+    console.timeEnd("flattenApprovals");
 
     // * Get all tweet comments
     const commentsQuery = async () => {
@@ -40,16 +48,20 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
         tweetsQuery.map((t) => {
           return query(
             escape`SELECT * FROM tweets_comments
-                WHERE twuid = ${t.twuid}`
+            WHERE twuid = ${t.twuid}`
           );
         })
       );
       return comments;
     };
 
-    // * Flatten approvals array
+    // * Flatten comments array
+    console.time("getComments");
     const tweetComments = await commentsQuery();
+    console.timeEnd("getComments");
+    console.time("flattenComments");
     const comments = [].concat.apply([], tweetComments);
+    console.timeEnd("flattenApprovals");
 
     console.log("approvals", approvals);
 
