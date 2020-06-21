@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import useTweets from "@hooks/use-tweets";
 
-import getMeta from "@lib/client/getMeta";
+import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 import Button from "../button";
@@ -21,7 +21,7 @@ const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
   const { drafts, published, reviews, setTweets } = useTweets();
   const handleSaveDraft = async () => {
     setSaving(true);
-    const metadata = await getMeta(tweet);
+    const metadata = await getMetadata(tweet);
     const url = "/api/tweet/draft/create";
     const formattedTweet = removeWww(tweet);
     const res = await fetch(url, {

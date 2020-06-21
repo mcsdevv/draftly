@@ -54,7 +54,7 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
     const tweets = tweetsQuery.map((t) => {
       return {
         ...t,
-        meta: metaQuery.find((m) => m.twuid === t.twuid),
+        metadata: metaQuery.find((m) => m.twuid === t.twuid),
         approvals: approvals.filter((m) => m.twuid === t.twuid),
         comments: comments.filter((m) => m.twuid === t.twuid),
       };

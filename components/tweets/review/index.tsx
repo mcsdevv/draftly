@@ -5,7 +5,7 @@ import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
-import getMeta from "@lib/client/getMeta";
+import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 import Controls from "../../controls";
@@ -34,9 +34,24 @@ const Review = ({ tweet }: ReviewProps) => {
     const url = "/api/tweet/review/approve";
     const res = await fetch(url, {
       method: "POST",
+      body: JSON.stringify({
+        twuid: tweet.twuid,
+      }),
     });
     if (res.status === 200) {
-      revalidate();
+      const approval = await res.json();
+      setTweets({
+        drafts,
+        published,
+        reviews: reviews.map((r) =>
+          r.twuid === tweet.twuid
+            ? { ...r, approvals: [...r.approvals, approval] }
+            : r
+        ),
+      });
+    }
+    if (res.status === 403) {
+      // TODO User has alreday approved tweet
     }
   };
   const handleCancelEdit = () => {
@@ -75,21 +90,26 @@ const Review = ({ tweet }: ReviewProps) => {
     }
     // * Changes made, update tweet
     setEditing(false);
-    const metadata = await getMeta(editTweet);
-    const url = `/api/tweet/review/update/${tweet.ref}`;
+    const metadata = await getMetadata(editTweet);
+    const url = "/api/tweet/review/update";
     const formattedTweet = removeWww(editTweet);
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
         metadata,
         text: formattedTweet,
+        twuid: tweet.twuid,
       }),
     });
     if (res.status === 200) {
-      const newDraft = await res.json();
-      mutate(`/api/tweets/details/reviews/${scope.handle}`, {
-        reviews: reviews.map((d) =>
-          d.ref === tweet.ref ? { ...newDraft } : d
+      const meta = await res.json();
+      setTweets({
+        drafts,
+        published,
+        reviews: reviews.map((r) =>
+          r.twuid === tweet.twuid
+            ? { ...r, metadata: meta, text: formattedTweet }
+            : r
         ),
       });
     }
@@ -99,12 +119,16 @@ const Review = ({ tweet }: ReviewProps) => {
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        tuid: scope.tuid,
         tweet: tweet.text,
       }),
     });
     if (res.status === 200) {
-      revalidate();
+      const publishedTweet = reviews.find((r) => r.twuid === tweet.twuid);
+      setTweets({
+        drafts,
+        published: [...published, publishedTweet],
+        reviews: reviews.filter((r) => r.twuid !== tweet.twuid),
+      });
     }
   };
   return (

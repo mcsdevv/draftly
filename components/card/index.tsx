@@ -26,27 +26,28 @@ const Card = ({
   text,
 }: CardProps) => {
   // * Removes URL if it is the last item present in the tweet text
+  console.log("metadata", metadata);
   const tweetText = removeUrl(metadata, text);
 
-  if (metadata.cardType === "summary-large") {
+  if (metadata?.cardType === "summary-large") {
     return (
       <Large
         editing={editing}
         editTweet={editTweet}
         handleOnChange={handleOnChange}
-        meta={metadata}
+        metadata={metadata}
         scope={scope}
         text={tweetText}
       />
     );
   }
-  if (metadata.cardType === "summary") {
+  if (metadata?.cardType === "summary") {
     return (
       <Small
         editing={editing}
         editTweet={editTweet}
         handleOnChange={handleOnChange}
-        meta={metadata}
+        metadata={metadata}
         scope={scope}
         text={tweetText}
       />

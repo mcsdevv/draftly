@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import useScope from "@hooks/use-scope";
 
-import getMeta from "@lib/client/getMeta";
+import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 import Controls from "../../controls";
@@ -83,7 +83,7 @@ const Draft = ({
     }
     // * Changes made, update tweet
     setEditing(false);
-    const metadata = await getMeta(editTweet);
+    const metadata = await getMetadata(editTweet);
     const url = "/api/tweet/draft/update";
     const formattedTweet = removeWww(editTweet);
     const res = await fetch(url, {
@@ -91,7 +91,6 @@ const Draft = ({
       body: JSON.stringify({
         metadata,
         text: formattedTweet,
-        tuid: tweet.tuid,
         twuid: tweet.twuid,
       }),
     });
@@ -99,20 +98,23 @@ const Draft = ({
       const meta = await res.json();
       setTweets({
         drafts: drafts.map((d) =>
-          d.twuid === tweet.twuid ? { ...d, ...meta, text: formattedTweet } : d
+          d.twuid === tweet.twuid
+            ? { ...d, metadata: meta, text: formattedTweet }
+            : d
         ),
         published,
         reviews,
       });
     }
   };
+  console.log("draft", tweet);
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
     <Tweet
       editing={editing}
       editTweet={editTweet}
       handleOnChange={handleOnChange}
-      metadata={tweet.meta}
+      metadata={tweet.metadata}
       scope={scope}
       text={tweet.text}
     >
