@@ -1,22 +1,36 @@
 import verify from "@lib/api/token/verify";
 import { query } from "@lib/api/db";
+import uuidv4 from "uuid/v4";
 const sql = require("sql-query");
 const sqlQuery = sql.Query();
 
 const createTweetComment = async (req, res, uid) => {
   try {
-    const comment = JSON.parse(req.body);
+    const { comment, twuid } = JSON.parse(req.body);
     const sqlInsert = sqlQuery.insert();
+    const tcuid = uuidv4();
+
+    // * Format comment object with
+    const commentObject = {
+      added_by: uid,
+      ...comment,
+      tcuid,
+      twuid,
+    };
+
+    console.log("commentibj", commentObject);
 
     // * Insert comment
     const commentQuery = sqlInsert
       .into("tweets_comments")
-      .set({ ...comment, added_by: uid })
+      .set({ ...commentObject })
       .build();
-    await query(commentQuery);
+    const tetts = await query(commentQuery);
+
+    console.log("TETTS", tetts);
 
     console.log("Added comment to:", comment.twuid);
-    res.status(200).json(comment);
+    res.status(200).json({ ...commentObject });
   } catch (err) {
     console.error("ERROR - api/tweet/comment/create -", err.message);
     res.status(500).json({ err: err.message });

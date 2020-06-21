@@ -1,41 +1,45 @@
 import { useState } from "react";
-import { mutate } from "swr";
-import uuidv4 from "uuid/v4";
-import useScope from "@hooks/use-scope";
-import styles from "./comments.module.css";
+
+import useTweets from "@hooks/use-tweets";
+
 import Comment from "./comment";
 import Input from "../input";
 
+import styles from "./comments.module.css";
+
 interface CommentsProps {
   comments: any;
-  reviews: any;
   twuid: string;
 }
 
-export default function Comments({ comments, reviews, twuid }: CommentsProps) {
+export default function Comments({ comments, twuid }: CommentsProps) {
   const [comment, setComment] = useState("");
-  const [scope] = useScope();
+  const { drafts, published, reviews, setTweets } = useTweets();
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     const newComment = e.currentTarget.value;
     setComment(newComment);
   };
-  const handleDeleteComment = async (id: string) => {
-    const url = `/api/tweet/comment/delete/${twuid}`;
+  const handleDeleteComment = async (tcuid: string) => {
+    const url = "/api/tweet/comment/delete";
     const res = await fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
-        id,
+        tcuid,
       }),
     });
-    const commentJson = await res.json();
     if (res.status === 200) {
       const newReviews = reviews.map((r: any) => {
-        if (r.ref === twuid) {
-          return { ...r, comments: commentJson };
+        if (r.twuid === twuid) {
+          return {
+            ...r,
+            comments: r.comments.filter((c: any) => c.tcuid !== tcuid),
+          };
         }
         return r;
       });
-      mutate(`/api/tweets/details/reviews/${scope.handle}`, {
+      setTweets({
+        drafts,
+        published,
         reviews: newReviews,
       });
     }
@@ -43,24 +47,25 @@ export default function Comments({ comments, reviews, twuid }: CommentsProps) {
   const handleSubmitComment = async () => {
     const commentObject = {
       comment,
-      tcuid: uuidv4(),
       twuid,
     };
     const url = "/api/tweet/comment/create";
     setComment("");
     const res = await fetch(url, {
       method: "POST",
-      body: JSON.stringify(commentObject),
+      body: JSON.stringify({ comment: commentObject, twuid }),
     });
-    const commentJson = await res.json();
     if (res.status === 200) {
+      const publishedComment = await res.json();
       const newReviews = reviews.map((r: any) => {
-        if (r.ref === twuid) {
-          return { ...r, comments: commentJson };
+        if (r.twuid === twuid) {
+          return { ...r, comments: [publishedComment, ...r.comments] };
         }
         return r;
       });
-      mutate(`/api/tweets/details/reviews/${scope.handle}`, {
+      setTweets({
+        drafts,
+        published,
         reviews: newReviews,
       });
     }
@@ -79,18 +84,16 @@ export default function Comments({ comments, reviews, twuid }: CommentsProps) {
         />
       </div>
       <div>
-        {comments.length
-          ? comments.map((c: any) => (
-              <Comment
-                addedAt={c.addedAt}
-                addedBy={c.addedBy}
-                avatar={c.avatar}
-                comment={c.comment}
-                handleDeleteComment={() => handleDeleteComment(c.id)}
-                key={c.id}
-              />
-            ))
-          : null}
+        {comments?.map((c: any) => (
+          <Comment
+            addedAt={c.added_at}
+            addedBy={c.added_by}
+            avatar={c.avatar}
+            comment={c.comment}
+            handleDeleteComment={() => handleDeleteComment(c.tcuid)}
+            key={c.id}
+          />
+        ))}
       </div>
     </div>
   );

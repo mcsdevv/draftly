@@ -8,7 +8,8 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
     console.time("getTweets");
     const tweetsQuery = await query(
       escape`SELECT * FROM tweets
-      WHERE tuid = ${tuid}`
+      WHERE tuid = ${tuid}
+      ORDER BY updated_at DESC`
     );
     console.timeEnd("getTweets");
 
@@ -48,7 +49,8 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
         tweetsQuery.map((t) => {
           return query(
             escape`SELECT * FROM tweets_comments
-            WHERE twuid = ${t.twuid}`
+            WHERE twuid = ${t.twuid}
+            ORDER BY added_at DESC`
           );
         })
       );
@@ -58,6 +60,7 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
     // * Flatten comments array
     console.time("getComments");
     const tweetComments = await commentsQuery();
+    console.log("COMMENTS QUERY", tweetComments);
     console.timeEnd("getComments");
     console.time("flattenComments");
     const comments = [].concat.apply([], tweetComments);

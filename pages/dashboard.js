@@ -13,7 +13,7 @@ function Dashboard() {
       <h3>Hello {user?.name}, here are some stats for you:</h3>
       <ul>
         <li>{drafts?.length} drafts to complete.</li>
-        <li>{reviews?.length} reviews to complete.</li>
+        <li>{reviews?.length} reviews to approve.</li>
         <li>{published?.length} tweets published so far.</li>
       </ul>
     </Page>

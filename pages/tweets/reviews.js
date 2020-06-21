@@ -57,7 +57,7 @@ function Reviews() {
           ? reviews.map((r) => (
               <>
                 <Review tweet={r} />
-                <Comments comments={r.comments} tweetRef={r.ref} />
+                <Comments comments={r.comments} twuid={r.twuid} />
               </>
             ))
           : renderPageState()}
