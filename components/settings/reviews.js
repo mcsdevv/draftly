@@ -1,12 +1,10 @@
 import { useState } from "react";
 
 import useScope from "@hooks/use-scope";
-import useUser from "@hooks/use-user";
 
 import Input from "../input";
 
 export default function Reviews() {
-  const { revalidateProfile } = useUser();
   const [scope, setScope] = useScope();
   const [reviews, setReviews] = useState(scope?.reviews_required.toString());
   const handleOnChange = (e) => {
@@ -22,7 +20,6 @@ export default function Reviews() {
       }),
     });
     if (res.status === 200) {
-      revalidateProfile();
       setScope({ ...scope, reviews_required: reviews });
     }
   };
