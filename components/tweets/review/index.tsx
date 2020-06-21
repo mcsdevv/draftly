@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { mutate } from "swr";
 
 import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
