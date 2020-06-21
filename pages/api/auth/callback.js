@@ -35,15 +35,11 @@ export default async (req, res) => {
       if (req.cookies.nonce === id_token.nonce) {
         console.log;
         let uid;
-        try {
-          console.log("DOES THE USER EXIST ALREADY?");
-          const [existsQuery] = await query(
-            escape`SELECT * FROM users WHERE email = ${id_token.email}`
-          );
-          uid = existsQuery?.uid || null;
-        } catch (err) {
-          console.log("errrrr", err);
-        }
+        console.log("DOES THE USER EXIST ALREADY?");
+        const [existsQuery] = await query(
+          escape`SELECT * FROM users WHERE email = ${id_token.email}`
+        );
+        uid = existsQuery?.uid || null;
 
         // * If user does not exist, create in db
         if (!uid) {

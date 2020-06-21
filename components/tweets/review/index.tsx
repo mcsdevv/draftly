@@ -16,7 +16,6 @@ interface ReviewProps {
 }
 
 const Review = ({ tweet }: ReviewProps) => {
-  console.log(tweet);
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
   const [reviewsRequired, setReviewsRequired] = useState(0);
@@ -43,7 +42,7 @@ const Review = ({ tweet }: ReviewProps) => {
       setTweets({
         drafts,
         published,
-        reviews: reviews.map((r) =>
+        reviews: reviews.map((r: any) =>
           r.twuid === tweet.twuid
             ? { ...r, approvals: [...r.approvals, approval] }
             : r
@@ -67,7 +66,7 @@ const Review = ({ tweet }: ReviewProps) => {
     });
     if (res.status === 200) {
       mutate(`/api/tweets/details/reviews/${scope.handle}`, {
-        reviews: reviews.filter((d) => d.ref !== tweet.ref),
+        reviews: reviews.filter((d: any) => d.ref !== tweet.ref),
       });
     }
   };
@@ -106,7 +105,7 @@ const Review = ({ tweet }: ReviewProps) => {
       setTweets({
         drafts,
         published,
-        reviews: reviews.map((r) =>
+        reviews: reviews.map((r: any) =>
           r.twuid === tweet.twuid
             ? { ...r, metadata: meta, text: formattedTweet }
             : r
@@ -115,6 +114,7 @@ const Review = ({ tweet }: ReviewProps) => {
     }
   };
   const handlePublish = async () => {
+    console.log("PUBLISH");
     const url = "/api/tweet/published/create";
     const res = await fetch(url, {
       method: "POST",
@@ -123,11 +123,11 @@ const Review = ({ tweet }: ReviewProps) => {
       }),
     });
     if (res.status === 200) {
-      const publishedTweet = reviews.find((r) => r.twuid === tweet.twuid);
+      const publishedTweet = reviews.find((r: any) => r.twuid === tweet.twuid);
       setTweets({
         drafts,
         published: [...published, publishedTweet],
-        reviews: reviews.filter((r) => r.twuid !== tweet.twuid),
+        reviews: reviews.filter((r: any) => r.twuid !== tweet.twuid),
       });
     }
   };

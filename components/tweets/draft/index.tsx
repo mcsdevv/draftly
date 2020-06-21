@@ -21,7 +21,6 @@ const Draft = ({
   drafts,
   published,
   reviews,
-  revalidate,
   setTweets,
   tweet,
 }: DraftProps) => {
@@ -107,7 +106,6 @@ const Draft = ({
       });
     }
   };
-  console.log("draft", tweet);
   // TODO Account for multiple Twitter card types - https://www.oncrawl.com/oncrawl-seo-thoughts/a-complete-guide-to-twitter-cards/
   return (
     <Tweet
