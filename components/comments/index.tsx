@@ -72,16 +72,10 @@ export default function Comments({ comments, twuid }: CommentsProps) {
       });
     }
   };
-  const getAddedByName = (uid: string) => {
+  const getAddedByProperty = (uid: string, property: string) => {
     const members = [...scope.members, ...scope.owners];
     const commenter = members.find((m) => m.uid === uid);
-    return commenter.name;
-  };
-  const getAddedByAvatar = (uid: string) => {
-    const members = [...scope.members, ...scope.owners];
-    const commenter = members.find((m) => m.uid === uid);
-    console.log(commenter);
-    return commenter.picture;
+    return commenter[property];
   };
   return (
     <div className={styles.container}>
@@ -100,8 +94,8 @@ export default function Comments({ comments, twuid }: CommentsProps) {
         {comments?.map((c: any) => (
           <Comment
             addedAt={c.added_at}
-            addedBy={getAddedByName(c.added_by)}
-            avatar={getAddedByAvatar(c.added_by)}
+            addedBy={getAddedByProperty(c.added_by, "name")}
+            avatar={getAddedByProperty(c.added_by, "picture")}
             comment={c.comment}
             handleDeleteComment={() => handleDeleteComment(c.tcuid)}
             key={c.id}
