@@ -11,8 +11,6 @@ const createPublishedTweet = async (req, res, uid, tuid) => {
       escape`SELECT * FROM teams WHERE tuid = ${tuid}`
     );
 
-    console.log("KEYQUERY", keysQuery);
-
     // * Create new Twitter client with account and application keys
     const twitterClient = new Twitter({
       consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -27,8 +25,10 @@ const createPublishedTweet = async (req, res, uid, tuid) => {
       tweet,
       response
     ) {
-      console.error("Error posting tweet:", twuid, error, tweet);
-      if (error) return res.status(500).json(error);
+      if (error) {
+        console.error("Error posting tweet:", twuid, error);
+        return res.status(500).json({ err: "Error posting tweet." });
+      }
     });
 
     // * Update the tweet type to published
