@@ -2,7 +2,7 @@ import cookie from "cookie";
 
 export default async (req, res) => {
   const logout = await fetch(`https://${process.env.AUTH0_DOMAIN}/v2/logout`);
-  console.log("LOGOUT", await logout);
+  console.log("LOGOUT", logout);
   const cookieOptions = (http = false) => {
     return {
       httpOnly: http,
