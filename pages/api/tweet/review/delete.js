@@ -12,9 +12,9 @@ const deleteReviewTweet = async (req, res) => {
     await query(escape`DELETE FROM tweets_meta WHERE twuid = ${twuid}`);
 
     console.log("Deleted tweet:", twuid);
-    res.status(200).json(dbs.data);
+    res.status(200).send(twuid);
   } catch (err) {
-    console.error("ERROR - api/tweet/draft/delete -", err.message);
+    console.error("ERROR - api/tweet/review/delete -", err.message);
     res.status(500).json({ err: err.message });
   }
 };

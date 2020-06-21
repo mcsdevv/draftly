@@ -9,7 +9,7 @@ const createReviewTweet = async (req, res) => {
     await query(escape`UPDATE tweets SET type="review" WHERE twuid=${twuid}`);
 
     console.log("Tweet changed to review:", twuid);
-    res.status(200).json(dbs.data);
+    res.status(200).send(twuid);
   } catch (err) {
     console.error("ERROR - api/tweet/review/create -", err.message);
     res.status(500).json({ err: err.message });

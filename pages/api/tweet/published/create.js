@@ -2,14 +2,16 @@ const Twitter = require("twitter");
 import verify from "@lib/api/token/verify";
 import { escape, query } from "@lib/api/db";
 
-const createPublishedTweet = async (req, res) => {
+const createPublishedTweet = async (req, res, uid, tuid) => {
   try {
-    const { tweet, tuid } = JSON.parse(req.body);
+    const { text, twuid } = JSON.parse(req.body);
 
     // * Get keys to post tweet
-    const keysQuery = await query(
-      escape`SELECT * FROM team WHERE tuid = ${tuid}`
+    const [keysQuery] = await query(
+      escape`SELECT * FROM teams WHERE tuid = ${tuid}`
     );
+
+    console.log("KEYQUERY", keysQuery);
 
     // * Create new Twitter client with account and application keys
     const twitterClient = new Twitter({
@@ -20,13 +22,13 @@ const createPublishedTweet = async (req, res) => {
     });
 
     // * Post tweet
-    twitterClient.post("statuses/update", { status: tweet }, function (
+    twitterClient.post("statuses/update", { status: text }, function (
       error,
       tweet,
       response
     ) {
-      if (error) throw error;
-      console.error("Error posting tweet:", tweet);
+      console.error("Error posting tweet:", twuid, error, tweet);
+      if (error) return res.status(500).json(error);
     });
 
     // * Update the tweet type to published
@@ -35,7 +37,7 @@ const createPublishedTweet = async (req, res) => {
     );
 
     console.log("Published tweet created for:", tuid);
-    res.status(200).json(dbs.data);
+    res.status(200).json(text);
   } catch (err) {
     console.error("ERROR - api/tweet/published/create -", err.message);
     res.status(500).json({ err: err.message });

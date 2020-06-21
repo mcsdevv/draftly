@@ -51,6 +51,8 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
     const tweetComments = await commentsQuery();
     const comments = [].concat.apply([], tweetComments);
 
+    console.log("approvals", approvals);
+
     const tweets = tweetsQuery.map((t) => {
       return {
         ...t,

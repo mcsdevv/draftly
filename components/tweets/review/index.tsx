@@ -57,16 +57,18 @@ const Review = ({ tweet }: ReviewProps) => {
     setEditing(false);
   };
   const handleDelete = async () => {
-    const url = `/api/tweet/review/delete/${scope.handle}`;
+    const url = "/api/tweet/review/delete";
     const res = await fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
-        ref: tweet.ref,
+        twuid: tweet.twuid,
       }),
     });
     if (res.status === 200) {
-      mutate(`/api/tweets/details/reviews/${scope.handle}`, {
-        reviews: reviews.filter((d: any) => d.ref !== tweet.ref),
+      setTweets({
+        drafts,
+        published,
+        reviews: reviews.filter((r: any) => r.twuid !== tweet.twuid),
       });
     }
   };
@@ -119,7 +121,8 @@ const Review = ({ tweet }: ReviewProps) => {
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        tweet: tweet.text,
+        text: tweet.text,
+        twuid: tweet.twuid,
       }),
     });
     if (res.status === 200) {
