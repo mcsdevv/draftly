@@ -56,16 +56,8 @@ function Reviews() {
         {reviews?.length > 0
           ? reviews.map((r) => (
               <>
-                <Review
-                  reviews={reviews}
-                  revalidate={revalidateReviews}
-                  tweet={r}
-                />
-                <Comments
-                  comments={r.comments}
-                  reviews={reviews}
-                  tweetRef={r.ref}
-                />
+                <Review tweet={r} />
+                <Comments comments={r.comments} tweetRef={r.ref} />
               </>
             ))
           : renderPageState()}

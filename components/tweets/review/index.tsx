@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { mutate } from "swr";
 
 import useScope from "@hooks/use-scope";
+import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
 import getMeta from "@lib/client/getMeta";
@@ -11,20 +12,20 @@ import Controls from "../../controls";
 import Tweet from "../../tweet";
 
 interface ReviewProps {
-  revalidate: any;
-  reviews: any[];
   tweet: any;
 }
 
-const Review = ({ revalidate, reviews, tweet }: ReviewProps) => {
+const Review = ({ tweet }: ReviewProps) => {
+  console.log(tweet);
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet.text);
   const [reviewsRequired, setReviewsRequired] = useState(0);
   const [scope] = useScope();
+  const { drafts, published, reviews, setTweets } = useTweets();
   const { user } = useUser();
   useEffect(() => {
     function getReviewsRequired() {
-      const required = scope.reviews_required - tweet.approvedBy.length;
+      const required = scope.reviews_required - tweet.approvals.length;
       setReviewsRequired(required);
     }
     getReviewsRequired();
@@ -33,9 +34,6 @@ const Review = ({ revalidate, reviews, tweet }: ReviewProps) => {
     const url = "/api/tweet/review/approve";
     const res = await fetch(url, {
       method: "POST",
-      body: JSON.stringify({
-        twuid: scope.twuid,
-      }),
     });
     if (res.status === 200) {
       revalidate();
@@ -114,12 +112,12 @@ const Review = ({ revalidate, reviews, tweet }: ReviewProps) => {
       editing={editing}
       editTweet={editTweet}
       handleOnChange={handleOnChange}
-      metadata={tweet.metadata}
+      metadata={tweet.meta}
       scope={scope}
       text={tweet.text}
     >
       <Controls
-        approvals={tweet.approvedBy.length}
+        approvals={tweet.approvals.length}
         approvalsRequired={scope.reviews_required}
         disableApprove={user?.name === tweet.creator}
         disablePublish={reviewsRequired !== 0}

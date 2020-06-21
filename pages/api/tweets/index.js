@@ -2,37 +2,49 @@ import verify from "@lib/api/token/verify";
 import { escape, query } from "@lib/api/db";
 import isMember from "@lib/api/middleware/isMember";
 
-const getDraftTweets = async (req, res) => {
+const getDraftTweets = async (_req, res, _uid, tuid) => {
   try {
-    const { tuid } = req.query;
-
     // * Get all tweets for team
     const tweetsQuery = await query(
       escape`SELECT * FROM tweets
       WHERE tuid = ${tuid}`
     );
 
+    // * Get all tweet metadata
     const metaQuery = await query(
       escape`SELECT * FROM tweets_meta
       LEFT JOIN tweets ON tweets.twuid = tweets_meta.twuid
       WHERE tuid = ${tuid}`
     );
 
-    const approvalsQuery = await query(
-      escape`SELECT * FROM tweets_approvals
-      LEFT JOIN tweets ON tweets.twuid = tweets_approvals.twuid
-      WHERE tweets_approvals.twuid = '56f1267b-a223-4635-8748-c2708c127042'`
-    );
+    // * Get all tweet approvals
+    const approvalsQuery = async () => {
+      const approvals = await Promise.all(
+        tweetsQuery.map((t) => {
+          return query(
+            escape`SELECT * FROM tweets_approvals
+            WHERE twuid = ${t.twuid}`
+          );
+        })
+      );
+      return approvals;
+    };
 
+    const tweetApprovals = await approvalsQuery();
+    console.log("approval - A", tweetApprovals);
     // TODO Get all tweet comments
+
+    const approvals = [].concat.apply([], tweetApprovals);
+    console.log("approval - B", approvals);
 
     const tweets = tweetsQuery.map((t) => {
       return {
         ...t,
         meta: metaQuery.find((m) => m.twuid === t.twuid),
-        approvals: approvalsQuery.find((a) => a.twuid === t.twuid),
+        approvals: approvals.filter((m) => m.twuid === t.twuid),
       };
     });
+
     const drafts = tweets.filter((t) => {
       return t.type === "draft";
     });
@@ -43,7 +55,7 @@ const getDraftTweets = async (req, res) => {
       return t.type === "published";
     });
 
-    console.log("Retrieved draft tweets for:", tuid);
+    console.log("Retrieved tweets for:", tuid);
     res.status(200).json({ drafts, reviews, published });
   } catch (err) {
     console.error("ERROR - api/tweets/details/drafts -", err.message);
