@@ -30,18 +30,33 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
       return approvals;
     };
 
+    // * Flatten approvals array
     const tweetApprovals = await approvalsQuery();
-    console.log("approval - A", tweetApprovals);
-    // TODO Get all tweet comments
-
     const approvals = [].concat.apply([], tweetApprovals);
-    console.log("approval - B", approvals);
+
+    // * Get all tweet comments
+    const commentsQuery = async () => {
+      const comments = await Promise.all(
+        tweetsQuery.map((t) => {
+          return query(
+            escape`SELECT * FROM tweets_comments
+                WHERE twuid = ${t.twuid}`
+          );
+        })
+      );
+      return comments;
+    };
+
+    // * Flatten approvals array
+    const tweetComments = await commentsQuery();
+    const comments = [].concat.apply([], tweetComments);
 
     const tweets = tweetsQuery.map((t) => {
       return {
         ...t,
         meta: metaQuery.find((m) => m.twuid === t.twuid),
         approvals: approvals.filter((m) => m.twuid === t.twuid),
+        comments: comments.filter((m) => m.twuid === t.twuid),
       };
     });
 
@@ -58,7 +73,7 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
     console.log("Retrieved tweets for:", tuid);
     res.status(200).json({ drafts, reviews, published });
   } catch (err) {
-    console.error("ERROR - api/tweets/details/drafts -", err.message);
+    console.error("ERROR - api/tweets -", err.message);
     res.status(500).json({ err: err.message });
   }
 };
