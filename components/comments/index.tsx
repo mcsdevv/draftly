@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 
 import Comment from "./comment";
@@ -14,6 +15,7 @@ interface CommentsProps {
 
 export default function Comments({ comments, twuid }: CommentsProps) {
   const [comment, setComment] = useState("");
+  const [scope] = useScope();
   const { drafts, published, reviews, setTweets } = useTweets();
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     const newComment = e.currentTarget.value;
@@ -70,6 +72,17 @@ export default function Comments({ comments, twuid }: CommentsProps) {
       });
     }
   };
+  const getAddedByName = (uid: string) => {
+    const members = [...scope.members, ...scope.owners];
+    const commenter = members.find((m) => m.uid === uid);
+    return commenter.name;
+  };
+  const getAddedByAvatar = (uid: string) => {
+    const members = [...scope.members, ...scope.owners];
+    const commenter = members.find((m) => m.uid === uid);
+    console.log(commenter);
+    return commenter.picture;
+  };
   return (
     <div className={styles.container}>
       <div className={styles.addComment}>
@@ -87,8 +100,8 @@ export default function Comments({ comments, twuid }: CommentsProps) {
         {comments?.map((c: any) => (
           <Comment
             addedAt={c.added_at}
-            addedBy={c.added_by}
-            avatar={c.avatar}
+            addedBy={getAddedByName(c.added_by)}
+            avatar={getAddedByAvatar(c.added_by)}
             comment={c.comment}
             handleDeleteComment={() => handleDeleteComment(c.tcuid)}
             key={c.id}
