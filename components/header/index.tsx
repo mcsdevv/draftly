@@ -16,11 +16,11 @@ const Header = memo(() => {
   });
   const logoutUser = async () => {
     await fetch("/api/auth/logout");
+    window.location.href = "/";
     Cookies.remove("id_token");
     Cookies.remove("access_token");
     Cookies.remove("user_id");
     Cookies.remove("next");
-    window.location.href = "/";
   };
   return (
     <header className={styles.header}>

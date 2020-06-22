@@ -18,18 +18,16 @@ const Page = ({
   divider = true,
   name,
   onClick,
-}: PageProps) => {
-  return (
-    <div className={styles.page}>
-      <Header />
-      <div className={styles.content}>
-        <h2 className={styles.heading}>{name}</h2>
-        {buttonText && <Button onClick={onClick}>{buttonText}</Button>}
-      </div>
-      {divider && <Divider />}
-      {children}
+}: PageProps) => (
+  <div className={styles.page}>
+    <Header />
+    <div className={styles.content}>
+      <h2 className={styles.heading}>{name}</h2>
+      {buttonText && <Button onClick={onClick}>{buttonText}</Button>}
     </div>
-  );
-};
+    {divider && <Divider />}
+    {children}
+  </div>
+);
 
 export default Page;
