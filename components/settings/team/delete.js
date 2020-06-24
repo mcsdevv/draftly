@@ -12,7 +12,7 @@ import Input from "../../input";
 export default function DeleteTeam() {
   const router = useRouter();
   const [scope, setScope] = useScope();
-  const { revalidateTweets, setTweets } = useTweets();
+  const { setTweets } = useTweets();
   const { setUser, teams, user } = useUser();
   const [teamName, setTeamName] = useState(scope.name);
   const handleOnChange = (e) => {
@@ -30,7 +30,6 @@ export default function DeleteTeam() {
       setTweets([]);
       if (filteredTeams) {
         setScope(filteredTeams[0]);
-        revalidateTweets();
       } else {
         Cookies.remove("tuid");
         setScope(null);

@@ -86,4 +86,4 @@ function Drafts() {
   );
 }
 
-export default Drafts;
+export default () => RequireLogin(Drafts);

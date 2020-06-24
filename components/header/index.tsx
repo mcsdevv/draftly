@@ -1,20 +1,19 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 
 import Cookies from "js-cookie";
 
 import Link from "../link";
-// import Scope from "../scope";
+import Scope from "../scope";
 import styles from "./header.module.css";
 
 const Header = memo(() => {
-  // const [loggedIn, setLoggedIn] = useState(false);
-  const loggedIn = true;
-  // useEffect(() => {
-  //   function getLoggedIn() {
-  //     if (!!Cookies.get("id_token")) setLoggedIn(true);
-  //   }
-  //   getLoggedIn();
-  // });
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    function getLoggedIn() {
+      if (!!Cookies.get("id_token")) setLoggedIn(true);
+    }
+    getLoggedIn();
+  });
   const logoutUser = async () => {
     await fetch("/api/auth/logout");
     window.location.href = "/";
@@ -25,7 +24,7 @@ const Header = memo(() => {
   };
   return (
     <header className={styles.header}>
-      {/* <div className={styles.headerLeft}>{loggedIn && <Scope />}</div> */}
+      <div className={styles.headerLeft}>{loggedIn && <Scope />}</div>
       <div className={styles.headerRight}>
         {loggedIn && (
           <>
