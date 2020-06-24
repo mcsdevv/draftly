@@ -66,4 +66,4 @@ function Reviews() {
   );
 }
 
-export default () => RequireLogin(Reviews);
+export default Reviews;
