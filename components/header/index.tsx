@@ -24,7 +24,7 @@ const Header = memo(() => {
   };
   return (
     <header className={styles.header}>
-      <div className={styles.headerLeft}>{loggedIn && <Scope />}</div>
+      {/* <div className={styles.headerLeft}>{loggedIn && <Scope />}</div> */}
       <div className={styles.headerRight}>
         {loggedIn && (
           <>
