@@ -14,7 +14,7 @@ interface PageProps {
 
 const Page = ({
   buttonText,
-  children,
+  // children,
   divider = true,
   name,
   onClick,
