@@ -3,7 +3,7 @@ import { memo, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 import Link from "../link";
-// import Scope from "../scope";
+import Scope from "../scope";
 import styles from "./header.module.css";
 
 const Header = memo(() => {
@@ -24,7 +24,7 @@ const Header = memo(() => {
   };
   return (
     <header className={styles.header}>
-      {/* <div className={styles.headerLeft}>{loggedIn && <Scope />}</div> */}
+      <div className={styles.headerLeft}>{loggedIn && <Scope />}</div>
       <div className={styles.headerRight}>
         {loggedIn && (
           <>

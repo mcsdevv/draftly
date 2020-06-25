@@ -14,7 +14,7 @@ interface PageProps {
 
 const Page = ({
   buttonText,
-  // children,
+  children,
   divider = true,
   name,
   onClick,
@@ -26,7 +26,7 @@ const Page = ({
       {buttonText && <Button onClick={onClick}>{buttonText}</Button>}
     </div>
     {divider && <Divider />}
-    {/* {children} */}
+    {children}
   </div>
 );
 
