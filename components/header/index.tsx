@@ -7,13 +7,13 @@ import Scope from "../scope";
 import styles from "./header.module.css";
 
 const Header = memo(() => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   useEffect(() => {
     function getLoggedIn() {
       if (!!Cookies.get("id_token")) setLoggedIn(true);
     }
     getLoggedIn();
-  });
+  }, []);
   const logoutUser = async () => {
     await fetch("/api/auth/logout");
     window.location.href = "/";
