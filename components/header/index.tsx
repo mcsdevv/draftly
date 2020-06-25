@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Cookies from "js-cookie";
 
@@ -6,7 +6,7 @@ import Link from "../link";
 import Scope from "../scope";
 import styles from "./header.module.css";
 
-const Header = memo(() => {
+const Header = () => {
   const [loggedIn, setLoggedIn] = useState(true);
   useEffect(() => {
     function getLoggedIn() {
@@ -55,6 +55,6 @@ const Header = memo(() => {
       </div>
     </header>
   );
-});
+};
 
 export default Header;
