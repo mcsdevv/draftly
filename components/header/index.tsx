@@ -7,7 +7,7 @@ import Scope from "../scope";
 import styles from "./header.module.css";
 
 const Header = () => {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState();
   useEffect(() => {
     function getLoggedIn() {
       if (!!Cookies.get("id_token")) setLoggedIn(true);
