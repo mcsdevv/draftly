@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import Cookies from "js-cookie";
 
@@ -8,6 +9,7 @@ import styles from "./header.module.css";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     function getLoggedIn() {
       if (!!Cookies.get("id_token")) setLoggedIn(true);
@@ -15,13 +17,13 @@ const Header = () => {
     getLoggedIn();
   }, [loggedIn]);
   const logoutUser = async () => {
+    fetch("/api/auth/logout");
     Cookies.remove("id_token");
     Cookies.remove("access_token");
     Cookies.remove("user_id");
     Cookies.remove("next");
     setLoggedIn(false);
-    window.location.href = "/";
-    fetch("/api/auth/logout");
+    router.push("/");
   };
   return (
     <header className={styles.header}>
