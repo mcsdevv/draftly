@@ -15,13 +15,13 @@ const Header = () => {
     getLoggedIn();
   }, [loggedIn]);
   const logoutUser = async () => {
-    await fetch("/api/auth/logout");
     Cookies.remove("id_token");
     Cookies.remove("access_token");
     Cookies.remove("user_id");
     Cookies.remove("next");
     setLoggedIn(false);
     window.location.href = "/";
+    fetch("/api/auth/logout");
   };
   return (
     <header className={styles.header}>
