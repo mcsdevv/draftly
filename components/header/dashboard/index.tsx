@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 import Cookies from "js-cookie";
 
-import Link from "../link";
-import Scope from "../scope";
+import Link from "../../link";
+import Scope from "../../scope";
 import styles from "./header.module.css";
 
 const Header = () => {
