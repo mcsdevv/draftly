@@ -5,10 +5,8 @@ import useTweets from "@hooks/use-tweets";
 import CardPlaceholder from "@components/placeholders/card";
 import Comments from "@components/comments";
 import Grid from "@components/layout/grid";
-import Page from "@components/page";
+import DashboardLayout from "@components/layouts/dashboard";
 import Review from "@components/tweets/review";
-
-import RequireLogin from "@lib/client/requireLogin";
 
 function Reviews() {
   const { reviews } = useTweets();
@@ -51,19 +49,25 @@ function Reviews() {
     }
   };
   return (
-    <Page name="Reviews">
-      <Grid columns="single">
-        {reviews?.length > 0
-          ? reviews.map((r) => (
-              <>
-                <Review tweet={r} />
-                <Comments comments={r.comments} twuid={r.twuid} />
-              </>
-            ))
-          : renderPageState()}
-      </Grid>
-    </Page>
+    <Grid columns="single">
+      {reviews?.length > 0
+        ? reviews.map((r) => (
+            <>
+              <Review key={r.twuid} tweet={r} />
+              <Comments
+                comments={r.comments}
+                key={r.twuid + 1}
+                twuid={r.twuid}
+              />
+            </>
+          ))
+        : renderPageState()}
+    </Grid>
   );
 }
 
-export default () => RequireLogin(Reviews);
+Reviews.getLayout = (page) => (
+  <DashboardLayout name="Reviews">{page}</DashboardLayout>
+);
+
+export default Reviews;

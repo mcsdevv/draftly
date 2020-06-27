@@ -6,15 +6,14 @@ import CardPlaceholder from "@components/placeholders/card";
 import ComposeTweet from "@components/compose";
 import Draft from "@components/tweets/draft";
 import Grid from "@components/layout/grid";
-import Page from "@components/page";
-
-import RequireLogin from "@lib/client/requireLogin";
+import DashboardLayout from "@components/layouts/dashboard";
 
 function Drafts() {
   const { drafts, reviews, published, setTweets } = useTweets();
   const [drafting, setDrafting] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [showNoDrafts, setShowNoDrafts] = useState(false);
+  const setDraft = () => setDrafting(true);
   // useEffect(() => {
   //   function getPageState() {
   //     if (drafts === undefined) {
@@ -53,37 +52,35 @@ function Drafts() {
     setDrafting(true);
   };
   return (
-    <Page
-      buttonText="Create Draft"
-      name="Drafts"
-      onClick={() => setDrafting(true)}
-    >
-      <Grid columns="double">
-        {drafting && (
-          <ComposeTweet
-            drafts={drafts}
-            drafting={drafting}
-            // revalidate={revalidateDrafts}
-            setDrafting={setDrafting}
-            startDraft={startDraft}
-          />
-        )}
-        {drafts?.length > 0
-          ? drafts.map((d) => (
-              <Draft
-                drafts={drafts}
-                key={d.ref}
-                // revalidate={revalidateDrafts}
-                published={published}
-                reviews={reviews}
-                setTweets={setTweets}
-                tweet={d}
-              />
-            ))
-          : renderPageState()}
-      </Grid>
-    </Page>
+    <Grid columns="double">
+      {drafting && (
+        <ComposeTweet
+          drafts={drafts}
+          drafting={drafting}
+          // revalidate={revalidateDrafts}
+          setDrafting={setDrafting}
+          startDraft={startDraft}
+        />
+      )}
+      {drafts?.length > 0
+        ? drafts.map((d) => (
+            <Draft
+              drafts={drafts}
+              key={d.twuid}
+              // revalidate={revalidateDrafts}
+              published={published}
+              reviews={reviews}
+              setTweets={setTweets}
+              tweet={d}
+            />
+          ))
+        : renderPageState()}
+    </Grid>
   );
 }
 
-export default () => RequireLogin(Drafts);
+Drafts.getLayout = (page) => (
+  <DashboardLayout name="Drafts">{page}</DashboardLayout>
+);
+
+export default Drafts;

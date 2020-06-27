@@ -2,9 +2,8 @@ import useScope from "@hooks/use-scope";
 import useUser from "@hooks/use-user";
 
 import styles from "@styles/pages/settings.module.css";
-import RequireLogin from "@lib/client/requireLogin";
 
-import Page from "@components/page";
+import DashboardLayout from "@components/layouts/dashboard";
 
 import ChangeUserName from "@components/settings/user/changeName";
 import DeleteUser from "@components/settings/user/delete";
@@ -19,22 +18,24 @@ function Settings() {
   const { user } = useUser();
   const isOwner = scope?.owners.includes(user && user.email);
   return (
-    <Page name="Settings - General">
-      <div className={styles.container}>
-        {scope && user ? (
-          <>
-            <ChangeUserName loading={!!user} />
-            <DeleteUser loading={!!user} />
-            <ChangeTeamName disabled={!isOwner} loading={!!user} />
-            <DeleteTeam disabled={!isOwner} loading={!!user} />
-            <Reviews disabled={!isOwner} loading={!!user} />
-            {/* <Plan disabled={!isOwner} loading={!!user} /> */}
-            <Members disabled={!isOwner} loading={!!user} />
-          </>
-        ) : null}
-      </div>
-    </Page>
+    <div className={styles.container}>
+      {scope && user ? (
+        <>
+          <ChangeUserName loading={!!user} />
+          <DeleteUser loading={!!user} />
+          <ChangeTeamName disabled={!isOwner} loading={!!user} />
+          <DeleteTeam disabled={!isOwner} loading={!!user} />
+          <Reviews disabled={!isOwner} loading={!!user} />
+          {/* <Plan disabled={!isOwner} loading={!!user} /> */}
+          <Members disabled={!isOwner} loading={!!user} />
+        </>
+      ) : null}
+    </div>
   );
 }
 
-export default () => RequireLogin(Settings);
+Settings.getLayout = (page) => (
+  <DashboardLayout name="Settings">{page}</DashboardLayout>
+);
+
+export default Settings;

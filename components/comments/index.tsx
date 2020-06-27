@@ -98,7 +98,7 @@ export default function Comments({ comments, twuid }: CommentsProps) {
             avatar={getAddedByProperty(c.added_by, "picture")}
             comment={c.comment}
             handleDeleteComment={() => handleDeleteComment(c.tcuid)}
-            key={c.id}
+            key={c.tcuid}
           />
         ))}
       </div>

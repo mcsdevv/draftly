@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 
 import useTweets from "@hooks/use-tweets";
 
-import RequireLogin from "@lib/client/requireLogin";
-
 import CardPlaceholder from "@components/placeholders/card";
 import Grid from "@components/layout/grid";
-import Page from "@components/page";
+import DashboardLayout from "@components/layouts/dashboard";
 import Publish from "@components/tweets/publish";
 
 function Published() {
@@ -50,19 +48,21 @@ function Published() {
     }
   };
   return (
-    <Page name="Published">
-      <Grid columns="single">
-        {published
-          ? published.map((p) => (
-              <>
-                <Publish key={p.ref} published={published} tweet={p} />
-                <h2 key={p.ref + 1}>Here be metrics...</h2>
-              </>
-            ))
-          : renderPageState()}
-      </Grid>
-    </Page>
+    <Grid columns="single">
+      {published
+        ? published.map((p) => (
+            <>
+              <Publish key={p.twuid} published={published} tweet={p} />
+              <h2 key={p.twuid + 1}>Here be metrics...</h2>
+            </>
+          ))
+        : renderPageState()}
+    </Grid>
   );
 }
 
-export default () => RequireLogin(Published);
+Published.getLayout = (page) => (
+  <DashboardLayout name="Published">{page}</DashboardLayout>
+);
+
+export default Published;

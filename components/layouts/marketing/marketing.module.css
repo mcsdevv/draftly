@@ -1,0 +1,13 @@
+.page {
+  margin: 0 auto;
+  max-width: var(--xl);
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.heading {
+  margin-bottom: var(--gap-2);
+}
