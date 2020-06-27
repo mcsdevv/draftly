@@ -2,7 +2,6 @@ import useScope from "@hooks/use-scope";
 import useUser from "@hooks/use-user";
 
 import styles from "@styles/pages/settings.module.css";
-import RequireLogin from "@lib/client/requireLogin";
 
 import DashboardLayout from "@components/layouts/dashboard";
 
@@ -39,4 +38,4 @@ Settings.getLayout = (page) => (
   <DashboardLayout name="Settings">{page}</DashboardLayout>
 );
 
-export default () => RequireLogin(Settings);
+export default Settings;

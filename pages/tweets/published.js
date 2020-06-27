@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 
 import useTweets from "@hooks/use-tweets";
 
-import RequireLogin from "@lib/client/requireLogin";
-
 import CardPlaceholder from "@components/placeholders/card";
 import Grid from "@components/layout/grid";
 import DashboardLayout from "@components/layouts/dashboard";

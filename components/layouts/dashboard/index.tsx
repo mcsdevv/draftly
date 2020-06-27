@@ -11,14 +11,16 @@ interface DashboardLayoutProps {
 }
 
 const DashboardLayout = ({ children, name }: DashboardLayoutProps) => (
-  <div className={styles.page}>
-    <Header />
-    <div className={styles.content}>
-      <h2 className={styles.heading}>{name}</h2>
+  <RequireLogin>
+    <div className={styles.page}>
+      <Header />
+      <div className={styles.content}>
+        <h2 className={styles.heading}>{name}</h2>
+      </div>
+      <Divider />
+      {children}
     </div>
-    <Divider />
-    {children}
-  </div>
+  </RequireLogin>
 );
 
-export default () => RequireLogin(DashboardLayout);
+export default DashboardLayout;

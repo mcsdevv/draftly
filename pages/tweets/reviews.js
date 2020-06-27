@@ -8,8 +8,6 @@ import Grid from "@components/layout/grid";
 import DashboardLayout from "@components/layouts/dashboard";
 import Review from "@components/tweets/review";
 
-import RequireLogin from "@lib/client/requireLogin";
-
 function Reviews() {
   const { reviews } = useTweets();
   const [showLoading, setShowLoading] = useState(false);
@@ -50,8 +48,6 @@ function Reviews() {
       return <h2>No Reviews...</h2>;
     }
   };
-  console.log(reviews && reviews[0].twuid);
-  console.log(reviews && reviews[0].twuid + 1);
   return (
     <Grid columns="single">
       {reviews?.length > 0

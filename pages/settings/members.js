@@ -2,7 +2,6 @@ import useScope from "@hooks/use-scope";
 import useUser from "@hooks/use-user";
 
 import styles from "@styles/pages/settings.module.css";
-import RequireLogin from "@lib/client/requireLogin";
 
 import Members from "@components/settings/members";
 
@@ -16,4 +15,4 @@ function TeamMembers() {
   );
 }
 
-export default () => RequireLogin(TeamMembers);
+export default TeamMembers;

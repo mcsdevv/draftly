@@ -1,8 +1,6 @@
 import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
-import RequireLogin from "@lib/client/requireLogin";
-
 import DashboardLayout from "@components/layouts/dashboard";
 
 function Dashboard() {

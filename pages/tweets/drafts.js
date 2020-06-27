@@ -8,8 +8,6 @@ import Draft from "@components/tweets/draft";
 import Grid from "@components/layout/grid";
 import DashboardLayout from "@components/layouts/dashboard";
 
-// import RequireLogin from "@lib/client/requireLogin";
-
 function Drafts() {
   const { drafts, reviews, published, setTweets } = useTweets();
   const [drafting, setDrafting] = useState(false);
