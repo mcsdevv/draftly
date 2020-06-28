@@ -17,6 +17,13 @@ const Scope = () => {
     }
     const scopeDetails = teams.find((t: any) => t.handle === name);
     setScope(scopeDetails);
+    const { handle } = router.query;
+    if (handle) {
+      const { asPath } = router;
+      const newUrl = asPath.replace(handle.toString(), scopeDetails.handle);
+      console.log("handle present", router.asPath, newUrl);
+      router.replace(newUrl);
+    }
   };
   return scope !== null && teams ? (
     teams?.length ? (
