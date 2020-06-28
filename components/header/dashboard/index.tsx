@@ -15,6 +15,7 @@ const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [scope] = useScope();
   const handle = scope?.handle;
+  console.log("HANDLE", handle);
   const router = useRouter();
   useEffect(() => {
     function getLoggedIn() {
@@ -37,19 +38,35 @@ const Header = () => {
       <div className={styles.headerRight}>
         {loggedIn && (
           <>
-            <Link href={`/${handle}/tweets/new`} type="primary">
+            <Link
+              as={`/${handle}/tweets/new`}
+              href="/[handle]/tweets/new"
+              type="primary"
+            >
               Create Draft
             </Link>
-            <Link href={`/${handle}/tweets/drafts`} type="primary">
+            <Link
+              as={`/${handle}/tweets/drafts`}
+              href="/[handle]/tweets/drafts"
+              type="primary"
+            >
               Drafts
             </Link>
-            <Link href={`/${handle}/tweets/published`} type="primary">
+            <Link
+              as={`/${handle}/tweets/published`}
+              href="/[handle]/tweets/published"
+              type="primary"
+            >
               Published
             </Link>
             <Link href="/dashboard" type="secondary">
               Dashboard
             </Link>
-            <Link href={`/${handle}/settings`} type="secondary">
+            <Link
+              as={`/${handle}/settings`}
+              href="/[handle]/settings"
+              type="secondary"
+            >
               Settings
             </Link>
           </>
