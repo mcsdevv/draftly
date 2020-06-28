@@ -1,4 +1,4 @@
-import cn from "classnames";
+// * Styles
 import styles from "./table.module.css";
 
 interface TableProps {
@@ -15,6 +15,7 @@ const Table = ({ children, headers }: TableProps) => (
             {h}
           </th>
         ))}
+        <th className={styles.header}>View</th>
       </tr>
     </thead>
     <tbody>{children}</tbody>

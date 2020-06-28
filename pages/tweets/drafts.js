@@ -27,6 +27,8 @@ function Drafts() {
             ago(new Date(d.created_at)),
             ago(new Date(d.updated_at)),
           ]}
+          twuid={d.twuid}
+          type="drafts"
         />
       ))}
     </Table>

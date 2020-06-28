@@ -10,3 +10,14 @@
   border-top: 2px solid var(--primary-1);
   padding: var(--gap-2);
 }
+
+.cellIcon {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 13px;
+}
+
+.link {
+  height: var(--gap-3);
+}

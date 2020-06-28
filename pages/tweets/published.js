@@ -27,6 +27,8 @@ function Published() {
             ago(new Date(p.created_at)),
             ago(new Date(p.updated_at)),
           ]}
+          twuid={p.twuid}
+          type="published"
         />
       ))}
     </Table>
