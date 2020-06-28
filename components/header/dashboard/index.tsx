@@ -31,11 +31,11 @@ const Header = () => {
       <div className={styles.headerRight}>
         {loggedIn && (
           <>
+            <Link href="/tweets/new" type="primary">
+              Create Draft
+            </Link>
             <Link href="/tweets/drafts" type="primary">
               Drafts
-            </Link>
-            <Link href="/tweets/reviews" type="primary">
-              Reviews
             </Link>
             <Link href="/tweets/published" type="primary">
               Published

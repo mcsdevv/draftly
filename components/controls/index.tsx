@@ -14,7 +14,6 @@ interface ControlsProps {
   handleEdit: () => void;
   handlePublish?: () => void;
   handleUpdate: () => void;
-  handleReviewReady?: () => void;
   type: string;
 }
 
@@ -30,8 +29,6 @@ const Controls = ({
   handleEdit,
   handlePublish,
   handleUpdate,
-  handleReviewReady,
-  type,
 }: ControlsProps) => (
   <div className={styles.container}>
     <Button
@@ -44,12 +41,7 @@ const Controls = ({
     <Button onClick={!editing ? handleEdit : handleUpdate} type="secondary">
       {!editing ? "Edit" : "Update"}
     </Button>
-    {!editing && type === "draft" && handleReviewReady && (
-      <Button onClick={handleReviewReady} type="primary">
-        Review
-      </Button>
-    )}
-    {!editing && type === "review" && handleApprove && handlePublish && (
+    {!editing && handleApprove && handlePublish && (
       <>
         <Button
           disabled={disableApprove}

@@ -4,7 +4,7 @@ import uuidv4 from "uuid/v4";
 const sql = require("sql-query");
 const sqlQuery = sql.Query();
 
-const approveReviewTweet = async (req, res, uid) => {
+const approveDraftTweet = async (req, res, uid) => {
   try {
     const { twuid } = JSON.parse(req.body);
     const tauid = uuidv4();
@@ -41,9 +41,9 @@ const approveReviewTweet = async (req, res, uid) => {
     console.log("Approved tweet:", twuid);
     res.status(200).json(approval);
   } catch (err) {
-    console.error("ERROR - api/tweet/review/approve -", err.message);
+    console.error("ERROR - api/tweet/draft/approve -", err.message);
     res.status(500).json({ err: err.message });
   }
 };
 
-export default verify(approveReviewTweet);
+export default verify(approveDraftTweet);
