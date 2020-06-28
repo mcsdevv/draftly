@@ -1,0 +1,12 @@
+.row {
+  border-top: 2px solid var(--primary-1);
+  box-sizing: border-box;
+  font-family: var(--font-family-tweet);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.cell {
+  border-top: 2px solid var(--primary-1);
+  padding: var(--gap-2);
+}
