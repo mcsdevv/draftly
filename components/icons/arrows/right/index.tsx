@@ -1,4 +1,10 @@
-const ArrowRight = ({ color, height = 24, width = 24 }) => (
+interface ArrowRightProps {
+  color: string;
+  height?: number;
+  width?: number;
+}
+
+const ArrowRight = ({ color, height = 24, width = 24 }: ArrowRightProps) => (
   <svg
     color={color}
     width={width}
