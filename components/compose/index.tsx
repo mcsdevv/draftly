@@ -18,7 +18,7 @@ interface ComposeTweetProps {
 const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
-  const { drafts, published, reviews, setTweets } = useTweets();
+  const { drafts, published, setTweets } = useTweets();
   const handleSaveDraft = async () => {
     setSaving(true);
     const metadata = await getMetadata(tweet);
@@ -33,7 +33,7 @@ const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
     });
     if (res.status === 200) {
       const newDraft = await res.json();
-      setTweets({ drafts: [newDraft, ...drafts], published, reviews });
+      setTweets({ drafts: [newDraft, ...drafts], published });
       setDrafting(false);
       setSaving(false);
       setTweet("");

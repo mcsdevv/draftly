@@ -1,62 +1,19 @@
-import { useEffect, useState } from "react";
+// * Libraries
 import ago from "s-ago";
 
+// * Hooks
 import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 
-import CardPlaceholder from "@components/placeholders/card";
-import ComposeTweet from "@components/compose";
-import Draft from "@components/tweets/draft";
-import Grid from "@components/layout/grid";
+// * Components
 import Table from "@components/table";
 import Row from "@components/table/row";
 import DashboardLayout from "@components/layouts/dashboard";
 
 function Drafts() {
   const [scope] = useScope();
-  const { drafts, reviews, published, setTweets } = useTweets();
-  const [drafting, setDrafting] = useState(false);
-  const [showLoading, setShowLoading] = useState(false);
-  const [showNoDrafts, setShowNoDrafts] = useState(false);
-  const setDraft = () => setDrafting(true);
-  // useEffect(() => {
-  //   function getPageState() {
-  //     if (drafts === undefined) {
-  //       // * Loading page
-  //       setShowLoading(true);
-  //       setShowNoDrafts(false);
-  //     }
-  //     if (!isValidating && !drafting && drafts && drafts.length === 0) {
-  //       // * No drafts to show
-  //       setShowNoDrafts(true);
-  //       setShowLoading(false);
-  //     }
-  //     if ((drafts && drafts.length !== 0) || drafting) {
-  //       // * Drafts present or drafting currently
-  //       setShowNoDrafts(false);
-  //       setShowLoading(false);
-  //     }
-  //   }
-  //   getPageState();
-  // }, [drafts, drafting]);
-  const renderPageState = () => {
-    if (showLoading) {
-      return (
-        <>
-          <CardPlaceholder />
-          <CardPlaceholder />
-          <CardPlaceholder />
-        </>
-      );
-    }
-    if (showNoDrafts) {
-      return <h2>No Drafts...</h2>;
-    }
-  };
-  const startDraft = () => {
-    setDrafting(true);
-  };
-  console.log(scope);
+  const { drafts } = useTweets();
+
   return (
     <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
       {drafts?.map((d) => (

@@ -1,11 +1,3 @@
-const Landing = () => {
-  return (
-    <>
-      <h2>Draft...</h2>
-      <h2>Review...</h2>
-      <h2>Publish...</h2>
-    </>
-  );
-};
+const Landing = () => <h1>Draft & Publish</h1>;
 
 export default Landing;

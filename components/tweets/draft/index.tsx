@@ -12,18 +12,11 @@ interface DraftProps {
   drafts: any[];
   published: any[];
   revalidate: () => void;
-  reviews: any[];
   setTweets: any;
   tweet: any;
 }
 
-const Draft = ({
-  drafts,
-  published,
-  reviews,
-  setTweets,
-  tweet,
-}: DraftProps) => {
+const Draft = ({ drafts, published, setTweets, tweet }: DraftProps) => {
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState("");
   const [scope] = useScope();
@@ -42,7 +35,6 @@ const Draft = ({
       setTweets({
         drafts: drafts.filter((d) => d.twuid !== tweet.twuid),
         published,
-        reviews,
       });
     }
   };
@@ -56,22 +48,6 @@ const Draft = ({
       setEditTweet(e.currentTarget.value);
     } else {
       alert("over the limit bud");
-    }
-  };
-  const handleReviewReady = async () => {
-    const url = "/api/tweet/review/create";
-    const res = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        twuid: tweet.twuid,
-      }),
-    });
-    if (res.status === 200) {
-      setTweets({
-        drafts: drafts.filter((d) => d.twuid !== tweet.twuid),
-        published,
-        reviews: [...reviews, tweet],
-      });
     }
   };
   const handleUpdate = async () => {
@@ -102,7 +78,6 @@ const Draft = ({
             : d
         ),
         published,
-        reviews,
       });
     }
   };
@@ -122,7 +97,6 @@ const Draft = ({
         handleDelete={handleDelete}
         handleEdit={handleEdit}
         handleUpdate={handleUpdate}
-        handleReviewReady={handleReviewReady}
         type="draft"
       />
     </Tweet>

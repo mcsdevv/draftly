@@ -16,7 +16,7 @@ interface CommentsProps {
 export default function Comments({ comments, twuid }: CommentsProps) {
   const [comment, setComment] = useState("");
   const [scope] = useScope();
-  const { drafts, published, reviews, setTweets } = useTweets();
+  const { drafts, published, setTweets } = useTweets();
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     const newComment = e.currentTarget.value;
     setComment(newComment);
@@ -30,7 +30,7 @@ export default function Comments({ comments, twuid }: CommentsProps) {
       }),
     });
     if (res.status === 200) {
-      const newReviews = reviews.map((r: any) => {
+      const newDrafts = drafts.map((r: any) => {
         if (r.twuid === twuid) {
           return {
             ...r,
@@ -40,9 +40,8 @@ export default function Comments({ comments, twuid }: CommentsProps) {
         return r;
       });
       setTweets({
-        drafts,
+        drafts: newDrafts,
         published,
-        reviews: newReviews,
       });
     }
   };
@@ -59,16 +58,15 @@ export default function Comments({ comments, twuid }: CommentsProps) {
     });
     if (res.status === 200) {
       const publishedComment = await res.json();
-      const newReviews = reviews.map((r: any) => {
+      const newDrafts = drafts.map((r: any) => {
         if (r.twuid === twuid) {
           return { ...r, comments: [publishedComment, ...r.comments] };
         }
         return r;
       });
       setTweets({
-        drafts,
+        drafts: newDrafts,
         published,
-        reviews: newReviews,
       });
     }
   };

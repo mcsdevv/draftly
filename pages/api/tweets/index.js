@@ -66,6 +66,7 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
     const comments = [].concat.apply([], tweetComments);
     console.timeEnd("flattenComments");
 
+    // * Add meta, approvals, and comments to tweets
     const tweets = tweetsQuery.map((t) => {
       return {
         ...t,
@@ -75,18 +76,16 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
       };
     });
 
+    // * Format into tweet types
     const drafts = tweets.filter((t) => {
       return t.type === "draft";
-    });
-    const reviews = tweets.filter((t) => {
-      return t.type === "review";
     });
     const published = tweets.filter((t) => {
       return t.type === "published";
     });
 
     console.log("Retrieved tweets for:", tuid);
-    res.status(200).json({ drafts, reviews, published });
+    res.status(200).json({ drafts, published });
   } catch (err) {
     console.error("ERROR - api/tweets -", err.message);
     res.status(500).json({ err: err.message });

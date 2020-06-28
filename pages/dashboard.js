@@ -4,14 +4,13 @@ import useUser from "@hooks/use-user";
 import DashboardLayout from "@components/layouts/dashboard";
 
 function Dashboard() {
-  const { drafts, reviews, published } = useTweets();
+  const { drafts, published } = useTweets();
   const { user } = useUser();
   return (
     <>
       <h3>Hello {user?.name}, here are some stats for you:</h3>
       <ul>
         <li>{drafts?.length} drafts to complete.</li>
-        <li>{reviews?.length} reviews to approve.</li>
         <li>{published?.length} tweets published so far.</li>
       </ul>
     </>

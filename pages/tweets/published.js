@@ -1,63 +1,35 @@
-import { useEffect, useState } from "react";
+// * Libraries
+import ago from "s-ago";
 
+// * Hooks
+import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 
-import CardPlaceholder from "@components/placeholders/card";
-import Grid from "@components/layout/grid";
+// * Components
 import DashboardLayout from "@components/layouts/dashboard";
-import Publish from "@components/tweets/publish";
+import Table from "@components/table";
+import Row from "@components/table/row";
 
 function Published() {
+  const [scope] = useScope();
   const { published } = useTweets();
-  const [showLoading, setShowLoading] = useState(false);
-  const [showNoPublished, setShowNoPublished] = useState(false);
-  useEffect(() => {
-    function getPageState() {
-      if (published === undefined) {
-        // * Loading page
-        setShowLoading(true);
-        setShowNoPublished(false);
-      }
-      if (published && published.length !== 0) {
-        // * Reviews present
-        setShowLoading(false);
-        setShowNoPublished(false);
-      }
-      if (published && published.length === 0) {
-        // * No reviews present
-        setShowLoading(false);
-        setShowNoPublished(true);
-      }
-    }
-    getPageState();
-  }, [published]);
-  const renderPageState = () => {
-    if (showLoading) {
-      // TODO Alternate card placeholder with metrics
-      return (
-        <>
-          <CardPlaceholder />
-          <CardPlaceholder />
-          <CardPlaceholder />
-          <CardPlaceholder />
-        </>
-      );
-    }
-    if (showNoPublished) {
-      return <h2>No Published...</h2>;
-    }
-  };
+
   return (
-    <Grid columns="single">
-      {published
-        ? published.map((p) => (
-            <>
-              <Publish key={p.twuid} published={published} tweet={p} />
-              <h2 key={p.twuid + 1}>Here be metrics...</h2>
-            </>
-          ))
-        : renderPageState()}
-    </Grid>
+    <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
+      {published?.map((p) => (
+        <Row
+          key={p.twuid}
+          row={[
+            p.text,
+            [...scope?.members, ...scope?.owners].find(
+              (m) => m.uid === p.created_by
+            )?.name,
+            ago(new Date(p.created_at)),
+            ago(new Date(p.updated_at)),
+          ]}
+        />
+      ))}
+    </Table>
   );
 }
 
