@@ -29,7 +29,10 @@ const Table = ({ row, twuid, type }: RowProps) => {
       ))}
       <td>
         <div className={cn(styles.cell, styles.cellIcon)}>
-          <Link href={`${handle}/tweets/${type}/${twuid}`}>
+          <Link
+            as={`/${handle}/tweets/${type}/${twuid}`}
+            href={`/[handle]/tweets/${type}/[twuid]`}
+          >
             <a className={styles.link}>
               <ArrowRight color="#16171b" />
             </a>

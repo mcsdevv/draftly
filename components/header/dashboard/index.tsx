@@ -15,7 +15,6 @@ const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [scope] = useScope();
   const handle = scope?.handle;
-  console.log("HANDLE", handle);
   const router = useRouter();
   useEffect(() => {
     function getLoggedIn() {
@@ -59,7 +58,11 @@ const Header = () => {
             >
               Published
             </Link>
-            <Link href="/dashboard" type="secondary">
+            <Link
+              as={`/${handle}/dashboard`}
+              href="/[handle]/dashboard"
+              type="secondary"
+            >
               Dashboard
             </Link>
             <Link
