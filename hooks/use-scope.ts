@@ -46,8 +46,6 @@ export default function useScope() {
   // * Update scope when either the handle or teams change
   useEffect(() => {
     function setNewScope() {
-      console.log("SCOPE HANDLE", handle);
-      console.log("SCOPE TEAMS", teams);
       // * Set first team as default scope if no handle (example - /dashboard)
       if (!handle && teams) {
         const newScope = teams[0];

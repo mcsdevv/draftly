@@ -18,16 +18,12 @@ const createTweetComment = async (req, res, uid) => {
       twuid,
     };
 
-    console.log("commentibj", commentObject);
-
     // * Insert comment
     const commentQuery = sqlInsert
       .into("tweets_comments")
       .set({ ...commentObject })
       .build();
-    const tetts = await query(commentQuery);
-
-    console.log("TETTS", tetts);
+    await query(commentQuery);
 
     console.log("Added comment to:", comment.twuid);
     res.status(200).json({ ...commentObject });

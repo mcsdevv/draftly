@@ -15,23 +15,20 @@ const Scope = () => {
   const router = useRouter();
   const handleOnChange = (e: React.FormEvent<HTMLSelectElement>) => {
     const name = e.currentTarget.value;
-    console.log("OLD SCOPE", scope);
+
+    // * If name is new, redirect to Twitter auth
     if (name === "new") {
       return router.push("/api/auth/twitter/connect");
     }
+
+    // * Get the details for the new scope
     const scopeDetails = teams.find((t: any) => t.handle === name);
+
+    // * Update the cookie and revalidate tweets before scope change submitted
     Cookies.set("tuid", scopeDetails?.tuid);
     revalidateTweets();
-    console.log("NEW SCOPE", scope);
-    console.log("SCOPE DETAILS", { ...scopeDetails });
-    const { handle } = router.query;
-    if (handle) {
-      // const { asPath } = router;
-      // const newUrl = asPath.replace(handle.toString(), scopeDetails.handle);
-      // console.log("handle present", router.asPath, newUrl);
-      // router.replace(newUrl);
-      updateScope(scopeDetails.handle, { ...scopeDetails });
-    }
+
+    updateScope(scopeDetails.handle, { ...scopeDetails });
   };
   return scope !== null && teams ? (
     teams?.length ? (
