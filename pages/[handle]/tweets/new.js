@@ -4,7 +4,7 @@ function Create() {
   return <h2>Let's create a tweet!</h2>;
 }
 
-Dashboard.getLayout = (page) => (
+Create.getLayout = (page) => (
   <DashboardLayout name="Create Tweet">{page}</DashboardLayout>
 );
 
