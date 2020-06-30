@@ -31,18 +31,12 @@ export default function useScope() {
   const { handle } = router.query;
 
   const updateScope = (newHandle: string, newScope: any) => {
-    console.log("NEW HANDLE", newHandle);
-    console.log("NEW SCOPE", newScope);
-
-    // * Get new path by replacing the handle with the new one
+    // * Format URL's to satisfy both href and as
     const { asPath } = router;
     const hrefUrl = asPath.replace(`${handle}`, "[handle]");
     const asUrl = asPath.replace(`${handle}`, newHandle);
 
-    console.log("HREF URL", hrefUrl);
-    console.log("AS URL", hrefUrl);
-
-    // TODO Why is this generating a page refresh?
+    // * Update the URL to reflect change in scope
     router.push(hrefUrl, asUrl, { shallow: true });
 
     // * Set the new scope with the one provided
