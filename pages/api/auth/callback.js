@@ -26,14 +26,13 @@ export default async (req, res) => {
     const auth = await authRes.json();
     // * Check no error on token exchange
     if (!auth.error) {
-      res.setHeader("Location", `${req.cookies.next}`);
       const id_token = jwt.decode(auth.id_token);
-      console.log("ID_TOKEN", id_token);
+
       // * Encrypt access token
       const access_token = encrypt(auth.access_token);
+
       // * Confirm nonce match to mitigate token replay attack
       if (req.cookies.nonce === id_token.nonce) {
-        console.log;
         let uid;
         console.log("DOES THE USER EXIST ALREADY?");
         const [existsQuery] = await query(
@@ -49,9 +48,8 @@ export default async (req, res) => {
             VALUES (${uid}, ${id_token.name}, ${id_token.email}, ${id_token.picture})`
           );
         }
-        // * If handling callback from a user being invited to a team
-        // TODO Add MySQL handling
 
+        // * If handling callback from a user being invited to a team
         if (req.cookies.invited_to) {
           const { invited_to, uid } = req.cookies;
           const membersQuery = await query(
@@ -95,6 +93,11 @@ export default async (req, res) => {
             cookieOptions(true, false)
           ),
         ]);
+
+        // TODO Check if the user is a member of a team and add handle to the path
+
+        // * Set redirect location and fallback to dashboard
+        res.setHeader("Location", `${req.cookies.next || "/dashboard"}`);
 
         // * Send response using redirect code
         res.status(302).end();

@@ -60,7 +60,6 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
     // * Flatten comments array
     console.time("getComments");
     const tweetComments = await commentsQuery();
-    console.log("COMMENTS QUERY", tweetComments);
     console.timeEnd("getComments");
     console.time("flattenComments");
     const comments = [].concat.apply([], tweetComments);

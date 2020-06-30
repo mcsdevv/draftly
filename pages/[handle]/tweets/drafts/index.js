@@ -11,7 +11,7 @@ import Row from "@components/table/row";
 import DashboardLayout from "@components/layouts/dashboard";
 
 function Drafts() {
-  const [scope] = useScope();
+  const { scope } = useScope();
   const { drafts } = useTweets();
 
   return (

@@ -7,7 +7,7 @@ import Input from "../../input";
 
 export default function ChangeTeamName() {
   const { revalidateProfile } = useUser();
-  const [scope, setScope] = useScope();
+  const { scope, setScope } = useScope();
   const [name, setName] = useState(scope?.name);
   const handleOnChange = (e) => {
     setName(e.target.value);

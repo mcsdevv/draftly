@@ -11,7 +11,7 @@ import Input from "../../input";
 
 export default function DeleteTeam() {
   const router = useRouter();
-  const [scope, setScope] = useScope();
+  const { scope, setScope } = useScope();
   const { setTweets } = useTweets();
   const { setUser, teams, user } = useUser();
   const [teamName, setTeamName] = useState(scope.name);

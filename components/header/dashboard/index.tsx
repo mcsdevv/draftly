@@ -1,14 +1,20 @@
+// * Libraries
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
 import Cookies from "js-cookie";
 
+// * Hooks
+import useScope from "@hooks/use-scope";
+
+// * Components
 import Link from "../../link";
 import Scope from "../../scope";
 import styles from "./header.module.css";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const { scope } = useScope();
+  const handle = scope?.handle;
   const router = useRouter();
   useEffect(() => {
     function getLoggedIn() {
@@ -31,25 +37,45 @@ const Header = () => {
       <div className={styles.headerRight}>
         {loggedIn && (
           <>
-            <Link href="/tweets/new" type="primary">
+            <Link
+              as={`/${handle}/tweets/new`}
+              href="/[handle]/tweets/new"
+              type="primary"
+            >
               Create Draft
             </Link>
-            <Link href="/tweets/drafts" type="primary">
+            <Link
+              as={`/${handle}/tweets/drafts`}
+              href="/[handle]/tweets/drafts"
+              type="primary"
+            >
               Drafts
             </Link>
-            <Link href="/tweets/published" type="primary">
+            <Link
+              as={`/${handle}/tweets/published`}
+              href="/[handle]/tweets/published"
+              type="primary"
+            >
               Published
             </Link>
-            <Link href="/dashboard" type="secondary">
+            <Link
+              as={`/${handle}/dashboard`}
+              href="/[handle]/dashboard"
+              type="secondary"
+            >
               Dashboard
             </Link>
-            <Link href="/settings" type="secondary">
+            <Link
+              as={`/${handle}/settings`}
+              href="/[handle]/settings"
+              type="secondary"
+            >
               Settings
             </Link>
           </>
         )}
         <Link
-          href={loggedIn ? "/" : "/dashboard"}
+          href={loggedIn ? "/" : `/api/auth/login`}
           onClick={loggedIn ? logoutUser : undefined}
           type="tertiary"
         >
