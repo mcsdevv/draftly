@@ -24,6 +24,7 @@ export default async (req, res) => {
       }
     );
     const auth = await authRes.json();
+
     // * Check no error on token exchange
     if (!auth.error) {
       const id_token = jwt.decode(auth.id_token);
@@ -34,13 +35,16 @@ export default async (req, res) => {
       // * Confirm nonce match to mitigate token replay attack
       if (req.cookies.nonce === id_token.nonce) {
         let uid;
-        console.log("DOES THE USER EXIST ALREADY?");
+
+        // * Check if this is an existing user
         const [existsQuery] = await query(
           escape`SELECT * FROM users WHERE email = ${id_token.email}`
         );
+
+        // * If user exists, set uid
         uid = existsQuery?.uid || null;
 
-        // * If user does not exist, create in db
+        // * If user does not exist, insert into database
         if (!uid) {
           uid = uuidv4();
           await query(
@@ -52,17 +56,19 @@ export default async (req, res) => {
         // * If handling callback from a user being invited to a team
         if (req.cookies.invited_to) {
           const { invited_to, uid } = req.cookies;
+
+          // * Get the team associated with invite
           const membersQuery = await query(
             escape`SELECT * FROM teams_members
             LEFT JOIN users ON users.uid = teams_members.uid
             WHERE tuid = ${invited_to}`
           );
+
+          // * Check whether user is a member of the team already
           const isMember = membersQuery.includes(user_id);
-          if (isMember) {
-            console.log("USER IS ALREADY A MEMBER OF THIS TEAM");
-          }
+
+          // * If user is not a member of the team, add them to the team
           if (!isMember) {
-            // * Insert team member
             await query(
               escape`INSERT INTO team_members (uid, tuid, role)
               VALUES (${uid}, ${invited_to}, 'member')`
@@ -70,13 +76,8 @@ export default async (req, res) => {
           }
         }
 
-        // * Add uid, id_token, and access_token (httpOnly) as cookies
+        // * Add uid, id_token, and access_token (httpOnly) as cookies and reset invited_to
         res.setHeader("Set-Cookie", [
-          cookie.serialize(
-            "invited_to",
-            String(""),
-            cookieOptions(false, false)
-          ),
           cookie.serialize(
             "uid",
             String(encrypt(uid || "")),
@@ -91,6 +92,11 @@ export default async (req, res) => {
             "access_token",
             String(access_token),
             cookieOptions(true, false)
+          ),
+          cookie.serialize(
+            "invited_to",
+            String(""),
+            cookieOptions(false, false)
           ),
         ]);
 

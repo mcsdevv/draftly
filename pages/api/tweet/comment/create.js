@@ -10,7 +10,7 @@ const createTweetComment = async (req, res, uid) => {
     const sqlInsert = sqlQuery.insert();
     const tcuid = uuidv4();
 
-    // * Format comment object with
+    // * Format comment object
     const commentObject = {
       added_by: uid,
       ...comment,

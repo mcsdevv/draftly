@@ -1,16 +1,21 @@
+// * Libraries
 import { SWRConfig } from "swr";
-import "@styles/global.css";
 
+// * Components
 import MarketingLayout from "@components/layouts/marketing";
 
+// * Styles
+import "@styles/global.css";
+
 const App = ({ Component, pageProps }) => {
+  // * Use static layout from component, falling back to marketing
   const getLayout =
     Component.getLayout || ((page) => <MarketingLayout children={page} />);
 
+  // * Set default fetcher for SWR to return JSON
   return (
     <SWRConfig
       value={{
-        refreshInterval: 0,
         fetcher: (...args) => fetch(...args).then((res) => res.json()),
       }}
     >

@@ -12,7 +12,9 @@ const getCardMetadata = async (req, res) => {
     const $ = cheerio.load(dom);
 
     const post = {
+      // * Get canonical URL
       canonical: $('link[rel="canonical"]').attr("href"),
+
       // * Get OG Values
       og_description: $('meta[property="og:description"]').attr("content"),
       og_img: $('meta[property="og:image"]').attr("content"),
@@ -97,8 +99,10 @@ const getCardMetadata = async (req, res) => {
       // fb_appid: $('meta[property="fb:app_id"]').attr("content"),
       // fb_pages: $('meta[property="fb:pages"]').attr("content"),
     };
+
     console.timeEnd("getCardMetadata");
     console.log("Returned metadata:", post);
+
     res.status(200).json(post);
   } catch (err) {
     console.error("ERROR - api/metadata/twitter -", err.message);

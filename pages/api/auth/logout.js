@@ -1,8 +1,10 @@
 import cookie from "cookie";
 
 export default async (req, res) => {
+  // * Log user out of Auth0 sessions
   const logout = await fetch(`https://${process.env.AUTH0_DOMAIN}/v2/logout`);
-  console.log("LOGOUT", logout);
+
+  // TODO Move to lib
   const cookieOptions = (http = false) => {
     return {
       httpOnly: http,
@@ -12,6 +14,8 @@ export default async (req, res) => {
       sameSite: true,
     };
   };
+
+  // * Remove access token by voiding the cookie
   res.setHeader(
     "Set-Cookie",
     cookie.serialize("access_token", "", cookieOptions(true))

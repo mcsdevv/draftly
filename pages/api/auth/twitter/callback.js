@@ -7,6 +7,7 @@ import { decrypt } from "@lib/api/token/encryption";
 
 export default (req, res) => {
   const { oauth_token, oauth_verifier } = req.query;
+
   // * Get users access tokens
   oauth.getOAuthAccessToken(
     oauth_token,
@@ -19,9 +20,12 @@ export default (req, res) => {
         oauthAccessToken,
         oauthAccessTokenSecret,
         async function (error, data, response) {
+          // * Check for error in verifying credentials
           if (error) {
+            // TODO Improve error handling
             res.status(404).send("Error getting twitter screen name:" + error);
           } else {
+            // * If no error, parse the JSON for the account data
             const accountData = JSON.parse(data);
 
             // * Check if the team exists currently
@@ -30,7 +34,7 @@ export default (req, res) => {
               WHERE handle = ${accountData.screen_name}`
             );
 
-            // * If it exists, update tokens, else create team
+            // * If the team exists, update tokens
             if (exists) {
               console.log("Team already exists:", exists.tuid);
               await query(
@@ -39,7 +43,7 @@ export default (req, res) => {
                 WHERE handle = ${accountData.screen_name}`
               );
             } else {
-              // * Prepare data for insert
+              // * If team does not exist, prepare for creation
               console.log("Team does not exist.");
               const tuid = uuidv4();
               const inviteCode = createInviteCode();
@@ -55,7 +59,7 @@ export default (req, res) => {
                 VALUES (${tuid}, ${name}, ${accountData.protected}, ${screen_name}, ${profile_image_url_https}, 0, 'free', ${oauthAccessTokenSecret}, ${oauthAccessToken}, ${inviteCode})`
               );
 
-              // * Insert team member
+              // * Insert team member as a team owner
               await query(
                 escape`INSERT INTO teams_members (uid, tuid, role)
                 VALUES (${decrypt(req.cookies.uid)}, ${tuid}, 'owner')`
@@ -64,6 +68,8 @@ export default (req, res) => {
               console.log("Team created:", tuid);
               console.log("Team created by:", decrypt(req.cookies.uid));
             }
+
+            // * Redirect to dashboard after team creation
             res.writeHead(301, {
               Location: "/dashboard",
             });
