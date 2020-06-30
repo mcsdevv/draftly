@@ -94,6 +94,8 @@ export default async (req, res) => {
           ),
         ]);
 
+        // TODO Check if the user is a member of a team and add handle to the path
+
         // * Set redirect location and fallback to dashboard
         res.setHeader("Location", `${req.cookies.next || "/dashboard"}`);
 
