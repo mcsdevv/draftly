@@ -6,7 +6,7 @@ import styles from "@styles/pages/settings.module.css";
 import Members from "@components/settings/members";
 
 function TeamMembers() {
-  const [scope] = useScope();
+  const { scope } = useScope();
   const { teams, user } = useUser();
   return (
     <div className={styles.container}>

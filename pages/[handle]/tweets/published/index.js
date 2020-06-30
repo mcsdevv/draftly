@@ -11,7 +11,7 @@ import Table from "@components/table";
 import Row from "@components/table/row";
 
 function Published() {
-  const [scope] = useScope();
+  const { scope } = useScope();
   const { published } = useTweets();
 
   return (

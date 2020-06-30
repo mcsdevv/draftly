@@ -8,22 +8,46 @@ import useSWR from "swr";
 import useUser from "./use-user";
 
 export default function useScope() {
-  // * Get teams to set early scope if present in URL
   const { teams } = useUser();
-
-  // * Get team handle from router
-  const router = useRouter();
-  const { handle } = router.query;
-  const initialScope = teams?.find((t: any) => t.handle === handle);
 
   // * Set SWR fetcher options with scope if available
   const options = {
     fetcher: undefined,
-    initiaData: initialScope || {},
+    initiaData: {},
   };
 
+  // TODO Look at removing initialData
+
+  // TODO Look at moving this logic into useEffect
+
   // * Fetch scope from cache
-  const { data: scope, mutate: setScope } = useSWR("/scope", options);
+  const { data: scope, revalidate: revalidateScope, mutate: setScope } = useSWR(
+    "/scope",
+    options
+  );
+
+  // * Get team handle from router
+  const router = useRouter();
+  const { handle } = router.query;
+
+  const updateScope = (newHandle: string, newScope: any) => {
+    console.log("NEW HANDLE", newHandle);
+    console.log("NEW SCOPE", newScope);
+
+    // * Get new path by replacing the handle with the new one
+    const { asPath } = router;
+    const hrefUrl = asPath.replace(`${handle}`, "[handle]");
+    const asUrl = asPath.replace(`${handle}`, newHandle);
+
+    console.log("HREF URL", hrefUrl);
+    console.log("AS URL", hrefUrl);
+
+    // TODO Why is this generating a page refresh?
+    router.push(hrefUrl, asUrl, { shallow: true });
+
+    // * Set the new scope with the one provided
+    setScope({ ...newScope });
+  };
 
   // * Update scope when either the handle or teams change
   useEffect(() => {
@@ -53,5 +77,5 @@ export default function useScope() {
     }
     setNewScope();
   }, [handle, teams]);
-  return [scope, setScope];
+  return { scope, setScope, revalidateScope, updateScope };
 }

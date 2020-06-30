@@ -13,7 +13,7 @@ import styles from "./header.module.css";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [scope] = useScope();
+  const { scope } = useScope();
   const handle = scope?.handle;
   const router = useRouter();
   useEffect(() => {

@@ -18,7 +18,7 @@ interface RowProps {
 }
 
 const Table = ({ row, twuid, type }: RowProps) => {
-  const [scope] = useScope();
+  const { scope } = useScope();
   const handle = scope?.handle;
   return (
     <tr className={styles.row}>

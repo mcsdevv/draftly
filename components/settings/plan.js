@@ -3,6 +3,6 @@ import useUser from "@hooks/use-user";
 
 export default function Plan() {
   const { user } = useUser();
-  const [scope] = useScope();
+  const { scope } = useScope();
   return <>Plan</>;
 }

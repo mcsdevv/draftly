@@ -6,7 +6,7 @@ import Input from "../input";
 
 export default function Members() {
   const [memberEmail, setMemberEmail] = useState();
-  const [scope] = useScope();
+  const { scope } = useScope();
   const handleOnChange = (e) => {
     setMemberEmail(e.target.value);
   };

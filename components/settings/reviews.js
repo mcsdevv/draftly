@@ -5,7 +5,7 @@ import useScope from "@hooks/use-scope";
 import Input from "../input";
 
 export default function Reviews() {
-  const [scope, setScope] = useScope();
+  const { scope, setScope } = useScope();
   const [reviews, setReviews] = useState(scope?.reviews_required.toString());
   const handleOnChange = (e) => {
     setReviews(e.target.value);
