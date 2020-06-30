@@ -1,10 +1,13 @@
+// * Libraries
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
+// * Hooks
 import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
+// * Components
 import Link from "../link";
 import Select from "../select";
 
@@ -13,6 +16,7 @@ const Scope = () => {
   const { revalidateTweets } = useTweets();
   const { teams } = useUser();
   const router = useRouter();
+
   const handleOnChange = (e: React.FormEvent<HTMLSelectElement>) => {
     const name = e.currentTarget.value;
 
@@ -28,8 +32,10 @@ const Scope = () => {
     Cookies.set("tuid", scopeDetails?.tuid);
     revalidateTweets();
 
+    // * Update the scope
     updateScope(scopeDetails.handle, { ...scopeDetails });
   };
+
   return scope !== null && teams ? (
     teams?.length ? (
       <Select

@@ -16,10 +16,6 @@ export default function useScope() {
     initiaData: {},
   };
 
-  // TODO Look at removing initialData
-
-  // TODO Look at moving this logic into useEffect
-
   // * Fetch scope from cache
   const { data: scope, revalidate: revalidateScope, mutate: setScope } = useSWR(
     "/scope",
