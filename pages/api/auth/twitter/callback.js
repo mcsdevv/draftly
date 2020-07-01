@@ -6,7 +6,15 @@ import createInviteCode from "@lib/api/createInviteCode";
 import { decrypt } from "@lib/api/token/encryption";
 
 export default (req, res) => {
-  const { oauth_token, oauth_verifier } = req.query;
+  const { denied, oauth_token, oauth_verifier } = req.query;
+
+  // * If the request was cancelled by the user, redirect to the dashboard
+  if (denied) {
+    res.writeHead(301, {
+      Location: "/dashboard",
+    });
+    res.end();
+  }
 
   // * Get users access tokens
   oauth.getOAuthAccessToken(
