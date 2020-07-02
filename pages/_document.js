@@ -4,6 +4,10 @@ const Document = () => (
   <Html lang="en">
     <Head>
       <title>Tweet Review</title>
+      <meta
+        name="description"
+        content="Draft, review, approve, and publish tweets."
+      />
     </Head>
     <body>
       <Main />
