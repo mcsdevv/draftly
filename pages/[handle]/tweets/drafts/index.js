@@ -14,9 +14,11 @@ function Drafts() {
   const { scope } = useScope();
   const { drafts, isValidating } = useTweets();
 
+  console.log("val", isValidating);
+
   return (
     <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
-      {!isValidating &
+      {!isValidating &&
         drafts?.map((d) => (
           <Row
             key={d.twuid}
