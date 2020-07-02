@@ -22,15 +22,23 @@ export default function useScope() {
     options
   );
 
-  // * Get team handle from router
+  // * Get team handle and twuid (if present) from router
   const router = useRouter();
-  const { handle } = router.query;
+  const { handle, twuid } = router.query;
 
   const updateScope = (newHandle: string, newScope: any) => {
-    // * Format URL's to satisfy both href and as
+    // * Get the current pathname
     const { asPath } = router;
-    const hrefUrl = asPath.replace(`${handle}`, "[handle]");
-    const asUrl = asPath.replace(`${handle}`, newHandle);
+
+    // * Format URL's to satisfy both href and as
+    let hrefUrl = asPath.replace(`${handle}`, "[handle]");
+    let asUrl = asPath.replace(`${handle}`, newHandle);
+
+    // * Redirect to /tweets/drafts if twuid present
+    if (twuid) {
+      hrefUrl = hrefUrl.slice(0, -37);
+      asUrl = asUrl.slice(0, -37);
+    }
 
     // * Update the URL to reflect change in scope
     router.push(hrefUrl, asUrl, { shallow: true });
