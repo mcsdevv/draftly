@@ -1,11 +1,9 @@
-import { useRouter } from "next/router";
-
+// * Components
+import DraftTweet from "@components/tweets/draft";
 import DashboardLayout from "@components/layouts/dashboard";
 
 const Draft = () => {
-  const router = useRouter();
-  const { twuid } = router.query;
-  return <h1>{twuid}</h1>;
+  return <DraftTweet />;
 };
 
 Draft.getLayout = (page) => (
