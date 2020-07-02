@@ -22,8 +22,8 @@ const Table = ({ row, twuid, type }: RowProps) => {
   const handle = scope?.handle;
   return (
     <tr className={styles.row}>
-      {row.map((r) => (
-        <td key={r}>
+      {row.map((r, i) => (
+        <td key={r + i}>
           <div className={styles.cell}>{r}</div>
         </td>
       ))}

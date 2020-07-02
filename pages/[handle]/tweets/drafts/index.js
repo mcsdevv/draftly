@@ -14,6 +14,8 @@ function Drafts() {
   const { scope } = useScope();
   const { drafts, isValidating } = useTweets();
 
+  console.log("IS VALIDATING", isValidating);
+
   return (
     <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
       {!isValidating &&

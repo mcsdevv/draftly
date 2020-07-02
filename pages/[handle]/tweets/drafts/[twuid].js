@@ -2,9 +2,7 @@
 import DraftTweet from "@components/tweets/draft";
 import DashboardLayout from "@components/layouts/dashboard";
 
-const Draft = () => {
-  return <DraftTweet />;
-};
+const Draft = () => <DraftTweet />;
 
 Draft.getLayout = (page) => (
   <DashboardLayout name="Draft">{page}</DashboardLayout>
