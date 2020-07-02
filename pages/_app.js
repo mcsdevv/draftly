@@ -1,4 +1,5 @@
 // * Libraries
+import Head from "next/head";
 import { SWRConfig } from "swr";
 
 // * Components
@@ -14,13 +15,22 @@ const App = ({ Component, pageProps }) => {
 
   // * Set default fetcher for SWR to return JSON
   return (
-    <SWRConfig
-      value={{
-        fetcher: (...args) => fetch(...args).then((res) => res.json()),
-      }}
-    >
-      {getLayout(<Component {...pageProps} />)}
-    </SWRConfig>
+    <>
+      <Head>
+        <title>Tweet Review</title>
+        <meta
+          name="description"
+          content="Draft, review, approve, and publish tweets."
+        />
+      </Head>
+      <SWRConfig
+        value={{
+          fetcher: (...args) => fetch(...args).then((res) => res.json()),
+        }}
+      >
+        {getLayout(<Component {...pageProps} />)}
+      </SWRConfig>
+    </>
   );
 };
 
