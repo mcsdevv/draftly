@@ -13,7 +13,7 @@ import Select from "../select";
 
 const Scope = () => {
   const { scope, updateScope } = useScope();
-  const { revalidateTweets } = useTweets();
+  const { revalidateTweets, setTweets } = useTweets();
   const { teams } = useUser();
   const router = useRouter();
 
@@ -30,6 +30,7 @@ const Scope = () => {
 
     // * Update the cookie and revalidate tweets before scope change submitted
     Cookies.set("tuid", scopeDetails?.tuid);
+    setTweets([]);
     revalidateTweets();
 
     // * Update the scope
