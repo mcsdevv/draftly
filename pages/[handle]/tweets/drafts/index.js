@@ -14,8 +14,6 @@ function Drafts() {
   const { scope } = useScope();
   const { drafts, isValidating } = useTweets();
 
-  console.log("IS VALIDATING", isValidating);
-
   return (
     <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
       {!isValidating &&
@@ -43,30 +41,3 @@ Drafts.getLayout = (page) => (
 );
 
 export default Drafts;
-
-// return (
-//   <Grid columns="double">
-//     {drafting && (
-//       <ComposeTweet
-//         drafts={drafts}
-//         drafting={drafting}
-//         // revalidate={revalidateDrafts}
-//         setDrafting={setDrafting}
-//         startDraft={startDraft}
-//       />
-//     )}
-//     {drafts?.length > 0
-//       ? drafts.map((d) => (
-//           <Draft
-//             drafts={drafts}
-//             key={d.twuid}
-//             // revalidate={revalidateDrafts}
-//             published={published}
-//             reviews={reviews}
-//             setTweets={setTweets}
-//             tweet={d}
-//           />
-//         ))
-//       : renderPageState()}
-//   </Grid>
-// );
