@@ -16,8 +16,8 @@ function Drafts() {
 
   return (
     <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
-      {drafts &
-        !isValidating?.map((d) => (
+      {!isValidating &
+        drafts?.map((d) => (
           <Row
             key={d.twuid}
             row={[
