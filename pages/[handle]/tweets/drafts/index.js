@@ -12,25 +12,26 @@ import DashboardLayout from "@components/layouts/dashboard";
 
 function Drafts() {
   const { scope } = useScope();
-  const { drafts } = useTweets();
+  const { drafts, isValidating } = useTweets();
 
   return (
     <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
-      {drafts?.map((d) => (
-        <Row
-          key={d.twuid}
-          row={[
-            d.text,
-            [...scope?.members, ...scope?.owners].find(
-              (m) => m.uid === d.created_by
-            )?.name,
-            ago(new Date(d.created_at)),
-            ago(new Date(d.updated_at)),
-          ]}
-          twuid={d.twuid}
-          type="drafts"
-        />
-      ))}
+      {drafts &
+        !isValidating?.map((d) => (
+          <Row
+            key={d.twuid}
+            row={[
+              d.text,
+              [...scope?.members, ...scope?.owners].find(
+                (m) => m.uid === d.created_by
+              )?.name,
+              ago(new Date(d.created_at)),
+              ago(new Date(d.updated_at)),
+            ]}
+            twuid={d.twuid}
+            type="drafts"
+          />
+        ))}
     </Table>
   );
 }
