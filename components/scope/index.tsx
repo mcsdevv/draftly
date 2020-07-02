@@ -41,7 +41,7 @@ const Scope = () => {
       <Select
         onChange={handleOnChange}
         options={teams}
-        value={(scope && scope.handle) || scope.name}
+        value={scope?.handle || scope.name}
       />
     ) : (
       <Link href="/api/auth/twitter/connect">+ Add New Team</Link>
