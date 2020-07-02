@@ -11,10 +11,12 @@ import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 // * Components
-import Controls from "../../controls";
-import Tweet from "../../tweet";
+import Comments from "@components/comments";
+import Controls from "@components/controls";
+import Grid from "@components/layout/grid";
+import Tweet from "@components/tweet";
 
-const Draft = () => {
+const DraftTweet = () => {
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState("");
   const { scope } = useScope();
@@ -25,7 +27,7 @@ const Draft = () => {
   const { twuid } = router.query;
 
   // * Get tweet from list of tweets using twuid
-  const tweet = drafts.find((d: any) => d.twuid === twuid);
+  const tweet = drafts?.find((d: any) => d.twuid === twuid);
 
   const handleCancelEdit = () => {
     setEditing(false);
@@ -94,25 +96,28 @@ const Draft = () => {
     }
   };
 
-  return (
-    <Tweet
-      editing={editing}
-      editTweet={editTweet}
-      handleOnChange={handleOnChange}
-      metadata={tweet.metadata}
-      scope={scope}
-      text={tweet.text}
-    >
-      <Controls
+  return tweet ? (
+    <Grid columns="double">
+      <Tweet
         editing={editing}
-        handleCancelEdit={handleCancelEdit}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-        handleUpdate={handleUpdate}
-        type="draft"
-      />
-    </Tweet>
-  );
+        editTweet={editTweet}
+        handleOnChange={handleOnChange}
+        metadata={tweet.metadata}
+        scope={scope}
+        text={tweet.text}
+      >
+        <Controls
+          editing={editing}
+          handleCancelEdit={handleCancelEdit}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          handleUpdate={handleUpdate}
+          type="draft"
+        />
+      </Tweet>
+      <Comments />
+    </Grid>
+  ) : null;
 };
 
-export default Draft;
+export default DraftTweet;

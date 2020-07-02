@@ -23,7 +23,7 @@ const getUserDetails = async (req, res, uid) => {
 
     // * Get all team members for listed teams
     const getTeamMembers = async () => {
-      const [members] = await Promise.all(
+      const members = await Promise.all(
         teamsNoKeys.map((t) => {
           return query(
             escape`SELECT * FROM teams_members
@@ -32,7 +32,8 @@ const getUserDetails = async (req, res, uid) => {
           );
         })
       );
-      return members;
+      const membersFlat = [].concat.apply([], members);
+      return membersFlat;
     };
 
     const teamMembers = await getTeamMembers();

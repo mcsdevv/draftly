@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
@@ -8,19 +9,28 @@ import Input from "../input";
 
 import styles from "./comments.module.css";
 
-interface CommentsProps {
-  comments: any;
-  twuid: string;
-}
-
-export default function Comments({ comments, twuid }: CommentsProps) {
+export default function Comments() {
   const [comment, setComment] = useState("");
   const { scope } = useScope();
   const { drafts, published, setTweets } = useTweets();
+  const router = useRouter();
+
+  // * Get twuid from route query
+  const { twuid } = router.query;
+
+  // * Get tweet from list of tweets using twuid
+  const tweet = drafts?.find((d: any) => d.twuid === twuid);
+
+  // * Get comments from tweet
+  const { comments } = tweet;
+
+  // * Update stored comment before saving
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     const newComment = e.currentTarget.value;
     setComment(newComment);
   };
+
+  // * Delete a comment
   const handleDeleteComment = async (tcuid: string) => {
     const url = "/api/tweet/comment/delete";
     const res = await fetch(url, {
@@ -45,6 +55,8 @@ export default function Comments({ comments, twuid }: CommentsProps) {
       });
     }
   };
+
+  // * Add a comment
   const handleSubmitComment = async () => {
     const commentObject = {
       comment,
@@ -70,11 +82,14 @@ export default function Comments({ comments, twuid }: CommentsProps) {
       });
     }
   };
+
+  // TODO Add to @lib
   const getAddedByProperty = (uid: string, property: string) => {
     const members = [...scope.members, ...scope.owners];
     const commenter = members.find((m) => m.uid === uid);
     return commenter[property];
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.addComment}>
