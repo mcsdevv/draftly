@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import useScope from "@hooks/use-scope";
 
 // * Components
+import Button from "@components/button";
 import Link from "../../link";
 import Scope from "../../scope";
 import styles from "./header.module.css";
@@ -16,12 +17,21 @@ const Header = () => {
   const { scope } = useScope();
   const handle = scope?.handle;
   const router = useRouter();
+
+  // * Updated logged in state
   useEffect(() => {
     function getLoggedIn() {
       if (!!Cookies.get("id_token")) setLoggedIn(true);
     }
     getLoggedIn();
   }, [loggedIn]);
+
+  // * Send user to login
+  const loginUser = () => {
+    window.location.href = "/api/auth/login";
+  };
+
+  // * End session with Auth0, remove cookies and redirect to marketing page
   const logoutUser = async () => {
     fetch("/api/auth/logout");
     Cookies.remove("id_token");
@@ -31,6 +41,7 @@ const Header = () => {
     setLoggedIn(false);
     router.push("/");
   };
+
   return (
     <header className={styles.header}>
       <div className={styles.headerLeft}>{loggedIn && <Scope />}</div>
@@ -74,13 +85,9 @@ const Header = () => {
             </Link>
           </>
         )}
-        <Link
-          href={loggedIn ? "/" : `/api/auth/login`}
-          onClick={loggedIn ? logoutUser : undefined}
-          type="tertiary"
-        >
+        <Button onClick={loggedIn ? logoutUser : loginUser} type="tertiary">
           {loggedIn ? "Logout" : "Login"}
-        </Link>
+        </Button>
       </div>
     </header>
   );
