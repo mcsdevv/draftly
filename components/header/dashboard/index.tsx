@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import useScope from "@hooks/use-scope";
 
 // * Components
+import Button from "@components/button";
 import Link from "../../link";
 import Scope from "../../scope";
 import styles from "./header.module.css";
@@ -22,6 +23,12 @@ const Header = () => {
     }
     getLoggedIn();
   }, [loggedIn]);
+
+  const loginUser = () => {
+    window.location.href = "/api/auth/login";
+  };
+
+  // * End session with Auth0, remove cookies and redirect to marketing page
   const logoutUser = async () => {
     fetch("/api/auth/logout");
     Cookies.remove("id_token");
@@ -74,13 +81,9 @@ const Header = () => {
             </Link>
           </>
         )}
-        <Link
-          href={loggedIn ? "/" : `/api/auth/login`}
-          onClick={loggedIn ? logoutUser : undefined}
-          type="tertiary"
-        >
+        <Button onClick={loggedIn ? logoutUser : loginUser} type="tertiary">
           {loggedIn ? "Logout" : "Login"}
-        </Link>
+        </Button>
       </div>
     </header>
   );
