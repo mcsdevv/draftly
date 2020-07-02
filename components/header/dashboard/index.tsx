@@ -17,6 +17,8 @@ const Header = () => {
   const { scope } = useScope();
   const handle = scope?.handle;
   const router = useRouter();
+
+  // * Updated logged in state
   useEffect(() => {
     function getLoggedIn() {
       if (!!Cookies.get("id_token")) setLoggedIn(true);
@@ -24,6 +26,7 @@ const Header = () => {
     getLoggedIn();
   }, [loggedIn]);
 
+  // * Send user to login
   const loginUser = () => {
     window.location.href = "/api/auth/login";
   };
@@ -38,6 +41,7 @@ const Header = () => {
     setLoggedIn(false);
     router.push("/");
   };
+
   return (
     <header className={styles.header}>
       <div className={styles.headerLeft}>{loggedIn && <Scope />}</div>
