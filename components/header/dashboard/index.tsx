@@ -7,10 +7,9 @@ import Cookies from "js-cookie";
 import useScope from "@hooks/use-scope";
 
 // * Components
-import { Button } from "@modulz/radix";
+import { Button, Flex } from "@modulz/radix";
 import Link from "../../link";
 import Scope from "../../scope";
-import styles from "./header.module.css";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -43,9 +42,12 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
-      <div className={styles.headerLeft}>{loggedIn && <Scope />}</div>
-      <div className={styles.headerRight}>
+    <Flex
+      as="header"
+      sx={{ justifyContent: "space-between", margin: "16px 0" }}
+    >
+      <Flex>{loggedIn && <Scope />}</Flex>
+      <Flex>
         {loggedIn && (
           <>
             <Link as={`/${handle}/tweets/new`} href="/[handle]/tweets/new">
@@ -79,8 +81,8 @@ const Header = () => {
         >
           {loggedIn ? "Logout" : "Login"}
         </Button>
-      </div>
-    </header>
+      </Flex>
+    </Flex>
   );
 };
 

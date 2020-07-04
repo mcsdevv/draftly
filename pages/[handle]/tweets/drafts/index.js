@@ -5,6 +5,9 @@ import ago from "s-ago";
 import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 
+// * Modulz
+import { Container } from "@modulz/radix";
+
 // * Components
 import Table from "@components/table";
 import Row from "@components/table/row";
@@ -15,24 +18,26 @@ function Drafts() {
   const { drafts, isValidating } = useTweets();
 
   return (
-    <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
-      {!isValidating &&
-        drafts?.map((d) => (
-          <Row
-            key={d.twuid}
-            row={[
-              d.text,
-              [...scope?.members, ...scope?.owners].find(
-                (m) => m.uid === d.created_by
-              )?.name,
-              ago(new Date(d.created_at)),
-              ago(new Date(d.updated_at)),
-            ]}
-            twuid={d.twuid}
-            type="drafts"
-          />
-        ))}
-    </Table>
+    <Container size={2}>
+      <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
+        {!isValidating &&
+          drafts?.map((d) => (
+            <Row
+              key={d.twuid}
+              row={[
+                d.text,
+                [...scope?.members, ...scope?.owners].find(
+                  (m) => m.uid === d.created_by
+                )?.name,
+                ago(new Date(d.created_at)),
+                ago(new Date(d.updated_at)),
+              ]}
+              twuid={d.twuid}
+              type="drafts"
+            />
+          ))}
+      </Table>
+    </Container>
   );
 }
 

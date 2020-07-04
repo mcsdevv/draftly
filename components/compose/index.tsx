@@ -8,13 +8,12 @@ import useTweets from "@hooks/use-tweets";
 import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
+// * Modulz
+import { Button, Container, Flex } from "@modulz/radix";
+
 // * Components
-import { Button } from "@modulz/radix";
 import Characters from "@components/characters";
 import Textarea from "@components/textarea";
-
-// * Styles
-import styles from "./compose.module.css";
 
 interface ComposeTweetProps {
   setDrafting: (k: boolean) => void;
@@ -53,10 +52,16 @@ const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
     }
   };
   return (
-    <div className={styles.compose}>
+    <Flex
+      sx={{
+        flexDirection: "column",
+        height: "100%",
+        justifyContent: "center",
+      }}
+    >
       {!saving ? (
         <>
-          <div className={styles.container}>
+          <Container mb={4}>
             <Textarea
               placeholder="Draft your tweet..."
               onChange={handleOnChange}
@@ -64,18 +69,22 @@ const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
               value={tweet}
             />
             <Characters progress={(tweet.length / 280) * 100} />
-          </div>
-          <div className={styles.buttons}>
+          </Container>
+          <Flex
+            sx={{
+              margin: "0 auto",
+            }}
+          >
             <Button onClick={() => setDrafting(false)}>Cancel Draft</Button>
             <Button disabled={!tweet} onClick={handleSaveDraft} variant="blue">
               Save Draft
             </Button>
-          </div>
+          </Flex>
         </>
       ) : (
         <h2>Saving Draft...</h2>
       )}
-    </div>
+    </Flex>
   );
 };
 

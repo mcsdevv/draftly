@@ -7,7 +7,7 @@ import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 
 // * Modulz
-import { Button, Container, Flex, Input } from "@modulz/radix";
+import { Button, Flex, Input } from "@modulz/radix";
 
 // * Components
 import Comment from "./comment";
@@ -96,8 +96,8 @@ export default function Comments() {
   return (
     <Flex
       sx={{
+        alignSelf: "center",
         flexDirection: "column",
-        justifyContent: "center",
         maxHeight: "700px",
         overflow: "scroll",
         padding: "0 8px",
@@ -107,7 +107,7 @@ export default function Comments() {
         <Input onChange={handleOnChange} size={1} value={comment} />
         <Button
           disabled={comment === ""}
-          ml={4}
+          ml={2}
           onClick={handleSubmitComment}
           size={1}
           variant="blue"
@@ -115,18 +115,16 @@ export default function Comments() {
           Add Comment
         </Button>
       </Flex>
-      <Container>
-        {comments?.map((c: any) => (
-          <Comment
-            addedAt={c.added_at}
-            addedBy={getAddedByProperty(c.added_by, "name")}
-            avatar={getAddedByProperty(c.added_by, "picture")}
-            comment={c.comment}
-            handleDeleteComment={() => handleDeleteComment(c.tcuid)}
-            key={c.tcuid}
-          />
-        ))}
-      </Container>
+      {comments?.map((c: any) => (
+        <Comment
+          addedAt={c.added_at}
+          addedBy={getAddedByProperty(c.added_by, "name")}
+          avatar={getAddedByProperty(c.added_by, "picture")}
+          comment={c.comment}
+          handleDeleteComment={() => handleDeleteComment(c.tcuid)}
+          key={c.tcuid}
+        />
+      ))}
     </Flex>
   );
 }

@@ -1,8 +1,8 @@
-import styles from "./dashboard.module.css";
+// * Modulz
+import { Container, Divider, Flex, Heading } from "@modulz/radix";
 
-import { Divider, Heading } from "@modulz/radix";
+// * Components
 import Header from "@components/header/dashboard";
-
 import RequireLogin from "@lib/client/requireLogin";
 
 interface DashboardLayoutProps {
@@ -12,16 +12,16 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children, name }: DashboardLayoutProps) => (
   <RequireLogin>
-    <div className={styles.page}>
+    <Container size={3}>
       <Header />
-      <div className={styles.content}>
+      <Flex sx={{ justifyContent: "space-between" }}>
         <Heading size={5} weight="medium">
           {name}
         </Heading>
-      </div>
+      </Flex>
       <Divider mb={4} />
       {children}
-    </div>
+    </Container>
   </RequireLogin>
 );
 
