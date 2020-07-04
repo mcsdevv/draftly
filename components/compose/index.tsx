@@ -1,14 +1,19 @@
+// * Libraries
 import { useState } from "react";
 
+// * Hooks
 import useTweets from "@hooks/use-tweets";
 
+// * Helpers
 import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
-import Button from "../button";
-import Characters from "../characters";
-import Textarea from "../textarea";
+// * Components
+import { Button } from "@modulz/radix";
+import Characters from "@components/characters";
+import Textarea from "@components/textarea";
 
+// * Styles
 import styles from "./compose.module.css";
 
 interface ComposeTweetProps {
@@ -61,14 +66,8 @@ const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
             <Characters progress={(tweet.length / 280) * 100} />
           </div>
           <div className={styles.buttons}>
-            <Button
-              margin={false}
-              onClick={() => setDrafting(false)}
-              type="secondary"
-            >
-              Cancel Draft
-            </Button>
-            <Button disabled={!tweet} onClick={handleSaveDraft}>
+            <Button onClick={() => setDrafting(false)}>Cancel Draft</Button>
+            <Button disabled={!tweet} onClick={handleSaveDraft} variant="blue">
               Save Draft
             </Button>
           </div>

@@ -1,13 +1,16 @@
+// * Libraries
 import { useState } from "react";
 import { useRouter } from "next/router";
 
+// * Hooks
 import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 
-import Comment from "./comment";
-import Input from "../input";
+// * Modulz
+import { Button, Container, Flex, Input } from "@modulz/radix";
 
-import styles from "./comments.module.css";
+// * Components
+import Comment from "./comment";
 
 export default function Comments() {
   const [comment, setComment] = useState("");
@@ -91,19 +94,28 @@ export default function Comments() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.addComment}>
-        <Input
-          buttonDisabled={comment === ""}
-          buttonText="Comment"
-          label="Add Comment"
-          onChange={handleOnChange}
-          onSubmit={handleSubmitComment}
-          type="text"
-          value={comment}
-        />
-      </div>
-      <div>
+    <Flex
+      sx={{
+        flexDirection: "column",
+        justifyContent: "center",
+        maxHeight: "700px",
+        overflow: "scroll",
+        padding: "0 8px",
+      }}
+    >
+      <Flex sx={{ position: "sticky" }} mb={4}>
+        <Input onChange={handleOnChange} size={1} value={comment} />
+        <Button
+          disabled={comment === ""}
+          ml={4}
+          onClick={handleSubmitComment}
+          size={1}
+          variant="blue"
+        >
+          Add Comment
+        </Button>
+      </Flex>
+      <Container>
         {comments?.map((c: any) => (
           <Comment
             addedAt={c.added_at}
@@ -114,7 +126,7 @@ export default function Comments() {
             key={c.tcuid}
           />
         ))}
-      </div>
-    </div>
+      </Container>
+    </Flex>
   );
 }

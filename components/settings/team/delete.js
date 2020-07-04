@@ -1,13 +1,15 @@
+// * Libraries
 import { useState } from "react";
 import { useRouter } from "next/router";
-
 import Cookies from "js-cookie";
 
+// * Hooks
 import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
-import Input from "../../input";
+// * Modulz
+import { Input } from "@modulz/radix";
 
 export default function DeleteTeam() {
   const router = useRouter();

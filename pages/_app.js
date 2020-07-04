@@ -1,5 +1,6 @@
 // * Libraries
 import Head from "next/head";
+import { RadixProvider } from "@modulz/radix";
 import { SWRConfig } from "swr";
 
 // * Components
@@ -28,7 +29,7 @@ const App = ({ Component, pageProps }) => {
           fetcher: (...args) => fetch(...args).then((res) => res.json()),
         }}
       >
-        {getLayout(<Component {...pageProps} />)}
+        <RadixProvider>{getLayout(<Component {...pageProps} />)}</RadixProvider>
       </SWRConfig>
     </>
   );

@@ -1,6 +1,6 @@
 import styles from "./marketing.module.css";
 
-import Divider from "@components/divider";
+import { Divider } from "@modulz/radix";
 import Header from "@components/header/dashboard";
 
 interface MarketingLayoutProps {

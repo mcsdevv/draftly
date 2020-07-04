@@ -1,5 +1,5 @@
-// * Styles
-import styles from "./table.module.css";
+// * Modulz
+import { Table as TableModulz, Thead, Tr, Th } from "@modulz/radix";
 
 interface TableProps {
   children: React.ReactNode;
@@ -7,19 +7,17 @@ interface TableProps {
 }
 
 const Table = ({ children, headers }: TableProps) => (
-  <table cellSpacing="1" cellPadding="0" className={styles.table}>
-    <thead>
-      <tr>
+  <TableModulz cellSpacing="1" cellPadding="0">
+    <Thead>
+      <Tr>
         {headers.map((h) => (
-          <th className={styles.header} key={h}>
-            {h}
-          </th>
+          <Th key={h}>{h}</Th>
         ))}
-        <th className={styles.header}>View</th>
-      </tr>
-    </thead>
+        <Th>View</Th>
+      </Tr>
+    </Thead>
     <tbody>{children}</tbody>
-  </table>
+  </TableModulz>
 );
 
 export default Table;

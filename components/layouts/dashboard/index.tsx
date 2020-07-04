@@ -1,6 +1,6 @@
 import styles from "./dashboard.module.css";
 
-import Divider from "@components/divider";
+import { Divider, Heading } from "@modulz/radix";
 import Header from "@components/header/dashboard";
 
 import RequireLogin from "@lib/client/requireLogin";
@@ -15,9 +15,11 @@ const DashboardLayout = ({ children, name }: DashboardLayoutProps) => (
     <div className={styles.page}>
       <Header />
       <div className={styles.content}>
-        <h2 className={styles.heading}>{name}</h2>
+        <Heading size={5} weight="medium">
+          {name}
+        </Heading>
       </div>
-      <Divider />
+      <Divider mb={4} />
       {children}
     </div>
   </RequireLogin>

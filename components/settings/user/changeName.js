@@ -1,8 +1,11 @@
+// * Libraries
 import { useState } from "react";
 
+// * Hooks
 import useUser from "@hooks/use-user";
 
-import Input from "../../input";
+// * Modulz
+import { Input } from "@modulz/radix";
 
 export default function ChangeUserName() {
   const { setUser, user } = useUser();
