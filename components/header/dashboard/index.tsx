@@ -13,6 +13,7 @@ import Scope from "../../scope";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loggingIn, setLoggingdIn] = useState(false);
   const { scope } = useScope();
   const handle = scope?.handle;
   const router = useRouter();
@@ -27,6 +28,7 @@ const Header = () => {
 
   // * Send user to login
   const loginUser = () => {
+    setLoggingdIn(true);
     window.location.href = "/api/auth/login";
   };
 
@@ -75,6 +77,7 @@ const Header = () => {
         )}
         <Button
           sx={{ cursor: "pointer", width: "96px" }}
+          isWaiting={loggingIn}
           onClick={loggedIn ? logoutUser : loginUser}
           ml={4}
           size={0}
