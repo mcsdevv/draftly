@@ -6,7 +6,7 @@ const sqlQuery = sql.Query();
 
 const createDraftTweet = async (req, res, uid, tuid) => {
   try {
-    const { metadata, tweet } = JSON.parse(req.body);
+    const { metadata, title, tweet } = JSON.parse(req.body);
     const sqlInsert = sqlQuery.insert();
 
     // * Format draft insert query
@@ -16,6 +16,7 @@ const createDraftTweet = async (req, res, uid, tuid) => {
       tuid,
       type: "draft",
       text: tweet,
+      title,
       created_by: uid,
     };
 

@@ -43,7 +43,7 @@ const Scope = () => {
     teams?.length ? (
       <Select
         onValueChange={handleOnChange}
-        value={scope?.handle || scope.name}
+        value={scope?.handle || scope?.name}
       >
         {teams?.map((o: any) => (
           <Option key={o.name} value={o.handle} label={o.name} />

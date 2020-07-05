@@ -79,7 +79,7 @@ const Header = () => {
           sx={{ cursor: "pointer", width: "96px" }}
           isWaiting={loggingIn}
           onClick={loggedIn ? logoutUser : loginUser}
-          ml={4}
+          ml={loggedIn ? 4 : "auto"}
           size={0}
         >
           {loggedIn ? "Logout" : "Login"}
