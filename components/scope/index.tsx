@@ -20,6 +20,8 @@ const Scope = () => {
   const router = useRouter();
 
   const handleOnChange = (name?: string) => {
+    // * If the select scope hasn't changed, do nothing
+    if (name === scope?.name) return;
     // * If name is new, redirect to Twitter auth
     if (name === "new") {
       return router.push("/api/auth/twitter/connect");
