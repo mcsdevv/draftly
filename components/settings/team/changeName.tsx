@@ -2,19 +2,21 @@
 import { useState } from "react";
 
 // * Hooks
+import useScope from "@hooks/use-scope";
 import useUser from "@hooks/use-user";
 
 // * Modulz
 import { Button, Container, Flex, Input, Subheading } from "@modulz/radix";
 
-export default function ChangeUserName() {
-  const { setUser, user } = useUser();
-  const [name, setName] = useState(user?.name);
+export default function ChangeTeamName() {
+  const { revalidateProfile } = useUser();
+  const { scope, setScope } = useScope();
+  const [name, setName] = useState(scope?.name);
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value);
   };
   const handleOnSubmitName = async () => {
-    const url = "/api/user/update/name";
+    const url = "/api/team/update/name";
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
@@ -22,12 +24,13 @@ export default function ChangeUserName() {
       }),
     });
     if (res.status === 200) {
-      setUser({ user: { ...user, name } });
+      revalidateProfile();
+      setScope({ ...scope, name });
     }
   };
   return (
     <Container mb={4} size={1}>
-      <Subheading mb={2}>Change Display Name</Subheading>
+      <Subheading mb={2}>Change Team Name</Subheading>
       <Flex>
         <Input
           name="updateName"
@@ -37,7 +40,7 @@ export default function ChangeUserName() {
           value={name}
         />
         <Button
-          disabled={user?.name === name}
+          disabled={name === scope.name}
           ml={2}
           onClick={handleOnSubmitName}
           size={1}

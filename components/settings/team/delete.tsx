@@ -9,25 +9,24 @@ import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
 // * Modulz
-import { Input } from "@modulz/radix";
+import { Button, Container, Flex, Input, Subheading } from "@modulz/radix";
 
 export default function DeleteTeam() {
   const router = useRouter();
   const { scope, setScope } = useScope();
   const { setTweets } = useTweets();
   const { setUser, teams, user } = useUser();
-  const [teamName, setTeamName] = useState(scope.name);
-  const handleOnChange = (e) => {
-    setTeamName(e.target.value);
+  const [teamName, setTeamName] = useState("");
+  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setTeamName(e.currentTarget.value);
   };
-  const handleOnSubmitDelete = async (e) => {
-    e.preventDefault();
+  const handleOnSubmitDelete = async () => {
     const url = "/api/team/delete";
     const { status } = await fetch(url, {
       method: "DELETE",
     });
     if (status === 200) {
-      const filteredTeams = teams.filter((t) => t.tuid !== scope.tuid);
+      const filteredTeams = teams.filter((t: any) => t.tuid !== scope.tuid);
       setUser({ user, teams: filteredTeams });
       setTweets([]);
       if (filteredTeams) {
@@ -40,16 +39,25 @@ export default function DeleteTeam() {
     }
   };
   return (
-    <Input
-      buttonDisabled={teamName !== scope.name}
-      buttonText="Delete"
-      label="Delete Team"
-      name="deleteName"
-      onChange={handleOnChange}
-      onSubmit={handleOnSubmitDelete}
-      text="Enter your team name before clicking delete."
-      type="text"
-      value={teamName}
-    />
+    <Container mb={4} size={1}>
+      <Subheading mb={2}>Delete Team</Subheading>
+      <Flex>
+        <Input
+          name="deleteName"
+          onChange={handleOnChange}
+          size={1}
+          type="text"
+          value={teamName}
+        />
+        <Button
+          disabled={teamName !== scope.name}
+          ml={2}
+          onClick={handleOnSubmitDelete}
+          size={1}
+        >
+          Delete
+        </Button>
+      </Flex>
+    </Container>
   );
 }
