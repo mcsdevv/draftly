@@ -17,10 +17,10 @@ import {
 } from "@modulz/radix";
 
 export default function Members() {
-  const [memberEmail, setMemberEmail] = useState();
+  const [memberEmail, setMemberEmail] = useState("");
   const { scope } = useScope();
-  const handleOnChange = (e) => {
-    setMemberEmail(e.target.value);
+  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setMemberEmail(e.currentTarget.value);
   };
   const handleOnSubmit = async () => {
     const res = await fetch(`/api/team/invite/send/${scope.handle}`, {
