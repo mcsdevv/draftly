@@ -1,6 +1,5 @@
 import NextLink from "next/link";
 import { Button } from "@modulz/radix";
-import styles from "./link.module.css";
 
 interface LinkProps {
   as?: string;
@@ -13,7 +12,7 @@ interface LinkProps {
 const Link = ({ as, children, href, onClick, type = "button" }: LinkProps) => {
   return (
     <NextLink as={as || href} href={href}>
-      <a className={styles.link}>
+      <a style={{ textDecoration: "none" }}>
         {type === "button" ? (
           <Button
             sx={{ cursor: "pointer", width: "96px" }}

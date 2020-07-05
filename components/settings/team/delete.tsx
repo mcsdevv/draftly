@@ -9,7 +9,14 @@ import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
 // * Modulz
-import { Button, Container, Flex, Input, Subheading } from "@modulz/radix";
+import {
+  Button,
+  Container,
+  Flex,
+  Input,
+  Subheading,
+  Text,
+} from "@modulz/radix";
 
 export default function DeleteTeam() {
   const router = useRouter();
@@ -41,7 +48,7 @@ export default function DeleteTeam() {
   return (
     <Container mb={4} size={1}>
       <Subheading mb={2}>Delete Team</Subheading>
-      <Flex>
+      <Flex mb={2}>
         <Input
           name="deleteName"
           onChange={handleOnChange}
@@ -55,9 +62,12 @@ export default function DeleteTeam() {
           onClick={handleOnSubmitDelete}
           size={1}
         >
-          Delete
+          Submit
         </Button>
       </Flex>
+      <Text sx={{ color: "gray600" }}>
+        Enter the team display name to confirm deletion.
+      </Text>
     </Container>
   );
 }

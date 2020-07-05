@@ -2,7 +2,14 @@
 import ago from "s-ago";
 
 // * Modulz
-import { Container, Flex, IconButton, Image, Text } from "@modulz/radix";
+import {
+  Avatar,
+  Container,
+  Flex,
+  IconButton,
+  Image,
+  Text,
+} from "@modulz/radix";
 import { TrashIcon } from "@modulz/radix-icons";
 
 interface CommentProps {
@@ -29,7 +36,7 @@ const Comment = ({
         {comment}
       </Text>
       <div>
-        <Image sx={{ borderRadius: "50%", width: "49px" }} src={avatar} />
+        <Avatar src={avatar} />
       </div>
     </Flex>
     <Flex
@@ -51,7 +58,7 @@ const Comment = ({
         {addedBy} - {ago(new Date(addedAt))}
       </Text>
       <IconButton onClick={handleDeleteComment}>
-        <TrashIcon />
+        <TrashIcon type="twoTone" />
       </IconButton>
     </Flex>
   </Container>

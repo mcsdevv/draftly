@@ -5,7 +5,14 @@ import { useState } from "react";
 import useUser from "@hooks/use-user";
 
 // * Modulz
-import { Button, Container, Flex, Input, Subheading } from "@modulz/radix";
+import {
+  Button,
+  Container,
+  Flex,
+  Input,
+  Subheading,
+  Text,
+} from "@modulz/radix";
 
 export default function ChangeUserName() {
   const { setUser, user } = useUser();
@@ -28,7 +35,7 @@ export default function ChangeUserName() {
   return (
     <Container mb={4} size={1}>
       <Subheading mb={2}>Change Display Name</Subheading>
-      <Flex>
+      <Flex mb={2}>
         <Input
           name="updateName"
           onChange={handleOnChange}
@@ -42,9 +49,10 @@ export default function ChangeUserName() {
           onClick={handleOnSubmitName}
           size={1}
         >
-          Update
+          Submit
         </Button>
       </Flex>
+      <Text sx={{ color: "gray600" }}>Enter a new user display name.</Text>
     </Container>
   );
 }

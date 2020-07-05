@@ -7,7 +7,14 @@ import useScope from "@hooks/use-scope";
 import useUser from "@hooks/use-user";
 
 // * Modulz
-import { Button, Container, Flex, Input, Subheading } from "@modulz/radix";
+import {
+  Button,
+  Container,
+  Flex,
+  Input,
+  Subheading,
+  Text,
+} from "@modulz/radix";
 
 export default function DeleteUser() {
   const { revalidateProfile, teams, user } = useUser();
@@ -37,7 +44,7 @@ export default function DeleteUser() {
   return (
     <Container mb={4} size={1}>
       <Subheading mb={2}>Delete Account</Subheading>
-      <Flex>
+      <Flex mb={2}>
         <Input
           name="deleteName"
           onChange={handleOnChange}
@@ -51,9 +58,12 @@ export default function DeleteUser() {
           onClick={handleOnSubmitDelete}
           size={1}
         >
-          Delete
+          Submit
         </Button>
       </Flex>
+      <Text sx={{ color: "gray600" }}>
+        Enter your display name to confirm deletion.
+      </Text>
     </Container>
   );
 }

@@ -9,11 +9,10 @@ import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 // * Modulz
-import { Button, Container, Flex } from "@modulz/radix";
+import { Button, Container, Flex, Textarea } from "@modulz/radix";
 
 // * Components
 import Characters from "@components/characters";
-import Textarea from "@components/textarea";
 
 interface ComposeTweetProps {
   setDrafting: (k: boolean) => void;
@@ -65,7 +64,6 @@ const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
             <Textarea
               placeholder="Draft your tweet..."
               onChange={handleOnChange}
-              type="compose"
               value={tweet}
             />
             <Characters progress={(tweet.length / 280) * 100} />

@@ -41,7 +41,7 @@ export default function Members() {
     <>
       <Container mb={4} size={1}>
         <Subheading mb={2}>Invite Team Member</Subheading>
-        <Flex mb={4}>
+        <Flex mb={2}>
           <Input
             onChange={handleOnChange}
             size={1}
@@ -54,12 +54,17 @@ export default function Members() {
             onClick={handleOnSubmit}
             size={1}
           >
-            Invite
+            Submit
           </Button>
         </Flex>
-        <Subheading mb={2}>Team Owners</Subheading>
+        <Text sx={{ color: "gray600" }}>
+          Enter the email of the person you want to invite.
+        </Text>
+        <Subheading mb={2} mt={4}>
+          Team Owners
+        </Subheading>
         <List>
-          {scope?.owners.map((o) => (
+          {scope?.owners.map((o: any) => (
             <ListItem key={o.uid}>
               <Text>- {o.name}</Text>
             </ListItem>
@@ -67,7 +72,7 @@ export default function Members() {
         </List>
         <Subheading mb={2}>Team Members</Subheading>
         <List>
-          {scope?.members.map((o) => (
+          {scope?.members.map((o: any) => (
             <ListItem key={o.uid}>
               <Text>- {o.name}</Text>
             </ListItem>

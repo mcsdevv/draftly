@@ -2,6 +2,9 @@
 import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
+// * Modulz
+import { Heading, List, ListItem, Text } from "@modulz/radix";
+
 // * Components
 import DashboardLayout from "@components/layouts/dashboard";
 
@@ -10,11 +13,17 @@ function Dashboard() {
   const { user } = useUser();
   return (
     <>
-      <h3>Hello {user?.name}, here are some stats for you:</h3>
-      <ul>
-        <li>{drafts?.length} drafts to complete.</li>
-        <li>{published?.length} tweets published so far.</li>
-      </ul>
+      <Heading size={3}>
+        Hello {user?.name}, here are some stats for you:
+      </Heading>
+      <List mt={4}>
+        <ListItem>
+          <Text>- {drafts?.length} drafts to complete.</Text>
+        </ListItem>
+        <ListItem>
+          <Text>- {published?.length} tweets published so far.</Text>
+        </ListItem>
+      </List>
     </>
   );
 }

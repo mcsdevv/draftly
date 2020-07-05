@@ -101,20 +101,9 @@ export default function Comments() {
         maxHeight: "700px",
         overflow: "scroll",
         padding: "0 8px",
+        width: "100%",
       }}
     >
-      <Flex sx={{ position: "sticky" }} mb={4}>
-        <Input onChange={handleOnChange} size={1} value={comment} />
-        <Button
-          disabled={comment === ""}
-          ml={2}
-          onClick={handleSubmitComment}
-          size={1}
-          variant="blue"
-        >
-          Add Comment
-        </Button>
-      </Flex>
       {comments?.map((c: any) => (
         <Comment
           addedAt={c.added_at}
@@ -125,6 +114,18 @@ export default function Comments() {
           key={c.tcuid}
         />
       ))}
+      <Flex sx={{ position: "sticky" }} mt={4}>
+        <Input onChange={handleOnChange} size={1} value={comment} />
+        <Button
+          disabled={comment === ""}
+          ml={2}
+          onClick={handleSubmitComment}
+          size={1}
+          variant="blue"
+        >
+          Submit
+        </Button>
+      </Flex>
     </Flex>
   );
 }

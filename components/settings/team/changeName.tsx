@@ -6,7 +6,14 @@ import useScope from "@hooks/use-scope";
 import useUser from "@hooks/use-user";
 
 // * Modulz
-import { Button, Container, Flex, Input, Subheading } from "@modulz/radix";
+import {
+  Button,
+  Container,
+  Flex,
+  Input,
+  Subheading,
+  Text,
+} from "@modulz/radix";
 
 export default function ChangeTeamName() {
   const { revalidateProfile } = useUser();
@@ -31,7 +38,7 @@ export default function ChangeTeamName() {
   return (
     <Container mb={4} size={1}>
       <Subheading mb={2}>Change Team Name</Subheading>
-      <Flex>
+      <Flex mb={2}>
         <Input
           name="updateName"
           onChange={handleOnChange}
@@ -45,9 +52,10 @@ export default function ChangeTeamName() {
           onClick={handleOnSubmitName}
           size={1}
         >
-          Update
+          Submit
         </Button>
       </Flex>
+      <Text sx={{ color: "gray600" }}>Enter a new team display name.</Text>
     </Container>
   );
 }

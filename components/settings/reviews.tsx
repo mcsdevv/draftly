@@ -5,7 +5,14 @@ import { useState } from "react";
 import useScope from "@hooks/use-scope";
 
 // * Modulz
-import { Button, Container, Flex, Input, Subheading } from "@modulz/radix";
+import {
+  Button,
+  Container,
+  Flex,
+  Input,
+  Subheading,
+  Text,
+} from "@modulz/radix";
 
 export default function Reviews() {
   const { scope, setScope } = useScope();
@@ -28,7 +35,7 @@ export default function Reviews() {
   return (
     <Container mb={4} size={1}>
       <Subheading mb={2}>Reviews Required</Subheading>
-      <Flex>
+      <Flex mb={2}>
         <Input
           max={3}
           min={0}
@@ -44,9 +51,12 @@ export default function Reviews() {
           onClick={handleOnSubmitReviews}
           size={1}
         >
-          Update
+          Submin
         </Button>
       </Flex>
+      <Text sx={{ color: "gray600" }}>
+        Enter the number of reviews required published a tweet.
+      </Text>
     </Container>
   );
 }

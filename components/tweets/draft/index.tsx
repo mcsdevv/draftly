@@ -10,10 +10,12 @@ import useTweets from "@hooks/use-tweets";
 import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
+// * Modulz
+import { Flex } from "@modulz/radix";
+
 // * Components
 import Comments from "@components/comments";
 import Controls from "@components/controls";
-import Grid from "@components/layout/grid";
 import Tweet from "@components/tweet";
 
 const DraftTweet = () => {
@@ -97,7 +99,7 @@ const DraftTweet = () => {
   };
 
   return tweet ? (
-    <Grid columns="double">
+    <Flex sx={{ height: "400px" }}>
       <Tweet
         editing={editing}
         editTweet={editTweet}
@@ -116,7 +118,7 @@ const DraftTweet = () => {
         />
       </Tweet>
       <Comments />
-    </Grid>
+    </Flex>
   ) : null;
 };
 
