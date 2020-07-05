@@ -1,7 +1,12 @@
+// * Modulz
+import {} from "@modulz/radix";
+
+// * Components
+import Compose from "@components/compose";
 import DashboardLayout from "@components/layouts/dashboard";
 
 function Create() {
-  return <h2>Let's create a tweet!</h2>;
+  return <Compose />;
 }
 
 Create.getLayout = (page: React.ReactNode) => (

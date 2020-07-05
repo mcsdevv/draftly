@@ -14,11 +14,7 @@ import { Button, Container, Flex, Textarea } from "@modulz/radix";
 // * Components
 import Characters from "@components/characters";
 
-interface ComposeTweetProps {
-  setDrafting: (k: boolean) => void;
-}
-
-const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
+const ComposeTweet = () => {
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
   const { drafts, published, setTweets } = useTweets();
@@ -37,7 +33,6 @@ const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
     if (res.status === 200) {
       const newDraft = await res.json();
       setTweets({ drafts: [newDraft, ...drafts], published });
-      setDrafting(false);
       setSaving(false);
       setTweet("");
     }
@@ -73,8 +68,13 @@ const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
               margin: "0 auto",
             }}
           >
-            <Button onClick={() => setDrafting(false)}>Cancel Draft</Button>
-            <Button disabled={!tweet} onClick={handleSaveDraft} variant="blue">
+            <Button>Cancel Draft</Button>
+            <Button
+              disabled={!tweet}
+              ml={2}
+              onClick={handleSaveDraft}
+              variant="blue"
+            >
               Save Draft
             </Button>
           </Flex>
