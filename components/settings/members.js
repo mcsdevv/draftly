@@ -5,7 +5,16 @@ import { useState } from "react";
 import useScope from "@hooks/use-scope";
 
 // * Modulz
-import { Input } from "@modulz/radix";
+import {
+  Button,
+  Container,
+  Flex,
+  Input,
+  List,
+  ListItem,
+  Subheading,
+  Text,
+} from "@modulz/radix";
 
 export default function Members() {
   const [memberEmail, setMemberEmail] = useState();
@@ -27,28 +36,44 @@ export default function Members() {
       console.log("Invite sent!");
     }
   };
+  // TODO Validate email before sending
   return (
     <>
-      <h3>Add Team Member</h3>
-      <Input
-        buttonText="Invite"
-        onChange={handleOnChange}
-        onSubmit={handleOnSubmit}
-        type="email"
-        value={memberEmail}
-      />
-      <h3>Owners</h3>
-      <ul>
-        {scope?.owners.map((o) => (
-          <li key={o.uid}>{o.name}</li>
-        ))}
-      </ul>
-      <h3>Members</h3>
-      <ul>
-        {scope?.members.map((o) => (
-          <li key={o.uid}>{o.name}</li>
-        ))}
-      </ul>
+      <Container mb={4} size={1}>
+        <Subheading mb={2}>Invite Team Member</Subheading>
+        <Flex mb={4}>
+          <Input
+            onChange={handleOnChange}
+            size={1}
+            type="email"
+            value={memberEmail}
+          />
+          <Button
+            disabled={memberEmail === ""}
+            ml={2}
+            onClick={handleOnSubmit}
+            size={1}
+          >
+            Invite
+          </Button>
+        </Flex>
+        <Subheading mb={2}>Team Owners</Subheading>
+        <List>
+          {scope?.owners.map((o) => (
+            <ListItem key={o.uid}>
+              <Text>- {o.name}</Text>
+            </ListItem>
+          ))}
+        </List>
+        <Subheading mb={2}>Team Members</Subheading>
+        <List>
+          {scope?.members.map((o) => (
+            <ListItem key={o.uid}>
+              <Text>- {o.name}</Text>
+            </ListItem>
+          ))}
+        </List>
+      </Container>
     </>
   );
 }
