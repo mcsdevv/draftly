@@ -28,7 +28,7 @@ function Dashboard() {
   );
 }
 
-Dashboard.getLayout = (page) => (
+Dashboard.getLayout = (page: React.ReactNode) => (
   <DashboardLayout name="Dashboard">{page}</DashboardLayout>
 );
 

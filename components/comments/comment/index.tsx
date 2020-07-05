@@ -2,14 +2,7 @@
 import ago from "s-ago";
 
 // * Modulz
-import {
-  Avatar,
-  Container,
-  Flex,
-  IconButton,
-  Image,
-  Text,
-} from "@modulz/radix";
+import { Avatar, Container, Flex, IconButton, Text } from "@modulz/radix";
 import { TrashIcon } from "@modulz/radix-icons";
 
 interface CommentProps {
