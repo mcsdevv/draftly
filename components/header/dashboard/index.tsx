@@ -7,13 +7,13 @@ import Cookies from "js-cookie";
 import useScope from "@hooks/use-scope";
 
 // * Components
-import Button from "@components/button";
+import { Button, Flex } from "@modulz/radix";
 import Link from "../../link";
 import Scope from "../../scope";
-import styles from "./header.module.css";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loggingIn, setLoggingdIn] = useState(false);
   const { scope } = useScope();
   const handle = scope?.handle;
   const router = useRouter();
@@ -28,6 +28,7 @@ const Header = () => {
 
   // * Send user to login
   const loginUser = () => {
+    setLoggingdIn(true);
     window.location.href = "/api/auth/login";
   };
 
@@ -43,53 +44,48 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
-      <div className={styles.headerLeft}>{loggedIn && <Scope />}</div>
-      <div className={styles.headerRight}>
+    <Flex
+      as="header"
+      sx={{ justifyContent: "space-between", margin: "16px 0" }}
+    >
+      <Flex>{loggedIn && <Scope />}</Flex>
+      <Flex>
         {loggedIn && (
           <>
-            <Link
-              as={`/${handle}/tweets/new`}
-              href="/[handle]/tweets/new"
-              type="primary"
-            >
+            <Link as={`/${handle}/tweets/new`} href="/[handle]/tweets/new">
               Create Draft
             </Link>
             <Link
               as={`/${handle}/tweets/drafts`}
               href="/[handle]/tweets/drafts"
-              type="primary"
             >
               Drafts
             </Link>
             <Link
               as={`/${handle}/tweets/published`}
               href="/[handle]/tweets/published"
-              type="primary"
             >
               Published
             </Link>
-            <Link
-              as={`/${handle}/dashboard`}
-              href="/[handle]/dashboard"
-              type="secondary"
-            >
+            <Link as={`/${handle}/dashboard`} href="/[handle]/dashboard">
               Dashboard
             </Link>
-            <Link
-              as={`/${handle}/settings`}
-              href="/[handle]/settings"
-              type="secondary"
-            >
+            <Link as={`/${handle}/settings`} href="/[handle]/settings">
               Settings
             </Link>
           </>
         )}
-        <Button onClick={loggedIn ? logoutUser : loginUser} type="tertiary">
+        <Button
+          sx={{ cursor: "pointer", width: "96px" }}
+          isWaiting={loggingIn}
+          onClick={loggedIn ? logoutUser : loginUser}
+          ml={4}
+          size={0}
+        >
           {loggedIn ? "Logout" : "Login"}
         </Button>
-      </div>
-    </header>
+      </Flex>
+    </Flex>
   );
 };
 

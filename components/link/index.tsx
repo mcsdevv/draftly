@@ -1,6 +1,5 @@
-import cn from "classnames";
 import NextLink from "next/link";
-import styles from "./link.module.css";
+import { Button } from "@modulz/radix";
 
 interface LinkProps {
   as?: string;
@@ -10,18 +9,22 @@ interface LinkProps {
   type?: string;
 }
 
-const Link = ({ as, children, href, onClick, type = "primary" }: LinkProps) => {
+const Link = ({ as, children, href, onClick, type = "button" }: LinkProps) => {
   return (
     <NextLink as={as || href} href={href}>
-      <a
-        className={cn(styles.link, {
-          [styles.primary]: type === "primary",
-          [styles.secondary]: type === "secondary",
-          [styles.tertiary]: type === "tertiary",
-        })}
-        onClick={onClick}
-      >
-        {children}
+      <a style={{ textDecoration: "none" }}>
+        {type === "button" ? (
+          <Button
+            sx={{ cursor: "pointer", width: "96px" }}
+            onClick={onClick}
+            ml={4}
+            size={0}
+          >
+            {children}
+          </Button>
+        ) : (
+          children
+        )}
       </a>
     </NextLink>
   );

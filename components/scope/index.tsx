@@ -7,9 +7,11 @@ import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
+// * Modulz
+import { Option, Select } from "@modulz/radix";
+
 // * Components
 import Link from "../link";
-import Select from "../select";
 
 const Scope = () => {
   const { scope, updateScope } = useScope();
@@ -17,9 +19,7 @@ const Scope = () => {
   const { teams } = useUser();
   const router = useRouter();
 
-  const handleOnChange = (e: React.FormEvent<HTMLSelectElement>) => {
-    const name = e.currentTarget.value;
-
+  const handleOnChange = (name?: string) => {
     // * If name is new, redirect to Twitter auth
     if (name === "new") {
       return router.push("/api/auth/twitter/connect");
@@ -40,10 +40,14 @@ const Scope = () => {
   return scope !== null && teams ? (
     teams?.length ? (
       <Select
-        onChange={handleOnChange}
-        options={teams}
+        onValueChange={handleOnChange}
         value={scope?.handle || scope.name}
-      />
+      >
+        {teams?.map((o: any) => (
+          <Option key={o.name} value={o.handle} label={o.name} />
+        ))}
+        <option value="new">+ Add New Team</option>
+      </Select>
     ) : (
       <Link href="/api/auth/twitter/connect">+ Add New Team</Link>
     )

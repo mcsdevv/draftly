@@ -1,15 +1,18 @@
+// * Libraries
 import { useState } from "react";
 
+// * Hooks
 import useTweets from "@hooks/use-tweets";
 
+// * Helpers
 import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
-import Button from "../button";
-import Characters from "../characters";
-import Textarea from "../textarea";
+// * Modulz
+import { Button, Container, Flex, Textarea } from "@modulz/radix";
 
-import styles from "./compose.module.css";
+// * Components
+import Characters from "@components/characters";
 
 interface ComposeTweetProps {
   setDrafting: (k: boolean) => void;
@@ -48,35 +51,38 @@ const ComposeTweet = ({ setDrafting }: ComposeTweetProps) => {
     }
   };
   return (
-    <div className={styles.compose}>
+    <Flex
+      sx={{
+        flexDirection: "column",
+        height: "100%",
+        justifyContent: "center",
+      }}
+    >
       {!saving ? (
         <>
-          <div className={styles.container}>
+          <Container mb={4}>
             <Textarea
               placeholder="Draft your tweet..."
               onChange={handleOnChange}
-              type="compose"
               value={tweet}
             />
             <Characters progress={(tweet.length / 280) * 100} />
-          </div>
-          <div className={styles.buttons}>
-            <Button
-              margin={false}
-              onClick={() => setDrafting(false)}
-              type="secondary"
-            >
-              Cancel Draft
-            </Button>
-            <Button disabled={!tweet} onClick={handleSaveDraft}>
+          </Container>
+          <Flex
+            sx={{
+              margin: "0 auto",
+            }}
+          >
+            <Button onClick={() => setDrafting(false)}>Cancel Draft</Button>
+            <Button disabled={!tweet} onClick={handleSaveDraft} variant="blue">
               Save Draft
             </Button>
-          </div>
+          </Flex>
         </>
       ) : (
         <h2>Saving Draft...</h2>
       )}
-    </div>
+    </Flex>
   );
 };
 

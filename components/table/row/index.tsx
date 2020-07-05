@@ -1,15 +1,12 @@
 // * Libraries
-import cn from "classnames";
 import Link from "next/link";
 
 // * Hooks
 import useScope from "@hooks/use-scope";
 
-// * Components
-import ArrowRight from "@components/icons/arrows/right";
-
-// * Styles
-import styles from "./row.module.css";
+// * Modulz
+import { Tr, Td } from "@modulz/radix";
+import { ArrowRightIcon } from "@modulz/radix-icons";
 
 interface RowProps {
   row: string[];
@@ -21,25 +18,23 @@ const Table = ({ row, twuid, type }: RowProps) => {
   const { scope } = useScope();
   const handle = scope?.handle;
   return (
-    <tr className={styles.row}>
+    <Tr>
       {row.map((r, i) => (
-        <td key={r + i}>
-          <div className={styles.cell}>{r}</div>
-        </td>
+        <Td key={r + i}>
+          <div>{r}</div>
+        </Td>
       ))}
-      <td>
-        <div className={cn(styles.cell, styles.cellIcon)}>
-          <Link
-            as={`/${handle}/tweets/${type}/${twuid}`}
-            href={`/[handle]/tweets/${type}/[twuid]`}
-          >
-            <a className={styles.link}>
-              <ArrowRight color="#16171b" />
-            </a>
-          </Link>
-        </div>
-      </td>
-    </tr>
+      <Td>
+        <Link
+          as={`/${handle}/tweets/${type}/${twuid}`}
+          href={`/[handle]/tweets/${type}/[twuid]`}
+        >
+          <a>
+            <ArrowRightIcon />
+          </a>
+        </Link>
+      </Td>
+    </Tr>
   );
 };
 

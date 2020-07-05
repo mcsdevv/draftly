@@ -4,7 +4,7 @@ function Create() {
   return <h2>Let's create a tweet!</h2>;
 }
 
-Create.getLayout = (page) => (
+Create.getLayout = (page: React.ReactNode) => (
   <DashboardLayout name="Create Tweet">{page}</DashboardLayout>
 );
 

@@ -6,6 +6,8 @@
   "author": "mcsdevv <mail@mcs.dev>",
   "license": "MIT",
   "dependencies": {
+    "@modulz/radix": "^0.0.1-beta.43",
+    "@modulz/radix-icons": "^2.4.0",
     "@sendgrid/mail": "^7.1.0",
     "@types/classnames": "^2.2.10",
     "@types/js-cookie": "^2.2.6",

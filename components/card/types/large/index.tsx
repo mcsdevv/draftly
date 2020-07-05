@@ -1,16 +1,16 @@
+// * Libraries
 import Linkify from "react-linkify";
 
-import CardTop from "../../sections/top";
+// * Modulz
+import { Textarea } from "@modulz/radix";
+
+// * Components
 import CardBottom from "../../sections/bottom";
-
+import CardTop from "../../sections/top";
 import Characters from "../../../characters";
-import Textarea from "../../../textarea";
 
+// * Styles
 import styles from "./large.module.css";
-
-// interface Meta {
-
-// }
 
 interface Scope {
   handle: string;

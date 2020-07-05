@@ -1,6 +1,5 @@
-import styles from "./controls.module.css";
-
-import Button from "../button";
+// * Modulz
+import { Button, Flex } from "@modulz/radix";
 
 interface ControlsProps {
   approvals?: number;
@@ -30,24 +29,25 @@ const Controls = ({
   handlePublish,
   handleUpdate,
 }: ControlsProps) => (
-  <div className={styles.container}>
-    <Button
-      onClick={!editing ? handleDelete : handleCancelEdit}
-      margin={false}
-      type="tertiary"
-    >
+  <Flex
+    sx={{
+      alignContent: "center",
+      padding: "16px 0",
+    }}
+  >
+    <Button onClick={!editing ? handleDelete : handleCancelEdit} variant="red">
       {!editing ? "Delete" : "Cancel"}
     </Button>
-    <Button onClick={!editing ? handleEdit : handleUpdate} type="secondary">
+    <Button
+      onClick={!editing ? handleEdit : handleUpdate}
+      ml={4}
+      variant="green"
+    >
       {!editing ? "Edit" : "Update"}
     </Button>
     {!editing && handleApprove && handlePublish && (
       <>
-        <Button
-          disabled={disableApprove}
-          onClick={handleApprove}
-          type="primary"
-        >
+        <Button disabled={disableApprove} ml={4} onClick={handleApprove}>
           {approvalsRequired &&
             approvalsRequired > 0 &&
             `${approvals} / ${approvalsRequired}`}{" "}
@@ -56,13 +56,14 @@ const Controls = ({
         <Button
           disabled={disablePublish}
           onClick={handlePublish}
-          type="primary"
+          ml={4}
+          variant="blue"
         >
           Publish
         </Button>
       </>
     )}
-  </div>
+  </Flex>
 );
 
 export default Controls;
