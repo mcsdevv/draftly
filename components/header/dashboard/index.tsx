@@ -1,5 +1,5 @@
 // * Libraries
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
@@ -19,12 +19,12 @@ const Header = () => {
   const router = useRouter();
 
   // * Updated logged in state
-  useEffect(() => {
-    function getLoggedIn() {
-      if (!!Cookies.get("id_token")) setLoggedIn(true);
-    }
-    getLoggedIn();
-  }, [loggedIn]);
+  // useEffect(() => {
+  //   function getLoggedIn() {
+  //     if (!!Cookies.get("id_token")) setLoggedIn(true);
+  //   }
+  //   getLoggedIn();
+  // }, [loggedIn]);
 
   // * Send user to login
   const loginUser = () => {
