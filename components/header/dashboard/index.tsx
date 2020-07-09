@@ -12,7 +12,7 @@ import Link from "../../link";
 import Scope from "../../scope";
 
 const Header = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(!!Cookies.get("id_token"));
   const [loggingIn, setLoggingdIn] = useState(false);
   const { scope } = useScope();
   const handle = scope?.handle;
