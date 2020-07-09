@@ -8,3 +8,5 @@ Landing.getLayout = (page: React.ReactNode) => (
 );
 
 export default Landing;
+
+// TODO Change to marketing layout
