@@ -99,7 +99,7 @@ const DraftTweet = () => {
   };
 
   return tweet ? (
-    <Flex sx={{ height: "fit-content" }}>
+    <Flex sx={{ height: "fit-content", width: "100%" }} mt={4}>
       <Tweet
         editing={editing}
         editTweet={editTweet}

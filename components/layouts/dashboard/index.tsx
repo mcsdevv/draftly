@@ -12,7 +12,10 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children, name }: DashboardLayoutProps) => (
   <RequireLogin>
-    <Container sx={{ minHeight: "100vh" }} size={3}>
+    <Container
+      sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      size={3}
+    >
       <Header />
       <Flex sx={{ justifyContent: "space-between" }}>
         <Heading size={5} weight="medium">
@@ -20,7 +23,7 @@ const DashboardLayout = ({ children, name }: DashboardLayoutProps) => (
         </Heading>
       </Flex>
       <Divider mb={4} />
-      {children}
+      <Flex sx={{ flexGrow: 1 }}>{children}</Flex>
     </Container>
   </RequireLogin>
 );
