@@ -11,7 +11,7 @@ import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 // * Modulz
-import { Flex } from "@modulz/radix";
+import { Card, Flex } from "@modulz/radix";
 
 // * Components
 import Comments from "@components/comments";
@@ -99,26 +99,28 @@ const DraftTweet = () => {
   };
 
   return tweet ? (
-    <Flex sx={{ height: "fit-content", width: "100%" }} mt={4}>
-      <Tweet
-        editing={editing}
-        editTweet={editTweet}
-        handleOnChange={handleOnChange}
-        metadata={tweet.metadata}
-        scope={scope}
-        text={tweet.text}
-      >
-        <Controls
+    <Card sx={{ height: "fit-content", padding: "32px", width: "100%" }}>
+      <Flex sx={{ height: "fit-content", width: "100%" }}>
+        <Tweet
           editing={editing}
-          handleCancelEdit={handleCancelEdit}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          handleUpdate={handleUpdate}
-          type="draft"
-        />
-      </Tweet>
-      <Comments />
-    </Flex>
+          editTweet={editTweet}
+          handleOnChange={handleOnChange}
+          metadata={tweet.metadata}
+          scope={scope}
+          text={tweet.text}
+        >
+          <Controls
+            editing={editing}
+            handleCancelEdit={handleCancelEdit}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+            handleUpdate={handleUpdate}
+            type="draft"
+          />
+        </Tweet>
+        <Comments />
+      </Flex>
+    </Card>
   ) : null;
 };
 

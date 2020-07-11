@@ -1,5 +1,5 @@
 // * Modulz
-import { Container, Divider, Flex, Heading } from "@modulz/radix";
+import { Card, Container, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
 import Header from "@components/header/dashboard";

@@ -1,5 +1,6 @@
 import styles from "./tweet.module.css";
 
+// * Components
 import Card from "../card";
 
 interface TweetProps {
