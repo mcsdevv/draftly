@@ -1,5 +1,5 @@
 // * Modulz
-import { Button, Flex } from "@modulz/radix";
+import { Button, Card, Flex } from "@modulz/radix";
 
 interface ControlsProps {
   approvals?: number;
@@ -29,41 +29,51 @@ const Controls = ({
   handlePublish,
   handleUpdate,
 }: ControlsProps) => (
-  <Flex
-    sx={{
-      alignContent: "center",
-      padding: "16px 0",
-    }}
-  >
-    <Button onClick={!editing ? handleDelete : handleCancelEdit} variant="red">
-      {!editing ? "Delete" : "Cancel"}
-    </Button>
-    <Button
-      onClick={!editing ? handleEdit : handleUpdate}
-      ml={4}
-      variant="green"
+  <Card sx={{ width: "100%" }} mt={4}>
+    <Flex
+      sx={{
+        alignContent: "center",
+        justifyContent: "center",
+        padding: "16px 0",
+      }}
     >
-      {!editing ? "Edit" : "Update"}
-    </Button>
-    {!editing && handleApprove && handlePublish && (
-      <>
-        <Button disabled={disableApprove} ml={4} onClick={handleApprove}>
-          {approvalsRequired &&
-            approvalsRequired > 0 &&
-            `${approvals} / ${approvalsRequired}`}{" "}
-          Approve
-        </Button>
-        <Button
-          disabled={disablePublish}
-          onClick={handlePublish}
-          ml={4}
-          variant="blue"
-        >
-          Publish
-        </Button>
-      </>
-    )}
-  </Flex>
+      <Button
+        sx={{ cursor: "pointer" }}
+        onClick={!editing ? handleDelete : handleCancelEdit}
+        variant="red"
+      >
+        {!editing ? "Delete" : "Cancel"}
+      </Button>
+      <Button
+        sx={{ cursor: "pointer" }}
+        onClick={!editing ? handleEdit : handleUpdate}
+        ml={4}
+      >
+        {!editing ? "Edit" : "Update"}
+      </Button>
+      <Button
+        sx={{ cursor: "pointer" }}
+        disabled={disableApprove}
+        ml={4}
+        onClick={handleApprove}
+        variant="green"
+      >
+        {approvalsRequired &&
+          approvalsRequired > 0 &&
+          `${approvals} / ${approvalsRequired}`}{" "}
+        Approve
+      </Button>
+      <Button
+        sx={{ cursor: "pointer" }}
+        disabled={disablePublish}
+        onClick={handlePublish}
+        ml={4}
+        variant="blue"
+      >
+        Publish
+      </Button>
+    </Flex>
+  </Card>
 );
 
 export default Controls;
