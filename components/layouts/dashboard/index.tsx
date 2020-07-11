@@ -12,7 +12,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children, name }: DashboardLayoutProps) => (
   <RequireLogin>
-    <Container size={3}>
+    <Container sx={{ minHeight: "100vh" }} size={3}>
       <Header />
       <Flex sx={{ justifyContent: "space-between" }}>
         <Heading size={5} weight="medium">
