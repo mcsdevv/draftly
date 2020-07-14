@@ -99,7 +99,7 @@ const DraftTweet = () => {
   };
 
   return tweet ? (
-    <Card sx={{ height: "fit-content", padding: "32px", width: "100%" }}>
+    <Card sx={{ height: "fit-content", width: "100%" }}>
       <Flex sx={{ height: "fit-content", width: "100%" }}>
         <Tweet
           editing={editing}

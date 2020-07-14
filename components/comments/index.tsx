@@ -7,7 +7,7 @@ import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 
 // * Modulz
-import { Button, Flex, Input } from "@modulz/radix";
+import { Button, Divider, Flex, Heading, Input } from "@modulz/radix";
 
 // * Components
 import Comment from "./comment";
@@ -96,14 +96,18 @@ export default function Comments() {
   return (
     <Flex
       sx={{
-        alignSelf: "center",
         flexDirection: "column",
+        marginLeft: "16px",
         maxHeight: "700px",
         overflow: "scroll",
         padding: "0 8px",
         width: "100%",
       }}
     >
+      <Heading as="h2" size={4}>
+        Comments
+      </Heading>
+      <Divider mb={2} />
       {comments?.map((c: any) => (
         <Comment
           addedAt={c.added_at}
@@ -114,7 +118,7 @@ export default function Comments() {
           key={c.tcuid}
         />
       ))}
-      <Flex sx={{ position: "sticky" }} mt={4}>
+      <Flex sx={{ marginTop: "auto" }} mt={4}>
         <Input onChange={handleOnChange} size={1} value={comment} />
         <Button
           disabled={comment === ""}
