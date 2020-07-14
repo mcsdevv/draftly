@@ -21,7 +21,13 @@ const Comment = ({
   handleDeleteComment,
 }: CommentProps) => (
   <Container
-    sx={{ margin: 0, maxWidth: "100%", padding: 0, width: "100%" }}
+    sx={{
+      flex: 0,
+      margin: "8px 0 0 0",
+      maxWidth: "100%",
+      padding: 0,
+      width: "100%",
+    }}
     mb={4}
   >
     <Flex>
