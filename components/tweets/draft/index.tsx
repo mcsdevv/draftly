@@ -65,6 +65,24 @@ const DraftTweet = () => {
     }
   };
 
+  const handlePublish = async () => {
+    const url = "/api/tweet/published/create";
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        text: tweet.text,
+        twuid: tweet.twuid,
+      }),
+    });
+    if (res.status === 200) {
+      const publishedTweet = drafts.find((r: any) => r.twuid === tweet.twuid);
+      setTweets({
+        drafts: drafts.filter((r: any) => r.twuid !== tweet.twuid),
+        published: [...published, publishedTweet],
+      });
+    }
+  };
+
   const handleUpdate = async () => {
     // * No changes made, no need to update
     if (tweet.text === editTweet) {
@@ -114,6 +132,7 @@ const DraftTweet = () => {
             handleCancelEdit={handleCancelEdit}
             handleDelete={handleDelete}
             handleEdit={handleEdit}
+            handlePublish={handlePublish}
             handleUpdate={handleUpdate}
             type="draft"
           />
