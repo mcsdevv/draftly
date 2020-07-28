@@ -1,1 +1,1 @@
-# draftly
+# draftly-app
