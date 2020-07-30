@@ -1,5 +1,6 @@
 // * Libraries
 import Head from "next/head";
+import * as Sentry from "@sentry/node";
 import { RadixProvider } from "@modulz/radix";
 import { SWRConfig } from "swr";
 
@@ -9,7 +10,15 @@ import MarketingLayout from "@components/layouts/marketing";
 // * Styles
 import "@styles/global.css";
 
-const App = ({ Component, pageProps }) => {
+// * Initialize Sentry
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  Sentry.init({
+    enabled: process.env.NODE_ENV === "production",
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  });
+}
+
+const App = ({ Component, pageProps, err }) => {
   // * Use static layout from component, falling back to marketing
   const getLayout =
     Component.getLayout || ((page) => <MarketingLayout children={page} />);
@@ -18,7 +27,7 @@ const App = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Tweet Review</title>
+        <title>Draftly</title>
         <meta
           name="description"
           content="Draft, review, approve, and publish tweets."
@@ -29,7 +38,9 @@ const App = ({ Component, pageProps }) => {
           fetcher: (...args) => fetch(...args).then((res) => res.json()),
         }}
       >
-        <RadixProvider>{getLayout(<Component {...pageProps} />)}</RadixProvider>
+        <RadixProvider>
+          {getLayout(<Component {...pageProps} err={err} />)}
+        </RadixProvider>
       </SWRConfig>
     </>
   );
