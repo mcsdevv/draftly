@@ -13,7 +13,6 @@ const Table = ({ children, headers }: TableProps) => (
         {headers.map((h) => (
           <Th key={h}>{h}</Th>
         ))}
-        <Th>View</Th>
       </Tr>
     </Thead>
     <tbody>{children}</tbody>

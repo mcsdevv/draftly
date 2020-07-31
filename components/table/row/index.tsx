@@ -5,16 +5,17 @@ import Link from "next/link";
 import useScope from "@hooks/use-scope";
 
 // * Modulz
-import { Tr, Td } from "@modulz/radix";
-import { ArrowRightIcon } from "@modulz/radix-icons";
+import { IconButton, Tr, Td } from "@modulz/radix";
+import { ArrowRightIcon, TrashIcon } from "@modulz/radix-icons";
 
 interface RowProps {
+  handleOnDelete?: () => void;
   row: string[];
   twuid: string;
   type: string;
 }
 
-const Table = ({ row, twuid, type }: RowProps) => {
+const Table = ({ handleOnDelete, row, twuid, type }: RowProps) => {
   const { scope } = useScope();
   const handle = scope?.handle;
   return (
@@ -25,14 +26,24 @@ const Table = ({ row, twuid, type }: RowProps) => {
         </Td>
       ))}
       <Td>
-        <Link
-          as={`/${handle}/tweets/${type}/${twuid}`}
-          href={`/[handle]/tweets/${type}/[twuid]`}
+        <IconButton sx={{ cursor: "pointer" }}>
+          <Link
+            as={`/${handle}/tweets/${type}/${twuid}`}
+            href={`/[handle]/tweets/${type}/[twuid]`}
+          >
+            <a style={{ color: "#16171b", textDecoration: "none" }}>
+              <ArrowRightIcon />
+            </a>
+          </Link>
+        </IconButton>
+      </Td>
+      <Td>
+        <IconButton
+          sx={{ cursor: "pointer", marginLeft: "4px" }}
+          onClick={handleOnDelete}
         >
-          <a>
-            <ArrowRightIcon />
-          </a>
-        </Link>
+          <TrashIcon />
+        </IconButton>
       </Td>
     </Tr>
   );
