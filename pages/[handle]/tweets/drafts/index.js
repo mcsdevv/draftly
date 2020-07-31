@@ -15,9 +15,10 @@ import DashboardLayout from "@components/layouts/dashboard";
 
 function Drafts() {
   const { scope } = useScope();
-  const { drafts, published } = useTweets();
+  const { drafts, published, setTweets } = useTweets();
 
-  const handleDelete = async () => {
+  const handleDelete = async (twuid) => {
+    console.log("TWUID", twuid);
     const url = "/api/tweet/draft/delete";
     const res = await fetch(url, {
       method: "DELETE",
@@ -27,7 +28,7 @@ function Drafts() {
     });
     if (res.status === 200) {
       setTweets({
-        drafts: drafts.filter((d) => d.twuid !== tweet.twuid),
+        drafts: drafts.filter((d) => d.twuid !== twuid),
         published,
       });
     }
@@ -47,7 +48,7 @@ function Drafts() {
       >
         {drafts?.map((d) => (
           <Row
-            handleOnDelete={(d) => handleDelete(d)}
+            handleOnDelete={() => handleDelete(d.twuid)}
             key={d.twuid}
             row={[
               d.text,
