@@ -3,7 +3,6 @@ import withSentry from "@lib/api/middleware/withSentry";
 import { escape, query } from "@lib/api/db";
 
 const getUserDetails = async (req, res, uid) => {
-  throw "derps";
   // * Select user from database
   const [userQuery] = await query(
     escape`SELECT * FROM users WHERE uid = ${uid}`
