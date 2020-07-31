@@ -2,6 +2,13 @@ import * as Sentry from "@sentry/node";
 import verify from "@lib/api/token/verify";
 import { escape, query } from "@lib/api/db";
 
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  Sentry.init({
+    enabled: process.env.NODE_ENV === "production",
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  });
+}
+
 const getUserDetails = async (req, res, uid) => {
   try {
     throw "derps";
@@ -57,6 +64,7 @@ const getUserDetails = async (req, res, uid) => {
     console.error("ERROR - api/user -", err.message);
     Sentry.captureException(err);
     await Sentry.flush(2000);
+    throw err;
     res.status(500).json({ err: err.message });
   }
 };
