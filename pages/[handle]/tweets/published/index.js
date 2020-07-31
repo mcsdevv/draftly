@@ -19,7 +19,16 @@ function Published() {
 
   return (
     <Container size={2}>
-      <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
+      <Table
+        headers={[
+          "Text",
+          "Created By",
+          "Created At",
+          "Last Updated",
+          "View",
+          "Delete",
+        ]}
+      >
         {published?.map((p) => (
           <Row
             key={p.twuid}

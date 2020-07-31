@@ -19,9 +19,19 @@ function Drafts() {
 
   return (
     <Container size={2}>
-      <Table headers={["Text", "Created By", "Created At", "Last Updated"]}>
+      <Table
+        headers={[
+          "Text",
+          "Created By",
+          "Created At",
+          "Last Updated",
+          "View",
+          "Delete",
+        ]}
+      >
         {drafts?.map((d) => (
           <Row
+            handleOnDelete={() => console.log("hi")}
             key={d.twuid}
             row={[
               d.text,
