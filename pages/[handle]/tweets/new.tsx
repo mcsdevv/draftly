@@ -1,6 +1,3 @@
-// * Modulz
-import {} from "@modulz/radix";
-
 // * Components
 import Compose from "@components/compose";
 import DashboardLayout from "@components/layouts/dashboard";
