@@ -1,8 +1,9 @@
 import cookie from "cookie";
+import withSentry from "@lib/api/middleware/withSentry";
 
-export default async (req, res) => {
+const logout = async (_req, res) => {
   // * Log user out of Auth0 sessions
-  const logout = await fetch(`https://${process.env.AUTH0_DOMAIN}/v2/logout`);
+  await fetch(`https://${process.env.AUTH0_DOMAIN}/v2/logout`);
 
   // TODO Move to lib
   const cookieOptions = (http = false) => {
@@ -22,3 +23,5 @@ export default async (req, res) => {
   );
   res.end();
 };
+
+export default withSentry(logout);

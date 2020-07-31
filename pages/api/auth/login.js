@@ -1,8 +1,9 @@
 import cookie from "cookie";
 import uuidv4 from "uuid/v4";
 import cookieOptions from "@lib/api/cookie/options";
+import withSentry from "@lib/api/middleware/withSentry";
 
-export default async (req, res) => {
+const login = async (req, res) => {
   // * Generate random opaque value for state and nonce
   const state = uuidv4();
   const nonce = uuidv4();
@@ -19,5 +20,7 @@ export default async (req, res) => {
   });
   res.end();
 };
+
+export default withSentry(login);
 
 // ! If localhost appears in callback URL on Auth0, consent skipping will not work.

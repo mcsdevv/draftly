@@ -3,9 +3,10 @@ import oauth from "@lib/api/oauth";
 import { escape, query } from "@lib/api/db";
 import uuidv4 from "uuid/v4";
 import createInviteCode from "@lib/api/createInviteCode";
+import withSentry from "@lib/api/middleware/withSentry";
 import { decrypt } from "@lib/api/token/encryption";
 
-export default (req, res) => {
+const twitterCallback = (req, res) => {
   const { denied, oauth_token, oauth_verifier } = req.query;
 
   // * If the request was cancelled by the user, redirect to the dashboard
@@ -88,3 +89,5 @@ export default (req, res) => {
     }
   );
 };
+
+export default withSentry(twitterCallback);

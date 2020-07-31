@@ -1,6 +1,7 @@
 import oauth from "@lib/api/oauth";
+import withSentry from "@lib/api/middleware/withSentry";
 
-export default (req, res) => {
+const twitterConnect = (_req, res) => {
   // TODO Stop request from getting cached, causes 'old request token' error.
   oauth.getOAuthRequestToken(function (error, oauthToken, oauthTokenSecret) {
     // * Check for an error receiving request tokens
@@ -17,3 +18,5 @@ export default (req, res) => {
     }
   });
 };
+
+export default withSentry(twitterConnect);

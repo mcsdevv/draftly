@@ -1,11 +1,12 @@
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
 import cookieOptions from "@lib/api/cookie/options";
+import withSentry from "@lib/api/middleware/withSentry";
 import uuidv4 from "uuid/v4";
 import { encrypt } from "@lib/api/token/encryption";
 import { escape, query } from "@lib/api/db";
 
-export default async (req, res) => {
+const authCallback = async (req, res) => {
   // * Confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
     // * Send request for token exchange
@@ -117,3 +118,7 @@ export default async (req, res) => {
     res.send("State mismatch, CSRF attack likely.");
   }
 };
+
+export default withSentry(authCallback);
+
+// TODO Throw on errors rather than using if/else statements
