@@ -64,7 +64,6 @@ const getUserDetails = async (req, res, uid) => {
     console.error("ERROR - api/user -", err.message);
     Sentry.captureException(err);
     await Sentry.flush(2000);
-    throw err;
     res.status(500).json({ err: err.message });
   }
 };
