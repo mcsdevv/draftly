@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/node";
 import verify from "@lib/api/token/verify";
 import { escape, query } from "@lib/api/db";
 
@@ -54,6 +55,8 @@ const getUserDetails = async (req, res, uid) => {
     res.status(200).json({ user: userQuery, teams: teamsWithMembers });
   } catch (err) {
     console.error("ERROR - api/user -", err.message);
+    Sentry.captureException(err);
+    await Sentry.flush(2000);
     res.status(500).json({ err: err.message });
   }
 };
