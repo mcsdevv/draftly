@@ -3,6 +3,7 @@ import { escape, query } from "@lib/api/db";
 
 const getUserDetails = async (req, res, uid) => {
   try {
+    throw "derps";
     // * Select user from database
     const [userQuery] = await query(
       escape`SELECT * FROM users WHERE uid = ${uid}`
