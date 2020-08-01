@@ -40,6 +40,7 @@ function Drafts() {
     <Container size={2}>
       <Table
         headers={[
+          "Title",
           "Text",
           "Created By",
           "Created At",
@@ -53,6 +54,7 @@ function Drafts() {
             handleOnDelete={() => handleDelete(d.twuid)}
             key={d.twuid}
             row={[
+              d.title,
               d.text,
               [...scope?.members, ...scope?.owners].find(
                 (m) => m.uid === d.created_by
