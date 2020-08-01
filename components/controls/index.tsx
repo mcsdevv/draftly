@@ -68,16 +68,16 @@ const Controls = ({
         <Button
           mb={4}
           sx={{ cursor: "pointer", width: "120px" }}
+          onClick={!editing ? handleEdit : handleUpdate}
+        >
+          {!editing ? "Edit" : "Update"}
+        </Button>
+        <Button
+          sx={{ cursor: "pointer", width: "120px" }}
           onClick={!editing ? handleDelete : handleCancelEdit}
           variant="red"
         >
           {!editing ? "Delete" : "Cancel"}
-        </Button>
-        <Button
-          sx={{ cursor: "pointer", width: "120px" }}
-          onClick={!editing ? handleEdit : handleUpdate}
-        >
-          {!editing ? "Edit" : "Update"}
         </Button>
       </Flex>
       <Flex sx={{ flexDirection: "column" }}>
