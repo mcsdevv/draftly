@@ -34,7 +34,7 @@
     "serverless-mysql": "^1.5.4",
     "sql-query": "^0.1.27",
     "sql-template-strings": "^2.2.2",
-    "swr": "^0.2.0",
+    "swr": "0.3.0",
     "twitter": "^1.7.1",
     "uuid": "^3.3.3"
   },

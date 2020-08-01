@@ -22,7 +22,8 @@ const createDraftTweet = async (req, res, uid, tuid) => {
 
   // * Insert draft
   const draftQuery = sqlInsert.into("tweets").set(draft).build();
-  await query(draftQuery);
+  const derps = await query(draftQuery);
+  console.log("DERPS", derps);
 
   // * Format meta insert query
   const twmuid = uuidv4();
@@ -33,7 +34,12 @@ const createDraftTweet = async (req, res, uid, tuid) => {
   await query(metaQuery);
 
   console.log("Draft tweet created for:", tuid);
-  res.status(200).json({ ...draft, metadata: meta });
+  res.status(200).json({
+    ...draft,
+    created_at: Date.now(),
+    updated_at: Date.now(),
+    metadata: meta,
+  });
 };
 
 export default verify(withSentry(createDraftTweet));

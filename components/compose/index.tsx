@@ -26,6 +26,7 @@ const ComposeTweet = () => {
   const [tweet, setTweet] = useState("");
   const [saving, setSaving] = useState(false);
   const { drafts, published, setTweets } = useTweets();
+
   const handleSaveDraft = async () => {
     setSaving(true);
     const metadata = await getMetadata(tweet);
@@ -46,9 +47,11 @@ const ComposeTweet = () => {
       setTweet("");
     }
   };
+
   const handleTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
   };
+
   const handleTweetChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     // TODO Improve character limit handling
     if (tweet.length < 280) {

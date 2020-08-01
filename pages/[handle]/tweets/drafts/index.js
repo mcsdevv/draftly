@@ -17,6 +17,8 @@ function Drafts() {
   const { scope } = useScope();
   const { drafts, published, setTweets } = useTweets();
 
+  console.log("drafts", drafts);
+
   const handleDelete = async (twuid) => {
     console.log("TWUID", twuid);
     const url = "/api/tweet/draft/delete";

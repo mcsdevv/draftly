@@ -25,7 +25,7 @@ export default function Comments() {
   const tweet = drafts?.find((d: any) => d.twuid === twuid);
 
   // * Get comments from tweet
-  const { comments } = tweet;
+  const comments = tweet?.comments;
 
   // * Update stored comment before saving
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
