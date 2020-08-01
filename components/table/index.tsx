@@ -6,7 +6,7 @@ interface TableProps {
   headers: string[];
 }
 
-const Table = ({ children, headers }: TableProps) => (
+const Table = ({ children }: TableProps) => (
   <TableModulz cellSpacing="1" cellPadding="0">
     <Thead>
       <Tr>
