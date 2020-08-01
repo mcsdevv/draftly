@@ -37,6 +37,7 @@ function Published() {
     <Container size={2}>
       <Table
         headers={[
+          "Title",
           "Text",
           "Created By",
           "Created At",
@@ -50,6 +51,7 @@ function Published() {
             handleOnDelete={() => handleDelete(p.twuid)}
             key={p.twuid}
             row={[
+              p.title,
               p.text,
               [...scope?.members, ...scope?.owners].find(
                 (m) => m.uid === p.created_by
