@@ -27,7 +27,8 @@ const Table = ({ handleOnDelete, row, twuid, type }: RowProps) => {
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              width: "48px",
+              maxWidth: "120px",
+              width: "fit-content",
             }}
           >
             {r}
