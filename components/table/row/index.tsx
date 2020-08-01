@@ -5,7 +5,7 @@ import Link from "next/link";
 import useScope from "@hooks/use-scope";
 
 // * Modulz
-import { IconButton, Tr, Td } from "@modulz/radix";
+import { Box, IconButton, Tr, Td } from "@modulz/radix";
 import { ArrowRightIcon, TrashIcon } from "@modulz/radix-icons";
 
 interface RowProps {
@@ -22,7 +22,16 @@ const Table = ({ handleOnDelete, row, twuid, type }: RowProps) => {
     <Tr>
       {row.map((r, i) => (
         <Td key={r + i}>
-          <div>{r}</div>
+          <Box
+            sx={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              width: "48px",
+            }}
+          >
+            {r}
+          </Box>
         </Td>
       ))}
       <Td>
