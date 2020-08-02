@@ -13,11 +13,11 @@ const Table = ({ children }: TableProps) => (
         {/* {headers.map((h) => (
           <Th key={h}>{h}</Th>
         ))} */}
-        <Th sx={{ width: "48px" }}>Title</Th>
-        <Th sx={{ width: "48px" }}>Text</Th>
-        <Th sx={{ width: "48px" }}>Created By</Th>
-        <Th sx={{ width: "48px" }}>Created At</Th>
-        <Th sx={{ width: "48px" }}>Last Updated</Th>
+        <Th sx={{ width: "160px" }}>Title</Th>
+        <Th sx={{ width: "160px" }}>Text</Th>
+        <Th sx={{ width: "120px" }}>Created By</Th>
+        <Th sx={{ width: "96px" }}>Created At</Th>
+        <Th sx={{ width: "96px" }}>Last Updated</Th>
         <Th sx={{ width: "48px" }}>View</Th>
         <Th sx={{ width: "48px" }}>Delete</Th>
       </Tr>

@@ -10,14 +10,15 @@ const sendInvite = async (req, res) => {
   // * Compose message
   const msg = {
     to,
-    from: "mail@mcs.dev",
-    subject: `Invitation to join the ${team} on Draftly`,
+    from: "invites@draftly.app",
+    subject: `Join the ${team} team on Draftly`,
     text: `Hello, click this button to join the ${team} team!`,
     html: `<strong>Hello, click this button to join the ${team} team! <br/> </strong><a href=${process.env.AUTH0_REDIRECT_URI}/api/team/invite/accept?team=${team}&code=${code}&ref=${ref}>Join</a>`,
   };
 
   // * Send message
-  await sgMail.send(msg);
+  const sgRes = await sgMail.send(msg);
+  console.log("sgRes", sgRes);
   console.log("Invite sent to:", to);
   res.status(200).end("sent");
 };
