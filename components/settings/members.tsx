@@ -23,7 +23,7 @@ export default function Members() {
     setMemberEmail(e.currentTarget.value);
   };
   const handleOnSubmit = async () => {
-    const res = await fetch(`/api/team/invite/send/${scope.handle}`, {
+    const res = await fetch(`/api/team/invite/send`, {
       method: "POST",
       body: JSON.stringify({
         code: scope.inviteCode,
