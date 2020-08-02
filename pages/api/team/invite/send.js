@@ -11,7 +11,7 @@ const sendInvite = async (req, res) => {
   const msg = {
     to,
     from: "mail@mcs.dev",
-    subject: `Invitation to join the ${team} on Twintegrations`,
+    subject: `Invitation to join the ${team} on Draftly`,
     text: `Hello, click this button to join the ${team} team!`,
     html: `<strong>Hello, click this button to join the ${team} team! <br/> </strong><a href=${process.env.AUTH0_REDIRECT_URI}/api/team/invite/accept?team=${team}&code=${code}&ref=${ref}>Join</a>`,
   };
