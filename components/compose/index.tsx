@@ -62,13 +62,15 @@ const ComposeTweet = () => {
   };
   return (
     <Flex
+      mx="auto"
+      my={4}
       sx={{
         flexDirection: "column",
         height: "100%",
         justifyContent: "center",
       }}
     >
-      <Container sx={{ width: "768px" }} size={2} mb={4}>
+      <Container sx={{ width: "640px" }} size={2} mb={4}>
         <Subheading mb={2}>Tweet Title</Subheading>
         <Input
           mb={4}
@@ -91,13 +93,13 @@ const ComposeTweet = () => {
         }}
       >
         <Button
-          disabled={!tweet}
+          disabled={!tweet || !title}
           isWaiting={saving}
           ml={2}
           onClick={handleSaveDraft}
           variant="blue"
         >
-          Save Draft
+          Create Draft
         </Button>
       </Flex>
     </Flex>
