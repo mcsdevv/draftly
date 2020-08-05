@@ -9,9 +9,9 @@ interface Metadata {
 }
 
 interface CardProps {
-  editing: boolean;
-  editTweet: string;
-  handleOnChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
+  editing?: boolean;
+  editTweet?: string;
+  handleOnChange?: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   metadata: Metadata;
   scope: any;
   text: string;

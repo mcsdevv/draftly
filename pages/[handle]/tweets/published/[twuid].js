@@ -1,15 +1,11 @@
-import { useRouter } from "next/router";
-
+// * Components
+import PublishedTweet from "@components/tweets/published";
 import DashboardLayout from "@components/layouts/dashboard";
 
-const Publish = () => {
-  const router = useRouter();
-  const { twuid } = router.query;
-  return <h1>{twuid}</h1>;
-};
+const Published = () => <PublishedTweet />;
 
-Publish.getLayout = (page) => (
-  <DashboardLayout name="Publish">{page}</DashboardLayout>
+Published.getLayout = (page) => (
+  <DashboardLayout name="Published Tweet">{page}</DashboardLayout>
 );
 
-export default Publish;
+export default Published;

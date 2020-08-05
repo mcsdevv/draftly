@@ -17,11 +17,11 @@ interface ControlsProps {
   disablePublish?: boolean;
   editing?: boolean;
   handleApprove?: () => void;
-  handleCancelEdit: () => void;
+  handleCancelEdit?: () => void;
   handleDelete: () => void;
-  handleEdit: () => void;
+  handleEdit?: () => void;
   handlePublish?: () => void;
-  handleUpdate: () => void;
+  handleUpdate?: () => void;
   type: string;
 }
 
