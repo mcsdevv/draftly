@@ -1,5 +1,5 @@
 // * Libraries
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // * Hooks
 import useScope from "@hooks/use-scope";
@@ -19,6 +19,14 @@ export default function ChangeTeamName() {
   const { revalidateProfile } = useUser();
   const { scope, setScope } = useScope();
   const [name, setName] = useState(scope?.name);
+
+  useEffect(() => {
+    function getScopeName() {
+      setName(scope.name);
+    }
+    getScopeName();
+  }, [scope]);
+
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value);
   };
