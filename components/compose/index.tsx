@@ -70,11 +70,8 @@ const ComposeTweet = () => {
 
   // * Updates the tweet on change
   const handleTweetChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    // TODO Improve character limit handling
-    if (tweet.length < 280) {
+    if (e.currentTarget.value.length < 281) {
       setTweet(e.currentTarget.value);
-    } else {
-      alert("over the limit bud");
     }
   };
 
@@ -123,6 +120,7 @@ const ComposeTweet = () => {
               disabled={saving}
               placeholder="Draft your tweet..."
               onChange={handleTweetChange}
+              // onKeyDown={handleOnKeyDown}
               value={tweet}
             />
             <Characters progress={(tweet.length / 280) * 100} />

@@ -62,11 +62,8 @@ const DraftTweet = () => {
   };
 
   const handleOnChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    // TODO Improve character limit handling
-    if (editTweet?.length < 280) {
+    if (e.currentTarget.value.length < 281) {
       setEditTweet(e.currentTarget.value);
-    } else {
-      alert("over the limit bud");
     }
   };
 
