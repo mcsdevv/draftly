@@ -105,7 +105,7 @@ const ComposeTweet = () => {
     >
       {!completed ? (
         <>
-          <Container sx={{ width: "640px" }} size={2} mb={4}>
+          <Container sx={{ width: "640px" }} size={1} mb={4}>
             <Subheading mb={2}>Tweet Title</Subheading>
             <Input
               disabled={saving}
