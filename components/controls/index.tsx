@@ -22,7 +22,6 @@ interface ControlsProps {
   handleEdit?: () => void;
   handlePublish?: () => void;
   handleUpdate?: () => void;
-  type: string;
 }
 
 const Controls = ({

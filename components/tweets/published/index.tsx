@@ -1,21 +1,16 @@
 // * Libraries
-import { useState } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
 import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
 
-// * Helpers
-import getMetadata from "@lib/client/getMetadata";
-import removeWww from "@lib/client/removeWww";
-
 // * Modulz
 import { Card, Flex } from "@modulz/radix";
 
 // * Components
 import Comments from "@components/comments";
-import Controls from "@components/controls";
+import Metrics from "@components/metrics";
 import Tweet from "@components/tweet";
 
 const PublishedTweet = () => {
@@ -50,11 +45,11 @@ const PublishedTweet = () => {
     }
   };
 
-  return tweet ? (
+  return tweet && twuid ? (
     <Card sx={{ height: "fit-content", width: "100%" }}>
       <Flex sx={{ height: "fit-content", width: "100%" }}>
         <Tweet metadata={tweet.metadata} scope={scope} text={tweet.text}>
-          <Controls handleDelete={handleDelete} type="published" />
+          <Metrics handleDelete={handleDelete} twuid={twuid.toString()} />
         </Tweet>
         <Comments />
       </Flex>

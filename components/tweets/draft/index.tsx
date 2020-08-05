@@ -136,7 +136,6 @@ const DraftTweet = () => {
             handleEdit={handleEdit}
             handlePublish={handlePublish}
             handleUpdate={handleUpdate}
-            type="draft"
           />
         </Tweet>
         <Comments />
