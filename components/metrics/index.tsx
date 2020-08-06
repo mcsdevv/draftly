@@ -21,6 +21,7 @@ interface MetricsProps {
 
 const Metrics = ({ handleDelete, twuid }: MetricsProps) => {
   const [likes, setLikes] = useState(0);
+  const [replies, setReplies] = useState(0);
   const [retweets, setRetweets] = useState(0);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ const Metrics = ({ handleDelete, twuid }: MetricsProps) => {
     // * Get likes and retweets
     // * Set likes and retweets
     setLikes(likes);
+    setReplies(replies);
     setRetweets(retweets);
   };
 
@@ -56,7 +58,7 @@ const Metrics = ({ handleDelete, twuid }: MetricsProps) => {
         </Flex>
         <Flex mr={4} sx={{ flexDirection: "column", width: "120px" }}>
           <Subheading mb={5} size={0}>
-            Likes
+            Favorites
           </Subheading>
           <Subheading size={0}>Retweets</Subheading>
         </Flex>
@@ -87,4 +89,5 @@ const Metrics = ({ handleDelete, twuid }: MetricsProps) => {
     </Card>
   );
 };
+
 export default Metrics;
