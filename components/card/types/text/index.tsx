@@ -18,9 +18,9 @@ interface Scope {
 }
 
 interface TextProps {
-  editing: boolean;
-  editTweet: string;
-  handleOnChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
+  editing?: boolean;
+  editTweet?: string;
+  handleOnChange?: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   scope: Scope;
   text: string;
 }
@@ -41,7 +41,9 @@ const Text = ({
         <Textarea onChange={handleOnChange} value={editTweet} />
       )}
     </Linkify>
-    {editing && <Characters progress={(editTweet.length / 280) * 100} />}
+    {editing && editTweet && (
+      <Characters progress={(editTweet.length / 280) * 100} />
+    )}
     <CardBottom />
   </div>
 );

@@ -18,9 +18,9 @@ interface Scope {
 }
 
 interface LargeProps {
-  editing: boolean;
-  editTweet: string;
-  handleOnChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
+  editing?: boolean;
+  editTweet?: string;
+  handleOnChange?: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   metadata: any;
   scope: Scope;
   text: string;
@@ -45,7 +45,9 @@ const Large = ({
         )}
       </Linkify>
     </p>
-    {editing && <Characters progress={(editTweet.length / 280) * 100} />}
+    {editing && editTweet && (
+      <Characters progress={(editTweet.length / 280) * 100} />
+    )}
     <a className={styles.cardLink} href={metadata.og_url}>
       <div className={styles.cardContainer}>
         <div className={styles.imageContainer}>

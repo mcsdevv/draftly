@@ -20,22 +20,26 @@ const createPublishedTweet = async (req, res, uid, tuid) => {
   });
 
   // * Post tweet
-  twitterClient.post("statuses/update", { status: text }, function (
+  twitterClient.post("statuses/update", { status: text }, async function (
     error,
     tweet,
-    response
+    _response
   ) {
     if (error) {
       console.error("Error posting tweet:", twuid, error);
-      return res.status(500).json({ err: "Error posting tweet." });
+      throw "Error posting tweet.";
     }
+
+    // * Update the tweet type to published and set the tweet_id
+    await query(
+      escape`UPDATE tweets
+      SET type="published", tweet_id=${tweet.id} 
+      WHERE twuid=${twuid}`
+    );
+
+    console.log("Published tweet created for:", tuid);
+    res.status(200).json(text);
   });
-
-  // * Update the tweet type to published
-  await query(escape`UPDATE tweets SET type="published" WHERE twuid=${twuid}`);
-
-  console.log("Published tweet created for:", tuid);
-  res.status(200).json(text);
 };
 
 export default verify(withSentry(createPublishedTweet));

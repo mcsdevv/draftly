@@ -20,6 +20,8 @@ const teamDelete = async (_req, res, _uid, tuid) => {
 
   // TODO Delete tweets approvals
 
+  // TODO Put in singular query: https://stackoverflow.com/questions/23266854/node-mysql-multiple-statements-in-one-query
+
   console.log("Deleted team:", tuid);
   res.status(200).send(tuid);
 };
