@@ -19,7 +19,7 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
     access_token_secret: keysQuery.token_secret,
   });
 
-  // * Post tweet
+  // * Get tweet details including basic metrics
   twitterClient.get("statuses/show", { id: tweet_id }, async function (
     error,
     tweet,
@@ -30,25 +30,43 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
       throw "Error getting metrics for tweet.";
     }
 
-    console.log("TWEET", tweet);
+    // * Get all tweet mentions for the account (limit of 800 since status posted)
+    twitterClient.get(
+      "statuses/mentions_timeline",
+      { since_id: tweet_id, trim_user: true },
+      async function (error, mentions, _response) {
+        if (error) {
+          console.error("Error getting replies for tweet:", twuid, error);
+          throw "Error getting replies for tweet.";
+        }
 
-    const updated_at = new Date("YYYY-MM-DD HH:mm:ss UTC");
+        // * Filter the mentions for the relevant tweet only
+        const filteredMentions = mentions.filter(
+          (m) => m.in_reply_to_status_id_str === tweet_id
+        );
 
-    // * Update the metrics for the row
-    await query(
-      escape`UPDATE tweets
-      SET favorites=${tweet.favorite_count}, retweets=${tweet.retweet_count}, metrics_updated_at=CURRENT_TIMESTAMP
-      WHERE twuid=${twuid}`
+        // * Number of replies is the filtered mentions length
+        const replies = filteredMentions.length;
+
+        // * Update the metrics for the row
+        await query(
+          escape`UPDATE tweets
+          SET favorites=${tweet.favorite_count}, replies=${replies},
+          retweets=${tweet.retweet_count},  metrics_updated_at=CURRENT_TIMESTAMP
+          WHERE twuid=${twuid}`
+        );
+
+        const metrics = {
+          favorites: tweet.favorite_count,
+          replies,
+          retweets: tweet.retweet_count,
+          metrics_updated_at: Date.now(),
+        };
+
+        console.log("Retrieved metrics for tweet:", twuid);
+        res.status(200).json(metrics);
+      }
     );
-
-    const metrics = {
-      favorites: tweet.favorite_count,
-      retweets: tweet.retweet_count,
-      metrics_updated_at: Date.now(),
-    };
-
-    console.log("Retrieved metrics for tweet:", twuid);
-    res.status(200).json(metrics);
   });
 };
 
