@@ -49,7 +49,11 @@ const PublishedTweet = () => {
     <Card sx={{ height: "fit-content", width: "100%" }}>
       <Flex sx={{ height: "fit-content", width: "100%" }}>
         <Tweet metadata={tweet.metadata} scope={scope} text={tweet.text}>
-          <Metrics handleDelete={handleDelete} twuid={twuid.toString()} />
+          <Metrics
+            handleDelete={handleDelete}
+            tweet={tweet}
+            twuid={twuid.toString()}
+          />
         </Tweet>
         <Comments />
       </Flex>

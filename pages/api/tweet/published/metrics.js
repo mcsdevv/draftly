@@ -3,8 +3,8 @@ import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
 import { escape, query } from "@lib/api/db";
 
-const createPublishedTweet = async (req, res, uid, tuid) => {
-  const { text, twuid } = JSON.parse(req.body);
+const getTweetMetrics = async (req, res, _uid, tuid) => {
+  const { tweet_id, twuid } = JSON.parse(req.body);
 
   // * Get keys to post tweet
   const [keysQuery] = await query(
@@ -20,26 +20,30 @@ const createPublishedTweet = async (req, res, uid, tuid) => {
   });
 
   // * Post tweet
-  twitterClient.post("statuses/update", { status: text }, async function (
+  twitterClient.get("statuses/show", { id: tweet_id }, async function (
     error,
     tweet,
     _response
   ) {
     if (error) {
-      console.error("Error posting tweet:", twuid, error);
-      throw "Error posting tweet.";
+      console.error("Error getting metrics for tweet:", twuid, error);
+      throw "Error getting metrics for tweet.";
     }
 
-    // * Update the tweet type to published and set the tweet_id
+    console.log("TWEET", tweet);
+
+    const updated_at = new Date("YYYY-MM-DD HH:mm:ss UTC");
+
+    // * Update the metrics for the row
     await query(
       escape`UPDATE tweets
-      SET type="published", tweet_id=${tweet.id} 
+      SET favorites=${tweet.favorite_count}, retweets=${tweet.retweet_count}, metrics_updated_at=CURRENT_TIMESTAMP
       WHERE twuid=${twuid}`
     );
 
-    console.log("Published tweet created for:", tuid);
-    res.status(200).json(text);
+    console.log("Retrieved metrics for tweet:", twuid);
+    res.status(200).json(tweet);
   });
 };
 
-export default verify(withSentry(createPublishedTweet));
+export default verify(withSentry(getTweetMetrics));

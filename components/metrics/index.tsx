@@ -16,10 +16,11 @@ import {
 
 interface MetricsProps {
   handleDelete: () => void;
+  tweet: any;
   twuid: string;
 }
 
-const Metrics = ({ handleDelete, twuid }: MetricsProps) => {
+const Metrics = ({ handleDelete, tweet, twuid }: MetricsProps) => {
   const [likes, setLikes] = useState(0);
   const [replies, setReplies] = useState(0);
   const [retweets, setRetweets] = useState(0);
@@ -28,8 +29,15 @@ const Metrics = ({ handleDelete, twuid }: MetricsProps) => {
     getMetrics();
   }, []);
 
-  const getMetrics = () => {
+  const getMetrics = async () => {
     console.log("getting metrics", twuid);
+    const url = "/api/tweet/published/metrics";
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ tweet_id: tweet.tweet_id, twuid }),
+    });
+    const resJson = await res.json();
+    console.log("METRICS", resJson);
     // * Get likes and retweets
     // * Set likes and retweets
     setLikes(likes);

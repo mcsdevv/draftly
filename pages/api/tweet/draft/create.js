@@ -22,6 +22,10 @@ const createDraftTweet = async (req, res, uid, tuid) => {
     text: tweet,
     title,
     created_by: uid,
+    favorites: 0,
+    replies: 0,
+    retweets: 0,
+    tweet_id: "",
   };
 
   // * Insert draft
