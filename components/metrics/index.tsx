@@ -1,5 +1,5 @@
 // * Libraries
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // * Modulz
 import {
@@ -15,16 +15,22 @@ import {
 } from "@modulz/radix";
 
 interface MetricsProps {
+  drafts: any;
   handleDelete: () => void;
+  published: any;
+  setTweets: (...args: any) => void;
   tweet: any;
   twuid: string;
 }
 
-const Metrics = ({ handleDelete, tweet, twuid }: MetricsProps) => {
-  const [likes, setLikes] = useState(0);
-  const [replies, setReplies] = useState(0);
-  const [retweets, setRetweets] = useState(0);
-
+const Metrics = ({
+  drafts,
+  handleDelete,
+  published,
+  setTweets,
+  tweet,
+  twuid,
+}: MetricsProps) => {
   useEffect(() => {
     getMetrics();
   }, []);
@@ -36,13 +42,16 @@ const Metrics = ({ handleDelete, tweet, twuid }: MetricsProps) => {
       method: "POST",
       body: JSON.stringify({ tweet_id: tweet.tweet_id, twuid }),
     });
-    const resJson = await res.json();
-    console.log("METRICS", resJson);
-    // * Get likes and retweets
-    // * Set likes and retweets
-    setLikes(likes);
-    setReplies(replies);
-    setRetweets(retweets);
+    if (res.status === 200) {
+      const resJson = await res.json();
+      const updatedPublished = published.map((p: any) => {
+        if (p.twuid === twuid) {
+          return { ...p, ...resJson };
+        }
+        return p;
+      });
+      setTweets({ drafts, published: updatedPublished });
+    }
   };
 
   return (
@@ -74,8 +83,8 @@ const Metrics = ({ handleDelete, tweet, twuid }: MetricsProps) => {
           mr={4}
           sx={{ flexDirection: "column", textAlign: "center", width: "120px" }}
         >
-          <Text mb={4}>{likes}</Text>
-          <Text>{retweets}</Text>
+          <Text mb={4}>{tweet.favorites}</Text>
+          <Text>{tweet.retweets}</Text>
         </Flex>
         <Flex sx={{ flexDirection: "column" }}>
           <Button

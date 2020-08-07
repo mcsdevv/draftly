@@ -41,8 +41,14 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
       WHERE twuid=${twuid}`
     );
 
+    const metrics = {
+      favorites: tweet.favorite_count,
+      retweets: tweet.retweet_count,
+      metrics_updated_at: Date.now(),
+    };
+
     console.log("Retrieved metrics for tweet:", twuid);
-    res.status(200).json(tweet);
+    res.status(200).json(metrics);
   });
 };
 

@@ -50,7 +50,10 @@ const PublishedTweet = () => {
       <Flex sx={{ height: "fit-content", width: "100%" }}>
         <Tweet metadata={tweet.metadata} scope={scope} text={tweet.text}>
           <Metrics
+            drafts={drafts}
             handleDelete={handleDelete}
+            published={published}
+            setTweets={setTweets}
             tweet={tweet}
             twuid={twuid.toString()}
           />
