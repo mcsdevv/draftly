@@ -1,4 +1,5 @@
 // * Libraries
+import ago from "s-ago";
 import { useEffect } from "react";
 
 // * Modulz
@@ -31,10 +32,12 @@ const Metrics = ({
   tweet,
   twuid,
 }: MetricsProps) => {
+  // * Update metrics on page load, serve stale until then
   useEffect(() => {
     getMetrics();
   }, []);
 
+  // * Gets metrics for the specified tweet and mutates SWR
   const getMetrics = async () => {
     console.log("getting metrics", twuid);
     const url = "/api/tweet/published/metrics";
@@ -74,17 +77,28 @@ const Metrics = ({
           </Select>
         </Flex>
         <Flex mr={4} sx={{ flexDirection: "column", width: "120px" }}>
-          <Subheading mb={5} size={0}>
-            Favorites
-          </Subheading>
-          <Subheading size={0}>Retweets</Subheading>
+          <Flex mb={5} sx={{ justifyContent: "space-between" }}>
+            <Subheading size={0}>Favorites</Subheading>
+            <Subheading size={0}>{tweet.favorites}</Subheading>
+          </Flex>
+          <Flex sx={{ justifyContent: "space-between" }}>
+            <Subheading size={0}>Retweets</Subheading>
+            <Subheading size={0}>{tweet.retweets}</Subheading>
+          </Flex>
         </Flex>
         <Flex
           mr={4}
           sx={{ flexDirection: "column", textAlign: "center", width: "120px" }}
         >
-          <Text mb={4}>{tweet.favorites}</Text>
-          <Text>{tweet.retweets}</Text>
+          <Flex mb={5} sx={{ justifyContent: "space-between" }}>
+            <Subheading size={0}>Replies</Subheading>
+            <Subheading size={0}>{tweet.replies}</Subheading>
+          </Flex>
+          <Flex sx={{ justifyContent: "space-between" }}>
+            <Subheading size={0}>
+              {ago(new Date(tweet.metrics_updated_at))}
+            </Subheading>
+          </Flex>
         </Flex>
         <Flex sx={{ flexDirection: "column" }}>
           <Button
