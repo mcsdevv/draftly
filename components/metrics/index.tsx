@@ -12,7 +12,6 @@ import {
   Option,
   Select,
   Subheading,
-  Text,
 } from "@modulz/radix";
 
 interface MetricsProps {
