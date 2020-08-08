@@ -15,7 +15,7 @@ import {
 } from "@modulz/radix";
 
 export default function ChangeUserName() {
-  const { setUser, user } = useUser();
+  const { setUser, teams, user } = useUser();
   const [name, setName] = useState(user?.name);
 
   // * Updates the value for the new name
@@ -33,7 +33,7 @@ export default function ChangeUserName() {
       }),
     });
     if (res.status === 200) {
-      setUser({ ...user, name });
+      setUser({ teams, user: { ...user, name } });
     }
   };
 
