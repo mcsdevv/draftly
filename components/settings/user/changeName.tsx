@@ -17,9 +17,13 @@ import {
 export default function ChangeUserName() {
   const { setUser, user } = useUser();
   const [name, setName] = useState(user?.name);
+
+  // * Updates the value for the new name
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value);
   };
+
+  // * Confirms the change with the API
   const handleOnSubmitName = async () => {
     const url = "/api/user/update/name";
     const res = await fetch(url, {
@@ -29,9 +33,10 @@ export default function ChangeUserName() {
       }),
     });
     if (res.status === 200) {
-      setUser({ user: { ...user, name } });
+      setUser({ ...user, name });
     }
   };
+
   return (
     <Container mb={4} size={1}>
       <Subheading mb={2}>Change Display Name</Subheading>
