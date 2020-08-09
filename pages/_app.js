@@ -2,7 +2,6 @@
 import Head from "next/head";
 import * as Sentry from "@sentry/node";
 import { RadixProvider } from "@modulz/radix";
-import { SWRConfig } from "swr";
 
 // * Components
 import MarketingLayout from "@components/layouts/marketing";
@@ -33,15 +32,9 @@ const App = ({ Component, pageProps, err }) => {
           content="Draft, review, approve, and publish tweets."
         />
       </Head>
-      <SWRConfig
-        value={{
-          fetcher: (...args) => fetch(...args).then((res) => res.json()),
-        }}
-      >
-        <RadixProvider>
-          {getLayout(<Component {...pageProps} err={err} />)}
-        </RadixProvider>
-      </SWRConfig>
+      <RadixProvider>
+        {getLayout(<Component {...pageProps} err={err} />)}
+      </RadixProvider>
     </>
   );
 };
