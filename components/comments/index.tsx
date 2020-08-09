@@ -2,6 +2,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
+// * Helpers
+import fetcher from "@lib/client/fetcher";
+
 // * Hooks
 import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
@@ -36,7 +39,7 @@ export default function Comments() {
   // * Delete a comment
   const handleDeleteComment = async (tcuid: string) => {
     const url = "/api/tweet/comment/delete";
-    const res = await fetch(url, {
+    const res = await fetcher(url, {
       method: "DELETE",
       body: JSON.stringify({
         tcuid,
