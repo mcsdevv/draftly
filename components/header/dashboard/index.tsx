@@ -13,22 +13,14 @@ import Scope from "../../scope";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(!!Cookies.get("id_token"));
-  const [loggingIn, setLoggingdIn] = useState(false);
+  const [loggingIn, setLoggingIn] = useState(false);
   const { scope } = useScope();
   const handle = scope?.handle;
   const router = useRouter();
 
-  // * Updated logged in state
-  // useEffect(() => {
-  //   function getLoggedIn() {
-  //     if (!!Cookies.get("id_token")) setLoggedIn(true);
-  //   }
-  //   getLoggedIn();
-  // }, [loggedIn]);
-
   // * Send user to login
   const loginUser = () => {
-    setLoggingdIn(true);
+    setLoggingIn(true);
     window.location.href = "/api/auth/login";
   };
 
