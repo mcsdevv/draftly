@@ -65,13 +65,13 @@ export default function Comments() {
   // * Add a comment
   const handleSubmitComment = async () => {
     const url = "/api/tweet/comment/create";
-    const res = await fetch(url, {
+    const res = await fetcher(url, {
       method: "POST",
       body: JSON.stringify({ comment, twuid }),
     });
     setComment("");
     if (res.status === 200) {
-      const publishedComment = await res.json();
+      const publishedComment = res.data;
       console.log("PUBLISHED", publishedComment);
       console.log("COMMENTS", drafts[0].comments);
       const newDrafts = drafts.map((r: any) => {
@@ -81,13 +81,10 @@ export default function Comments() {
         return r;
       });
       console.log("NEW COMMENTS", newDrafts[0].comments);
-      console.log("DRAFTS", drafts);
-      console.log("NEW DRAFTS", newDrafts);
-      console.log("PUBLISHED", published);
-      setTweets({
-        drafts: newDrafts,
-        published,
-      });
+      // setTweets({
+      //   drafts: newDrafts,
+      //   published,
+      // });
     }
   };
 
