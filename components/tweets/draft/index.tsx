@@ -31,7 +31,6 @@ const DraftTweet = () => {
   // * Get tweet from list of tweets using twuid
   const tweet = drafts?.find((d: any) => d.twuid === twuid);
 
-  // ! USE MEMO
   const disableApprove = useMemo(() => {
     return (
       tweet?.created_by === scope?.uid ||

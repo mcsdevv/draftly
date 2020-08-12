@@ -30,8 +30,7 @@ const createDraftTweet = async (req, res, uid, tuid) => {
 
   // * Insert draft
   const draftQuery = sqlInsert.into("tweets").set(draft).build();
-  const derps = await query(draftQuery);
-  console.log("DERPS", derps);
+  await query(draftQuery);
 
   // * Format meta insert query
   const twmuid = uuidv4();

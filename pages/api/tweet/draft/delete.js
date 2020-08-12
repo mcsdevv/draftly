@@ -5,11 +5,9 @@ import { escape, query } from "@lib/api/db";
 const deleteDraftTweet = async (req, res) => {
   const { twuid } = JSON.parse(req.body);
 
-  // * Delete draft tweet
-  await query(escape`DELETE FROM tweets WHERE twuid = ${twuid}`);
-
-  // * Delete draft tweet meta
-  await query(escape`DELETE FROM tweets_meta WHERE twuid = ${twuid}`);
+  // * Delete draft tweet and meta
+  await query(escape`DELETE FROM tweets WHERE twuid = ${twuid};
+              DELETE FROM tweets_meta WHERE twuid = ${twuid}`);
 
   console.log("Deleted tweet:", twuid);
   res.status(200).json(twuid);
