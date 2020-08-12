@@ -70,12 +70,12 @@ export default function Comments() {
     };
     const url = "/api/tweet/comment/create";
     setComment("");
-    const res = await fetch(url, {
+    const res = await fetcher(url, {
       method: "POST",
       body: JSON.stringify({ comment: commentObject, twuid }),
     });
     if (res.status === 200) {
-      const publishedComment = await res.json();
+      const publishedComment = res.data;
       const newDrafts = drafts.map((r: any) => {
         if (r.twuid === twuid) {
           return { ...r, comments: [publishedComment, ...r.comments] };

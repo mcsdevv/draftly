@@ -13,5 +13,5 @@ export default function useUser() {
     fetcher
   );
 
-  return { ...data, revalidateProfile: revalidate, setUser };
+  return { ...data?.data, revalidateProfile: revalidate, setUser };
 }
