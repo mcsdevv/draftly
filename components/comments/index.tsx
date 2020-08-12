@@ -39,7 +39,7 @@ export default function Comments() {
   // * Delete a comment
   const handleDeleteComment = async (tcuid: string) => {
     const url = "/api/tweet/comment/delete";
-    const res = await fetcher(url, {
+    const res = await fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
         tcuid,
@@ -65,13 +65,13 @@ export default function Comments() {
   // * Add a comment
   const handleSubmitComment = async () => {
     const url = "/api/tweet/comment/create";
-    const res = await fetcher(url, {
+    const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({ comment, twuid }),
     });
     setComment("");
     if (res.status === 200) {
-      const publishedComment = res.data;
+      const publishedComment = await res.json();
       console.log("PUBLISHED", publishedComment);
       console.log("COMMENTS", drafts[0].comments);
       const newDrafts = drafts.map((r: any) => {

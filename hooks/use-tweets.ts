@@ -16,5 +16,5 @@ export default function useTweets() {
     fetcher
   );
 
-  return { ...data?.data, revalidateTweets, setTweets };
+  return { ...data, revalidateTweets, setTweets };
 }
