@@ -82,6 +82,7 @@ export default function Comments() {
       });
       console.log("NEW COMMENTS", newDrafts[0].comments);
       console.log("DRAFTS", drafts);
+      console.log("NEW DRAFTS", newDrafts);
       console.log("PUBLISHED", published);
       setTweets({
         drafts: newDrafts,
