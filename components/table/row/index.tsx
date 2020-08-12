@@ -36,16 +36,16 @@ const Table = ({ handleOnDelete, row, twuid, type }: RowProps) => {
         </Td>
       ))}
       <Td>
-        <IconButton sx={{ cursor: "pointer" }}>
-          <Link
-            as={`/${handle}/tweets/${type}/${twuid}`}
-            href={`/[handle]/tweets/${type}/[twuid]`}
-          >
+        <Link
+          as={`/${handle}/tweets/${type}/${twuid}`}
+          href={`/[handle]/tweets/${type}/[twuid]`}
+        >
+          <IconButton sx={{ cursor: "pointer" }}>
             <a style={{ color: "#16171b", textDecoration: "none" }}>
               <ArrowRightIcon />
             </a>
-          </Link>
-        </IconButton>
+          </IconButton>
+        </Link>
       </Td>
       <Td>
         <IconButton
