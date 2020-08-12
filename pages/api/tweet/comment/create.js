@@ -1,32 +1,24 @@
 import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
-import { query } from "@lib/api/db";
+import { escape, query } from "@lib/api/db";
 import uuidv4 from "uuid/v4";
-const sql = require("sql-query");
-const sqlQuery = sql.Query();
 
 const createTweetComment = async (req, res, uid) => {
   const { comment, twuid } = JSON.parse(req.body);
-  const sqlInsert = sqlQuery.insert();
+
   const tcuid = uuidv4();
 
-  // * Format comment object
-  const commentObject = {
-    added_by: uid,
-    ...comment,
-    tcuid,
-    twuid,
-  };
-
   // * Insert comment
-  const commentQuery = sqlInsert
-    .into("tweets_comments")
-    .set({ ...commentObject })
-    .build();
-  await query(commentQuery);
+  const commentInserted = await query(
+    escape`INSERT INTO tweets_comments (added_by, comment, tcuid, twuid)
+    VALUES (${uid}, ${comment}, ${tcuid}, ${twuid});
+    SELECT * FROM tweets_comments WHERE tcuid=${tcuid}`
+  );
 
-  console.log("Added comment to:", comment.twuid);
-  res.status(200).json({ ...commentObject });
+  console.log("COMMMMENT", { ...commentInserted[1] });
+
+  console.log("Added comment to:", twuid);
+  res.status(200).json(...commentInserted[1]);
 };
 
 export default verify(withSentry(createTweetComment));

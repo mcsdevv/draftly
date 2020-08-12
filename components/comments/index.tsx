@@ -64,18 +64,16 @@ export default function Comments() {
 
   // * Add a comment
   const handleSubmitComment = async () => {
-    const commentObject = {
-      comment,
-      twuid,
-    };
     const url = "/api/tweet/comment/create";
     setComment("");
     const res = await fetcher(url, {
       method: "POST",
-      body: JSON.stringify({ comment: commentObject, twuid }),
+      body: JSON.stringify({ comment, twuid }),
     });
     if (res.status === 200) {
       const publishedComment = res.data;
+      console.log("PUBLISHED", publishedComment);
+      console.log("COMMENTS", drafts[0].comments);
       const newDrafts = drafts.map((r: any) => {
         if (r.twuid === twuid) {
           return { ...r, comments: [publishedComment, ...r.comments] };
