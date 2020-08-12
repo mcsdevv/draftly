@@ -2,13 +2,10 @@ import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
 import { escape, query } from "@lib/api/db";
 import uuidv4 from "uuid/v4";
-const sql = require("sql-query");
-const sqlQuery = sql.Query();
 
 const approveDraftTweet = async (req, res, uid) => {
   const { twuid } = JSON.parse(req.body);
   const tauid = uuidv4();
-  const sqlInsert = sqlQuery.insert();
 
   // * Get the list of tweet approvals
   const approvalsQuery = await query(
@@ -22,22 +19,14 @@ const approveDraftTweet = async (req, res, uid) => {
     return res.status(403).send("User has already approved tweet.");
   }
 
-  // * Create approval object
-  const approval = {
-    tauid,
-    twuid,
-    uid,
-  };
-
   // * Insert approval
-  const approvalQuery = sqlInsert
-    .into("tweets_approvals")
-    .set(approval)
-    .build();
-  await query(approvalQuery);
+  await query(
+    escape`INSERT INTO tweets_approvals (tauid, twuid, uid)
+    VALUES (${tauid}, ${twuid}, ${uid})`
+  );
 
   console.log("Approved tweet:", twuid);
-  res.status(200).json(approval);
+  res.status(200).json({ tauid, twuid, uid });
 };
 
 export default verify(withSentry(approveDraftTweet));

@@ -1,5 +1,5 @@
 // * Libraries
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
@@ -30,6 +30,14 @@ const DraftTweet = () => {
 
   // * Get tweet from list of tweets using twuid
   const tweet = drafts?.find((d: any) => d.twuid === twuid);
+
+  // ! USE MEMO
+  const disableApprove = useMemo(() => {
+    return (
+      tweet?.created_by === scope?.uid ||
+      tweet?.approvals.find((a: any) => a.uid === scope?.uid)
+    );
+  }, [scope, tweet]);
 
   const handleApprove = async () => {
     const url = "/api/tweet/draft/approve";
@@ -154,7 +162,7 @@ const DraftTweet = () => {
         >
           <Controls
             editing={editing}
-            disableApprove={tweet?.created_by === scope.uid}
+            disableApprove={disableApprove}
             handleApprove={handleApprove}
             handleCancelEdit={handleCancelEdit}
             handleDelete={handleDelete}

@@ -15,8 +15,6 @@ const createTweetComment = async (req, res, uid) => {
     SELECT * FROM tweets_comments WHERE tcuid=${tcuid}`
   );
 
-  console.log("COMMMMENT", { ...commentInserted[1] });
-
   console.log("Added comment to:", twuid);
   res.status(200).json(...commentInserted[1]);
 };
