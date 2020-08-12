@@ -31,6 +31,29 @@ const DraftTweet = () => {
   // * Get tweet from list of tweets using twuid
   const tweet = drafts?.find((d: any) => d.twuid === twuid);
 
+  const handleApprove = async () => {
+    const url = "/api/tweet/draft/approve";
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        twuid,
+      }),
+    });
+    if (res.status === 200) {
+      const approval = await res.json();
+      const approvedDrafts = drafts.map((d: any) => {
+        if (d.twuid === tweet.twuid) {
+          return { ...d, approvals: [approval, ...d.approvals] };
+        }
+        return d;
+      });
+      setTweets({
+        drafts: approvedDrafts,
+        published,
+      });
+    }
+  };
+
   const handleCancelEdit = () => {
     setEditing(false);
   };
@@ -131,6 +154,8 @@ const DraftTweet = () => {
         >
           <Controls
             editing={editing}
+            disableApprove={tweet?.created_by === scope.uid}
+            handleApprove={handleApprove}
             handleCancelEdit={handleCancelEdit}
             handleDelete={handleDelete}
             handleEdit={handleEdit}

@@ -16,7 +16,7 @@ const approveDraftTweet = async (req, res, uid) => {
       WHERE twuid = ${twuid}`
   );
 
-  // *If already approved by user, return error
+  // * If already approved by user, return error
   if (approvalsQuery.find((a) => a.uid === uid)) {
     console.log("User has already approved tweet.");
     return res.status(403).send("User has already approved tweet.");
