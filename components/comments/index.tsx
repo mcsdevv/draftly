@@ -124,6 +124,7 @@ export default function Comments() {
       <Flex sx={{ marginTop: "auto" }} mt={4}>
         <Input onChange={handleOnChange} size={1} value={comment} />
         <Button
+          sx={{ cursor: "pointer" }}
           disabled={comment === ""}
           ml={2}
           onClick={handleSubmitComment}

@@ -56,7 +56,7 @@ const Comment = ({
       >
         {addedBy} - {ago(new Date(addedAt))}
       </Text>
-      <IconButton onClick={handleDeleteComment}>
+      <IconButton sx={{ cursor: "pointer" }} onClick={handleDeleteComment}>
         <TrashIcon type="twoTone" />
       </IconButton>
     </Flex>

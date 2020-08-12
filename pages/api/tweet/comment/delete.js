@@ -9,7 +9,7 @@ const deleteComment = async (req, res) => {
   await query(escape`DELETE FROM tweets_comments WHERE tcuid = ${tcuid}`);
 
   console.log("Deleted comment:", tcuid);
-  res.status(200).json(tcuid);
+  res.status(200).json({ tcuid });
 };
 
 export default verify(withSentry(deleteComment));
