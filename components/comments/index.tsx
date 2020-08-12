@@ -81,6 +81,8 @@ export default function Comments() {
         return r;
       });
       console.log("NEW COMMENTS", newDrafts[0].comments);
+      console.log("DRAFTS", drafts);
+      console.log("PUBLISHED", published);
       setTweets({
         drafts: newDrafts,
         published,
