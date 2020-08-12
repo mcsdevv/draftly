@@ -2,9 +2,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-// * Helpers
-import fetcher from "@lib/client/fetcher";
-
 // * Hooks
 import useScope from "@hooks/use-scope";
 import useTweets from "@hooks/use-tweets";
