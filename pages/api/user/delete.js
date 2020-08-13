@@ -18,8 +18,8 @@ const deleteUser = async (req, res, uid) => {
   const deleteTeams = async () => {
     await Promise.all(
       teamsToDelete.forEach((t) => {
-        query(escape`DELETE FROM teams WHERE tuid = ${t.tuid}`);
-        query(escape`DELETE FROM teams_members WHERE tuid = ${t.tuid}`);
+        query(escape`DELETE FROM teams WHERE tuid = ${t.tuid};
+            DELETE FROM teams_members WHERE tuid = ${t.tuid}`);
       })
     );
   };
