@@ -1,12 +1,10 @@
 // * Components
-import DashboardLayout from "@components/layouts/dashboard";
+import MarketingLayout from "@components/layouts/marketing";
 
 const Landing = () => <h1>Draft & Publish</h1>;
 
 Landing.getLayout = (page: React.ReactNode) => (
-  <DashboardLayout name="Landing">{page}</DashboardLayout>
+  <MarketingLayout name="Landing">{page}</MarketingLayout>
 );
 
 export default Landing;
-
-// TODO Change to marketing layout
