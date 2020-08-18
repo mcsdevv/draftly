@@ -22,7 +22,6 @@ const App = ({ Component, pageProps, err }) => {
   const getLayout =
     Component.getLayout || ((page) => <MarketingLayout children={page} />);
 
-  // * Set default fetcher for SWR to return JSON
   return (
     <>
       <Head>

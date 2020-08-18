@@ -1,12 +1,12 @@
 // * Components
-import MarketingLayout from "@components/layouts/marketing";
+// import MarketingLayout from "@components/layouts/marketing";
 
 function Landing() {
   return <h1>Draft & Publish</h1>;
 }
 
-Landing.getLayout = (page: React.ReactNode) => (
-  <MarketingLayout name="Landing">{page}</MarketingLayout>
-);
+// Landing.getLayout = (page: React.ReactNode) => (
+//   <MarketingLayout name="Landing">{page}</MarketingLayout>
+// );
 
 export default Landing;
