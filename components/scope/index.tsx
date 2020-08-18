@@ -11,7 +11,7 @@ import useUser from "@hooks/use-user";
 import { Option, Select } from "@modulz/radix";
 
 // * Components
-import Link from "../link";
+import Link from "@components/link";
 
 const Scope = () => {
   const { scope, updateScope } = useScope();

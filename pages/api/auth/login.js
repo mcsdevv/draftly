@@ -1,5 +1,5 @@
 import cookie from "cookie";
-import uuidv4 from "uuid/v4";
+import { v4 as uuidv4 } from "uuid/v4";
 import cookieOptions from "@lib/api/cookie/options";
 import withSentry from "@lib/api/middleware/withSentry";
 

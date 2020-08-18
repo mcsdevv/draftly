@@ -1,7 +1,7 @@
 import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
 import { query } from "@lib/api/db";
-import uuidv4 from "uuid/v4";
+import { v4 as uuidv4 } from "uuid/v4";
 const sql = require("sql-query");
 const sqlQuery = sql.Query();
 

@@ -1,7 +1,7 @@
+import { v4 as uuidv4 } from "uuid/v4";
 import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
 import { escape, query } from "@lib/api/db";
-import uuidv4 from "uuid/v4";
 
 const createTweetComment = async (req, res, uid) => {
   const { comment, twuid } = JSON.parse(req.body);
