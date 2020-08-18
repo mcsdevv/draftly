@@ -1,6 +1,5 @@
 // * Libraries
 import { useState } from "react";
-import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
 // * Hooks
@@ -8,15 +7,15 @@ import useScope from "@hooks/use-scope";
 
 // * Components
 import { Button, Flex } from "@modulz/radix";
-import Link from "../../link";
-import Scope from "../../scope";
+import Link from "@components/link";
+import Scope from "@components/scope";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = useState(!!Cookies.get("id_token"));
   const [loggingIn, setLoggingIn] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const { scope } = useScope();
   const handle = scope?.handle;
-  const router = useRouter();
 
   // * Send user to login
   const loginUser = () => {
@@ -26,13 +25,19 @@ const Header = () => {
 
   // * End session with Auth0, remove cookies and redirect to marketing page
   const logoutUser = async () => {
-    fetch("/api/auth/logout");
+    // * Show logging out state for button
+    setLoggingOut(true);
+
+    // * Call logout endpoint to null the access_token
+    await fetch("/api/auth/logout");
+    window.location.href =
+      "https://draftly.us.auth0.com/v2/logout?client_id=fcNtB0elG5z9va07wrFlfzbG6DHDZ51T&returnTo=http://localhost:3000";
+
+    // * Remove other cookies related to user session
     Cookies.remove("id_token");
-    Cookies.remove("access_token");
     Cookies.remove("user_id");
     Cookies.remove("next");
     setLoggedIn(false);
-    router.push("/");
   };
 
   return (
@@ -69,7 +74,7 @@ const Header = () => {
         )}
         <Button
           sx={{ cursor: "pointer", width: "96px" }}
-          isWaiting={loggingIn}
+          isWaiting={loggingIn || loggingOut}
           onClick={loggedIn ? logoutUser : loginUser}
           ml={loggedIn ? 4 : "auto"}
           size={0}
