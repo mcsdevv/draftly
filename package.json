@@ -8,10 +8,10 @@
   "dependencies": {
     "@modulz/radix": "^0.0.1-beta.43",
     "@modulz/radix-icons": "^2.4.0",
-    "@sendgrid/mail": "^7.1.0",
+    "@sendgrid/mail": "^7.2.3",
     "@sentry/browser": "^5.20.1",
     "@sentry/node": "^5.20.1",
-    "@sentry/webpack-plugin": "^1.12.0",
+    "@sentry/webpack-plugin": "^1.12.1",
     "@types/classnames": "^2.2.10",
     "@types/js-cookie": "^2.2.6",
     "@types/react-linkify": "^1.0.0",
@@ -25,7 +25,7 @@
     "is-url": "^1.2.4",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
-    "next": "^9.5.1",
+    "next": "^9.5.2",
     "oauth": "^0.9.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -46,7 +46,7 @@
     "node": "10.x"
   },
   "devDependencies": {
-    "@types/react": "^16.9.35",
+    "@types/react": "^16.9.46",
     "typescript": "^3.8.3"
   }
 }
