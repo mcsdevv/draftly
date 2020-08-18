@@ -1,7 +1,7 @@
 import oauth from "@lib/api/oauth";
 
 import { escape, query } from "@lib/api/db";
-import { v4 as uuidv4 } from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
 import createInviteCode from "@lib/api/createInviteCode";
 import withSentry from "@lib/api/middleware/withSentry";
 import { decrypt } from "@lib/api/token/encryption";

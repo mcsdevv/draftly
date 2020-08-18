@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
 import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
 import { escape, query } from "@lib/api/db";

@@ -2,7 +2,7 @@ import cookie from "cookie";
 import jwt from "jsonwebtoken";
 import cookieOptions from "@lib/api/cookie/options";
 import withSentry from "@lib/api/middleware/withSentry";
-import { v4 as uuidv4 } from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
 import { encrypt } from "@lib/api/token/encryption";
 import { escape, query } from "@lib/api/db";
 
