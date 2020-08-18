@@ -31,7 +31,6 @@ const Header = () => {
     // * Call logout endpoint to null the access_token
     await fetch("/api/auth/logout");
 
-    // TODO Create a /logout page to handle cookie removals
     // * Redirect to Auth0 and return to landing page
     window.location.href = `https://draftly.us.auth0.com/v2/logout?returnTo=${window.location.origin}`;
 
