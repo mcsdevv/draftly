@@ -4,7 +4,7 @@ import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
 
 const sendInvite = async (req, res) => {
-  const { code, ref, team, to } = JSON.parse(req.body);
+  const { code, team, to, tuid } = JSON.parse(req.body);
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
   // * Compose message
@@ -13,7 +13,7 @@ const sendInvite = async (req, res) => {
     from: "invites@draftly.app",
     subject: `Join the ${team} team on Draftly`,
     text: `Hello, click this button to join the ${team} team!`,
-    html: `<strong>Hello, click this button to join the ${team} team! <br/> </strong><a href=${process.env.AUTH0_REDIRECT_URI}/api/team/invite/accept?team=${team}&code=${code}&ref=${ref}>Join</a>`,
+    html: `<strong>Hello, click this button to join the ${team} team! <br/> </strong><a href=${process.env.AUTH0_REDIRECT_URI}/api/team/invite/accept?team=${team}&code=${code}&tuid=${tuid}>Join</a>`,
   };
 
   // * Send message

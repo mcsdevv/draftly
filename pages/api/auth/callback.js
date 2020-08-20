@@ -7,6 +7,7 @@ import { encrypt } from "@lib/api/token/encryption";
 import { escape, query } from "@lib/api/db";
 
 const authCallback = async (req, res) => {
+  console.log("COOKIES", req.cookies);
   // * Confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
     // * Send request for token exchange
@@ -56,7 +57,7 @@ const authCallback = async (req, res) => {
 
         // * If handling callback from a user being invited to a team
         if (req.cookies.invited_to) {
-          const { invited_to, uid } = req.cookies;
+          const { invited_to } = req.cookies;
 
           // * Get the team associated with invite
           const membersQuery = await query(
@@ -70,8 +71,8 @@ const authCallback = async (req, res) => {
 
           // * If user is not a member of the team, add them to the team
           if (!isMember) {
-            await query(
-              escape`INSERT INTO team_members (uid, tuid, role)
+            const addMember = await query(
+              escape`INSERT INTO teams_members (uid, tuid, role)
               VALUES (${uid}, ${invited_to}, 'member')`
             );
           }

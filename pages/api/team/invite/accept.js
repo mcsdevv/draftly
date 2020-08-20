@@ -4,9 +4,9 @@ import { escape, query } from "@lib/api/db";
 import createInviteCode from "@lib/api/createInviteCode";
 import withSentry from "@lib/api/middleware/withSentry";
 
-const acceptInvite = async (req, res) => {
-  const { id_token, uid } = req.cookies;
-  const { code, ref, team } = req.query;
+const acceptInvite = async (req, res, uid) => {
+  const { id_token } = req.cookies;
+  const { code, team, tuid } = req.query;
 
   // * Differing action if user exists and is logged in
   if (id_token && uid) {
@@ -17,7 +17,7 @@ const acceptInvite = async (req, res) => {
     const membersQuery = await query(
       escape`SELECT * FROM teams_members
         LEFT JOIN users ON users.uid = teams_members.uid
-        WHERE tuid = ${team}`
+        WHERE tuid = ${tuid}`
     );
 
     // * Confirm the user is not a member of the team else return error
@@ -32,10 +32,11 @@ const acceptInvite = async (req, res) => {
     }
 
     // * Add to team as a member
-    await query(
-      escape`INSERT INTO team_members (uid, tuid, role)
+    const insert = await query(
+      escape`INSERT INTO teams_members (uid, tuid, role)
         VALUES (${uid}, ${team}, 'member')`
     );
+    console.log("INSERT", insert);
 
     // * Update invite code name
     const inviteCode = createInviteCode();
@@ -51,7 +52,7 @@ const acceptInvite = async (req, res) => {
   } else {
     console.log("NEW USER OR NOT LOGGED IN");
     res.setHeader("Set-Cookie", [
-      cookie.serialize("invited_to", String(ref), cookieOptions(false, false)),
+      cookie.serialize("invited_to", String(tuid), cookieOptions(false, false)),
       cookie.serialize(
         "next",
         String("/dashboard"),
