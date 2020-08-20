@@ -7,7 +7,6 @@ import { encrypt } from "@lib/api/token/encryption";
 import { escape, query } from "@lib/api/db";
 
 const authCallback = async (req, res) => {
-  console.log("COOKIES", req.cookies);
   // * Confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
     // * Send request for token exchange
