@@ -5,6 +5,7 @@ interface LinkProps {
   as?: string;
   children: React.ReactNode;
   href: string;
+  noMargin?: boolean;
   onClick?: () => void;
   type?: string;
   width?: string;
@@ -14,6 +15,7 @@ const Link = ({
   as,
   children,
   href,
+  noMargin,
   onClick,
   type = "button",
   width,
@@ -25,7 +27,7 @@ const Link = ({
           <Button
             sx={{ cursor: "pointer", width: width || "96px" }}
             onClick={onClick}
-            ml={4}
+            ml={!noMargin ? 4 : 0}
             size={0}
           >
             {children}
