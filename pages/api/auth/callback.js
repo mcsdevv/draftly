@@ -111,12 +111,20 @@ const authCallback = async (req, res) => {
         res.status(302).end();
       } else {
         // * Advise token replay attack possible if nonce's do not match
-        res.send("Nonce mismatch, potential token replay attack underway.");
+        console.log("Nonce mismatch, potential token replay attack underway.");
+
+        // * Redirect to relevant error page
+        res.writeHead(302, { Location: "/errors/login-failure" });
+        res.end();
       }
     }
   } else {
     // * Advise CSRF attack likely if states do not match
-    res.send("State mismatch, CSRF attack likely.");
+    console.log("State mismatch, CSRF attack likely.");
+
+    // * Redirect to relevant error page
+    res.writeHead(302, { Location: "/errors/login-failure" });
+    res.end();
   }
 };
 
