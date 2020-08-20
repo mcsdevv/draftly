@@ -36,6 +36,7 @@ export default function Members() {
       console.log("Invite sent!");
     }
   };
+
   // TODO Validate email before sending
   return (
     <>
@@ -66,7 +67,9 @@ export default function Members() {
         <List>
           {scope?.owners.map((o: any) => (
             <ListItem key={o.uid}>
-              <Text>- {o.name}</Text>
+              <Text>
+                - {o.name} ({o.email})
+              </Text>
             </ListItem>
           ))}
         </List>
@@ -74,7 +77,9 @@ export default function Members() {
         <List>
           {scope?.members.map((o: any) => (
             <ListItem key={o.uid}>
-              <Text>- {o.name}</Text>
+              <Text>
+                - {o.name} ({o.email})
+              </Text>
             </ListItem>
           ))}
         </List>
