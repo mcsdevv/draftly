@@ -17,7 +17,7 @@ const acceptInvite = async (req, res) => {
     );
 
     if (inviteCode !== code) {
-      throw "Invite code does not match";
+      res.status(403).send("Invite code invalid.");
     }
 
     const uidDecrypted = decrypt(uid);
