@@ -51,7 +51,7 @@ export default function Reviews() {
           onClick={handleOnSubmitReviews}
           size={1}
         >
-          Submin
+          Submit
         </Button>
       </Flex>
       <Text sx={{ color: "gray600" }}>

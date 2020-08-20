@@ -66,7 +66,7 @@ const authCallback = async (req, res) => {
           );
 
           // * Check whether user is a member of the team already
-          const isMember = membersQuery.includes(user_id);
+          const isMember = membersQuery.includes(uid);
 
           // * If user is not a member of the team, add them to the team
           if (!isMember) {
