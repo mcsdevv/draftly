@@ -2,20 +2,23 @@ import cookie from "cookie";
 import cookieOptions from "@lib/api/cookie/options";
 import { escape, query } from "@lib/api/db";
 import { decrypt } from "@lib/api/token/encryption";
-import createInviteCode from "@lib/api/createInviteCode";
 import withSentry from "@lib/api/middleware/withSentry";
 
 const acceptInvite = async (req, res) => {
   const { id_token, uid } = req.cookies;
-  const { code, team, tuid } = req.query;
-
-  console.log("UID", uid);
-  console.log("ID_TOKEN", id_token);
+  const { code, tuid } = req.query;
 
   // * Differing action if user exists and is logged in
   if (id_token && uid) {
-    console.log("CHECKING IF USER IS AN EXISTING MEMBER OF THE TEAM");
-    // TODO Check code matches that of team, else error
+    // * Check code matches that of team, else error
+    const inviteCode = await query(
+      escape`SELECT invite_code from teams
+      WHERE tuid = ${tuid}`
+    );
+
+    if (inviteCode !== code) {
+      res.status(403).send("Invite code invalid.");
+    }
 
     const uidDecrypted = decrypt(uid);
 
@@ -43,12 +46,6 @@ const acceptInvite = async (req, res) => {
     await query(
       escape`INSERT INTO teams_members (uid, tuid, role)
         VALUES (${uidDecrypted}, ${tuid}, 'member')`
-    );
-
-    // * Update invite code name
-    const inviteCode = createInviteCode();
-    await query(
-      escape`UPDATE teams SET invite_code = ${inviteCode} WHERE tuid = ${tuid}`
     );
 
     res.writeHead(302, {
