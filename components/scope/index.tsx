@@ -51,7 +51,9 @@ const Scope = () => {
         <option value="new">+ Add New Team</option>
       </Select>
     ) : (
-      <Link href="/api/auth/twitter/connect">+ Add New Team</Link>
+      <Link href="/api/auth/twitter/connect" width="120px">
+        + Add New Team
+      </Link>
     )
   ) : null;
 };

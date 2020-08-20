@@ -7,15 +7,23 @@ interface LinkProps {
   href: string;
   onClick?: () => void;
   type?: string;
+  width?: string;
 }
 
-const Link = ({ as, children, href, onClick, type = "button" }: LinkProps) => {
+const Link = ({
+  as,
+  children,
+  href,
+  onClick,
+  type = "button",
+  width,
+}: LinkProps) => {
   return (
     <NextLink as={as || href} href={href}>
       <a style={{ textDecoration: "none" }}>
         {type === "button" ? (
           <Button
-            sx={{ cursor: "pointer", width: "96px" }}
+            sx={{ cursor: "pointer", width: width || "96px" }}
             onClick={onClick}
             ml={4}
             size={0}
