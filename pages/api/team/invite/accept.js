@@ -40,11 +40,10 @@ const acceptInvite = async (req, res) => {
     }
 
     // * Add to team as a member
-    const insert = await query(
+    await query(
       escape`INSERT INTO teams_members (uid, tuid, role)
         VALUES (${uidDecrypted}, ${tuid}, 'member')`
     );
-    console.log("INSERT", insert);
 
     // * Update invite code name
     const inviteCode = createInviteCode();
