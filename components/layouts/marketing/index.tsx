@@ -2,7 +2,7 @@
 import { Container, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
-import Header from "@components/header/dashboard";
+import Header from "@components/header/marketing";
 import RequireLogin from "@lib/client/requireLogin";
 
 interface MarketingLayoutProps {
