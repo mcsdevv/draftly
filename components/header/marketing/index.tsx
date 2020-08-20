@@ -49,29 +49,9 @@ const Header = () => {
       <Flex>{loggedIn && <Scope />}</Flex>
       <Flex>
         {loggedIn && (
-          <>
-            <Link as={`/${handle}/tweets/new`} href="/[handle]/tweets/new">
-              Create Draft
-            </Link>
-            <Link
-              as={`/${handle}/tweets/drafts`}
-              href="/[handle]/tweets/drafts"
-            >
-              Drafts
-            </Link>
-            <Link
-              as={`/${handle}/tweets/published`}
-              href="/[handle]/tweets/published"
-            >
-              Published
-            </Link>
-            <Link as={`/${handle}/dashboard`} href="/[handle]/dashboard">
-              Dashboard
-            </Link>
-            <Link as={`/${handle}/settings`} href="/[handle]/settings">
-              Settings
-            </Link>
-          </>
+          <Link as={`/${handle}/dashboard`} href="/[handle]/dashboard">
+            Dashboard
+          </Link>
         )}
         <Button
           sx={{ cursor: "pointer", width: "96px" }}
