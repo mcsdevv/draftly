@@ -1,6 +1,6 @@
 // * Components
 import Dashboard from "@components/dashboard";
-import DashboardLayout from "@components/layouts/dashboard";
+import DashboardLayout from "@components/layouts/pages/dashboard";
 
 function DashboardPage() {
   return <Dashboard />;

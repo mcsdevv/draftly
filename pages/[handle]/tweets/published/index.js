@@ -9,7 +9,7 @@ import useTweets from "@hooks/use-tweets";
 import { Container } from "@modulz/radix";
 
 // * Components
-import DashboardLayout from "@components/layouts/dashboard";
+import DashboardLayout from "@components/layouts/pages/dashboard";
 import Table from "@components/table";
 import Row from "@components/table/row";
 

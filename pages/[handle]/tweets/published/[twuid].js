@@ -1,6 +1,6 @@
 // * Components
 import PublishedTweet from "@components/tweets/published";
-import DashboardLayout from "@components/layouts/dashboard";
+import DashboardLayout from "@components/layouts/pages/dashboard";
 
 const Published = () => <PublishedTweet />;
 

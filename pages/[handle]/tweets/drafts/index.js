@@ -11,7 +11,7 @@ import { Container } from "@modulz/radix";
 // * Components
 import Table from "@components/table";
 import Row from "@components/table/row";
-import DashboardLayout from "@components/layouts/dashboard";
+import DashboardLayout from "@components/layouts/pages/dashboard";
 
 function Drafts() {
   const { scope } = useScope();

@@ -1,6 +1,6 @@
 // * Components
 import DraftTweet from "@components/tweets/draft";
-import DashboardLayout from "@components/layouts/dashboard";
+import DashboardLayout from "@components/layouts/pages/dashboard";
 
 const Draft = () => <DraftTweet />;
 

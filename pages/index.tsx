@@ -1,5 +1,5 @@
 // * Components
-import MarketingLayout from "@components/layouts/marketing";
+import MarketingLayout from "@components/layouts/pages/marketing";
 
 function Landing() {
   return <h1>Draft & Publish</h1>;

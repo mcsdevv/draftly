@@ -3,7 +3,7 @@ import useUser from "@hooks/use-user";
 
 import styles from "@styles/pages/settings.module.css";
 
-import DashboardLayout from "@components/layouts/dashboard";
+import DashboardLayout from "@components/layouts/pages/dashboard";
 
 import ChangeUserName from "@components/settings/user/changeName";
 import DeleteUser from "@components/settings/user/delete";

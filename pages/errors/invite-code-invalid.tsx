@@ -1,28 +1,22 @@
 // * Libraries
 import { useRouter } from "next/router";
 
-// * Modulz
-import { Container, Divider, Heading, Text } from "@modulz/radix";
-
 // * Components
-import MarketingLayout from "@components/layouts/marketing";
+import Error from "@components/layouts/content/error";
+import MarketingLayout from "@components/layouts/pages/marketing";
 
 function InviteCodeInvalid() {
   const router = useRouter();
-  const team = router.query?.team;
-  return (
-    <Container size={1}>
-      <Heading as="h1" mb={2} mt={4} size={4}>
-        Invite Code Invalid
-      </Heading>
-      <Divider mb={2} />
-      <Text>
-        The invite code{" "}
-        {team ? `provided to join the ${team} team` : "provided"} has expired,
-        please request a new invite from a team owner.
-      </Text>
-    </Container>
-  );
+  const team = router.query.team;
+
+  // * Format error text
+  const text = `The invite code
+  ${team ? `provided to join the ${team} team` : "provided"} has expired,
+  please request a new invite from a team owner.`;
+
+  // * Format error title
+  const title = "Invite Code Invalid";
+  return <Error text={text} title={title} />;
 }
 
 InviteCodeInvalid.getLayout = (page: React.ReactNode) => (
