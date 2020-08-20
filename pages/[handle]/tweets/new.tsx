@@ -1,6 +1,6 @@
 // * Components
 import Compose from "@components/compose";
-import DashboardLayout from "@components/layouts/dashboard";
+import DashboardLayout from "@components/layouts/pages/dashboard";
 
 function Create() {
   return <Compose />;

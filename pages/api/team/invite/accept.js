@@ -6,7 +6,7 @@ import withSentry from "@lib/api/middleware/withSentry";
 
 const acceptInvite = async (req, res) => {
   const { id_token, uid } = req.cookies;
-  const { code, tuid } = req.query;
+  const { code, team, tuid } = req.query;
 
   // * Differing action if user exists and is logged in
   if (id_token && uid) {
@@ -17,7 +17,11 @@ const acceptInvite = async (req, res) => {
     );
 
     if (inviteCode !== code) {
-      res.status(403).send("Invite code invalid.");
+      res.writeHead(302, {
+        Location: `/errors/invite-code-invalid?team=${team}`,
+      });
+      res.end();
+      return;
     }
 
     const uidDecrypted = decrypt(uid);

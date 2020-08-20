@@ -4,7 +4,7 @@ import * as Sentry from "@sentry/node";
 import { RadixProvider } from "@modulz/radix";
 
 // * Components
-import MarketingLayout from "@components/layouts/marketing";
+import MarketingLayout from "@components/layouts/pages/marketing";
 
 // * Styles
 import "@styles/global.css";
