@@ -48,7 +48,7 @@ const Scope = () => {
         {teams?.map((o: any) => (
           <Option key={o.name} value={o.handle} label={o.name} />
         ))}
-        <option value="new">+ Add New Team</option>
+        <Option value="new" label="+ Add New Team" />
       </Select>
     ) : (
       <Link href="/api/auth/twitter/connect" noMargin width="120px">

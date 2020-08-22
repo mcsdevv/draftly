@@ -128,5 +128,3 @@ const authCallback = async (req, res) => {
 };
 
 export default withSentry(authCallback);
-
-// TODO Throw on errors rather than using if/else statements
