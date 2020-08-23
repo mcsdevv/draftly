@@ -1,4 +1,7 @@
+// * Libraries
 const Twitter = require("twitter");
+
+// * Helpers
 import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
 import { escape, query } from "@lib/api/db";
