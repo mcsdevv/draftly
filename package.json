@@ -8,9 +8,9 @@
   "dependencies": {
     "@modulz/radix": "^0.0.1-beta.43",
     "@modulz/radix-icons": "^2.4.0",
-    "@sendgrid/mail": "^7.2.3",
-    "@sentry/browser": "^5.21.1",
-    "@sentry/node": "^5.21.1",
+    "@sendgrid/mail": "^7.2.4",
+    "@sentry/browser": "^5.21.3",
+    "@sentry/node": "^5.21.3",
     "@sentry/webpack-plugin": "^1.12.1",
     "@types/classnames": "^2.2.10",
     "@types/js-cookie": "^2.2.6",
@@ -34,7 +34,7 @@
     "serverless-mysql": "^1.5.4",
     "sql-query": "^0.1.27",
     "sql-template-strings": "^2.2.2",
-    "swr": "0.3.0",
+    "swr": "0.3.1",
     "twitter": "^1.7.1",
     "uuid": "^8.3.0"
   },
