@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Container, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
+import Footer from "@components/footer";
 import Header from "@components/header/marketing";
 
 interface MarketingLayoutProps {
@@ -24,19 +25,22 @@ const MarketingLayout = ({ children, name }: MarketingLayoutProps) => {
   }, []);
 
   return loaded ? (
-    <Container
-      sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
-      size={3}
-    >
-      <Header />
-      <Flex sx={{ justifyContent: "space-between" }}>
-        <Heading size={5} weight="medium">
-          {name}
-        </Heading>
-      </Flex>
-      <Divider mb={4} />
-      <Flex sx={{ flexGrow: 1 }}>{children}</Flex>
-    </Container>
+    <>
+      <Container
+        sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+        size={3}
+      >
+        <Header />
+        <Flex sx={{ justifyContent: "space-between" }}>
+          <Heading size={5} weight="medium">
+            {name}
+          </Heading>
+        </Flex>
+        <Divider mb={4} />
+        <Flex sx={{ flexGrow: 1 }}>{children}</Flex>
+      </Container>
+      <Footer />
+    </>
   ) : null;
 };
 

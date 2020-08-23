@@ -2,6 +2,7 @@
 import { Container, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
+import Footer from "@components/footer";
 import Header from "@components/header/dashboard";
 import RequireLogin from "@lib/client/requireLogin";
 
@@ -25,6 +26,7 @@ const DashboardLayout = ({ children, name }: DashboardLayoutProps) => (
       <Divider mb={4} />
       <Flex sx={{ flexGrow: 1 }}>{children}</Flex>
     </Container>
+    <Footer />
   </RequireLogin>
 );
 
