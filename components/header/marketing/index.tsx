@@ -53,7 +53,7 @@ const Header = () => {
             Dashboard
           </Link>
         )}
-        {/* <Button
+        <Button
           sx={{ cursor: "pointer", width: "96px" }}
           isWaiting={loggingIn || loggingOut}
           onClick={loggedIn ? logoutUser : loginUser}
@@ -61,7 +61,7 @@ const Header = () => {
           size={0}
         >
           {loggedIn ? "Logout" : "Login"}
-        </Button> */}
+        </Button>
       </Flex>
     </Flex>
   );
