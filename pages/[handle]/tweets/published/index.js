@@ -18,10 +18,14 @@ function Published() {
   const { drafts, published, setTweets } = useTweets();
 
   const handleDelete = async (twuid) => {
+    // * Get tweet from list of tweets using twuid
+    const tweet = published?.find((p) => p.twuid === twuid);
+
     const url = "/api/tweet/published/delete";
     const res = await fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
+        tweet_id: tweet.tweet_id,
         twuid,
       }),
     });

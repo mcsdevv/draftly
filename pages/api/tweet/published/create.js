@@ -33,7 +33,7 @@ const createPublishedTweet = async (req, res, uid, tuid) => {
     // * Update the tweet type to published and set the tweet_id
     await query(
       escape`UPDATE tweets
-      SET type="published", tweet_id=${tweet.id} 
+      SET type="published", tweet_id=${tweet.id_str} 
       WHERE twuid=${twuid}`
     );
 

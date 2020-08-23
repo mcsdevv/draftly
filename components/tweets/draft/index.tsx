@@ -112,6 +112,11 @@ const DraftTweet = () => {
         drafts: drafts.filter((r: any) => r.twuid !== tweet.twuid),
         published: [...published, publishedTweet],
       });
+      router.push(
+        "/[handle]/tweets/published",
+        `/${router.query.handle}/tweets/published/`,
+        { shallow: true }
+      );
     }
   };
 
