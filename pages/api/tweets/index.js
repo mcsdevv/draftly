@@ -3,7 +3,8 @@ import withSentry from "@lib/api/middleware/withSentry";
 import { escape, query } from "@lib/api/db";
 import isMember from "@lib/api/middleware/isMember";
 
-const getDraftTweets = async (_req, res, _uid, tuid) => {
+const getAllTweets = async (req, res, _uid, tuid) => {
+  const { draftLimit, draftPage, publishedLimit, publishedPage } = req.query;
   // * Get all tweets for team
   console.time("getTweets");
   const tweetsQuery = await query(
@@ -87,4 +88,4 @@ const getDraftTweets = async (_req, res, _uid, tuid) => {
   res.status(200).json({ drafts, published });
 };
 
-export default verify(isMember(withSentry(getDraftTweets)));
+export default verify(isMember(withSentry(getAllTweets)));

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 // * Hooks
 import useScope from "@hooks/use-scope";
+import useTweet from "@hooks/use-tweet";
 import useTweets from "@hooks/use-tweets";
 
 // * Helpers
@@ -28,8 +29,10 @@ const DraftTweet = () => {
   // * Get twuid from route query
   const { twuid } = router.query;
 
-  // * Get tweet from list of tweets using twuid
-  const tweet = drafts?.find((d: any) => d.twuid === twuid);
+  // * Get tweet from twuid
+  const { tweet } = useTweet(twuid);
+
+  console.log("Tweet", tweet);
 
   const disableApprove = useMemo(() => {
     return (
