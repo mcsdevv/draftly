@@ -7,11 +7,7 @@ import fetcher from "@lib/client/fetcher";
 // * Hooks
 import useScope from "./use-scope";
 
-interface useTweetProps {
-  twuid?: string;
-}
-
-export default function useTweet(twuid = null): useTweetProps {
+export default function useTweet(twuid: string = "") {
   const { scope } = useScope();
   const tuid = scope?.tuid;
 

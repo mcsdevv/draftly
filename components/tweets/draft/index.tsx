@@ -30,9 +30,7 @@ const DraftTweet = () => {
   const { twuid } = router.query;
 
   // * Get tweet from twuid
-  const { tweet } = useTweet(twuid);
-
-  console.log("Tweet", tweet);
+  const { tweet } = useTweet(twuid?.toString());
 
   const disableApprove = useMemo(() => {
     return (
