@@ -31,9 +31,10 @@ const Metrics = ({ handleDelete }: MetricsProps) => {
   const { setTweet, tweet } = useTweet(twuid?.toString());
 
   // * Update metrics on page load, serve stale until then
-  useEffect(() => {
-    getMetrics();
-  }, []);
+  // useEffect(() => {
+  //   getMetrics();
+  // }, []);
+  // TODO Figure out why this breaks everything
 
   // * Gets metrics for the specified tweet and mutates SWR
   const getMetrics = async () => {
@@ -47,7 +48,7 @@ const Metrics = ({ handleDelete }: MetricsProps) => {
       const resJson = await res.json();
       console.log("OG TWEET", tweet);
       console.log("NEW TWEET", { ...tweet, ...resJson });
-      // setTweet({ ...tweet, ...resJson });
+      setTweet({ ...tweet, ...resJson });
     }
   };
 
