@@ -1,6 +1,6 @@
 // * Libraries
 import ago from "s-ago";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
