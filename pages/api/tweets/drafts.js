@@ -10,10 +10,7 @@ const getDraftTweets = async (req, res, _uid, tuid) => {
   const limitParsed = parseInt(limit);
   const pageParsed = parseInt(page);
 
-  console.log("LIMIT", limit);
-  console.log("PAGE", page);
-
-  // * Get all tweets for team
+  // * Get drafts for the team based on limit along with the total count
   console.time("getDrafts");
   const draftsQuery = await query(
     escape`SELECT * FROM tweets
@@ -28,9 +25,6 @@ const getDraftTweets = async (req, res, _uid, tuid) => {
   // * Extract both the list of tweets and the total count
   const draftsList = [...draftsQuery[0]];
   const draftsCount = draftsQuery[1][0].count;
-
-  // * Calculate the maximum number of pages
-  const draftsPages = Math.ceil(draftsCount / limit);
 
   // * Get all tweet metadata
   console.time("getDraftsMeta");
@@ -93,6 +87,9 @@ const getDraftTweets = async (req, res, _uid, tuid) => {
       comments: comments.filter((m) => m.twuid === t.twuid),
     };
   });
+
+  // * Calculate the maximum number of pages
+  const draftsPages = Math.ceil(draftsCount / limit);
 
   console.log("Retrieved draft tweets for:", tuid);
   res.status(200).json({ drafts, draftsPages });

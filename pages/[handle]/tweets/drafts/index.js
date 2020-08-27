@@ -1,6 +1,6 @@
 // * Libraries
-import { useState } from "react";
 import ago from "s-ago";
+import { useState } from "react";
 
 // * Hooks
 import useDrafts from "@hooks/use-drafts";

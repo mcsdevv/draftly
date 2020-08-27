@@ -40,7 +40,13 @@ const Table = ({
       </Thead>
       <tbody>{children}</tbody>
     </TableModulz>
-    <Flex sx={{ justifyContent: "space-between" }}>
+    <Flex
+      sx={{
+        alignItems: "center",
+        height: "48px",
+        justifyContent: "space-between",
+      }}
+    >
       <IconButton sx={{ cursor: "pointer" }} onClick={handlePreviousPage}>
         <ArrowLeftIcon />
         <Text ml={1}>Previous Page</Text>
