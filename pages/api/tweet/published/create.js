@@ -26,8 +26,7 @@ const createPublishedTweet = async (req, res, uid, tuid) => {
     _response
   ) {
     if (error) {
-      console.error("Error posting tweet:", twuid, error);
-      throw "Error posting tweet.";
+      throw new Error(error);
     }
 
     // * Update the tweet type to published and set the tweet_id

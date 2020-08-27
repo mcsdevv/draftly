@@ -29,8 +29,7 @@ const deletePublishedTweet = async (req, res, _uid, tuid) => {
     _response
   ) {
     if (error) {
-      console.error("Error deleting tweet:", twuid, error);
-      throw "Error deleting tweet.";
+      throw new Error(error);
     }
 
     // * Delete published tweet and meta

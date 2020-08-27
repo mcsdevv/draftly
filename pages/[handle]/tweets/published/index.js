@@ -17,7 +17,7 @@ import Row from "@components/table/row";
 function Published() {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
-  const { published, publishedPages, setPublished } = usePublished();
+  const { published, publishedPages, setPublished } = usePublished(limit, page);
   const { scope } = useScope();
 
   const handleDelete = async (twuid) => {

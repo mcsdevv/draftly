@@ -45,7 +45,9 @@ const Metrics = ({ handleDelete }: MetricsProps) => {
     });
     if (res.status === 200) {
       const resJson = await res.json();
-      setTweet({ ...tweet, ...resJson });
+      console.log("OG TWEET", tweet);
+      console.log("NEW TWEET", { ...tweet, ...resJson });
+      // setTweet({ ...tweet, ...resJson });
     }
   };
 
