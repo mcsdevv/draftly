@@ -1,9 +1,10 @@
 // * Libraries
 import ago from "s-ago";
+import { useState } from "react";
 
 // * Hooks
+import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
-import useTweets from "@hooks/use-tweets";
 
 // * Modulz
 import { Container } from "@modulz/radix";
@@ -14,8 +15,10 @@ import Table from "@components/table";
 import Row from "@components/table/row";
 
 function Published() {
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const { published, publishedPages, setPublished } = usePublished(limit, page);
   const { scope } = useScope();
-  const { drafts, published, setTweets } = useTweets();
 
   const handleDelete = async (twuid) => {
     // * Get tweet from list of tweets using twuid
@@ -30,16 +33,25 @@ function Published() {
       }),
     });
     if (res.status === 200) {
-      setTweets({
-        drafts,
+      setPublished({
         published: published.filter((p) => p.twuid !== twuid),
       });
     }
   };
 
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) setPage(page - 1);
+  };
+
   return (
     <Container size={2}>
       <Table
+        handleNextPage={handleNextPage}
+        handlePreviousPage={handlePreviousPage}
         headers={[
           "Title",
           "Text",
@@ -49,6 +61,8 @@ function Published() {
           "View",
           "Delete",
         ]}
+        pageNumber={page}
+        pageMax={publishedPages}
       >
         {published?.map((p) => (
           <Row

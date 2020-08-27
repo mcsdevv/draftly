@@ -1,6 +1,10 @@
 // * Libraries
 import ago from "s-ago";
-import { useEffect } from "react";
+// import { useEffect } from "react";
+import { useRouter } from "next/router";
+
+// * Hooks
+import useTweet from "@hooks/use-tweet";
 
 // * Modulz
 import {
@@ -15,44 +19,36 @@ import {
 } from "@modulz/radix";
 
 interface MetricsProps {
-  drafts: any;
   handleDelete: () => void;
-  published: any;
-  setTweets: (...args: any) => void;
-  tweet: any;
-  twuid: string;
 }
 
-const Metrics = ({
-  drafts,
-  handleDelete,
-  published,
-  setTweets,
-  tweet,
-  twuid,
-}: MetricsProps) => {
+const Metrics = ({ handleDelete }: MetricsProps) => {
+  const router = useRouter();
+  // * Get twuid from route query
+  const { twuid } = router.query;
+
+  // * Get tweet from twuid
+  const { setTweet, tweet } = useTweet(twuid?.toString());
+
   // * Update metrics on page load, serve stale until then
-  useEffect(() => {
-    getMetrics();
-  }, []);
+  // useEffect(() => {
+  //   getMetrics();
+  // }, []);
+  // TODO Figure out why this breaks everything
 
   // * Gets metrics for the specified tweet and mutates SWR
   const getMetrics = async () => {
-    console.log("getting metrics", twuid);
+    console.log("getting metrics", tweet.twuid);
     const url = "/api/tweet/published/metrics";
     const res = await fetch(url, {
       method: "POST",
-      body: JSON.stringify({ tweet_id: tweet.tweet_id, twuid }),
+      body: JSON.stringify({ tweet_id: tweet.tweet_id, twuid: tweet.twuid }),
     });
     if (res.status === 200) {
       const resJson = await res.json();
-      const updatedPublished = published.map((p: any) => {
-        if (p.twuid === twuid) {
-          return { ...p, ...resJson };
-        }
-        return p;
-      });
-      setTweets({ drafts, published: updatedPublished });
+      console.log("OG TWEET", tweet);
+      console.log("NEW TWEET", { ...tweet, ...resJson });
+      setTweet({ ...tweet, ...resJson });
     }
   };
 

@@ -29,8 +29,7 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
     _response
   ) {
     if (error) {
-      console.error("Error getting metrics for tweet:", twuid, error);
-      throw "Error getting metrics for tweet.";
+      throw new Error("Error getting metrics for tweet.");
     }
 
     // * Get all tweet mentions for the account (limit of 800 since status posted)
@@ -39,8 +38,7 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
       { since_id: tweet_id, trim_user: true },
       async function (error, mentions, _response) {
         if (error) {
-          console.error("Error getting replies for tweet:", twuid, error);
-          throw "Error getting replies for tweet.";
+          throw new Error(`Error getting replies for tweet: ${twuid}`);
         }
 
         // * Filter the mentions for the relevant tweet only

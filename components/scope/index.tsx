@@ -3,8 +3,9 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
 // * Hooks
+import useDrafts from "@hooks/use-drafts";
+import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
-import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
 // * Modulz
@@ -14,8 +15,9 @@ import { Option, Select } from "@modulz/radix";
 import Link from "@components/link";
 
 const Scope = () => {
+  const { revalidateDrafts, setDrafts } = useDrafts();
+  const { revalidatePublished, setPublished } = usePublished();
   const { scope, updateScope } = useScope();
-  const { revalidateTweets, setTweets } = useTweets();
   const { teams } = useUser();
   const router = useRouter();
 
@@ -32,8 +34,10 @@ const Scope = () => {
 
     // * Update the cookie and revalidate tweets before scope change submitted
     Cookies.set("tuid", scopeDetails?.tuid);
-    setTweets([]);
-    revalidateTweets();
+    setDrafts([]);
+    setPublished([]);
+    revalidateDrafts();
+    revalidatePublished();
 
     // * Update the scope
     updateScope(scopeDetails.handle, { ...scopeDetails });

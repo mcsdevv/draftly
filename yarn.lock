@@ -1204,10 +1204,15 @@
     resize-observer-polyfill "^1.5.1"
     tabbable "^4.0.0"
 
-"@modulz/radix-icons@2.4.0", "@modulz/radix-icons@^2.4.0":
+"@modulz/radix-icons@2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@modulz/radix-icons/-/radix-icons-2.4.0.tgz#62bb73265d39aa990a3adfb089f00cecbaf791c5"
   integrity sha512-19pLQSJtzVtlOon86QC3gigjoigumIvAch79wXl3/yyaWsip6n2CgPHKu/5hKhjK2qYCr84b0VmZkmj1krAl/w==
+
+"@modulz/radix-icons@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@modulz/radix-icons/-/radix-icons-2.4.1.tgz#3423adcc4cf647fe44f5c3a21d10ddd61876a949"
+  integrity sha512-U5/v/x+QnPiazReaNnQBV1wAQ5I3mRiycJclbQd+YiWQQMFNmj91AFHZE+mxntipAPfmslTnJfYRUX4DQVjr5g==
 
 "@modulz/radix-system@0.0.1-alpha.11":
   version "0.0.1-alpha.11"

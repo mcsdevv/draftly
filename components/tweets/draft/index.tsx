@@ -3,8 +3,10 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
+import useDrafts from "@hooks/use-drafts";
+import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
-import useTweets from "@hooks/use-tweets";
+import useTweet from "@hooks/use-tweet";
 
 // * Helpers
 import getMetadata from "@lib/client/getMetadata";
@@ -21,15 +23,17 @@ import Tweet from "@components/tweet";
 const DraftTweet = () => {
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState("");
+
+  const { revalidateDrafts } = useDrafts();
+  const { revalidatePublished } = usePublished();
   const { scope } = useScope();
-  const { drafts, published, setTweets } = useTweets();
   const router = useRouter();
 
   // * Get twuid from route query
   const { twuid } = router.query;
 
-  // * Get tweet from list of tweets using twuid
-  const tweet = drafts?.find((d: any) => d.twuid === twuid);
+  // * Get tweet from twuid
+  const { setTweet, tweet } = useTweet(twuid?.toString());
 
   const disableApprove = useMemo(() => {
     return (
@@ -48,15 +52,9 @@ const DraftTweet = () => {
     });
     if (res.status === 200) {
       const approval = await res.json();
-      const approvedDrafts = drafts.map((d: any) => {
-        if (d.twuid === tweet.twuid) {
-          return { ...d, approvals: [approval, ...d.approvals] };
-        }
-        return d;
-      });
-      setTweets({
-        drafts: approvedDrafts,
-        published,
+      setTweet({
+        ...tweet,
+        approvals: [approval, ...tweet.approvals],
       });
     }
   };
@@ -74,10 +72,7 @@ const DraftTweet = () => {
       }),
     });
     if (res.status === 200) {
-      setTweets({
-        drafts: drafts.filter((d: any) => d.twuid !== tweet.twuid),
-        published,
-      });
+      revalidateDrafts();
       router.push(
         "/[handle]/tweets/drafts",
         `/${router.query.handle}/tweets/drafts/`,
@@ -107,11 +102,8 @@ const DraftTweet = () => {
       }),
     });
     if (res.status === 200) {
-      const publishedTweet = drafts.find((r: any) => r.twuid === tweet.twuid);
-      setTweets({
-        drafts: drafts.filter((r: any) => r.twuid !== tweet.twuid),
-        published: [...published, publishedTweet],
-      });
+      revalidateDrafts();
+      revalidatePublished();
       router.push(
         "/[handle]/tweets/published",
         `/${router.query.handle}/tweets/published/`,
@@ -142,14 +134,7 @@ const DraftTweet = () => {
     });
     if (res.status === 200) {
       const meta = await res.json();
-      setTweets({
-        drafts: drafts.map((d: any) =>
-          d.twuid === tweet.twuid
-            ? { ...d, metadata: meta, text: formattedTweet }
-            : d
-        ),
-        published,
-      });
+      setTweet({ ...tweet, metadata: meta, text: formattedTweet });
     }
   };
 

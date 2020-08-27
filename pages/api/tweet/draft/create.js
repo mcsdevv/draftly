@@ -10,8 +10,8 @@ const createDraftTweet = async (req, res, uid, tuid) => {
   const sqlInsert = sqlQuery.insert();
 
   // * Error if either tweet or title are missing
-  if (!title) throw "Malformed request - missing title";
-  if (!tweet) throw "Malformed request - missing tweet";
+  if (!title) throw new Error("Malformed request - missing title");
+  if (!tweet) throw new Error("Malformed request - missing tweet");
 
   // * Format draft insert query
   const twuid = uuidv4();

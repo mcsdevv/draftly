@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 // * Hooks
 import useScope from "@hooks/use-scope";
-import useTweets from "@hooks/use-tweets";
+import useTweet from "@hooks/use-tweet";
 
 // * Modulz
 import { Button, Divider, Flex, Heading, Input } from "@modulz/radix";
@@ -15,14 +15,13 @@ import Comment from "./comment";
 export default function Comments() {
   const [comment, setComment] = useState("");
   const { scope } = useScope();
-  const { drafts, published, setTweets } = useTweets();
   const router = useRouter();
 
   // * Get twuid from route query
   const { twuid } = router.query;
 
-  // * Get tweet from list of tweets using twuid
-  const tweet = drafts?.find((d: any) => d.twuid === twuid);
+  // * Get tweet from twuid
+  const { setTweet, tweet } = useTweet(twuid?.toString());
 
   // * Get comments from tweet
   const comments = tweet?.comments;
@@ -43,18 +42,9 @@ export default function Comments() {
       }),
     });
     if (res.status === 200) {
-      const newDrafts = drafts.map((r: any) => {
-        if (r.twuid === twuid) {
-          return {
-            ...r,
-            comments: r.comments.filter((c: any) => c.tcuid !== tcuid),
-          };
-        }
-        return r;
-      });
-      setTweets({
-        drafts: newDrafts,
-        published,
+      setTweet({
+        ...tweet,
+        comments: comments.filter((c: any) => c.tcuid !== tcuid),
       });
     }
   };
@@ -69,19 +59,7 @@ export default function Comments() {
     setComment("");
     if (res.status === 200) {
       const publishedComment = await res.json();
-      console.log("PUBLISHED", publishedComment);
-      console.log("COMMENTS", drafts[0].comments);
-      const newDrafts = drafts.map((r: any) => {
-        if (r.twuid === twuid) {
-          return { ...r, comments: [publishedComment, ...r.comments] };
-        }
-        return r;
-      });
-      console.log("NEW COMMENTS", newDrafts[0].comments);
-      setTweets({
-        drafts: newDrafts,
-        published,
-      });
+      setTweet({ ...tweet, comments: [publishedComment, ...tweet.comments] });
     }
   };
 

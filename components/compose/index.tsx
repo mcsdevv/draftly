@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 // * Hooks
-import useTweets from "@hooks/use-tweets";
+import useDrafts from "@hooks/use-drafts";
+import usePublished from "@hooks/use-published";
 
 // * Helpers
 import getMetadata from "@lib/client/getMetadata";
@@ -30,7 +31,8 @@ const ComposeTweet = () => {
   const [saving, setSaving] = useState(false);
   const [title, setTitle] = useState("");
   const [tweet, setTweet] = useState("");
-  const { drafts, published, setTweets } = useTweets();
+  const { revalidateDrafts } = useDrafts();
+  const { revalidatePublished } = usePublished();
 
   // * Resets state to page defaults
   const handleCreateAnother = () => {
@@ -56,8 +58,9 @@ const ComposeTweet = () => {
       setCompleted(true);
       const newDraft = await res.json();
       setCreatedId(newDraft.twuid);
-      setTweets({ drafts: [newDraft, ...drafts], published });
       setSaving(false);
+      revalidateDrafts();
+      revalidatePublished();
       setTitle("");
       setTweet("");
     }
