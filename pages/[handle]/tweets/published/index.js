@@ -2,8 +2,8 @@
 import ago from "s-ago";
 
 // * Hooks
+import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
-import useTweets from "@hooks/use-tweets";
 
 // * Modulz
 import { Container } from "@modulz/radix";
@@ -14,8 +14,8 @@ import Table from "@components/table";
 import Row from "@components/table/row";
 
 function Published() {
+  const { published, setPublished } = usePublished();
   const { scope } = useScope();
-  const { drafts, published, setTweets } = useTweets();
 
   const handleDelete = async (twuid) => {
     // * Get tweet from list of tweets using twuid
@@ -30,8 +30,7 @@ function Published() {
       }),
     });
     if (res.status === 200) {
-      setTweets({
-        drafts,
+      setPublished({
         published: published.filter((p) => p.twuid !== twuid),
       });
     }

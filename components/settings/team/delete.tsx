@@ -4,8 +4,9 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
 // * Hooks
+import useDrafts from "@hooks/use-drafts";
+import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
-import useTweets from "@hooks/use-tweets";
 import useUser from "@hooks/use-user";
 
 // * Modulz
@@ -19,9 +20,10 @@ import {
 } from "@modulz/radix";
 
 export default function DeleteTeam() {
+  const { setDrafts } = useDrafts();
+  const { setPublished } = usePublished();
   const router = useRouter();
   const { scope, setScope } = useScope();
-  const { setTweets } = useTweets();
   const { setUser, teams, user } = useUser();
   const [teamName, setTeamName] = useState("");
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -35,7 +37,8 @@ export default function DeleteTeam() {
     if (status === 200) {
       const filteredTeams = teams.filter((t: any) => t.tuid !== scope.tuid);
       setUser({ user, teams: filteredTeams });
-      setTweets([]);
+      setDrafts([]);
+      setPublished([]);
       if (filteredTeams) {
         setScope(filteredTeams[0]);
       } else {

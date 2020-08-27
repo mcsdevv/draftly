@@ -1,26 +1,26 @@
 // * Libraries
+import { useState } from "react";
 import ago from "s-ago";
 
 // * Hooks
+import useDrafts from "@hooks/use-drafts";
 import useScope from "@hooks/use-scope";
-import useTweets from "@hooks/use-tweets";
 
 // * Modulz
 import { Container } from "@modulz/radix";
 
 // * Components
-import Table from "@components/table";
 import Row from "@components/table/row";
+import Table from "@components/table";
 import DashboardLayout from "@components/layouts/pages/dashboard";
 
 function Drafts() {
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const { drafts, draftsPages, setDrafts } = useDrafts(limit, page);
   const { scope } = useScope();
-  const { drafts, published, setTweets } = useTweets();
-
-  console.log("drafts", drafts);
 
   const handleDelete = async (twuid) => {
-    console.log("TWUID", twuid);
     const url = "/api/tweet/draft/delete";
     const res = await fetch(url, {
       method: "DELETE",
@@ -29,16 +29,25 @@ function Drafts() {
       }),
     });
     if (res.status === 200) {
-      setTweets({
+      setDrafts({
         drafts: drafts.filter((d) => d.twuid !== twuid),
-        published,
       });
     }
+  };
+
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) setPage(page - 1);
   };
 
   return (
     <Container size={2}>
       <Table
+        handleNextPage={handleNextPage}
+        handlePreviousPage={handlePreviousPage}
         headers={[
           "Title",
           "Text",
@@ -48,6 +57,8 @@ function Drafts() {
           "View",
           "Delete",
         ]}
+        pageNumber={page}
+        pageMax={draftsPages}
       >
         {drafts?.map((d) => (
           <Row

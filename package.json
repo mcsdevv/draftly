@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "@modulz/radix": "^0.0.1-beta.43",
-    "@modulz/radix-icons": "^2.4.0",
+    "@modulz/radix-icons": "^2.4.1",
     "@sendgrid/mail": "^7.2.4",
     "@sentry/browser": "^5.21.3",
     "@sentry/node": "^5.21.3",

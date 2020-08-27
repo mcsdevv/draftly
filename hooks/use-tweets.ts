@@ -16,6 +16,8 @@ export default function useTweets(
   const { scope } = useScope();
   const tuid = scope?.tuid;
 
+  console.log("DRAFT PAGE", draftPage);
+
   const { data, revalidate: revalidateTweets, mutate: setTweets } = useSWR(
     tuid
       ? `/api/tweets?draftLimit=${draftLimit}&draftPage=${draftPage}&publishedLimit=${publishedLimit}&publishedPage=${publishedPage}`

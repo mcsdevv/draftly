@@ -11,10 +11,10 @@ export default function useTweet(twuid: string = "") {
   const { scope } = useScope();
   const tuid = scope?.tuid;
 
-  const { data, revalidate: revalidateTweets, mutate: setTweets } = useSWR(
+  const { data, revalidate: revalidateTweet, mutate: setTweet } = useSWR(
     tuid ? `/api/tweet?twuid=${twuid}` : null,
     fetcher
   );
 
-  return { ...data, revalidateTweets, setTweets };
+  return { ...data, revalidateTweet, setTweet };
 }

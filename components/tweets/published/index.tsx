@@ -2,8 +2,9 @@
 import { useRouter } from "next/router";
 
 // * Hooks
+import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
-import useTweets from "@hooks/use-tweets";
+import useTweet from "@hooks/use-tweet";
 
 // * Modulz
 import { Card, Flex } from "@modulz/radix";
@@ -15,14 +16,14 @@ import Tweet from "@components/tweet";
 
 const PublishedTweet = () => {
   const { scope } = useScope();
-  const { drafts, published, setTweets } = useTweets();
+  const { revalidatePublished } = usePublished();
   const router = useRouter();
 
   // * Get twuid from route query
   const { twuid } = router.query;
 
-  // * Get tweet from list of tweets using twuid
-  const tweet = published?.find((p: any) => p.twuid === twuid);
+  // * Get tweet from twuid
+  const { tweet } = useTweet(twuid?.toString());
 
   const handleDelete = async () => {
     const url = "/api/tweet/published/delete";
@@ -34,10 +35,7 @@ const PublishedTweet = () => {
       }),
     });
     if (res.status === 200) {
-      setTweets({
-        drafts,
-        published: published.filter((p: any) => p.twuid !== tweet.twuid),
-      });
+      revalidatePublished();
       router.push(
         "/[handle]/tweets/published",
         `/${router.query.handle}/tweets/published/`,
@@ -50,14 +48,7 @@ const PublishedTweet = () => {
     <Card sx={{ height: "fit-content", width: "100%" }}>
       <Flex sx={{ height: "fit-content", width: "100%" }}>
         <Tweet metadata={tweet.metadata} scope={scope} text={tweet.text}>
-          <Metrics
-            drafts={drafts}
-            handleDelete={handleDelete}
-            published={published}
-            setTweets={setTweets}
-            tweet={tweet}
-            twuid={twuid.toString()}
-          />
+          <Metrics handleDelete={handleDelete} />
         </Tweet>
         <Comments />
       </Flex>
