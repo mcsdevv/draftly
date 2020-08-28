@@ -12,8 +12,6 @@ const getSingleTweet = async (req, res, _uid, _tuid) => {
       WHERE twuid = ${twuid}`
   );
 
-  console.log("TWEETS QUERY", tweetQuery);
-
   // * Get tweet metadata
   const [metaQuery] = await query(
     escape`SELECT * FROM tweets_meta

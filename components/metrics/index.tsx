@@ -1,6 +1,6 @@
 // * Libraries
 import ago from "s-ago";
-// import { useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
@@ -31,14 +31,13 @@ const Metrics = ({ handleDelete }: MetricsProps) => {
   const { setTweet, tweet } = useTweet(twuid?.toString());
 
   // * Update metrics on page load, serve stale until then
-  // useEffect(() => {
-  //   getMetrics();
-  // }, []);
+  useEffect(() => {
+    getMetrics();
+  }, []);
   // TODO Figure out why this breaks everything
 
   // * Gets metrics for the specified tweet and mutates SWR
   const getMetrics = async () => {
-    console.log("getting metrics", tweet.twuid);
     const url = "/api/tweet/published/metrics";
     const res = await fetch(url, {
       method: "POST",
@@ -46,9 +45,7 @@ const Metrics = ({ handleDelete }: MetricsProps) => {
     });
     if (res.status === 200) {
       const resJson = await res.json();
-      console.log("OG TWEET", tweet);
-      console.log("NEW TWEET", { ...tweet, ...resJson });
-      setTweet({ ...tweet, ...resJson });
+      setTweet({ tweet: { ...tweet, ...resJson } });
     }
   };
 

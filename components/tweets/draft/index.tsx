@@ -134,7 +134,7 @@ const DraftTweet = () => {
     });
     if (res.status === 200) {
       const meta = await res.json();
-      setTweet({ ...tweet, metadata: meta, text: formattedTweet });
+      setTweet({ tweet: { ...tweet, metadata: meta, text: formattedTweet } });
     }
   };
 
