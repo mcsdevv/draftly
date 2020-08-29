@@ -62,39 +62,44 @@ const Table = ({
         )}
       </tbody>
     </TableModulz>
-    <Flex
-      sx={{
-        alignItems: "center",
-        height: "48px",
-        justifyContent: "space-between",
-      }}
-    >
-      <Flex sx={{ justifyContent: "flex-start", width: "128px" }}>
-        {pageNumber > 1 && (
-          <>
-            <IconButton sx={{ cursor: "pointer" }} onClick={handlePreviousPage}>
-              <ArrowLeftIcon />
-            </IconButton>
-            <Text ml={1}>Previous Page</Text>
-          </>
-        )}
+    {!loading && (
+      <Flex
+        sx={{
+          alignItems: "center",
+          height: "48px",
+          justifyContent: "space-between",
+        }}
+      >
+        <Flex sx={{ justifyContent: "flex-start", width: "128px" }}>
+          {pageNumber > 1 && (
+            <>
+              <IconButton
+                sx={{ cursor: "pointer" }}
+                onClick={handlePreviousPage}
+              >
+                <ArrowLeftIcon />
+              </IconButton>
+              <Text ml={1}>Previous Page</Text>
+            </>
+          )}
+        </Flex>
+        <Flex sx={{ justifyContent: "center", width: "128px" }}>
+          <Text>
+            Page {pageNumber} of {pageMax}
+          </Text>
+        </Flex>
+        <Flex sx={{ justifyContent: "flex-end", width: "128px" }}>
+          {pageNumber < pageMax && (
+            <>
+              <Text mr={1}>Next Page</Text>
+              <IconButton sx={{ cursor: "pointer" }} onClick={handleNextPage}>
+                <ArrowRightIcon />
+              </IconButton>
+            </>
+          )}
+        </Flex>
       </Flex>
-      <Flex sx={{ justifyContent: "center", width: "128px" }}>
-        <Text>
-          Page {pageNumber} of {pageMax}
-        </Text>
-      </Flex>
-      <Flex sx={{ justifyContent: "flex-end", width: "128px" }}>
-        {pageNumber < pageMax && (
-          <>
-            <Text mr={1}>Next Page</Text>
-            <IconButton sx={{ cursor: "pointer" }} onClick={handleNextPage}>
-              <ArrowRightIcon />
-            </IconButton>
-          </>
-        )}
-      </Flex>
-    </Flex>
+    )}
   </>
 );
 
