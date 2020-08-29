@@ -50,7 +50,7 @@ function Published() {
 
   return (
     <Container size={2}>
-      {publishedPages === 0 || publishedPages === undefined ? (
+      {publishedPages === 0 ? (
         <Flex
           mx="auto"
           sx={{
@@ -86,23 +86,29 @@ function Published() {
           pageNumber={page}
           pageMax={publishedPages}
         >
-          {published?.map((p) => (
-            <Row
-              handleOnDelete={() => handleDelete(p.twuid)}
-              key={p.twuid}
-              row={[
-                p.title,
-                p.text,
-                [...scope?.members, ...scope?.owners].find(
-                  (m) => m.uid === p.created_by
-                )?.name,
-                ago(new Date(p.created_at)),
-                ago(new Date(p.updated_at)),
-              ]}
-              twuid={p.twuid}
-              type="published"
-            />
-          ))}
+          {publishedPages !== undefined ? (
+            published?.map((p) => (
+              <Row
+                handleOnDelete={() => handleDelete(p.twuid)}
+                key={p.twuid}
+                row={[
+                  p.title,
+                  p.text,
+                  [...scope?.members, ...scope?.owners].find(
+                    (m) => m.uid === p.created_by
+                  )?.name,
+                  ago(new Date(p.created_at)),
+                  ago(new Date(p.updated_at)),
+                ]}
+                twuid={p.twuid}
+                type="published"
+              />
+            ))
+          ) : (
+            <Heading mb={4} as="h2" size={4}>
+              Loading tweets...
+            </Heading>
+          )}
         </Table>
       )}
     </Container>
