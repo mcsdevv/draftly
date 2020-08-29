@@ -70,15 +70,7 @@ function Drafts() {
         <Table
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
-          headers={[
-            "Title",
-            "Text",
-            "Created By",
-            "Created At",
-            "Last Updated",
-            "View",
-            "Delete",
-          ]}
+          loading={draftPages === undefined}
           pageNumber={page}
           pageMax={draftsPages}
         >

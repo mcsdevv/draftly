@@ -10,17 +10,18 @@ import { ArrowRightIcon, TrashIcon } from "@modulz/radix-icons";
 
 interface RowProps {
   handleOnDelete?: () => void;
-  row: string[];
-  twuid: string;
-  type: string;
+  loading?: boolean;
+  row?: string[];
+  twuid?: string;
+  type?: string;
 }
 
-const Table = ({ handleOnDelete, row, twuid, type }: RowProps) => {
+const Table = ({ handleOnDelete, loading, row, twuid, type }: RowProps) => {
   const { scope } = useScope();
   const handle = scope?.handle;
-  return (
+  return !loading ? (
     <Tr>
-      {row.map((r, i) => (
+      {row?.map((r, i) => (
         <Td key={r + i}>
           <Box
             sx={{
@@ -28,6 +29,7 @@ const Table = ({ handleOnDelete, row, twuid, type }: RowProps) => {
               overflow: "hidden",
               textOverflow: "ellipsis",
               maxWidth: "160px",
+              margin: 0,
               width: "fit-content",
             }}
           >
@@ -54,6 +56,75 @@ const Table = ({ handleOnDelete, row, twuid, type }: RowProps) => {
         >
           <TrashIcon />
         </IconButton>
+      </Td>
+    </Tr>
+  ) : (
+    <Tr>
+      <Td>
+        <Box
+          sx={{
+            bg: "gray200",
+            height: "24px",
+            maxWidth: "160px",
+            width: "100%",
+          }}
+        />
+      </Td>
+      <Td>
+        <Box
+          sx={{
+            bg: "gray200",
+            height: "24px",
+            maxWidth: "160px",
+            width: "100%",
+          }}
+        />
+      </Td>
+      <Td>
+        <Box
+          sx={{
+            bg: "gray200",
+            height: "24px",
+            maxWidth: "160px",
+            width: "100%",
+          }}
+        />
+      </Td>
+      <Td>
+        <Box
+          sx={{
+            bg: "gray200",
+            height: "24px",
+            width: "100%",
+          }}
+        />
+      </Td>
+      <Td>
+        <Box
+          sx={{
+            bg: "gray200",
+            height: "24px",
+            width: "100%",
+          }}
+        />
+      </Td>
+      <Td>
+        <Box
+          sx={{
+            bg: "gray200",
+            height: "24px",
+            width: "100%",
+          }}
+        />
+      </Td>
+      <Td>
+        <Box
+          sx={{
+            bg: "gray200",
+            height: "24px",
+            width: "100%",
+          }}
+        />
       </Td>
     </Tr>
   );

@@ -10,10 +10,14 @@ import {
 } from "@modulz/radix";
 import { ArrowLeftIcon, ArrowRightIcon } from "@modulz/radix-icons";
 
+// * Components
+import Row from "@components/table/row";
+
 interface TableProps {
   children: React.ReactNode;
   handleNextPage?: () => void;
   handlePreviousPage?: () => void;
+  loading: boolean;
   pageNumber: number;
   pageMax: number;
 }
@@ -22,6 +26,7 @@ const Table = ({
   children,
   handleNextPage,
   handlePreviousPage,
+  loading,
   pageNumber,
   pageMax,
 }: TableProps) => (
@@ -31,14 +36,29 @@ const Table = ({
         <Tr>
           <Th sx={{ width: "160px" }}>Title</Th>
           <Th sx={{ width: "160px" }}>Text</Th>
-          <Th sx={{ width: "120px" }}>Created By</Th>
+          <Th sx={{ width: "136px" }}>Created By</Th>
           <Th sx={{ width: "96px" }}>Created At</Th>
           <Th sx={{ width: "96px" }}>Last Updated</Th>
           <Th sx={{ width: "48px" }}>View</Th>
           <Th sx={{ width: "48px" }}>Delete</Th>
         </Tr>
       </Thead>
-      <tbody>{children}</tbody>
+      {loading ? (
+        <tbody>
+          <Row loading />
+          <Row loading />
+          <Row loading />
+          <Row loading />
+          <Row loading />
+          <Row loading />
+          <Row loading />
+          <Row loading />
+          <Row loading />
+          <Row loading />
+        </tbody>
+      ) : (
+        <tbody>{children}</tbody>
+      )}
     </TableModulz>
     <Flex
       sx={{
