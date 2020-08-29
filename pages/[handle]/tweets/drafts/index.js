@@ -70,7 +70,7 @@ function Drafts() {
         <Table
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
-          loading={draftPages === undefined}
+          loading={draftsPages === undefined}
           pageNumber={page}
           pageMax={draftsPages}
         >
