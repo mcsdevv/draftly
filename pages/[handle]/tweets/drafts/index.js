@@ -7,7 +7,7 @@ import useDrafts from "@hooks/use-drafts";
 import useScope from "@hooks/use-scope";
 
 // * Modulz
-import { Button, Container, Flex, Heading } from "@modulz/radix";
+import { Container, Flex, Heading } from "@modulz/radix";
 
 // * Components
 import DashboardLayout from "@components/layouts/pages/dashboard";
