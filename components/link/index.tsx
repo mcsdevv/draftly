@@ -10,7 +10,7 @@ interface LinkProps {
   href: string;
   noMargin?: boolean;
   onClick?: () => void;
-  sx: any;
+  sx?: any;
   type?: string;
   width?: string;
 }

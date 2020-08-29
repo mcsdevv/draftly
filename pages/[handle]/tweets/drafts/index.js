@@ -62,7 +62,6 @@ function Drafts() {
             as={`/${scope?.handle}/tweets/new`}
             href="/[handle]/tweets/new"
             noMargin
-            sx={{ width: "128px" }}
           >
             Create a Draft
           </Link>

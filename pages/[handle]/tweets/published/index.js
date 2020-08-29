@@ -66,7 +66,6 @@ function Published() {
             as={`/${scope?.handle}/tweets/drafts`}
             href="/[handle]/tweets/drafts"
             noMargin
-            sx={{ width: "128px" }}
           >
             Publish a Draft
           </Link>
