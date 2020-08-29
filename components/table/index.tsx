@@ -43,22 +43,24 @@ const Table = ({
           <Th sx={{ width: "48px" }}>Delete</Th>
         </Tr>
       </Thead>
-      {loading ? (
-        <tbody>
-          <Row loading />
-          <Row loading />
-          <Row loading />
-          <Row loading />
-          <Row loading />
-          <Row loading />
-          <Row loading />
-          <Row loading />
-          <Row loading />
-          <Row loading />
-        </tbody>
-      ) : (
-        <tbody>{children}</tbody>
-      )}
+      <tbody>
+        {loading ? (
+          <>
+            <Row loading />
+            <Row loading />
+            <Row loading />
+            <Row loading />
+            <Row loading />
+            <Row loading />
+            <Row loading />
+            <Row loading />
+            <Row loading />
+            <Row loading />
+          </>
+        ) : (
+          children
+        )}
+      </tbody>
     </TableModulz>
     <Flex
       sx={{
