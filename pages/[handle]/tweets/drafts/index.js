@@ -46,7 +46,7 @@ function Drafts() {
 
   return (
     <Container size={2}>
-      {draftsPages === 0 || draftsPages === undefined ? (
+      {draftsPages === 0 ? (
         <Flex
           mx="auto"
           sx={{
