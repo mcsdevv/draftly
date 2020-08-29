@@ -29,8 +29,8 @@ const ComposeTweet = () => {
   const [completed, setCompleted] = useState(false);
   const [createdId, setCreatedId] = useState("");
   const [saving, setSaving] = useState(false);
+  const [text, setText] = useState("");
   const [title, setTitle] = useState("");
-  const [tweet, setTweet] = useState("");
   const { revalidateDrafts } = useDrafts();
   const { revalidatePublished } = usePublished();
 
@@ -43,9 +43,9 @@ const ComposeTweet = () => {
   // * Handles the saving of the tweet to the database
   const handleSaveDraft = async () => {
     setSaving(true);
-    const metadata = await getMetadata(tweet);
+    const metadata = await getMetadata(text);
     const url = "/api/tweet/draft/create";
-    const formattedTweet = removeWww(tweet);
+    const formattedTweet = removeWww(text);
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -62,7 +62,7 @@ const ComposeTweet = () => {
       revalidateDrafts();
       revalidatePublished();
       setTitle("");
-      setTweet("");
+      setText("");
     }
   };
 
@@ -74,7 +74,7 @@ const ComposeTweet = () => {
   // * Updates the tweet on change
   const handleTweetChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     if (e.currentTarget.value.length < 281) {
-      setTweet(e.currentTarget.value);
+      setText(e.currentTarget.value);
     }
   };
 
@@ -124,9 +124,9 @@ const ComposeTweet = () => {
               placeholder="Draft your tweet..."
               onChange={handleTweetChange}
               // onKeyDown={handleOnKeyDown}
-              value={tweet}
+              value={text}
             />
-            <Characters progress={(tweet.length / 280) * 100} />
+            <Characters progress={(text.length / 280) * 100} />
           </Container>
           <Flex
             sx={{
@@ -134,7 +134,7 @@ const ComposeTweet = () => {
             }}
           >
             <Button
-              disabled={!tweet || !title}
+              disabled={!text || !title}
               isWaiting={saving}
               ml={2}
               onClick={handleSaveDraft}

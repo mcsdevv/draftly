@@ -43,8 +43,10 @@ export default function Comments() {
     });
     if (res.status === 200) {
       setTweet({
-        ...tweet,
-        comments: comments.filter((c: any) => c.tcuid !== tcuid),
+        tweet: {
+          ...tweet,
+          comments: comments.filter((c: any) => c.tcuid !== tcuid),
+        },
       });
     }
   };
@@ -59,7 +61,9 @@ export default function Comments() {
     setComment("");
     if (res.status === 200) {
       const publishedComment = await res.json();
-      setTweet({ ...tweet, comments: [publishedComment, ...tweet.comments] });
+      setTweet({
+        tweet: { ...tweet, comments: [publishedComment, ...tweet.comments] },
+      });
     }
   };
 

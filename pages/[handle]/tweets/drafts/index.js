@@ -7,12 +7,13 @@ import useDrafts from "@hooks/use-drafts";
 import useScope from "@hooks/use-scope";
 
 // * Modulz
-import { Container } from "@modulz/radix";
+import { Button, Container, Flex, Heading } from "@modulz/radix";
 
 // * Components
+import DashboardLayout from "@components/layouts/pages/dashboard";
+import Link from "@components/link";
 import Row from "@components/table/row";
 import Table from "@components/table";
-import DashboardLayout from "@components/layouts/pages/dashboard";
 
 function Drafts() {
   const [limit, setLimit] = useState(10);
@@ -45,39 +46,62 @@ function Drafts() {
 
   return (
     <Container size={2}>
-      <Table
-        handleNextPage={handleNextPage}
-        handlePreviousPage={handlePreviousPage}
-        headers={[
-          "Title",
-          "Text",
-          "Created By",
-          "Created At",
-          "Last Updated",
-          "View",
-          "Delete",
-        ]}
-        pageNumber={page}
-        pageMax={draftsPages}
-      >
-        {drafts?.map((d) => (
-          <Row
-            handleOnDelete={() => handleDelete(d.twuid)}
-            key={d.twuid}
-            row={[
-              d.title,
-              d.text,
-              [...scope?.members, ...scope?.owners].find(
-                (m) => m.uid === d.created_by
-              )?.name,
-              ago(new Date(d.created_at)),
-              ago(new Date(d.updated_at)),
-            ]}
-            twuid={d.twuid}
-            type="drafts"
-          />
-        ))}
-      </Table>
+      {draftsPages === 0 || draftsPages === undefined ? (
+        <Flex
+          mx="auto"
+          sx={{
+            alignItems: "center",
+            flexDirection: "column",
+            width: "fit-content",
+          }}
+        >
+          <Heading mb={4} as="h2" size={4}>
+            No drafts present!
+          </Heading>
+          <Link
+            as={`/${scope?.handle}/tweets/new`}
+            href="/[handle]/tweets/new"
+            noMargin
+            sx={{ width: "128px" }}
+          >
+            Create a Draft
+          </Link>
+        </Flex>
+      ) : (
+        <Table
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+          headers={[
+            "Title",
+            "Text",
+            "Created By",
+            "Created At",
+            "Last Updated",
+            "View",
+            "Delete",
+          ]}
+          pageNumber={page}
+          pageMax={draftsPages}
+        >
+          {drafts?.map((d) => (
+            <Row
+              handleOnDelete={() => handleDelete(d.twuid)}
+              key={d.twuid}
+              row={[
+                d.title,
+                d.text,
+                [...scope?.members, ...scope?.owners].find(
+                  (m) => m.uid === d.created_by
+                )?.name,
+                ago(new Date(d.created_at)),
+                ago(new Date(d.updated_at)),
+              ]}
+              twuid={d.twuid}
+              type="drafts"
+            />
+          ))}
+        </Table>
+      )}
     </Container>
   );
 }

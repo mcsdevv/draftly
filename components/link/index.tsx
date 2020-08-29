@@ -10,6 +10,7 @@ interface LinkProps {
   href: string;
   noMargin?: boolean;
   onClick?: () => void;
+  sx: any;
   type?: string;
   width?: string;
 }
@@ -20,6 +21,7 @@ const Link = ({
   href,
   noMargin,
   onClick,
+  sx,
   type = "button",
   width,
 }: LinkProps) => {
@@ -28,7 +30,7 @@ const Link = ({
       <a style={{ textDecoration: "none" }}>
         {type === "button" ? (
           <Button
-            sx={{ cursor: "pointer", width: width || "96px" }}
+            sx={{ ...sx, cursor: "pointer", width: width || "96px" }}
             onClick={onClick}
             ml={!noMargin ? 4 : 0}
             size={0}

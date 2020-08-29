@@ -49,39 +49,62 @@ function Published() {
 
   return (
     <Container size={2}>
-      <Table
-        handleNextPage={handleNextPage}
-        handlePreviousPage={handlePreviousPage}
-        headers={[
-          "Title",
-          "Text",
-          "Created By",
-          "Created At",
-          "Last Updated",
-          "View",
-          "Delete",
-        ]}
-        pageNumber={page}
-        pageMax={publishedPages}
-      >
-        {published?.map((p) => (
-          <Row
-            handleOnDelete={() => handleDelete(p.twuid)}
-            key={p.twuid}
-            row={[
-              p.title,
-              p.text,
-              [...scope?.members, ...scope?.owners].find(
-                (m) => m.uid === p.created_by
-              )?.name,
-              ago(new Date(p.created_at)),
-              ago(new Date(p.updated_at)),
-            ]}
-            twuid={p.twuid}
-            type="published"
-          />
-        ))}
-      </Table>
+      {publishedPages === 0 || publishedPages === undefined ? (
+        <Flex
+          mx="auto"
+          sx={{
+            alignItems: "center",
+            flexDirection: "column",
+            width: "fit-content",
+          }}
+        >
+          <Heading mb={4} as="h2" size={4}>
+            No tweets published!
+          </Heading>
+          <Link
+            as={`/${scope?.handle}/tweets/drafts`}
+            href="/[handle]/tweets/drafts"
+            noMargin
+            sx={{ width: "128px" }}
+          >
+            Publish a Draft
+          </Link>
+        </Flex>
+      ) : (
+        <Table
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+          headers={[
+            "Title",
+            "Text",
+            "Created By",
+            "Created At",
+            "Last Updated",
+            "View",
+            "Delete",
+          ]}
+          pageNumber={page}
+          pageMax={publishedPages}
+        >
+          {published?.map((p) => (
+            <Row
+              handleOnDelete={() => handleDelete(p.twuid)}
+              key={p.twuid}
+              row={[
+                p.title,
+                p.text,
+                [...scope?.members, ...scope?.owners].find(
+                  (m) => m.uid === p.created_by
+                )?.name,
+                ago(new Date(p.created_at)),
+                ago(new Date(p.updated_at)),
+              ]}
+              twuid={p.twuid}
+              type="published"
+            />
+          ))}
+        </Table>
+      )}
     </Container>
   );
 }

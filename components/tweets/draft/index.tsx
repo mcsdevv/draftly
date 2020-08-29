@@ -53,8 +53,10 @@ const DraftTweet = () => {
     if (res.status === 200) {
       const approval = await res.json();
       setTweet({
-        ...tweet,
-        approvals: [approval, ...tweet.approvals],
+        tweet: {
+          ...tweet,
+          approvals: [approval, ...tweet.approvals],
+        },
       });
     }
   };
