@@ -9,11 +9,13 @@
 }
 
 .name {
+  color: var(--twitter-color-8);
   font-family: var(--font-family-tweet);
   font-weight: 700;
 }
 
 .padlock {
+  color: var(--twitter-color-8);
   height: 18.75px;
   margin-left: 1.5px;
   margin-top: 2px;
@@ -22,21 +24,21 @@
 
 .handle {
   font-weight: 400;
-  color: rgb(101, 119, 134);
+  color: var(--twitter-color-3);
   margin-left: 4px;
 }
 
 .dot {
   align-content: center;
-  color: rgb(101, 119, 134);
+  color: var(--twitter-color-3);
   display: grid;
-  font-weight: 400;
-  height: 12px;
+  font-weight: 500;
+  height: 14px;
   padding: 2px 5px;
 }
 
 .date {
-  color: rgb(101, 119, 134);
+  color: var(--twitter-color-3);
   display: flex;
 }
 
@@ -50,7 +52,7 @@
 }
 
 .arrow {
-  color: rgb(101, 119, 134);
+  color: var(--twitter-color-3);
   margin-left: auto;
   width: 15px;
 }

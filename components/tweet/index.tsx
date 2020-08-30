@@ -1,7 +1,8 @@
-import styles from "./tweet.module.css";
-
 // * Components
 import Card from "../card";
+
+// * Styles
+import styles from "./tweet.module.css";
 
 interface TweetProps {
   children?: React.ReactNode;

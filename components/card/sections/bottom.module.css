@@ -7,7 +7,7 @@
 }
 
 .icon {
-  color: rgb(101, 119, 134);
+  color: var(--twitter-color-3);
   height: 16.75px;
   width: 16.75px;
 }

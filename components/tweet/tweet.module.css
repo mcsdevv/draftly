@@ -3,14 +3,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* margin: 0 8px; */
   max-width: 598px;
 }
 
 .tweet {
-  border: 1px solid rgb(230, 236, 240);
+  background: var(--twitter-color-1);
+  border: 1px solid var(--twitter-color-2);
   display: flex;
-  /* margin-right: 32px; */
   padding: 10px 15px;
   width: 100%;
 }
