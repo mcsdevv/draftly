@@ -19,8 +19,7 @@ if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
 
 const App = ({ Component, pageProps, err }) => {
   // * Use static layout from component, falling back to marketing
-  const getLayout =
-    Component.getLayout || ((page) => <MarketingLayout children={page} />);
+  const getLayout = Component.getLayout || ((page) => page);
 
   return (
     <>

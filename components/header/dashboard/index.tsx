@@ -1,11 +1,12 @@
 // * Libraries
 import { useState } from "react";
+import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
 // * Hooks
 import useScope from "@hooks/use-scope";
 
-// * Mpdulz
+// * Modulz
 import { Button, Flex } from "@modulz/radix";
 
 // * Components
@@ -13,16 +14,15 @@ import Link from "@components/link";
 import Scope from "@components/scope";
 
 const Header = () => {
+  const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(!!Cookies.get("id_token"));
-  const [loggingIn, setLoggingIn] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const { scope } = useScope();
   const handle = scope?.handle;
 
   // * Send user to login
   const loginUser = () => {
-    setLoggingIn(true);
-    window.location.href = "/api/auth/login";
+    router.push("/login");
   };
 
   // * End session with Auth0, remove cookies and redirect to marketing page
@@ -77,7 +77,7 @@ const Header = () => {
         )}
         <Button
           sx={{ cursor: "pointer", width: "96px" }}
-          isWaiting={loggingIn || loggingOut}
+          isWaiting={loggingOut}
           onClick={loggedIn ? logoutUser : loginUser}
           ml={loggedIn ? 4 : "auto"}
           size={0}

@@ -27,6 +27,7 @@ const MarketingLayout = ({ children, name }: MarketingLayoutProps) => {
   return loaded ? (
     <>
       <Container
+        mb={8}
         sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
         size={3}
       >

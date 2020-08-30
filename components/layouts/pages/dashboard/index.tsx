@@ -14,6 +14,7 @@ interface DashboardLayoutProps {
 const DashboardLayout = ({ children, name }: DashboardLayoutProps) => (
   <RequireLogin>
     <Container
+      mb={8}
       sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
       size={3}
     >
