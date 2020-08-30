@@ -21,7 +21,7 @@ function Login() {
       }}
     >
       <Heading as="h2" mb={4} size={5}>
-        Logging Authentication Provider ...
+        Loading Authentication Provider ...
       </Heading>
       <Button isWaiting={true} size={1}>
         Longer than usual login text.
