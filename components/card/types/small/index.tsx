@@ -1,9 +1,6 @@
 // * Libraries
 import Linkify from "react-linkify";
 
-// * Modulz
-import { Textarea } from "@modulz/radix";
-
 // * Components
 import CardBottom from "../../sections/bottom";
 import CardTop from "../../sections/top";
@@ -11,10 +8,6 @@ import Characters from "../../../characters";
 
 // * Styles
 import styles from "./small.module.css";
-
-// interface Meta {
-
-// }
 
 interface Scope {
   handle: string;
@@ -45,7 +38,11 @@ const Small = ({
         {!editing ? (
           text
         ) : (
-          <Textarea onChange={handleOnChange} value={editTweet} />
+          <textarea
+            className={styles.textarea}
+            onChange={handleOnChange}
+            value={editTweet}
+          />
         )}
       </Linkify>
     </p>

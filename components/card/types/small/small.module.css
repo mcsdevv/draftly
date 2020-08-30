@@ -15,7 +15,7 @@
 }
 
 .cardText > a {
-  color: rgb(27, 149, 224);
+  color: var(--twitter-color-4);
   font-size: 15px;
   text-decoration: none;
 }
@@ -25,7 +25,16 @@
 }
 
 .cardText > a:visited {
-  color: rgb(27, 149, 224);
+  color: var(--twitter-color-4);
+}
+
+.textarea {
+  background: var(--twitter-color-1);
+  border: 1px solid var(--twitter-color-5);
+  color: var(--twitter-color-8);
+  min-height: 80px;
+  max-width: 100%;
+  width: 100%;
 }
 
 .cardLink {
@@ -33,7 +42,7 @@
 }
 
 .summary {
-  border: 1px solid rgb(204, 214, 221);
+  border: 1px solid var(--twitter-color-5);
   border-radius: 14px;
   box-sizing: border-box;
   display: flex;
@@ -58,7 +67,7 @@
 
 .fallback {
   align-items: center;
-  background: rgb(245, 248, 250);
+  background: var(--twitter-color-7);
   border-bottom-left-radius: 13px;
   border-top-left-radius: 13px;
   display: flex;
@@ -67,14 +76,14 @@
 }
 
 .fallbackIcon {
-  color: rgb(101, 119, 134);
-  fill: rgb(101, 119, 134);
+  color: var(--twitter-color-3);
+  fill: var(--twitter-color-3);
   height: 30px;
 }
 
 .contentContainer {
   background: #fff;
-  border-left: 1px solid rgb(204, 214, 221);
+  border-left: 1px solid var(--twitter-color-5);
   border-bottom-right-radius: 14px;
   border-top-right-radius: 14px;
   box-sizing: border-box;
@@ -88,7 +97,7 @@
 }
 
 .title {
-  color: rgb(20, 23, 26);
+  color: var(--twitter-color-6);
   font-size: 15px;
   font-weight: 400;
   margin-bottom: 2px;
@@ -99,7 +108,7 @@
 }
 
 .description {
-  color: rgb(101, 119, 134);
+  color: var(--twitter-color-7);
   -webkit-box-orient: vertical;
   display: -webkit-box;
   font-weight: 400;
@@ -112,16 +121,16 @@
 .linkContainer {
   align-items: center;
   display: flex;
-  color: rgb(101, 119, 134);
+  color: var(--twitter-color-3);
   font-weight: 400;
 }
 
 .linkIcon {
-  fill: rgb(101, 119, 134);
+  fill: var(--twitter-color-3);
   height: 16px;
   margin-right: 2px;
   margin-top: 4px;
-  stroke: rgb(101, 119, 134);
+  stroke: var(--twitter-color-3);
   stroke-width: 0.01em;
   width: 16px;
 }

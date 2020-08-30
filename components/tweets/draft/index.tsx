@@ -154,6 +154,7 @@ const DraftTweet = () => {
           <Controls
             editing={editing}
             disableApprove={disableApprove}
+            disableRefresh={tweet?.metadata?.cardType === "text"}
             handleApprove={handleApprove}
             handleCancelEdit={handleCancelEdit}
             handleDelete={handleDelete}
