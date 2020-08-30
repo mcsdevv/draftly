@@ -2,7 +2,10 @@
 import { Button, Flex, Heading } from "@modulz/radix";
 
 function Login() {
-  window.location.href = "/api/auth/login";
+  const redirectToLogin = () => {
+    window.location.href = "/api/auth/login";
+  };
+  redirectToLogin();
   return (
     <Flex
       sx={{
