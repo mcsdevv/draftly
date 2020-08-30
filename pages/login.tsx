@@ -1,3 +1,6 @@
+// * Libraries
+import { useEffect } from "react";
+
 // * Modulz
 import { Button, Flex, Heading } from "@modulz/radix";
 
@@ -5,7 +8,9 @@ function Login() {
   const redirectToLogin = () => {
     window.location.href = "/api/auth/login";
   };
-  redirectToLogin();
+  useEffect(() => {
+    redirectToLogin();
+  }, []);
   return (
     <Flex
       sx={{
