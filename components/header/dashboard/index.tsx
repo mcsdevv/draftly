@@ -1,7 +1,7 @@
 // * Libraries
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
 
 // * Hooks
 import useScope from "@hooks/use-scope";
