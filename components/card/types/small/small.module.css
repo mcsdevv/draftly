@@ -28,6 +28,15 @@
   color: var(--twitter-color-4);
 }
 
+.textarea {
+  background: var(--twitter-color-1);
+  border: 1px solid var(--twitter-color-5);
+  color: var(--twitter-color-8);
+  min-height: 80px;
+  max-width: 100%;
+  width: 100%;
+}
+
 .cardLink {
   text-decoration: none;
 }

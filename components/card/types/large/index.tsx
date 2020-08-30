@@ -1,9 +1,6 @@
 // * Libraries
 import Linkify from "react-linkify";
 
-// * Modulz
-import { Textarea } from "@modulz/radix";
-
 // * Components
 import CardBottom from "../../sections/bottom";
 import CardTop from "../../sections/top";
@@ -41,7 +38,11 @@ const Large = ({
         {!editing ? (
           text
         ) : (
-          <Textarea onChange={handleOnChange} value={editTweet} />
+          <textarea
+            className={styles.textarea}
+            onChange={handleOnChange}
+            value={editTweet}
+          />
         )}
       </Linkify>
     </p>
