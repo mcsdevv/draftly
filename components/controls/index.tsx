@@ -80,12 +80,19 @@ const Controls = ({
     "--twitter-color-4": "rgb(87, 148, 221)",
     "--twitter-color-5": "rgb(62, 70, 78)",
     "--twitter-color-6": "rgb(255, 255, 255)",
-    "--twitter-color-7": "rgb(245, 248, 250)", // needs confirming
+    "--twitter-color-7": "rgb(245, 248, 250)", // needs confirming (small card only no image)
     "--twitter-color-8": "rgb(255, 255, 255)",
   };
 
   const lightsOutTheme = {
-    "--twitter-color-1": "white",
+    "--twitter-color-1": "rgb(0, 0, 0)",
+    "--twitter-color-2": "rgb(52, 54, 57)",
+    "--twitter-color-3": "rgb(112, 117, 124)",
+    "--twitter-color-4": "rgb(87, 148, 221)",
+    "--twitter-color-5": "rgb(52, 54, 57)",
+    "--twitter-color-6": "rgb(216, 216, 216)",
+    "--twitter-color-7": "rgb(245, 248, 250)", // needs confirming (small card only no image)
+    "--twitter-color-8": "rgb(216, 216, 216)",
   };
 
   // * Define a list of theme variables
