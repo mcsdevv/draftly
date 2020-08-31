@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 // * Hooks
 import useScope from "@hooks/use-scope";
+import useUser from "@hooks/use-user";
 
 // * Modulz
 import { Button, Flex } from "@modulz/radix";
@@ -18,6 +19,7 @@ const Header = () => {
   const [loggedIn, setLoggedIn] = useState(!!Cookies.get("id_token"));
   const [loggingOut, setLoggingOut] = useState(false);
   const { scope } = useScope();
+  const { teams } = useUser();
   const handle = scope?.handle;
 
   // * Send user to login
@@ -50,7 +52,7 @@ const Header = () => {
     >
       <Flex>{loggedIn && <Scope />}</Flex>
       <Flex>
-        {loggedIn && (
+        {loggedIn && scope !== null && teams?.length > 0 && (
           <>
             <Link as={`/${handle}/tweets/new`} href="/[handle]/tweets/new">
               Create Draft
