@@ -13,14 +13,15 @@ const getCardMetadata = async (req, res) => {
 
   const post = {
     // * Get canonical URL
-    canonical: $('link[rel="canonical"]').attr("href"),
+    canonical: $('link[rel="canonical"]').attr("href") || null,
 
     // * Get OG Values
-    og_description: $('meta[property="og:description"]').attr("content"),
-    og_img: $('meta[property="og:image"]').attr("content"),
-    og_title: $('meta[property="og:title"]').attr("content"),
-    og_type: $('meta[property="og:type"]').attr("content"),
-    og_url: $('meta[property="og:url"]').attr("content"),
+    og_description:
+      $('meta[property="og:description"]').attr("content") || null,
+    og_img: $('meta[property="og:image"]').attr("content") || null,
+    og_title: $('meta[property="og:title"]').attr("content") || null,
+    og_type: $('meta[property="og:type"]').attr("content") || null,
+    og_url: $('meta[property="og:url"]').attr("content") || null,
 
     // * Get Twitter Values
     twitter_app_name_googleplay:
