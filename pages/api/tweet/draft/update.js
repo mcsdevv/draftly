@@ -11,6 +11,8 @@ const updateDraftTweet = async (req, res) => {
   // * Update draft tweet
   await query(escape`UPDATE tweets SET text=${text} WHERE twuid=${twuid}`);
 
+  console.log("META", metadata);
+
   // * Format meta
   const meta = { twuid, ...metadata };
 

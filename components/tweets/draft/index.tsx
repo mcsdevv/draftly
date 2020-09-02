@@ -124,6 +124,8 @@ const DraftTweet = () => {
     // * Changes made, update tweet
     setEditing(false);
     const metadata = await getMetadata(editTweet);
+
+    console.log("meteteet", metadata);
     const url = "/api/tweet/draft/update";
     const formattedTweet = removeWww(editTweet);
     const res = await fetch(url, {
