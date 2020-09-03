@@ -17,10 +17,7 @@ export default function useScope() {
   };
 
   // * Fetch scope from cache
-  const { data: scope, revalidate: revalidateScope, mutate: setScope } = useSWR(
-    "/scope",
-    options
-  );
+  const { data: scope, mutate: setScope } = useSWR("/scope", options);
 
   // * Get team handle and twuid (if present) from router
   const router = useRouter();
@@ -73,5 +70,5 @@ export default function useScope() {
     }
     setNewScope();
   }, [handle, teams]);
-  return { scope, setScope, revalidateScope, updateScope };
+  return { scope, setScope, updateScope };
 }

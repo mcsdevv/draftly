@@ -16,7 +16,7 @@ import Tweet from "@components/tweet";
 
 const PublishedTweet = () => {
   const { scope } = useScope();
-  const { revalidatePublished } = usePublished();
+  const { setPublished } = usePublished();
   const router = useRouter();
 
   // * Get twuid from route query
@@ -35,7 +35,7 @@ const PublishedTweet = () => {
       }),
     });
     if (res.status === 200) {
-      revalidatePublished();
+      setPublished([]);
       router.push(
         "/[handle]/tweets/published",
         `/${router.query.handle}/tweets/published/`,

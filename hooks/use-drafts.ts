@@ -11,10 +11,10 @@ export default function useDrafts(limit: number = 10, page: number = 1): any {
   const { scope } = useScope();
   const tuid = scope?.tuid;
 
-  const { data, revalidate: revalidateDrafts, mutate: setDrafts } = useSWR(
+  const { data, mutate: setDrafts } = useSWR(
     tuid ? `/api/tweets/drafts?limit=${limit}&page=${page}` : null,
     fetcher
   );
 
-  return { ...data, revalidateDrafts, setDrafts };
+  return { ...data, setDrafts };
 }

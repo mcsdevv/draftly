@@ -15,8 +15,8 @@ import { Option, Select } from "@modulz/radix";
 import Link from "@components/link";
 
 const Scope = () => {
-  const { revalidateDrafts, setDrafts } = useDrafts();
-  const { revalidatePublished, setPublished } = usePublished();
+  const { setDrafts } = useDrafts();
+  const { setPublished } = usePublished();
   const { scope, updateScope } = useScope();
   const { teams } = useUser();
   const router = useRouter();
@@ -36,8 +36,6 @@ const Scope = () => {
     Cookies.set("tuid", scopeDetails?.tuid);
     setDrafts([]);
     setPublished([]);
-    revalidateDrafts();
-    revalidatePublished();
 
     // * Update the scope
     updateScope(scopeDetails.handle, { ...scopeDetails });
