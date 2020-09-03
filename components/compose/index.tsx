@@ -31,8 +31,8 @@ const ComposeTweet = () => {
   const [saving, setSaving] = useState(false);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
-  const { revalidateDrafts } = useDrafts();
-  const { revalidatePublished } = usePublished();
+  const { setDrafts } = useDrafts();
+  const { setPublished } = usePublished();
 
   // * Resets state to page defaults
   const handleCreateAnother = () => {
@@ -59,8 +59,8 @@ const ComposeTweet = () => {
       const newDraft = await res.json();
       setCreatedId(newDraft.twuid);
       setSaving(false);
-      revalidateDrafts();
-      revalidatePublished();
+      setDrafts([]);
+      setPublished([]);
       setTitle("");
       setText("");
     }

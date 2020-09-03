@@ -16,7 +16,7 @@ import {
 } from "@modulz/radix";
 
 export default function ChangeTeamName() {
-  const { revalidateProfile } = useUser();
+  const { setUser } = useUser();
   const { scope, setScope } = useScope();
   const [name, setName] = useState(scope?.name);
 
@@ -39,7 +39,7 @@ export default function ChangeTeamName() {
       }),
     });
     if (res.status === 200) {
-      revalidateProfile();
+      setUser();
       setScope({ ...scope, name });
     }
   };

@@ -14,14 +14,10 @@ export default function usePublished(
   const { scope } = useScope();
   const tuid = scope?.tuid;
 
-  const {
-    data,
-    revalidate: revalidatePublished,
-    mutate: setPublished,
-  } = useSWR(
+  const { data, mutate: setPublished } = useSWR(
     tuid ? `/api/tweets/published?limit=${limit}&page=${page}` : null,
     fetcher
   );
 
-  return { ...data, revalidatePublished, setPublished };
+  return { ...data, setPublished };
 }

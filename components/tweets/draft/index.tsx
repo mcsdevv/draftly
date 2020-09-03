@@ -24,8 +24,8 @@ const DraftTweet = () => {
   const [editing, setEditing] = useState(false);
   const [editTweet, setEditTweet] = useState("");
 
-  const { revalidateDrafts } = useDrafts();
-  const { revalidatePublished } = usePublished();
+  const { setDrafts } = useDrafts();
+  const { setPublished } = usePublished();
   const { scope } = useScope();
   const router = useRouter();
 
@@ -74,7 +74,7 @@ const DraftTweet = () => {
       }),
     });
     if (res.status === 200) {
-      revalidateDrafts();
+      setDrafts([]);
       router.push(
         "/[handle]/tweets/drafts",
         `/${router.query.handle}/tweets/drafts/`,
@@ -104,8 +104,8 @@ const DraftTweet = () => {
       }),
     });
     if (res.status === 200) {
-      revalidateDrafts();
-      revalidatePublished();
+      setDrafts([]);
+      setPublished([]);
       router.push(
         "/[handle]/tweets/published",
         `/${router.query.handle}/tweets/published/`,

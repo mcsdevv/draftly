@@ -16,12 +16,12 @@ export default function useTweets(
   const { scope } = useScope();
   const tuid = scope?.tuid;
 
-  const { data, revalidate: revalidateTweets, mutate: setTweets } = useSWR(
+  const { data, mutate: setTweets } = useSWR(
     tuid
       ? `/api/tweets?draftLimit=${draftLimit}&draftPage=${draftPage}&publishedLimit=${publishedLimit}&publishedPage=${publishedPage}`
       : null,
     fetcher
   );
 
-  return { ...data, revalidateTweets, setTweets };
+  return { ...data, setTweets };
 }

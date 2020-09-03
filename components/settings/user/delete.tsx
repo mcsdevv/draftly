@@ -17,7 +17,7 @@ import {
 } from "@modulz/radix";
 
 export default function DeleteUser() {
-  const { revalidateProfile, teams, user } = useUser();
+  const { setUser, teams, user } = useUser();
   const { scope, setScope } = useScope();
   const [userName, setUserName] = useState("");
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ export default function DeleteUser() {
       }),
     });
     if (status === 200) {
-      revalidateProfile();
+      setUser();
       setScope(null);
       Cookies.remove("id_token");
       Cookies.remove("access_token");
