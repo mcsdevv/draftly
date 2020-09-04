@@ -48,8 +48,6 @@ const getUserDetails = async (req, res, uid) => {
     };
   });
 
-  console.log("preview?", !!process.env.VERCEL_GITHUB_COMMIT_SHA);
-
   console.log("Retrieved user details for:", userQuery?.uid);
   res.status(200).json({ user: userQuery, teams: teamsWithMembers });
 };
