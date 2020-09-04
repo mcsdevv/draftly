@@ -58,6 +58,7 @@
 .image {
   border-top-left-radius: 13px;
   border-top-right-radius: 13px;
+  height: 100%;
   max-width: 100%;
   width: 100%;
   z-index: -1;
