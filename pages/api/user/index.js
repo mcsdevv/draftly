@@ -48,8 +48,7 @@ const getUserDetails = async (req, res, uid) => {
     };
   });
 
-  console.log("User details:", userQuery);
-  console.log("Teams details:", teamsWithMembers);
+  console.log("Retrieved user details for:", userQuery?.uid);
   res.status(200).json({ user: userQuery, teams: teamsWithMembers });
 };
 
