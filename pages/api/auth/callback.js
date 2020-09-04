@@ -11,7 +11,6 @@ const authCallback = async (req, res) => {
   // * Confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
     // * Send request for token exchange
-    console.log("REQUESTING ACCESS TOKEN");
     const authRes = await fetch(
       `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
       {
@@ -27,7 +26,11 @@ const authCallback = async (req, res) => {
       }
     );
     const auth = await authRes.json();
-    console.log("RECEIVED ACCESS TOKEN", auth);
+
+    // * Throw error if provided by Auth0
+    if (auth.error) {
+      throw new Error(auth.error_description);
+    }
 
     // * Check no error on token exchange
     if (!auth.error) {
