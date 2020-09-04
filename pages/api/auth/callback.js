@@ -8,6 +8,8 @@ import { escape, query } from "@lib/api/db";
 import { getRedirectUrl } from "@lib/api/getRedirectUrl";
 
 const authCallback = async (req, res) => {
+  console.log("QUERY STATE", req.query.state);
+  console.log("COOKIE STATE", req.cookie.state);
   // * Confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
     // * Send request for token exchange

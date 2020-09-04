@@ -15,6 +15,8 @@ const login = async (req, res) => {
     cookie.serialize("nonce", String(nonce), cookieOptions(true, false)),
   ]);
 
+  console.log("INIT STATE", state);
+
   // * Write redirect including openid, profile, and email scopes
   res.writeHead(302, {
     Location: `https://${
