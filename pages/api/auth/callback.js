@@ -5,6 +5,7 @@ import withSentry from "@lib/api/middleware/withSentry";
 import { v4 as uuidv4 } from "uuid";
 import { encrypt } from "@lib/api/token/encryption";
 import { escape, query } from "@lib/api/db";
+import { getRedirectUrl } from "@lib/api/getRedirectUrl";
 
 const authCallback = async (req, res) => {
   // * Confirm state match to mitigate CSRF
@@ -21,7 +22,7 @@ const authCallback = async (req, res) => {
           client_id: process.env.AUTH0_CLIENT_ID,
           client_secret: process.env.AUTH0_CLIENT_SECRET,
           code: req.query.code,
-          redirect_uri: `${process.env.AUTH0_REDIRECT_URI}/api/auth/callback/`,
+          redirect_uri: `${getRedirectUrl(req)}/api/auth/callback/`,
         }),
       }
     );
