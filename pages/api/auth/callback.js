@@ -10,6 +10,7 @@ const authCallback = async (req, res) => {
   // * Confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
     // * Send request for token exchange
+    console.log("REQUESTING ACCESS TOKEN");
     const authRes = await fetch(
       `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
       {
@@ -25,6 +26,7 @@ const authCallback = async (req, res) => {
       }
     );
     const auth = await authRes.json();
+    console.log("RECEIVED ACCESS TOKEN", auth);
 
     // * Check no error on token exchange
     if (!auth.error) {
@@ -70,7 +72,7 @@ const authCallback = async (req, res) => {
 
           // * If user is not a member of the team, add them to the team
           if (!isMember) {
-            const addMember = await query(
+            await query(
               escape`INSERT INTO teams_members (uid, tuid, role)
               VALUES (${uid}, ${invited_to}, 'member')`
             );
