@@ -22,7 +22,8 @@ const login = async (req, res) => {
     }/authorize?response_type=code&audience=${
       process.env.AUTH0_AUDIENCE
     }&client_id=${process.env.AUTH0_CLIENT_ID}&redirect_uri=${getRedirectUrl(
-      req
+      req,
+      res
     )}/api/auth/callback&scope=openid%20profile%20email%20&state=${state}&nonce=${nonce}`,
   });
   res.end();
