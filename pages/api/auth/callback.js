@@ -5,8 +5,11 @@ import withSentry from "@lib/api/middleware/withSentry";
 import { v4 as uuidv4 } from "uuid";
 import { encrypt } from "@lib/api/token/encryption";
 import { escape, query } from "@lib/api/db";
+import { getRedirectUrl } from "@lib/api/getRedirectUrl";
 
 const authCallback = async (req, res) => {
+  console.log("QUERY STATE", req.query.state);
+  console.log("COOKIE STATE", req.cookies.state);
   // * Confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
     // * Send request for token exchange
@@ -20,11 +23,16 @@ const authCallback = async (req, res) => {
           client_id: process.env.AUTH0_CLIENT_ID,
           client_secret: process.env.AUTH0_CLIENT_SECRET,
           code: req.query.code,
-          redirect_uri: `${process.env.AUTH0_REDIRECT_URI}/api/auth/callback/`,
+          redirect_uri: `${getRedirectUrl(req)}/api/auth/callback/`,
         }),
       }
     );
     const auth = await authRes.json();
+
+    // * Throw error if provided by Auth0
+    if (auth.error) {
+      throw new Error(auth.error_description);
+    }
 
     // * Check no error on token exchange
     if (!auth.error) {
@@ -70,7 +78,7 @@ const authCallback = async (req, res) => {
 
           // * If user is not a member of the team, add them to the team
           if (!isMember) {
-            const addMember = await query(
+            await query(
               escape`INSERT INTO teams_members (uid, tuid, role)
               VALUES (${uid}, ${invited_to}, 'member')`
             );
