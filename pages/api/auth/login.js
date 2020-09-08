@@ -17,7 +17,7 @@ const login = async (req, res) => {
     cookie.serialize("nonce", String(nonce), cookieOptions(true, false)),
     cookie.serialize(
       "redirect_uri",
-      String(redirect_uri || ""),
+      String(redirect_uri),
       cookieOptions(true, false)
     ),
   ]);
