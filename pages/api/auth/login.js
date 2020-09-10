@@ -9,6 +9,7 @@ const login = async (req, res) => {
   const state = uuidv4();
   const nonce = uuidv4();
 
+  // * Generate redirect_uri based on the environment
   const redirect_uri = getRedirectUrl(req, res);
 
   // * Add state and nonce as httpOnly cookie for callback to check
