@@ -29,19 +29,21 @@ const Text = ({
   scope,
   text,
 }: TextProps) => (
-  <div className={styles.cardText}>
+  <div className={styles.text}>
     <CardTop handle={scope?.handle} name={scope?.name} />
-    <Linkify>
-      {!editing ? (
-        text
-      ) : (
-        <textarea
-          className={styles.textarea}
-          onChange={handleOnChange}
-          value={editTweet}
-        />
-      )}
-    </Linkify>
+    <p className={styles.cardText}>
+      <Linkify>
+        {!editing ? (
+          text
+        ) : (
+          <textarea
+            className={styles.textarea}
+            onChange={handleOnChange}
+            value={editTweet}
+          />
+        )}
+      </Linkify>
+    </p>
     {editing && editTweet && (
       <Characters progress={(editTweet.length / 280) * 100} />
     )}

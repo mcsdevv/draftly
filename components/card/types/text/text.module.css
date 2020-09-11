@@ -1,4 +1,4 @@
-.cardText {
+.text {
   display: flex;
   flex-direction: column;
   font-family: var(--font-family-tweet);
@@ -15,4 +15,24 @@
   min-height: 80px;
   max-width: 100%;
   width: 100%;
+}
+
+.cardText {
+  color: var(--twitter-color-8);
+  margin-bottom: 0;
+  white-space: pre-wrap;
+}
+
+.cardText > a {
+  color: var(--twitter-color-4);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.cardText > a:hover {
+  text-decoration: underline;
+}
+
+.cardText > a:visited {
+  color: var(--twitter-color-4);
 }
