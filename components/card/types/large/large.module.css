@@ -1,11 +1,11 @@
-.cardLarge {
+.large {
   display: flex;
   flex-direction: column;
   font-size: 15px;
   margin-left: 5px;
 }
 
-.cardLarge * {
+.large * {
   font-family: var(--font-family-tweet);
 }
 
@@ -33,6 +33,7 @@
   background: var(--twitter-color-1);
   border: 1px solid var(--twitter-color-5);
   color: var(--twitter-color-8);
+  font-family: var(--font-family-tweet);
   min-height: 80px;
   max-width: 100%;
   width: 100%;

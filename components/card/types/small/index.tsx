@@ -31,7 +31,7 @@ const Small = ({
   scope,
   text,
 }: SmallProps) => (
-  <div className={styles.cardSmall}>
+  <div className={styles.small}>
     <CardTop handle={scope?.handle} name={scope?.name} />
     <p className={styles.cardText}>
       <Linkify>

@@ -41,7 +41,7 @@ const Large = ({
   };
 
   return (
-    <div className={styles.cardLarge}>
+    <div className={styles.large}>
       <CardTop handle={scope?.handle} name={scope?.name} />
       <p className={styles.cardText}>
         <Linkify>
