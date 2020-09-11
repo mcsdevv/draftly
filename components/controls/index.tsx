@@ -71,6 +71,7 @@ const Controls = ({
     "--twitter-color-6": "rgb(20, 23, 26)", // card title
     "--twitter-color-7": "rgb(245, 248, 250)", // fallback background
     "--twitter-color-8": "rgb(28, 29, 32)", // top name
+    "--twitter-color-9": "rgb(106, 119, 133)", // fallback icon
   };
 
   const dimTheme = {
@@ -80,8 +81,9 @@ const Controls = ({
     "--twitter-color-4": "rgb(87, 148, 221)",
     "--twitter-color-5": "rgb(62, 70, 78)",
     "--twitter-color-6": "rgb(255, 255, 255)",
-    "--twitter-color-7": "rgb(245, 248, 250)", // needs confirming (small card only no image)
+    "--twitter-color-7": "rgb(35, 43, 55)",
     "--twitter-color-8": "rgb(255, 255, 255)",
+    "--twitter-color-9": "rgb(140, 151, 164)",
   };
 
   const lightsOutTheme = {
@@ -91,8 +93,9 @@ const Controls = ({
     "--twitter-color-4": "rgb(87, 148, 221)",
     "--twitter-color-5": "rgb(52, 54, 57)",
     "--twitter-color-6": "rgb(216, 216, 216)",
-    "--twitter-color-7": "rgb(245, 248, 250)", // needs confirming (small card only no image)
+    "--twitter-color-7": "rgb(28, 30, 33)",
     "--twitter-color-8": "rgb(216, 216, 216)",
+    "--twitter-color-9": "rgb(112, 118, 124)",
   };
 
   // * Define a list of theme variables

@@ -83,7 +83,7 @@
 }
 
 .contentContainer {
-  background: #fff;
+  background: var(--twitter-color-1);
   border-left: 1px solid var(--twitter-color-5);
   border-bottom-right-radius: 14px;
   border-top-right-radius: 14px;
@@ -94,6 +94,7 @@
   line-height: 20px;
   max-width: 381px;
   padding: 10px;
+  width: 100%;
   z-index: 1;
 }
 
