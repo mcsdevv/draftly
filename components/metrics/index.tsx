@@ -34,7 +34,6 @@ const Metrics = ({ handleDelete }: MetricsProps) => {
   useEffect(() => {
     getMetrics();
   }, []);
-  // TODO Figure out why this breaks everything
 
   // * Gets metrics for the specified tweet and mutates SWR
   const getMetrics = async () => {
