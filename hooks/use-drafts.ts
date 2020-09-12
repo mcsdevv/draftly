@@ -1,5 +1,6 @@
 // * Libraries
 import useSWR from "swr";
+import { stringify } from "querystring";
 
 // * Helpers
 import fetcher from "@lib/client/fetcher";
@@ -11,8 +12,14 @@ export default function useDrafts(limit: number = 10, page: number = 1): any {
   const { scope } = useScope();
   const tuid = scope?.tuid;
 
+  // * Format query string
+  const query = stringify({
+    limit,
+    page,
+  });
+
   const { data, mutate: setDrafts } = useSWR(
-    tuid ? `/api/tweets/drafts?limit=${limit}&page=${page}` : null,
+    tuid ? `/api/tweets/drafts?${query}` : null,
     fetcher
   );
 
