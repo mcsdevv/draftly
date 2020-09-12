@@ -1,5 +1,6 @@
 // * Libraries
 import useSWR from "swr";
+import { stringify } from "querystring";
 
 // * Helpers
 import fetcher from "@lib/client/fetcher";
@@ -16,10 +17,16 @@ export default function useTweets(
   const { scope } = useScope();
   const tuid = scope?.tuid;
 
+  // * Format query string
+  const query = stringify({
+    draftLimit,
+    draftPage,
+    publishedLimit,
+    publishedPage,
+  });
+
   const { data, mutate: setTweets } = useSWR(
-    tuid
-      ? `/api/tweets?draftLimit=${draftLimit}&draftPage=${draftPage}&publishedLimit=${publishedLimit}&publishedPage=${publishedPage}`
-      : null,
+    tuid ? `/api/tweets?${query}` : null,
     fetcher
   );
 
