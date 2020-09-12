@@ -9,6 +9,8 @@ import withSentry from "@lib/api/middleware/withSentry";
 
 const sendInvite = async (req, res) => {
   const { code, team, to, tuid } = JSON.parse(req.body);
+
+  // * Initialize SendGrid
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
   // * Format query string
