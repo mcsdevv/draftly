@@ -72,7 +72,10 @@ const Header = () => {
             <Link as={`/${handle}/dashboard`} href="/[handle]/dashboard">
               Dashboard
             </Link>
-            <Link as={`/${handle}/settings`} href="/[handle]/settings">
+            <Link
+              as={`/${handle}/settings/account`}
+              href="/[handle]/settings/account"
+            >
               Settings
             </Link>
           </>

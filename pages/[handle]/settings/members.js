@@ -1,18 +1,25 @@
+// * Hooks
 import useScope from "@hooks/use-scope";
 import useUser from "@hooks/use-user";
 
-import styles from "@styles/pages/settings.module.css";
-
+// * Components
+import DashboardLayout from "@components/layouts/pages/dashboard";
+import SettingsLayout from "@components/layouts/components/settings";
 import Members from "@components/settings/members";
 
-function TeamMembers() {
+function MembersSettings() {
   const { scope } = useScope();
-  const { teams, user } = useUser();
-  return (
-    <div className={styles.container}>
-      {scope && teams && user ? <Members loading={!!user} /> : null}
-    </div>
-  );
+  const { user } = useUser();
+  const isOwner = scope?.owners.includes(user && user.email);
+  return scope && user ? (
+    <Members disabled={!isOwner} loading={!!user} />
+  ) : null;
 }
 
-export default TeamMembers;
+MembersSettings.getLayout = (page) => (
+  <DashboardLayout name="Settings - Account">
+    <SettingsLayout>{page}</SettingsLayout>
+  </DashboardLayout>
+);
+
+export default MembersSettings;
