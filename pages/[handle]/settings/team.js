@@ -5,21 +5,27 @@ import useUser from "@hooks/use-user";
 // * Components
 import DashboardLayout from "@components/layouts/pages/dashboard";
 import SettingsLayout from "@components/layouts/components/settings";
-import Members from "@components/settings/members";
+import ChangeTeamName from "@components/settings/team/changeName";
+import DeleteTeam from "@components/settings/team/delete";
+import Reviews from "@components/settings/reviews";
 
-function MembersSettings() {
+function TeamSettings() {
   const { scope } = useScope();
   const { user } = useUser();
   const isOwner = scope?.owners.includes(user && user.email);
   return scope && user ? (
-    <Members disabled={!isOwner} loading={!!user} />
+    <>
+      <ChangeTeamName disabled={!isOwner} loading={!!user} />
+      <Reviews disabled={!isOwner} loading={!!user} />
+      <DeleteTeam disabled={!isOwner} loading={!!user} />
+    </>
   ) : null;
 }
 
-MembersSettings.getLayout = (page) => (
+TeamSettings.getLayout = (page) => (
   <DashboardLayout name="Settings - Account">
     <SettingsLayout>{page}</SettingsLayout>
   </DashboardLayout>
 );
 
-export default MembersSettings;
+export default TeamSettings;
