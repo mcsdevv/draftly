@@ -2,54 +2,47 @@ import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
 import { escape, query } from "@lib/api/db";
 
-const getUserDetails = async (req, res, uid) => {
-  // * Select user from database
-  const [userQuery] = await query(
-    escape`SELECT * FROM users WHERE uid = ${uid}`
+const getUserDetails = async (_req, res, uid) => {
+  // * Select user, teams part of, and team members
+  const data = await query(
+    escape`SELECT * FROM users WHERE uid = ${uid};
+
+    SELECT * FROM teams t
+    LEFT JOIN teams_members tm ON t.tuid = tm.tuid
+    WHERE uid = ${uid};
+
+    SELECT * FROM users u
+    LEFT JOIN teams_members tm ON u.uid = tm.uid
+    WHERE tm.tuid in(
+      SELECT t.tuid 
+      FROM teams t
+      LEFT JOIN teams_members tm ON t.tuid = tm.tuid
+      WHERE uid = ${uid}
+    );`
   );
 
-  // * Select all teams of the user
-  const teams = await query(
-    escape`SELECT * FROM teams_members
-      LEFT JOIN teams ON teams.tuid = teams_members.tuid
-      WHERE uid = ${uid}`
-  );
+  const allData = () => {
+    const user = { ...data[0] };
 
-  // * Delete keys for all teams
-  const teamsNoKeys = teams.map((t) => {
-    const { token_key, token_secret, ...team } = t;
-    return team;
-  });
-
-  // * Get all team members for listed teams
-  const getTeamMembers = async () => {
-    const members = await Promise.all(
-      teamsNoKeys.map((t) => {
-        return query(
-          escape`SELECT * FROM teams_members
-            LEFT JOIN users ON users.uid = teams_members.uid
-            WHERE tuid = ${t.tuid}`
-        );
-      })
-    );
-    const membersFlat = [].concat.apply([], members);
-    return membersFlat;
+    const teams = data[1].map((t) => {
+      // TODO Request less from database
+      delete t.role;
+      delete t.token_key;
+      delete t.token_secret;
+      delete t.uid;
+      return {
+        ...t,
+        members: data[2].filter(
+          (m) => m.role === "member" && m.tuid === t.tuid
+        ),
+        owners: data[2].filter((m) => m.role === "owner" && m.tuid === t.tuid),
+      };
+    });
+    return { user, teams };
   };
 
-  const teamMembers = await getTeamMembers();
-
-  // * Add members to all teams
-  const teamsWithMembers = teamsNoKeys.map((t) => {
-    const members = teamMembers.filter((m) => m.tuid === t.tuid);
-    return {
-      ...t,
-      members: members.filter((m) => m.role === "member"),
-      owners: members.filter((m) => m.role === "owner"),
-    };
-  });
-
-  console.log("Retrieved user details for:", userQuery?.uid);
-  res.status(200).json({ user: userQuery, teams: teamsWithMembers });
+  console.log("Retrieved user details for:", uid);
+  res.status(200).json({ ...allData() });
 };
 
 export default verify(withSentry(getUserDetails));
