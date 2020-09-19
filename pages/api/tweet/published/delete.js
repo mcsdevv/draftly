@@ -33,8 +33,7 @@ const deletePublishedTweet = async (req, res, _uid, tuid) => {
     }
 
     // * Delete published tweet and meta
-    await query(escape`DELETE FROM tweets WHERE twuid = ${twuid};
-              DELETE FROM tweets_meta WHERE twuid = ${twuid}`);
+    await query(escape`DELETE FROM tweets WHERE twuid = ${twuid}`);
 
     // * Send response
     console.log("Deleted tweet:", twuid);
