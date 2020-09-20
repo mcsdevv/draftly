@@ -41,9 +41,6 @@ const authCallback = async (req, res) => {
       // * Encrypt access token
       const access_token = encrypt(auth.access_token);
 
-      console.log("COOKIE NONCE", req.cookies.nonce);
-      console.log("ID NONCE", id_token);
-
       // * Confirm nonce match to mitigate token replay attack
       if (req.cookies.nonce === id_token.nonce) {
         let uid;

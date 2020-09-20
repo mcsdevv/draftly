@@ -5,6 +5,8 @@ import { escape, query } from "@lib/api/db";
 const deleteUser = async (req, res, uid) => {
   const { teams } = JSON.parse(req.body);
 
+  // TODO Improve with join
+
   // * Find which teams only have one owner
   const teamsOneOwner = teams.filter((t) => t.owners.length === 1);
 
@@ -18,8 +20,7 @@ const deleteUser = async (req, res, uid) => {
   const deleteTeams = async () => {
     await Promise.all(
       teamsToDelete.forEach((t) => {
-        query(escape`DELETE FROM teams WHERE tuid = ${t.tuid};
-            DELETE FROM teams_members WHERE tuid = ${t.tuid}`);
+        query(escape`DELETE FROM teams WHERE tuid = ${t.tuid}`);
       })
     );
   };
