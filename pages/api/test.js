@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export default async function handle(req, res) {
   const tweets = await prisma.tweets.findMany({
-    where: { tuid: "0afb2e30-a728-436f-9b40-6d6cb47fd22b" },
+    where: { tuid: "40f2df95-6488-4b7b-8d82-46744f548489" },
     include: {
       tweets_approvals: true,
       tweets_comments: true,
