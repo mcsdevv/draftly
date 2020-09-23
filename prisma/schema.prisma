@@ -13,7 +13,7 @@ model teams {
   protected        Boolean
   handle           String          @default("")
   avatar           String          @default("")
-  reviews_required Int             @default(0)
+  reviews_required String          @default("")
   plan             String          @default("")
   token_secret     String          @default("")
   token_key        String          @default("")
@@ -45,9 +45,9 @@ model tweets {
   created_at         DateTime           @default(now())
   created_by         String
   updated_at         DateTime           @default(now())
-  retweets           Int
-  replies            Int
-  favorites          Int
+  retweets           String
+  replies            String
+  favorites          String
   metrics_updated_at DateTime?          @default(now())
   tweet_id           String
   teams              teams              @relation(fields: [tuid], references: [tuid])
