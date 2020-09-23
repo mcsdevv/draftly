@@ -3,8 +3,13 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default async function handle(req, res) {
-  const user = await prisma.users.findOne({
-    where: { uid: "065f9ef7-759b-4df8-be84-ffe2d5d9c322" },
+  const tweets = await prisma.tweets.findMany({
+    where: { tuid: "0afb2e30-a728-436f-9b40-6d6cb47fd22b" },
+    include: {
+      tweets_approvals: true,
+      tweets_comments: true,
+      tweets_meta: true,
+    },
   });
-  res.json(user);
+  res.json(tweets);
 }
