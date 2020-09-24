@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:draftlylocal@127.0.0.1:3306/draftly?connection_limit=1"
+  url      = env("DATABASE_URL")
 }
 
 model teams {
