@@ -15,16 +15,6 @@ const getAllTweets = async (req, res, _uid, tuid) => {
     },
   });
 
-  // * Add meta, approvals, and comments to tweets
-  const tweets = tweetsQuery.map((t) => {
-    return {
-      ...t,
-      metadata: metaQuery.find((m) => m.twuid === t.twuid),
-      approvals: approvals.filter((m) => m.twuid === t.twuid),
-      comments: comments.filter((m) => m.twuid === t.twuid),
-    };
-  });
-
   // * Format into tweet types
   const drafts = tweets.filter((t) => {
     return t.type === "draft";
