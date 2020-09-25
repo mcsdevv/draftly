@@ -51,9 +51,9 @@ model tweets {
   metrics_updated_at DateTime?          @default(now())
   tweet_id           String
   teams              teams              @relation(fields: [tuid], references: [tuid])
-  tweets_approvals   tweets_approvals[]
-  tweets_comments    tweets_comments[]
-  tweets_meta        tweets_meta
+  approvals          tweets_approvals[]
+  comments           tweets_comments[]
+  metadata           tweets_meta
 
   @@index([tuid], name: "tuid")
 }

@@ -6,9 +6,9 @@ const getTweets = async (req, res, uid, tuid) => {
   const tweets = await prisma.tweets.findMany({
     where: { tuid },
     include: {
-      tweets_approvals: true,
-      tweets_comments: true,
-      tweets_meta: true,
+      approvals: true,
+      comments: true,
+      metadata: true,
     },
   });
 
