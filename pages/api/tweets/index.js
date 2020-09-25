@@ -21,10 +21,12 @@ const getAllTweets = async (req, res, _uid, tuid) => {
     },
   });
 
-  // * Format into tweet types
+  // * Format draft tweets
   const drafts = tweets.filter((t) => {
     return t.type === "draft";
   });
+
+  // * Format published tweets
   const published = tweets.filter((t) => {
     return t.type === "published";
   });
