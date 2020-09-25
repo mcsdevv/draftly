@@ -1,7 +1,13 @@
+// * Libraries
+import { PrismaClient } from "@prisma/client";
+
+// * Middleware
 import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
-import { escape, query } from "@lib/api/db";
 import isMember from "@lib/api/middleware/isMember2";
+
+// * Initialize Prisma client outside of handler
+const prisma = new PrismaClient();
 
 const getAllTweets = async (req, res, _uid, tuid) => {
   const { draftLimit, draftPage, publishedLimit, publishedPage } = req.query;
