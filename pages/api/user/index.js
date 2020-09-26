@@ -2,6 +2,16 @@ import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
 import { escape, query } from "@lib/api/db";
 
+// * Libraries
+import { PrismaClient } from "@prisma/client";
+
+// // * Middleware
+// import verify from "@lib/api/token/verify";
+// import withSentry from "@lib/api/middleware/withSentry";
+
+// * Initialize Prisma client outside of handler
+const prisma = new PrismaClient();
+
 const getUserDetails = async (_req, res, uid) => {
   // * Select user, teams part of, and team members
   const data = await query(
@@ -20,6 +30,35 @@ const getUserDetails = async (_req, res, uid) => {
       WHERE uid = ${uid}
     );`
   );
+
+  const profile = await prisma.teams_members.findMany({
+    where: { uid },
+    select: {
+      teams: {
+        include: {
+          members: true,
+        },
+      },
+      user: {
+        where: { uid },
+      },
+    },
+  });
+
+  // const profile = await prisma.users
+  //   .findOne({
+  //     where: { uid },
+  //   })
+  //   .teams_members({
+  //     select: {
+  //       teams: {
+  //         include: {
+  //           members: true,
+  //         },
+  //       },
+  //       user: true,
+  //     },
+  //   });
 
   const allData = () => {
     const user = { ...data[0] };
@@ -42,7 +81,7 @@ const getUserDetails = async (_req, res, uid) => {
   };
 
   console.log("Retrieved user details for:", uid);
-  res.status(200).json({ ...allData() });
+  res.status(200).json({ ...allData(), profile });
 };
 
 export default verify(withSentry(getUserDetails));

@@ -21,7 +21,7 @@ model teams {
   updated_at       DateTime        @default(now())
   created_at       DateTime        @default(now())
   created_by       String?
-  teams_members    teams_members[]
+  members          teams_members[]
   tweets           tweets[]
 }
 
@@ -30,9 +30,10 @@ model teams_members {
   tuid  String @default("")
   role  String @default("member")
   teams teams  @relation(fields: [tuid], references: [tuid])
-  users users  @relation(fields: [uid], references: [uid])
+  user  users  @relation(fields: [uid], references: [uid])
 
   @@id([uid, tuid])
+  @@index([uid], name: "uid")
   @@index([tuid], name: "tuid")
 }
 
