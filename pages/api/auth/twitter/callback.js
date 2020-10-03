@@ -64,7 +64,6 @@ const twitterCallback = (req, res) => {
               const {
                 name,
                 profile_image_url_https,
-                protected,
                 screen_name,
               } = accountData;
 
@@ -73,7 +72,7 @@ const twitterCallback = (req, res) => {
                 data: {
                   tuid,
                   name,
-                  protected,
+                  protected: accountData.protected,
                   handle: screen_name,
                   avatar: profile_image_url_https,
                   reviewsRequired: 0,
