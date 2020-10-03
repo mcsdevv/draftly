@@ -3,26 +3,26 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model teams {
-  tuid             String          @default("") @id
-  name             String          @default("")
-  protected        Boolean
-  handle           String          @default("")
-  avatar           String          @default("")
-  reviews_required String          @default("")
-  plan             String          @default("")
-  token_secret     String          @default("")
-  token_key        String          @default("")
-  invite_code      String          @default("")
-  updated_at       DateTime        @default(now())
-  created_at       DateTime        @default(now())
-  created_by       String?
-  members          teams_members[]
-  tweets           tweets[]
+  tuid            String          @id @default("")
+  name            String          @default("")
+  protected       Boolean
+  handle          String          @default("")
+  avatar          String          @default("")
+  reviewsRequired String          @default("") @map("reviews_required")
+  plan            String          @default("")
+  tokenSecret     String          @default("") @map("token_secret")
+  tokenKey        String          @default("") @map("token_key")
+  inviteCode      String          @default("") @map("invite_code")
+  updatedAt       DateTime        @default(now()) @map("updated_at")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  createdBy       String          @map("created_by")
+  members         teams_members[]
+  tweets          tweets[]
 }
 
 model teams_members {
@@ -30,58 +30,51 @@ model teams_members {
   tuid  String @default("")
   role  String @default("member")
   teams teams  @relation(fields: [tuid], references: [tuid])
-  user  users  @relation(fields: [uid], references: [uid])
+  users users  @relation(fields: [uid], references: [uid])
 
   @@id([uid, tuid])
-  @@index([uid], name: "uid")
-  @@index([tuid], name: "tuid")
 }
 
 model tweets {
-  twuid              String             @default("") @id
-  tuid               String
-  title              String
-  type               String
-  text               String
-  created_at         DateTime           @default(now())
-  created_by         String
-  updated_at         DateTime           @default(now())
-  retweets           String
-  replies            String
-  favorites          String
-  metrics_updated_at DateTime?          @default(now())
-  tweet_id           String
-  teams              teams              @relation(fields: [tuid], references: [tuid])
-  approvals          tweets_approvals[]
-  comments           tweets_comments[]
-  metadata           tweets_meta
-
-  @@index([tuid], name: "tuid")
+  twuid            String             @id @default("")
+  tuid             String
+  title            String
+  type             String
+  text             String
+  createdAt        DateTime           @default(now()) @map("created_at")
+  createdBy        String             @map("created_by")
+  updatedAt        DateTime           @default(now()) @map("updated_at")
+  retweets         String
+  replies          String
+  favorites        String
+  metricsUpdatedAt DateTime           @default(now()) @map("metrics_updated_at")
+  tweetId          String             @map("tweet_id")
+  teams            teams              @relation(fields: [tuid], references: [tuid])
+  approvals        tweets_approvals[]
+  comments         tweets_comments[]
+  metadata         tweets_meta[]
 }
 
 model tweets_approvals {
   tauid  String
   twuid  String
-  uid    String?
-  tweets tweets  @relation(fields: [twuid], references: [twuid])
+  uid    String
+  tweets tweets @relation(fields: [twuid], references: [twuid])
 
   @@id([tauid, twuid])
-  @@index([twuid], name: "twuid")
 }
 
 model tweets_comments {
-  tcuid    String   @id
-  twuid    String
-  added_at DateTime @default(now())
-  added_by String
-  comment  String
-  tweets   tweets   @relation(fields: [twuid], references: [twuid])
-
-  @@index([twuid], name: "twuid")
+  tcuid   String   @id
+  twuid   String
+  addedAt DateTime @default(now()) @map("added_at")
+  addedBy String   @map("added_by")
+  comment String
+  tweets  tweets   @relation(fields: [twuid], references: [twuid])
 }
 
 model tweets_meta {
-  twmuid                      String   @default("") @id
+  twmuid                      String   @id @default("")
   twuid                       String?
   og_url                      String?
   og_type                     String?
@@ -118,16 +111,14 @@ model tweets_meta {
   fallbackImg                 Boolean?
   url                         String?
   tweets                      tweets?  @relation(fields: [twuid], references: [twuid])
-
-  @@index([twuid], name: "twuid")
 }
 
 model users {
-  uid           String          @default("") @id
-  email         String          @default("")
+  uid           String          @id @default("")
+  email         String          @unique @default("")
   name          String          @default("")
   picture       String          @default("")
-  created_at    DateTime        @default(now())
-  updated_at    DateTime        @default(now())
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @default(now()) @map("updated_at")
   teams_members teams_members[]
 }

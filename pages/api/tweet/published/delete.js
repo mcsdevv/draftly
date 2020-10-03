@@ -1,25 +1,30 @@
 // * Libraries
 const Twitter = require("twitter");
+import prisma from "@lib/api/db/prisma";
 
-// * Helpers
+// * Middleware
 import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
-import { escape, query } from "@lib/api/db";
+import isMember from "@lib/api/middleware/isMember";
 
 const deletePublishedTweet = async (req, res, _uid, tuid) => {
   const { tweet_id, twuid } = JSON.parse(req.body);
 
   // * Get keys to post tweet
-  const [keysQuery] = await query(
-    escape`SELECT * FROM teams WHERE tuid = ${tuid}`
-  );
+  const keys = await prisma.teams.findOne({
+    where: { tuid },
+    select: {
+      token_key: true,
+      token_secret: true,
+    },
+  });
 
   // * Create new Twitter client with account and application keys
   const twitterClient = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token_key: keysQuery.token_key,
-    access_token_secret: keysQuery.token_secret,
+    access_token_key: keys.token_key,
+    access_token_secret: keys.token_secret,
   });
 
   // * Delete tweet from Twitter account
@@ -33,7 +38,9 @@ const deletePublishedTweet = async (req, res, _uid, tuid) => {
     }
 
     // * Delete published tweet and meta
-    await query(escape`DELETE FROM tweets WHERE twuid = ${twuid}`);
+    await prisma.tweets.deleteMany({
+      where: { twuid },
+    });
 
     // * Send response
     console.log("Deleted tweet:", twuid);
@@ -41,4 +48,4 @@ const deletePublishedTweet = async (req, res, _uid, tuid) => {
   });
 };
 
-export default verify(withSentry(deletePublishedTweet));
+export default verify(isMember(withSentry(deletePublishedTweet)));

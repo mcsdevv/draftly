@@ -1,9 +1,13 @@
+// * Libraries
+import prisma from "@lib/api/db/prisma";
 import oauth from "@lib/api/oauth";
-
-import { escape, query } from "@lib/api/db";
 import { v4 as uuidv4 } from "uuid";
-import createInviteCode from "@lib/api/createInviteCode";
+
+// * Middleware
 import withSentry from "@lib/api/middleware/withSentry";
+
+// * Utilities
+import createInviteCode from "@lib/api/createInviteCode";
 import { decrypt } from "@lib/api/token/encryption";
 
 const twitterCallback = (req, res) => {
@@ -38,19 +42,20 @@ const twitterCallback = (req, res) => {
             const accountData = JSON.parse(data);
 
             // * Check if the team exists currently
-            const [exists] = await query(
-              escape`SELECT * FROM teams
-              WHERE handle = ${accountData.screen_name}`
-            );
+            const team = await prisma.teams.findOne({
+              where: { handle: accountData.screen_name },
+            });
 
             // * If the team exists, update tokens
-            if (exists) {
+            if (team) {
               console.log("Team already exists:", exists.tuid);
-              await query(
-                escape`UPDATE teams 
-                SET token_key = ${oauthAccessToken} token_secret = ${oauthAccessTokenSecret} 
-                WHERE handle = ${accountData.screen_name}`
-              );
+              await prisma.teams.update({
+                where: { handle: accountData.screen_name },
+                data: {
+                  token_key: oauthAccessToken,
+                  token_secret: oauthAccessTokenSecret,
+                },
+              });
             } else {
               // * If team does not exist, prepare for creation
               console.log("Team does not exist.");
@@ -59,20 +64,35 @@ const twitterCallback = (req, res) => {
               const {
                 name,
                 profile_image_url_https,
+                protected,
                 screen_name,
               } = accountData;
 
               // * Insert team into database
-              await query(
-                escape`INSERT INTO teams (tuid, name, protected, handle, avatar, reviews_required, plan, token_secret, token_key, invite_code)
-                VALUES (${tuid}, ${name}, ${accountData.protected}, ${screen_name}, ${profile_image_url_https}, 0, 'free', ${oauthAccessTokenSecret}, ${oauthAccessToken}, ${inviteCode})`
-              );
+              await prisma.teams.create({
+                data: {
+                  tuid,
+                  name,
+                  protected,
+                  handle: screen_name,
+                  avatar: profile_image_url_https,
+                  reviewsRequired: 0,
+                  plan: "free",
+                  token_key: oauthAccessToken,
+                  token_secret: oauthAccessTokenSecret,
+                  inviteCode,
+                  createdBy: decrypt(req.cookies.uid),
+                },
+              });
 
               // * Insert team member as a team owner
-              await query(
-                escape`INSERT INTO teams_members (uid, tuid, role)
-                VALUES (${decrypt(req.cookies.uid)}, ${tuid}, 'owner')`
-              );
+              await prisma.teams_members.create({
+                data: {
+                  uid: decrypt(req.cookies.uid),
+                  tuid,
+                  role: "owner",
+                },
+              });
 
               console.log("Team created:", tuid);
               console.log("Team created by:", decrypt(req.cookies.uid));

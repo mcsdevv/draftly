@@ -1,12 +1,9 @@
 // * Libraries
-import { PrismaClient } from "@prisma/client";
+import prisma from "@lib/api/db/prisma";
 
 // * Middleware
 import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
-
-// * Initialize Prisma client outside of handler
-const prisma = new PrismaClient();
 
 const getUserDetails = async (_req, res, uid) => {
   // * Select user with matching uid
@@ -19,10 +16,18 @@ const getUserDetails = async (_req, res, uid) => {
     where: { members: { some: { uid } } },
     include: {
       members: {
-        include: { user: true },
+        include: { users: true },
       },
     },
   });
+
+  const teamsData2 = await prisma.teams.findMany({
+    where: {
+      members: [],
+    },
+    include: { members: true },
+  });
+  console.log("wetwsf", teamsData2);
 
   const teams = teamsData.map((t) => {
     // * Remove tokens that are server only
