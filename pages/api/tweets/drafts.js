@@ -24,7 +24,7 @@ const getDraftTweets = async (req, res, _uid, tuid) => {
       metadata: true,
     },
     orderBy: {
-      updated_at: "desc",
+      updatedAt: "desc",
     },
   });
 
