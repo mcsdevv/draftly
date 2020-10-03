@@ -1,52 +1,56 @@
-// import verify from "@lib/api/token/verify";
-// import withSentry from "@lib/api/middleware/withSentry";
-// import { query } from "@lib/api/db";
-// import { v4 as uuidv4 } from "uuid";
-// const sql = require("sql-query");
-// const sqlQuery = sql.Query();
+// * Libraries
+import prisma from "@lib/api/db/prisma";
+import { v4 as uuidv4 } from "uuid";
 
-// const createDraftTweet = async (req, res, uid, tuid) => {
-//   const { metadata, title, tweet } = JSON.parse(req.body);
-//   const sqlInsert = sqlQuery.insert();
+// * Middleware
+import verify from "@lib/api/token/verify";
+import withSentry from "@lib/api/middleware/withSentry";
+import isMember from "@lib/api/middleware/isMember";
 
-//   // * Error if either tweet or title are missing
-//   if (!title) throw new Error("Malformed request - missing title");
-//   if (!tweet) throw new Error("Malformed request - missing tweet");
+const createDraftTweet = async (req, res, uid, tuid) => {
+  const { metadata, title, tweet } = JSON.parse(req.body);
+  const sqlInsert = sqlQuery.insert();
 
-//   // * Format draft insert query
-//   const twuid = uuidv4();
-//   const draft = {
-//     twuid,
-//     tuid,
-//     type: "draft",
-//     text: tweet,
-//     title,
-//     created_by: uid,
-//     favorites: 0,
-//     replies: 0,
-//     retweets: 0,
-//     tweet_id: "",
-//   };
+  // * Error if either tweet or title are missing
+  if (!title) throw new Error("Malformed request - missing title");
+  if (!tweet) throw new Error("Malformed request - missing tweet");
 
-//   // * Insert draft
-//   const draftQuery = sqlInsert.into("tweets").set(draft).build();
-//   await query(draftQuery);
+  // * Format draft insert query
+  const twuid = uuidv4();
+  const draft = {
+    twuid,
+    tuid,
+    type: "draft",
+    text: tweet,
+    title,
+    created_by: uid,
+    favorites: 0,
+    replies: 0,
+    retweets: 0,
+    tweet_id: "",
+  };
 
-//   // * Format meta insert query
-//   const twmuid = uuidv4();
-//   const meta = { twmuid, twuid, ...metadata };
+  // * Insert draft
+  await prisma.tweets.create({
+    data: draft,
+  });
 
-//   // * Insert meta
-//   const metaQuery = sqlInsert.into("tweets_meta").set(meta).build();
-//   await query(metaQuery);
+  // * Format meta insert query
+  const twmuid = uuidv4();
+  const meta = { twmuid, twuid, ...metadata };
 
-//   console.log("Draft tweet created for:", tuid);
-//   res.status(200).json({
-//     ...draft,
-//     created_at: Date.now(),
-//     updated_at: Date.now(),
-//     metadata: meta,
-//   });
-// };
+  // * Insert meta
+  await prisma.tweets_meta.create({
+    data: meta,
+  });
 
-// export default verify(withSentry(createDraftTweet));
+  console.log("Draft tweet created for:", tuid);
+  res.status(200).json({
+    ...draft,
+    created_at: Date.now(),
+    updated_at: Date.now(),
+    metadata: meta,
+  });
+};
+
+export default verify(isMember(withSentry(createDraftTweet)));
