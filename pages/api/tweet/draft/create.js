@@ -31,7 +31,7 @@ const createDraftTweet = async (req, res, uid, tuid) => {
 
   // * Insert draft
   await prisma.tweets.create({
-    data: draft,
+    data: { ...draft },
   });
 
   // * Format meta insert query
