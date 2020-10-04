@@ -86,10 +86,10 @@ function Published() {
                 p.title,
                 p.text,
                 [...scope?.members, ...scope?.owners].find(
-                  (m) => m.uid === p.created_by
+                  (m) => m.uid === p.createdBy
                 )?.name,
-                ago(new Date(p.created_at)),
-                ago(new Date(p.updated_at)),
+                ago(new Date(p.createdAt)),
+                ago(new Date(p.updatedAt)),
               ]}
               twuid={p.twuid}
               type="published"

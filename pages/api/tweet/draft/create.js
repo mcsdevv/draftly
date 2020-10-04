@@ -9,7 +9,6 @@ import isMember from "@lib/api/middleware/isMember";
 
 const createDraftTweet = async (req, res, uid, tuid) => {
   const { metadata, title, tweet } = JSON.parse(req.body);
-  const sqlInsert = sqlQuery.insert();
 
   // * Error if either tweet or title are missing
   if (!title) throw new Error("Malformed request - missing title");
@@ -23,7 +22,7 @@ const createDraftTweet = async (req, res, uid, tuid) => {
     type: "draft",
     text: tweet,
     title,
-    created_by: uid,
+    createdBy: uid,
     favorites: 0,
     replies: 0,
     retweets: 0,
@@ -47,7 +46,7 @@ const createDraftTweet = async (req, res, uid, tuid) => {
   console.log("Draft tweet created for:", tuid);
   res.status(200).json({
     ...draft,
-    created_at: Date.now(),
+    createdAt: Date.now(),
     updated_at: Date.now(),
     metadata: meta,
   });
