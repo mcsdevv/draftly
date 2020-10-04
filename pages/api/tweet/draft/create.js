@@ -26,8 +26,10 @@ const createDraftTweet = async (req, res, uid, tuid) => {
     favorites: 0,
     replies: 0,
     retweets: 0,
-    tweet_id: "",
+    tweetId: "",
   };
+
+  console.log("DRAFT", draft);
 
   // * Insert draft
   await prisma.tweets.create({

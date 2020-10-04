@@ -44,9 +44,9 @@ model tweets {
   createdAt        DateTime           @default(now()) @map("created_at")
   createdBy        String             @map("created_by")
   updatedAt        DateTime           @default(now()) @map("updated_at")
-  retweets         String
-  replies          String
-  favorites        String
+  retweets         Int
+  replies          Int
+  favorites        Int
   metricsUpdatedAt DateTime           @default(now()) @map("metrics_updated_at")
   tweetId          String             @map("tweet_id")
   teams            teams              @relation(fields: [tuid], references: [tuid])
