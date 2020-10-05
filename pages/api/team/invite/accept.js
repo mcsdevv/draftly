@@ -36,7 +36,7 @@ const acceptInvite = async (req, res) => {
       where: { members: { some: { uid } }, tuid },
       include: {
         members: {
-          include: { users: true },
+          include: { user: true },
         },
       },
     });
@@ -55,7 +55,7 @@ const acceptInvite = async (req, res) => {
     }
 
     // * Add to team as a member
-    await prisma.teams_members.create({
+    await prisma.members.create({
       data: {
         uid: uidDecrypted,
         tuid,

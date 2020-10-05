@@ -86,7 +86,7 @@ const authCallback = async (req, res) => {
 
           // * If user is not a member of the team, add them to the team
           if (!isMember) {
-            await prisma.teams_members.create({
+            await prisma.members.create({
               data: {
                 uid,
                 tuid: invited_to,

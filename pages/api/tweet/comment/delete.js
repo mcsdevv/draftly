@@ -9,7 +9,7 @@ const deleteComment = async (req, res) => {
   const { tcuid } = JSON.parse(req.body);
 
   // * Delete comment
-  await prisma.tweets_comments.delete({
+  await prisma.comments.delete({
     where: { tcuid },
   });
 

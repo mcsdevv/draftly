@@ -30,7 +30,7 @@ const PublishedTweet = () => {
     const res = await fetch(url, {
       method: "DELETE",
       body: JSON.stringify({
-        tweet_id: tweet.tweet_id,
+        tweetId: tweet.tweetId,
         twuid,
       }),
     });

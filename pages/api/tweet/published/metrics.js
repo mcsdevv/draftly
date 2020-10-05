@@ -8,14 +8,14 @@ import withSentry from "@lib/api/middleware/withSentry";
 import isMember from "@lib/api/middleware/isMember";
 
 const getTweetMetrics = async (req, res, _uid, tuid) => {
-  const { tweet_id, twuid } = JSON.parse(req.body);
+  const { tweetId, twuid } = JSON.parse(req.body);
 
   // * Get keys to post tweet
   const keys = await prisma.teams.findOne({
     where: { tuid },
     select: {
-      token_key: true,
-      token_secret: true,
+      tokenKey: true,
+      tokenSecret: true,
     },
   });
 
@@ -23,12 +23,12 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
   const twitterClient = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token_key: keys.token_key,
-    access_token_secret: keys.token_secret,
+    access_token_key: keys.tokenKey,
+    access_token_secret: keys.tokenSecret,
   });
 
   // * Get tweet details including basic metrics
-  twitterClient.get("statuses/show", { id: tweet_id }, async function (
+  twitterClient.get("statuses/show", { id: tweetId }, async function (
     error,
     tweet,
     _response
@@ -40,7 +40,7 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
     // * Get all tweet mentions for the account (limit of 800 since status posted)
     twitterClient.get(
       "statuses/mentions_timeline",
-      { since_id: tweet_id, trim_user: true },
+      { since_id: tweetId, trim_user: true },
       async function (error, mentions, _response) {
         if (error) {
           throw new Error(`Error getting replies for tweet: ${twuid}`);
@@ -48,7 +48,7 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
 
         // * Filter the mentions for the relevant tweet only
         const filteredMentions = mentions.filter(
-          (m) => m.in_reply_to_status_id_str === tweet_id
+          (m) => m.in_reply_to_status_id_str === tweetId
         );
 
         // * Number of replies is the filtered mentions length

@@ -52,13 +52,13 @@ const twitterCallback = (req, res) => {
               await prisma.teams.update({
                 where: { handle: accountData.screen_name },
                 data: {
-                  token_key: oauthAccessToken,
-                  token_secret: oauthAccessTokenSecret,
+                  tokenKey: oauthAccessToken,
+                  tokenSecret: oauthAccessTokenSecret,
                 },
               });
             } else {
               // * If team does not exist, prepare for creation
-              console.log("Team does not exist.");
+              console.log(`Team ${accountData.screen_name} does not exist.`);
               const tuid = uuidv4();
               const inviteCode = createInviteCode();
               const {
@@ -77,19 +77,19 @@ const twitterCallback = (req, res) => {
                   avatar: profile_image_url_https,
                   reviewsRequired: 0,
                   plan: "free",
-                  token_key: oauthAccessToken,
-                  token_secret: oauthAccessTokenSecret,
+                  tokenKey: oauthAccessToken,
+                  tokenSecret: oauthAccessTokenSecret,
                   inviteCode,
                   createdBy: decrypt(req.cookies.uid),
                 },
               });
 
               // * Insert team member as a team owner
-              await prisma.teams_members.create({
+              await prisma.members.create({
                 data: {
-                  uid: decrypt(req.cookies.uid),
-                  tuid,
                   role: "owner",
+                  team: { connect: { tuid } },
+                  user: { connect: { uid: decrypt(req.cookies.uid) } },
                 },
               });
 

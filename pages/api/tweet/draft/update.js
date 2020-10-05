@@ -15,17 +15,14 @@ const updateDraftTweet = async (req, res) => {
     data: { text },
   });
 
-  // * Format meta
-  const meta = { twuid, ...metadata };
-
   // * Update meta
-  await prisma.tweets_meta.update({
+  await prisma.metadata.update({
     where: { twuid },
-    data: meta,
+    data: metadata,
   });
 
   console.log("Updated draft tweet:", twuid);
-  res.status(200).json(meta);
+  res.status(200).json({ twuid, ...metadata });
 };
 
 export default verify(isMember(withSentry(updateDraftTweet)));

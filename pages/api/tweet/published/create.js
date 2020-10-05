@@ -14,8 +14,8 @@ const createPublishedTweet = async (req, res, _uid, tuid) => {
   const keys = await prisma.teams.findOne({
     where: { tuid },
     select: {
-      token_key: true,
-      token_secret: true,
+      tokenKey: true,
+      tokenSecret: true,
     },
   });
 
@@ -23,8 +23,8 @@ const createPublishedTweet = async (req, res, _uid, tuid) => {
   const twitterClient = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token_key: keys.token_key,
-    access_token_secret: keys.token_secret,
+    access_token_key: keys.tokenKey,
+    access_token_secret: keys.tokenSecret,
   });
 
   // * Post tweet
@@ -37,10 +37,10 @@ const createPublishedTweet = async (req, res, _uid, tuid) => {
       throw new Error(error);
     }
 
-    // * Update the tweet type to published and set the tweet_id
+    // * Update the tweet type to published and set the tweetId
     await prisma.tweets.update({
       where: { twuid },
-      data: { type: "published", tweet_id: tweet.id_str },
+      data: { type: "published", tweetId: tweet.id_str },
     });
 
     console.log("Published tweet created for:", tuid);

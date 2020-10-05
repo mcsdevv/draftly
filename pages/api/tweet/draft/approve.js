@@ -11,7 +11,7 @@ const approveDraftTweet = async (req, res, uid) => {
   const tauid = uuidv4();
 
   // * Get the list of tweet approvals
-  const approvals = await prisma.tweets_approvals.findMany({
+  const approvals = await prisma.approvals.findMany({
     where: { twuid },
   });
 
@@ -22,7 +22,7 @@ const approveDraftTweet = async (req, res, uid) => {
   }
 
   // * Insert approval
-  await prisma.tweets_approvals.create({
+  await prisma.approvals.create({
     data: {
       tauid,
       twuid,

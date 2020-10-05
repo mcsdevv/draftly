@@ -14,43 +14,31 @@ const createDraftTweet = async (req, res, uid, tuid) => {
   if (!title) throw new Error("Malformed request - missing title");
   if (!tweet) throw new Error("Malformed request - missing tweet");
 
-  // * Format draft insert query
+  // * Generate unique id set
   const twuid = uuidv4();
-  const draft = {
-    twuid,
-    tuid,
-    type: "draft",
-    text: tweet,
-    title,
-    createdBy: uid,
-    favorites: 0,
-    replies: 0,
-    retweets: 0,
-    tweetId: "",
-  };
-
-  console.log("DRAFT", draft);
+  const twmuid = uuidv4();
 
   // * Insert draft
-  await prisma.tweets.create({
-    data: { ...draft },
-  });
-
-  // * Format meta insert query
-  const twmuid = uuidv4();
-  const meta = { twmuid, twuid, ...metadata };
-
-  // * Insert meta
-  await prisma.tweets_meta.create({
-    data: meta,
+  const draft = await prisma.tweets.create({
+    data: {
+      twuid,
+      type: "draft",
+      text: tweet,
+      title,
+      createdBy: uid,
+      favorites: 0,
+      replies: 0,
+      retweets: 0,
+      tweetId: "",
+      team: { connect: { tuid } },
+      metadata: { create: { twmuid, ...metadata } },
+    },
+    include: { metadata: true },
   });
 
   console.log("Draft tweet created for:", tuid);
   res.status(200).json({
     ...draft,
-    createdAt: Date.now(),
-    updated_at: Date.now(),
-    metadata: meta,
   });
 };
 

@@ -20,24 +20,16 @@ const getUserDetails = async (_req, res, uid) => {
     where: { members: { some: { uid } } },
     include: {
       members: {
-        include: { users: true },
+        include: { user: true },
       },
     },
   });
   console.timeEnd("TEAMS");
 
-  // const teamsData2 = await prisma.teams.findMany({
-  //   where: {
-  //     members: [],
-  //   },
-  //   include: { members: true },
-  // });
-  // console.log("wetwsf", teamsData2);
-
   const teams = teamsData.map((t) => {
     // * Remove tokens that are server only
-    delete t.token_key;
-    delete t.token_secret;
+    delete t.tokenKey;
+    delete t.tokenSecret;
 
     // * Separate members and owners
     const members = t.members.filter((m) => m.role === "member");
@@ -49,6 +41,22 @@ const getUserDetails = async (_req, res, uid) => {
     };
   });
   console.timeEnd("PROFILE");
+
+  const list = [
+    "89f768ac-cd37-4c74-bec7-de8537574ff6",
+    "e1931b16-b3f7-4bcd-a8e5-dc8e5348f153",
+  ];
+
+  const derps = await prisma.teams.findMany({
+    where: { tuid: { in: list } },
+    include: {
+      members: {
+        include: { user: true },
+      },
+    },
+  });
+
+  console.log("DERPS", derps);
 
   console.log("Retrieved user details for:", uid);
   res.status(200).json({ user, teams });

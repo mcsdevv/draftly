@@ -12,7 +12,7 @@ const createTweetComment = async (req, res, uid) => {
   const tcuid = uuidv4();
 
   // * Insert comment
-  const commentInserted = await prisma.tweets_comments.create({
+  const commentInserted = await prisma.comments.create({
     data: {
       addedBy: uid,
       comment,

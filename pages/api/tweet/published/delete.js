@@ -8,14 +8,14 @@ import withSentry from "@lib/api/middleware/withSentry";
 import isMember from "@lib/api/middleware/isMember";
 
 const deletePublishedTweet = async (req, res, _uid, tuid) => {
-  const { tweet_id, twuid } = JSON.parse(req.body);
+  const { tweetId, twuid } = JSON.parse(req.body);
 
   // * Get keys to post tweet
   const keys = await prisma.teams.findOne({
     where: { tuid },
     select: {
-      token_key: true,
-      token_secret: true,
+      tokenKey: true,
+      tokenSecret: true,
     },
   });
 
@@ -23,12 +23,12 @@ const deletePublishedTweet = async (req, res, _uid, tuid) => {
   const twitterClient = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token_key: keys.token_key,
-    access_token_secret: keys.token_secret,
+    access_token_key: keys.tokenKey,
+    access_token_secret: keys.tokenSecret,
   });
 
   // * Delete tweet from Twitter account
-  twitterClient.post("statuses/destroy", { id: tweet_id }, async function (
+  twitterClient.post("statuses/destroy", { id: tweetId }, async function (
     error,
     tweet,
     _response
