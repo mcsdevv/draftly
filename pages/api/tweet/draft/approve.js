@@ -25,8 +25,8 @@ const approveDraftTweet = async (req, res, uid) => {
   await prisma.approvals.create({
     data: {
       tauid,
-      twuid,
       uid,
+      tweet: { connect: { twuid } },
     },
   });
 
