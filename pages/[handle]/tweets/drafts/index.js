@@ -82,10 +82,10 @@ function Drafts() {
                 d.title,
                 d.text,
                 [...scope?.members, ...scope?.owners].find(
-                  (m) => m.uid === d.created_by
+                  (m) => m.uid === d.createdBy
                 )?.name,
-                ago(new Date(d.created_at)),
-                ago(new Date(d.updated_at)),
+                ago(new Date(d.createdAt)),
+                ago(new Date(d.updatedAt)),
               ]}
               twuid={d.twuid}
               type="drafts"

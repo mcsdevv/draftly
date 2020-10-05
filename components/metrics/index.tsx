@@ -40,7 +40,7 @@ const Metrics = ({ handleDelete }: MetricsProps) => {
     const url = "/api/tweet/published/metrics";
     const res = await fetch(url, {
       method: "POST",
-      body: JSON.stringify({ tweet_id: tweet.tweet_id, twuid: tweet.twuid }),
+      body: JSON.stringify({ tweetId: tweet.tweetId, twuid: tweet.twuid }),
     });
     if (res.status === 200) {
       const resJson = await res.json();

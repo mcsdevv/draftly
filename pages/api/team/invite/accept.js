@@ -1,8 +1,13 @@
+// * Libraries
+import prisma from "@lib/api/db/prisma";
 import cookie from "cookie";
-import cookieOptions from "@lib/api/cookie/options";
-import { escape, query } from "@lib/api/db";
-import { decrypt } from "@lib/api/token/encryption";
+
+// * Middleware
 import withSentry from "@lib/api/middleware/withSentry";
+
+// * Utilities
+import cookieOptions from "@lib/api/cookie/options";
+import { decrypt } from "@lib/api/token/encryption";
 
 const acceptInvite = async (req, res) => {
   const { id_token, uid } = req.cookies;
@@ -11,10 +16,10 @@ const acceptInvite = async (req, res) => {
   // * Differing action if user exists and is logged in
   if (id_token && uid) {
     // * Check code matches that of team, else error
-    const inviteCode = await query(
-      escape`SELECT invite_code from teams
-      WHERE tuid = ${tuid}`
-    );
+    const inviteCode = await prisma.teams.findOne({
+      where: { tuid },
+      select: { inviteCode: true },
+    });
 
     if (inviteCode !== code) {
       res.writeHead(302, {
@@ -27,14 +32,17 @@ const acceptInvite = async (req, res) => {
     const uidDecrypted = decrypt(uid);
 
     // * Check the user is not currently a member of the team
-    const membersQuery = await query(
-      escape`SELECT * FROM teams_members
-        LEFT JOIN users ON users.uid = teams_members.uid
-        WHERE tuid = ${tuid}`
-    );
+    const team = await prisma.teams.findOne({
+      where: { members: { some: { uid } }, tuid },
+      include: {
+        members: {
+          include: { user: true },
+        },
+      },
+    });
 
     // * Confirm the user is not a member of the team else return error
-    const isMember = membersQuery.includes(uidDecrypted);
+    const isMember = team.members.find((m) => m.uid === uidDecrypted);
 
     // * If the user is a member of the team, redirect to dashboard
     if (isMember) {
@@ -47,10 +55,13 @@ const acceptInvite = async (req, res) => {
     }
 
     // * Add to team as a member
-    await query(
-      escape`INSERT INTO teams_members (uid, tuid, role)
-        VALUES (${uidDecrypted}, ${tuid}, 'member')`
-    );
+    await prisma.members.create({
+      data: {
+        uid: uidDecrypted,
+        tuid,
+        role: "member",
+      },
+    });
 
     res.writeHead(302, {
       Location: `${process.env.AUTH0_REDIRECT_URI}/dashboard`,

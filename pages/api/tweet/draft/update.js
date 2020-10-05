@@ -1,27 +1,28 @@
+// * Libraries
+import prisma from "@lib/api/db/prisma";
+
+// * Middleware
 import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
-import { escape, query } from "@lib/api/db";
-const sql = require("sql-query");
-const sqlQuery = sql.Query();
+import isMember from "@lib/api/middleware/isMember";
 
 const updateDraftTweet = async (req, res) => {
   const { metadata, text, twuid } = JSON.parse(req.body);
-  const sqlUpdate = sqlQuery.update();
 
   // * Update draft tweet
-  await query(escape`UPDATE tweets SET text=${text} WHERE twuid=${twuid}`);
+  await prisma.tweets.update({
+    where: { twuid },
+    data: { text },
+  });
 
-  console.log("META", metadata);
-
-  // * Format meta
-  const meta = { twuid, ...metadata };
-
-  // * Insert meta
-  const metaQuery = sqlUpdate.into("tweets_meta").set(meta).build();
-  await query(metaQuery);
+  // * Update meta
+  await prisma.metadata.update({
+    where: { twuid },
+    data: metadata,
+  });
 
   console.log("Updated draft tweet:", twuid);
-  res.status(200).json(meta);
+  res.status(200).json({ twuid, ...metadata });
 };
 
-export default verify(withSentry(updateDraftTweet));
+export default verify(isMember(withSentry(updateDraftTweet)));

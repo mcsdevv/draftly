@@ -1,15 +1,18 @@
+// * Libraries
+import prisma from "@lib/api/db/prisma";
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
 import cookieOptions from "@lib/api/cookie/options";
-import withSentry from "@lib/api/middleware/withSentry";
 import { v4 as uuidv4 } from "uuid";
+
+// * Middleware
+import withSentry from "@lib/api/middleware/withSentry";
+
+// * Utilities
 import { encrypt } from "@lib/api/token/encryption";
-import { escape, query } from "@lib/api/db";
 import { getRedirectUrl } from "@lib/api/getRedirectUrl";
 
 const authCallback = async (req, res) => {
-  console.log("QUERY STATE", req.query.state);
-  console.log("COOKIE STATE", req.cookies.state);
   // * Confirm state match to mitigate CSRF
   if (req.query.state === req.cookies.state) {
     // * Send request for token exchange
@@ -46,20 +49,24 @@ const authCallback = async (req, res) => {
         let uid;
 
         // * Check if this is an existing user
-        const [existsQuery] = await query(
-          escape`SELECT * FROM users WHERE email = ${id_token.email}`
-        );
+        const user = await prisma.users.findOne({
+          where: { email: id_token.email },
+        });
 
         // * If user exists, set uid
-        uid = existsQuery?.uid || null;
+        uid = user?.uid || null;
 
         // * If user does not exist, insert into database
         if (!uid) {
           uid = uuidv4();
-          await query(
-            escape`INSERT INTO users (uid, name, email, picture)
-            VALUES (${uid}, ${id_token.name}, ${id_token.email}, ${id_token.picture})`
-          );
+          await prisma.users.create({
+            data: {
+              uid,
+              email: id_token.email,
+              name: id_token.name,
+              picture: id_token.picture,
+            },
+          });
         }
 
         // * If handling callback from a user being invited to a team
@@ -67,21 +74,25 @@ const authCallback = async (req, res) => {
           const { invited_to } = req.cookies;
 
           // * Get the team associated with invite
-          const membersQuery = await query(
-            escape`SELECT * FROM teams_members
-            LEFT JOIN users ON users.uid = teams_members.uid
-            WHERE tuid = ${invited_to}`
-          );
+          const team = await prisma.teams.findOne({
+            where: { tuid: invited_to },
+            include: {
+              members: true,
+            },
+          });
 
           // * Check whether user is a member of the team already
-          const isMember = membersQuery.includes(uid);
+          const isMember = team?.members.find((m) => m.uid === uid);
 
           // * If user is not a member of the team, add them to the team
           if (!isMember) {
-            await query(
-              escape`INSERT INTO teams_members (uid, tuid, role)
-              VALUES (${uid}, ${invited_to}, 'member')`
-            );
+            await prisma.members.create({
+              data: {
+                uid,
+                tuid: invited_to,
+                role: "member",
+              },
+            });
           }
         }
 

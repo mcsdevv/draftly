@@ -37,7 +37,7 @@ const DraftTweet = () => {
 
   const disableApprove = useMemo(() => {
     return (
-      tweet?.created_by === scope?.uid ||
+      tweet?.createdBy === scope?.uid ||
       tweet?.approvals.find((a: any) => a.uid === scope?.uid)
     );
   }, [scope, tweet]);
