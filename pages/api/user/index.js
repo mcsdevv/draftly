@@ -42,22 +42,6 @@ const getUserDetails = async (_req, res, uid) => {
   });
   console.timeEnd("PROFILE");
 
-  const list = [
-    "89f768ac-cd37-4c74-bec7-de8537574ff6",
-    "e1931b16-b3f7-4bcd-a8e5-dc8e5348f153",
-  ];
-
-  const derps = await prisma.teams.findMany({
-    where: { tuid: { in: list } },
-    include: {
-      members: {
-        include: { user: true },
-      },
-    },
-  });
-
-  console.log("DERPS", derps);
-
   console.log("Retrieved user details for:", uid);
   res.status(200).json({ user, teams });
 };
