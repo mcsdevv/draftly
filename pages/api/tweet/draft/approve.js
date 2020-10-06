@@ -21,6 +21,8 @@ const approveDraftTweet = async (req, res, uid) => {
     return res.status(403).send("User has already approved tweet.");
   }
 
+  // TODO Check tweet not created by uid
+
   // * Insert approval
   await prisma.approvals.create({
     data: {

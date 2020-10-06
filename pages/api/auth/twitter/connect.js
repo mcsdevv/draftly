@@ -7,7 +7,7 @@ const twitterConnect = (_req, res) => {
     if (error) {
       res
         .status(500)
-        .json({ message: "Error getting OAuth request token", error });
+        .json({ message: "Error getting OAuth request token.", error });
     } else {
       // * Redirect to authorization endpoint to get access tokens
       res.writeHead(301, {
