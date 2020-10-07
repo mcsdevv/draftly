@@ -15,6 +15,7 @@ const getSingleTweet = async (req, res, _uid, _tuid) => {
     include: {
       approvals: true,
       comments: true,
+      creator: true,
       metadata: true,
     },
   });

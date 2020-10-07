@@ -15,6 +15,7 @@ const getAllTweets = async (req, res, _uid, tuid) => {
     include: {
       approvals: true,
       comments: true,
+      creator: true,
       metadata: true,
     },
   });

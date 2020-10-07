@@ -15,6 +15,7 @@ const getUserDetails = async (_req, res, uid) => {
   const teamsData = await prisma.teams.findMany({
     where: { members: { some: { uid } } },
     include: {
+      creator: true,
       members: {
         include: { user: true },
       },
