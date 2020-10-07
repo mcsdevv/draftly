@@ -20,6 +20,7 @@ const getDraftTweets = async (req, res, _uid, tuid) => {
     where: { tuid, type: "draft" },
     include: {
       approvals: true,
+      creator: true,
       comments: true,
       metadata: true,
     },

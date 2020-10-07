@@ -20,6 +20,7 @@ const getPublishedTweets = async (req, res, _uid, tuid) => {
     where: { tuid, type: "published" },
     include: {
       approvals: true,
+      creator: true,
       comments: true,
       metadata: true,
     },

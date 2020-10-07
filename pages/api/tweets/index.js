@@ -9,7 +9,6 @@ import isMember from "@lib/api/middleware/isMember";
 const getAllTweets = async (req, res, _uid, tuid) => {
   const { draftLimit, draftPage, publishedLimit, publishedPage } = req.query;
 
-  console.time("TWEETS");
   const tweets = await prisma.tweets.findMany({
     where: { tuid },
     include: {
@@ -19,7 +18,6 @@ const getAllTweets = async (req, res, _uid, tuid) => {
       metadata: true,
     },
   });
-  console.timeEnd("TWEETS");
 
   // * Format draft tweets
   const drafts = tweets.filter((t) => {
