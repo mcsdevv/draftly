@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "@modulz/radix": "^0.0.1-beta.43",
-    "@modulz/radix-icons": "^2.4.1",
+    "@modulz/radix-icons": "^3.0.0",
     "@prisma/client": "2.8.0",
     "@sendgrid/mail": "^7.2.5",
     "@sentry/browser": "^5.23.0",

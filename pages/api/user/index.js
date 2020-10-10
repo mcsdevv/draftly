@@ -6,11 +6,15 @@ import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
 
 const getUserDetails = async (_req, res, uid) => {
+  console.time("PROFILE");
+  console.time("USER");
   // * Select user with matching uid
   const user = await prisma.users.findOne({
     where: { uid },
   });
+  console.timeEnd("USER");
 
+  console.time("TEAM");
   // * Select teams data that will require filtering
   const teamsData = await prisma.teams.findMany({
     where: { members: { some: { uid } } },
@@ -21,6 +25,8 @@ const getUserDetails = async (_req, res, uid) => {
       },
     },
   });
+  console.timeEnd("TEAM");
+  console.timeEnd("PROFILE");
 
   const teams = teamsData.map((t) => {
     // * Remove tokens that are server only
