@@ -42,7 +42,10 @@ const ComposeTweet = () => {
 
   // * Handles the saving of the tweet to the database
   const handleSaveDraft = async () => {
+    // * Set the state to saving
     setSaving(true);
+
+    // * Get the metadata based on URL's
     const metadata = await getMetadata(text);
     const url = "/api/tweet/draft/create";
     const formattedTweet = removeWww(text);
