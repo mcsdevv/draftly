@@ -79,7 +79,7 @@ function Drafts() {
               handleOnDelete={() => handleDelete(d.twuid)}
               key={d.twuid}
               row={[
-                d.title,
+                d.campaign,
                 d.text,
                 [...scope?.members, ...scope?.owners].find(
                   (m) => m.uid === d.createdBy

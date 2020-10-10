@@ -29,8 +29,8 @@ const ComposeTweet = () => {
   const [completed, setCompleted] = useState(false);
   const [createdId, setCreatedId] = useState("");
   const [saving, setSaving] = useState(false);
+  const [campaign, setCampaign] = useState("");
   const [text, setText] = useState("");
-  const [title, setTitle] = useState("");
   const { setDrafts } = useDrafts();
   const { setPublished } = usePublished();
 
@@ -50,7 +50,7 @@ const ComposeTweet = () => {
       method: "POST",
       body: JSON.stringify({
         metadata,
-        title,
+        campaign,
         tweet: formattedTweet,
       }),
     });
@@ -61,14 +61,14 @@ const ComposeTweet = () => {
       setSaving(false);
       setDrafts([]);
       setPublished([]);
-      setTitle("");
+      setCampaign("");
       setText("");
     }
   };
 
-  // * Updates the title on change
-  const handleTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value);
+  // * Updates the campaign on change
+  const handleCampaignChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setCampaign(e.currentTarget.value);
   };
 
   // * Updates the tweet on change
@@ -109,21 +109,20 @@ const ComposeTweet = () => {
       {!completed ? (
         <>
           <Container sx={{ width: "640px" }} size={1} mb={4}>
-            <Subheading mb={2}>Tweet Title</Subheading>
+            <Subheading mb={2}>Campaign</Subheading>
             <Input
               disabled={saving}
               mb={4}
-              onChange={handleTitleChange}
+              onChange={handleCampaignChange}
               size={1}
               type="email"
-              value={title}
+              value={campaign}
             />
-            <Subheading mb={2}>Tweet Body</Subheading>
+            <Subheading mb={2}>Text</Subheading>
             <Textarea
               disabled={saving}
               placeholder="Draft your tweet..."
               onChange={handleTweetChange}
-              // onKeyDown={handleOnKeyDown}
               value={text}
             />
             <Characters progress={(text.length / 280) * 100} />
@@ -134,7 +133,7 @@ const ComposeTweet = () => {
             }}
           >
             <Button
-              disabled={!text || !title}
+              disabled={!campaign || !text}
               isWaiting={saving}
               ml={2}
               onClick={handleSaveDraft}

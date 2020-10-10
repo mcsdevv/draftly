@@ -8,10 +8,10 @@ import withSentry from "@lib/api/middleware/withSentry";
 import isMember from "@lib/api/middleware/isMember";
 
 const createDraftTweet = async (req, res, uid, tuid) => {
-  const { metadata, title, tweet } = JSON.parse(req.body);
+  const { metadata, campaign, tweet } = JSON.parse(req.body);
 
-  // * Error if either tweet or title are missing
-  if (!title) throw new Error("Malformed request - missing title");
+  // * Error if either tweet or campaign are missing
+  if (!campaign) throw new Error("Malformed request - missing campaign");
   if (!tweet) throw new Error("Malformed request - missing tweet");
 
   // * Generate unique id set
@@ -24,7 +24,7 @@ const createDraftTweet = async (req, res, uid, tuid) => {
       twuid,
       type: "draft",
       text: tweet,
-      title,
+      campaign,
       favorites: 0,
       replies: 0,
       retweets: 0,
