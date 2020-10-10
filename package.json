@@ -43,7 +43,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "postinstall": "prisma generate"
+    "preinstall": "prisma generate"
   },
   "engines": {
     "node": "10.x"
