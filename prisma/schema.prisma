@@ -117,7 +117,7 @@ model metadata {
 
 model users {
   uid       String    @id @default("")
-  email     String    @default("")
+  email     String    @unique @default("")
   name      String    @default("")
   picture   String    @default("")
   createdAt DateTime  @default(now()) @map("created_at")
