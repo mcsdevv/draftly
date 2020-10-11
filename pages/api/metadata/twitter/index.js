@@ -1,7 +1,11 @@
+// * Libraries
 const cheerio = require("cheerio");
 const htmlparser2 = require("htmlparser2");
+
+// * Middleware
 import verify from "@lib/api/token/verify";
 import withSentry from "@lib/api/middleware/withSentry";
+import isMember from "@lib/api/middleware/isMember";
 
 const getCardMetadata = async (req, res) => {
   console.time("getCardMetadata");
@@ -10,6 +14,9 @@ const getCardMetadata = async (req, res) => {
   const respText = await resp.text();
   const dom = htmlparser2.parseDOM(respText, {});
   const $ = cheerio.load(dom);
+
+  // TODO Check the 'cards' table for a URL match
+  // TODO Run the check in the background and update table with meta
 
   const post = {
     // * Get canonical URL
@@ -131,4 +138,4 @@ const getCardMetadata = async (req, res) => {
   res.status(200).json(post);
 };
 
-export default verify(withSentry(getCardMetadata));
+export default verify(isMember(withSentry(getCardMetadata)));

@@ -54,7 +54,7 @@ model tweets {
   team             teams       @relation(fields: [tuid], references: [tuid])
   approvals        approvals[]
   comments         comments[]
-  metadata         metadata[]
+  metadata         metadata?
 }
 
 model approvals {
@@ -77,7 +77,7 @@ model comments {
 
 model metadata {
   twmuid                      String   @id @default("")
-  twuid                       String?
+  twuid                       String?  @unique
   og_url                      String?
   og_type                     String?
   og_title                    String?
