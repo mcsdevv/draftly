@@ -28,7 +28,7 @@ const getCardMetadata = async (req, res) => {
 
     // TODO Run a check to refresh metadata and update database
 
-    res.status(200).json(post);
+    res.status(200).json(metadata);
   } else {
     // * Fetch document for URL and load virtual DOM
     // TODO Find out why the fuck fetch can take so long - USA > UK perhaps?

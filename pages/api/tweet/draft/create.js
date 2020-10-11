@@ -10,6 +10,8 @@ import isMember from "@lib/api/middleware/isMember";
 const createDraftTweet = async (req, res, uid, tuid) => {
   const { metadata, campaign, tweet } = JSON.parse(req.body);
 
+  console.log("ME4FWA", metadata);
+
   // * Error if either tweet or campaign are missing
   if (!campaign) throw new Error("Malformed request - missing campaign");
   if (!tweet) throw new Error("Malformed request - missing tweet");
@@ -30,6 +32,9 @@ const createDraftTweet = async (req, res, uid, tuid) => {
       tweetId: "",
       creator: { connect: { uid } },
       team: { connect: { tuid } },
+      metadata: {
+        connectOrCreate: { where: { url: metadata.url }, create: metadata },
+      },
     },
     include: { approvals: true, comments: true, creator: true, metadata: true },
   });
