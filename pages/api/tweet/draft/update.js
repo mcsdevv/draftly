@@ -15,11 +15,11 @@ const updateDraftTweet = async (req, res) => {
     data: { text },
   });
 
-  // * Update meta
-  await prisma.metadata.update({
-    where: { twuid },
-    data: metadata,
-  });
+  // // * Update meta
+  // await prisma.metadata.update({
+  //   where: { twuid },
+  //   data: metadata,
+  // });
 
   console.log("Updated draft tweet:", twuid);
   res.status(200).json({ twuid, ...metadata });

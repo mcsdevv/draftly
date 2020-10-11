@@ -50,11 +50,12 @@ model tweets {
   retweets         Int
   replies          Int
   favorites        Int
+  url              String?
   creator          users       @relation(fields: [createdBy], references: [uid])
   team             teams       @relation(fields: [tuid], references: [tuid])
+  metadata         metadata?   @relation(fields: [url], references: [url])
   approvals        approvals[]
   comments         comments[]
-  metadata         metadata?
 }
 
 model approvals {
@@ -76,8 +77,7 @@ model comments {
 }
 
 model metadata {
-  twmuid                      String   @id @default("")
-  twuid                       String?  @unique
+  url                         String   @unique @default("")
   og_url                      String?
   og_type                     String?
   og_title                    String?
@@ -111,8 +111,7 @@ model metadata {
   twitter_title               String?
   cardType                    String?
   fallbackImg                 Boolean?
-  url                         String?
-  tweet                       tweets?  @relation(fields: [twuid], references: [twuid])
+  tweets                      tweets[]
 }
 
 model users {

@@ -14,9 +14,8 @@ const createDraftTweet = async (req, res, uid, tuid) => {
   if (!campaign) throw new Error("Malformed request - missing campaign");
   if (!tweet) throw new Error("Malformed request - missing tweet");
 
-  // * Generate unique id set
+  // * Generate unique id for tweet
   const twuid = uuidv4();
-  const twmuid = uuidv4();
 
   // * Insert draft
   const draft = await prisma.tweets.create({
@@ -31,7 +30,7 @@ const createDraftTweet = async (req, res, uid, tuid) => {
       tweetId: "",
       creator: { connect: { uid } },
       team: { connect: { tuid } },
-      metadata: { create: { twmuid, ...metadata } },
+      metadata: { create: metadata },
     },
     include: { approvals: true, comments: true, creator: true, metadata: true },
   });
