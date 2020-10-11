@@ -88,9 +88,15 @@ const DraftTweet = () => {
     setEditTweet(tweet.text);
   };
 
-  const handleOnChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
+  const updateMeta = async (text: string) => {
+    const metadata = await getMetadata(text);
+    console.log("META", metadata);
+  };
+
+  const handleOnChange = async (e: React.FormEvent<HTMLTextAreaElement>) => {
     if (e.currentTarget.value.length < 281) {
       setEditTweet(e.currentTarget.value);
+      updateMeta(e.currentTarget.value);
     }
   };
 
