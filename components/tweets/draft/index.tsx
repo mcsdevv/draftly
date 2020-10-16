@@ -22,6 +22,7 @@ import Tweet from "@components/tweet";
 
 const DraftTweet = () => {
   const [editing, setEditing] = useState(false);
+  const [editMetadata, setEditMetadata] = useState({});
   const [editTweet, setEditTweet] = useState("");
 
   const { setDrafts } = useDrafts();
@@ -89,8 +90,16 @@ const DraftTweet = () => {
   };
 
   const updateMeta = async (text: string) => {
+    // * Request updated metadata including card type
     const metadata = await getMetadata(text);
-    console.log("META", metadata);
+
+    // * If no error, update local metadata
+    if (!metadata.err) {
+      setEditMetadata(metadata);
+      console.log("META", metadata);
+    } else {
+      console.log("Error fetching updated metadata:", metadata.err);
+    }
   };
 
   const handleOnChange = async (e: React.FormEvent<HTMLTextAreaElement>) => {
@@ -154,7 +163,7 @@ const DraftTweet = () => {
           editing={editing}
           editTweet={editTweet}
           handleOnChange={handleOnChange}
-          metadata={tweet.metadata}
+          metadata={editMetadata || tweet.metadata}
           scope={scope}
           text={tweet.text}
         >

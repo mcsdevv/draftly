@@ -33,6 +33,7 @@ const getCardMetadata = async (req, res) => {
     // * Fetch document for URL and load virtual DOM
     // TODO Find out why the fuck fetch can take so long - USA > UK perhaps?
     const resp = await fetch(uri);
+    // TODO Handle timeout for slow responses
     const respText = await resp.text();
     const dom = htmlparser2.parseDOM(respText, {});
     const $ = cheerio.load(dom);

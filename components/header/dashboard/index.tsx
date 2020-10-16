@@ -55,7 +55,7 @@ const Header = () => {
         {loggedIn && scope !== null && teams?.length > 0 && (
           <>
             <Link as={`/${handle}/tweets/new`} href="/[handle]/tweets/new">
-              Create Draft
+              Create
             </Link>
             <Link
               as={`/${handle}/tweets/drafts`}
