@@ -153,6 +153,14 @@ const getCardMetadata = async (req, res) => {
     };
     console.log("Returned metadata not in database for:", url);
 
+    // * Insert metadata
+    const metadata = await prisma.metadata.create({
+      data: {
+        url,
+        ...post,
+      },
+    });
+
     res.status(200).json(post);
   }
 };
