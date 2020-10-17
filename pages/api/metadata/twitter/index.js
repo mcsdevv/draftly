@@ -4,6 +4,7 @@ const htmlparser2 = require("htmlparser2");
 import prisma from "@lib/api/db/prisma";
 
 // * Utilities
+import getCardType from "@lib/client/getCardType";
 import stripProtocol from "@lib/client/stripProtocol";
 
 // * Middleware
@@ -153,11 +154,14 @@ const getCardMetadata = async (req, res) => {
     };
     console.log("Returned metadata not in database for:", url);
 
+    const cardType = await getCardType(post);
+
     // * Insert metadata
-    const metadata = await prisma.metadata.create({
+    await prisma.metadata.create({
       data: {
-        url,
+        ...cardType,
         ...post,
+        url,
       },
     });
 

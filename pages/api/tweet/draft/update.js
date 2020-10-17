@@ -9,8 +9,6 @@ import isMember from "@lib/api/middleware/isMember";
 const updateDraftTweet = async (req, res) => {
   const { metadata, text, twuid } = JSON.parse(req.body);
 
-  console.log("metwtge", metadata.url);
-
   // * Update draft tweet
   await prisma.tweets.update({
     where: { twuid },

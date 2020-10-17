@@ -22,7 +22,7 @@ import Tweet from "@components/tweet";
 
 const DraftTweet = () => {
   const [editing, setEditing] = useState(false);
-  const [editMetadata, setEditMetadata] = useState({});
+  const [editMetadata, setEditMetadata] = useState(null);
   const [editTweet, setEditTweet] = useState("");
 
   const { setDrafts } = useDrafts();
@@ -163,7 +163,7 @@ const DraftTweet = () => {
           editing={editing}
           editTweet={editTweet}
           handleOnChange={handleOnChange}
-          metadata={editMetadata || tweet.metadata}
+          metadata={editMetadata || tweet?.metadata}
           scope={scope}
           text={tweet.text}
         >
