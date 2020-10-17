@@ -10,8 +10,6 @@ import isMember from "@lib/api/middleware/isMember";
 const createDraftTweet = async (req, res, uid, tuid) => {
   const { metadata, campaign, tweet } = JSON.parse(req.body);
 
-  console.log("ME4FWA", metadata);
-
   // * Error if either tweet or campaign are missing
   if (!campaign) throw new Error("Malformed request - missing campaign");
   if (!tweet) throw new Error("Malformed request - missing tweet");

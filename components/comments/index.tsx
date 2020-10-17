@@ -78,7 +78,6 @@ export default function Comments() {
     <Flex
       sx={{
         flexDirection: "column",
-        marginLeft: "16px",
         maxHeight: "700px",
         overflow: "scroll",
         padding: "0 8px",

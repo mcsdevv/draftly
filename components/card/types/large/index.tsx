@@ -5,7 +5,6 @@ import { useMemo } from "react";
 // * Components
 import CardBottom from "../../sections/bottom";
 import CardTop from "../../sections/top";
-import Characters from "../../../characters";
 
 // * Helpers
 import extractUrl from "@lib/client/extractUrl";
@@ -20,22 +19,12 @@ interface Scope {
 }
 
 interface LargeProps {
-  editing?: boolean;
-  editTweet?: string;
-  handleOnChange?: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   metadata: any;
   scope: Scope;
   text: string;
 }
 
-const Large = ({
-  editing,
-  editTweet,
-  handleOnChange,
-  metadata,
-  scope,
-  text,
-}: LargeProps) => {
+const Large = ({ metadata, scope, text }: LargeProps) => {
   // * Format URL and remove protocol
   const linkUrl = useMemo((): string => {
     return formatUrl(extractUrl(metadata.og_url || metadata.url));
@@ -45,21 +34,8 @@ const Large = ({
     <div className={styles.large}>
       <CardTop handle={scope?.handle} name={scope?.name} />
       <p className={styles.cardText}>
-        <Linkify>
-          {!editing ? (
-            text
-          ) : (
-            <textarea
-              className={styles.textarea}
-              onChange={handleOnChange}
-              value={editTweet}
-            />
-          )}
-        </Linkify>
+        <Linkify>{text}</Linkify>
       </p>
-      {editing && editTweet && (
-        <Characters progress={(editTweet.length / 280) * 100} />
-      )}
       <a className={styles.cardLink} href={metadata.og_url}>
         <div className={styles.cardContainer}>
           <div className={styles.imageContainer}>

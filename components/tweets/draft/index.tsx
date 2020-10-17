@@ -13,17 +13,20 @@ import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 // * Modulz
-import { Card, Flex } from "@modulz/radix";
+import { Box, Card, Flex } from "@modulz/radix";
 
 // * Components
 import Comments from "@components/comments";
+import ComposeFields from "@components/compose/fields";
 import Controls from "@components/controls";
 import Tweet from "@components/tweet";
 
 const DraftTweet = () => {
+  const [campaign, setCampaign] = useState("");
   const [editing, setEditing] = useState(false);
   const [editMetadata, setEditMetadata] = useState(null);
   const [editTweet, setEditTweet] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const { setDrafts } = useDrafts();
   const { setPublished } = usePublished();
@@ -137,6 +140,7 @@ const DraftTweet = () => {
     }
 
     // * Changes made, update tweet
+    setSaving(true);
     setEditing(false);
     const metadata = await getMetadata(editTweet);
 
@@ -159,14 +163,21 @@ const DraftTweet = () => {
   return tweet ? (
     <Card sx={{ height: "fit-content", width: "100%" }}>
       <Flex sx={{ height: "fit-content", width: "100%" }}>
-        <Tweet
-          editing={editing}
-          editTweet={editTweet}
-          handleOnChange={handleOnChange}
-          metadata={editMetadata || tweet?.metadata}
-          scope={scope}
-          text={tweet.text}
-        >
+        <Box sx={{ width: "100%" }} mr="16px">
+          {editing ? (
+            <ComposeFields
+              campaign={campaign || tweet.campaign}
+              handleCampaignChange={setCampaign}
+              handleSave={handleUpdate}
+              handleTweetChange={handleOnChange}
+              handleUpdate={null}
+              saving={saving}
+              state="updating"
+              text={editing ? editTweet : tweet.text}
+            />
+          ) : (
+            <Comments />
+          )}
           <Controls
             editing={editing}
             disableApprove={disableApprove}
@@ -178,8 +189,12 @@ const DraftTweet = () => {
             handlePublish={handlePublish}
             handleUpdate={handleUpdate}
           />
-        </Tweet>
-        <Comments />
+        </Box>
+        <Tweet
+          metadata={editMetadata || tweet?.metadata}
+          scope={scope}
+          text={editing ? editTweet : tweet.text}
+        />
       </Flex>
     </Card>
   ) : null;
