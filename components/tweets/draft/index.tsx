@@ -1,14 +1,16 @@
 // * Libraries
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
+import useDebounce from "@hooks/use-debounce";
 import useDrafts from "@hooks/use-drafts";
 import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
 import useTweet from "@hooks/use-tweet";
 
 // * Helpers
+import extractUrl from "@lib/client/extractUrl";
 import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
@@ -92,23 +94,34 @@ const DraftTweet = () => {
     setEditTweet(tweet.text);
   };
 
-  const updateMeta = async (text: string) => {
-    // * Request updated metadata including card type
-    const metadata = await getMetadata(text);
+  // * Debounce tweet to avoid repitive API calls
+  const debouncedTweet = useDebounce(editTweet, 300);
 
-    // * If no error, update local metadata
-    if (!metadata.err) {
-      setEditMetadata(metadata);
-      console.log("META", metadata);
-    } else {
-      console.log("Error fetching updated metadata:", metadata.err);
+  // * Update metadata when URL has changed
+  useEffect(() => {
+    async function updateMeta() {
+      // * Do not run if no tweet present
+      if (debouncedTweet) {
+        console.log("URL", extractUrl(editTweet));
+        // * Update metadata only when URL has changed
+        if (extractUrl(editTweet) !== editMetadata?.url) {
+          // * Get updated metadata from API
+          const metadata = await getMetadata(editTweet);
+          if (!metadata.err) {
+            setEditMetadata(metadata);
+            console.log("Metadata updated.");
+          }
+        }
+      } else {
+        console.log("No tweet present, not updating metadata.");
+      }
     }
-  };
+    updateMeta();
+  }, [debouncedTweet]);
 
   const handleOnChange = async (e: React.FormEvent<HTMLTextAreaElement>) => {
     if (e.currentTarget.value.length < 281) {
       setEditTweet(e.currentTarget.value);
-      updateMeta(e.currentTarget.value);
     }
   };
 

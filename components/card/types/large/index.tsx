@@ -8,7 +8,6 @@ import CardTop from "../../sections/top";
 
 // * Helpers
 import extractUrl from "@lib/client/extractUrl";
-import formatUrl from "@lib/client/formatUrl";
 
 // * Styles
 import styles from "./large.module.css";
@@ -27,7 +26,7 @@ interface LargeProps {
 const Large = ({ metadata, scope, text }: LargeProps) => {
   // * Format URL and remove protocol
   const linkUrl = useMemo((): string => {
-    return formatUrl(extractUrl(metadata.og_url || metadata.url));
+    return extractUrl(metadata.og_url || metadata.url);
   }, [metadata]);
 
   return (

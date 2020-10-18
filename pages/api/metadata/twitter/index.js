@@ -5,7 +5,6 @@ import prisma from "@lib/api/db/prisma";
 
 // * Utilities
 import getCardType from "@lib/client/getCardType";
-import stripProtocol from "@lib/client/stripProtocol";
 
 // * Middleware
 import verify from "@lib/api/token/verify";
@@ -13,10 +12,7 @@ import withSentry from "@lib/api/middleware/withSentry";
 import isMember from "@lib/api/middleware/isMember";
 
 const getCardMetadata = async (req, res) => {
-  const { uri } = JSON.parse(req.body);
-
-  // * Remove protocol to search database
-  const url = stripProtocol(uri);
+  const { url } = JSON.parse(req.body);
 
   // * Check the 'cards' table for a URL match
   const metadata = await prisma.metadata.findOne({
@@ -33,7 +29,7 @@ const getCardMetadata = async (req, res) => {
   } else {
     // * Fetch document for URL and load virtual DOM
     // TODO Find out why the fuck fetch can take so long - USA > UK perhaps?
-    const resp = await fetch(uri);
+    const resp = await fetch(url);
     // TODO Handle timeout for slow responses
     const respText = await resp.text();
     const dom = htmlparser2.parseDOM(respText, {});
