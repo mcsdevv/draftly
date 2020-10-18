@@ -25,6 +25,8 @@ model teams {
   creator         users     @relation(fields: [createdBy], references: [uid])
   members         members[]
   tweets          tweets[]
+
+  @@index([handle])
 }
 
 model members {
