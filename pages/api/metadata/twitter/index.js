@@ -30,9 +30,15 @@ const getCardMetadata = async (req, res) => {
     // * Fetch document for URL and load virtual DOM
     // TODO Find out why the fuck fetch can take so long - USA > UK perhaps?
     const resp = await fetch(`https://${url}`);
+
+    // * Render document as text
     // TODO Handle timeout for slow responses
     const respText = await resp.text();
+
+    // * Parse document text as a virtual DOM
     const dom = htmlparser2.parseDOM(respText, {});
+
+    // * Provide method to query virtual DOM created
     const $ = cheerio.load(dom);
 
     const post = {
@@ -150,6 +156,7 @@ const getCardMetadata = async (req, res) => {
     };
     console.log("Returned metadata not in database for:", url);
 
+    // * Get card type to include with metadata
     const cardType = await getCardType(post);
 
     // * Insert metadata
