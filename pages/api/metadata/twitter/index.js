@@ -29,7 +29,7 @@ const getCardMetadata = async (req, res) => {
   } else {
     // * Fetch document for URL and load virtual DOM
     // TODO Find out why the fuck fetch can take so long - USA > UK perhaps?
-    const resp = await fetch(url);
+    const resp = await fetch(`https://${url}`);
     // TODO Handle timeout for slow responses
     const respText = await resp.text();
     const dom = htmlparser2.parseDOM(respText, {});
