@@ -25,7 +25,7 @@ const ComposeTweet = () => {
   const [createdId, setCreatedId] = useState("");
   const [saving, setSaving] = useState(false);
   const [campaign, setCampaign] = useState("");
-  const [metadata, setMetadata] = useState(null);
+  const [metadata, setMetadata] = useState<any>(null);
   const [text, setText] = useState("");
 
   // * Initialize hooks
@@ -115,9 +115,7 @@ const ComposeTweet = () => {
             handleCampaignChange={handleCampaignChange}
             handleSave={handleSaveDraft}
             handleTweetChange={handleTweetChange}
-            handleUpdate={null}
             saving={saving}
-            state="drafting"
             text={text}
           />
         </Card>
@@ -126,14 +124,7 @@ const ComposeTweet = () => {
             Campaign - {campaign}
           </Heading>
           <Divider mb={2} />
-          <Tweet
-            editing={false}
-            editTweet={""}
-            handleOnChange={() => null}
-            metadata={metadata}
-            scope={scope}
-            text={text}
-          />
+          <Tweet metadata={metadata} scope={scope} text={text} />
         </Box>
       </Flex>
     </Card>

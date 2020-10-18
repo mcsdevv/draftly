@@ -26,7 +26,7 @@ import Tweet from "@components/tweet";
 const DraftTweet = () => {
   const [campaign, setCampaign] = useState("");
   const [editing, setEditing] = useState(false);
-  const [editMetadata, setEditMetadata] = useState(null);
+  const [metadata, setMetadata] = useState<any>(null);
   const [editTweet, setEditTweet] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -94,6 +94,17 @@ const DraftTweet = () => {
     setEditTweet(tweet.text);
   };
 
+  // * Updates the campaign on change
+  const handleCampaignChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setCampaign(e.currentTarget.value);
+  };
+
+  const handleTweetChange = async (e: React.FormEvent<HTMLTextAreaElement>) => {
+    if (e.currentTarget.value.length < 281) {
+      setEditTweet(e.currentTarget.value);
+    }
+  };
+
   // * Debounce tweet to avoid repitive API calls
   const debouncedTweet = useDebounce(editTweet, 300);
 
@@ -103,27 +114,21 @@ const DraftTweet = () => {
       // * Do not run if no tweet present
       if (debouncedTweet) {
         // * Update metadata only when URL has changed
-        if (extractUrl(editTweet) !== editMetadata?.url) {
+        if (extractUrl(editTweet) !== metadata?.url) {
           // * Get updated metadata from API
           const metadata = await getMetadata(editTweet);
           if (!metadata.err) {
-            setEditMetadata(metadata);
+            setMetadata(metadata);
             console.log("Metadata updated.");
           }
         }
       } else {
         console.log("No tweet present, metadata set to null.");
-        setEditMetadata(null);
+        setMetadata(null);
       }
     }
     updateMeta();
   }, [debouncedTweet]);
-
-  const handleOnChange = async (e: React.FormEvent<HTMLTextAreaElement>) => {
-    if (e.currentTarget.value.length < 281) {
-      setEditTweet(e.currentTarget.value);
-    }
-  };
 
   const handlePublish = async () => {
     const url = "/api/tweet/published/create";
@@ -180,12 +185,10 @@ const DraftTweet = () => {
           {editing ? (
             <ComposeFields
               campaign={campaign || tweet.campaign}
-              handleCampaignChange={setCampaign}
+              handleCampaignChange={handleCampaignChange}
               handleSave={handleUpdate}
-              handleTweetChange={handleOnChange}
-              handleUpdate={null}
+              handleTweetChange={handleTweetChange}
               saving={saving}
-              state="updating"
               text={editing ? editTweet : tweet.text}
             />
           ) : (
@@ -209,7 +212,7 @@ const DraftTweet = () => {
           </Heading>
           <Divider mb={2} />
           <Tweet
-            metadata={editMetadata || tweet?.metadata}
+            metadata={metadata || tweet?.metadata}
             scope={scope}
             text={editing ? editTweet : tweet.text}
           />

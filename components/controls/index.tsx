@@ -10,7 +10,6 @@ import {
   Heading,
   Option,
   Select,
-  Subheading,
 } from "@modulz/radix";
 
 interface ControlsProps {
@@ -33,7 +32,7 @@ const Controls = ({
   approvalsRequired,
   disableApprove,
   disablePublish,
-  disableRefresh,
+  // disableRefresh,
   editing,
   handleApprove,
   handleCancelEdit,

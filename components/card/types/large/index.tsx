@@ -25,8 +25,8 @@ interface LargeProps {
 
 const Large = ({ metadata, scope, text }: LargeProps) => {
   // * Format URL and remove protocol
-  const linkUrl = useMemo((): string => {
-    return extractUrl(metadata.og_url || metadata.url);
+  const linkUrl = useMemo((): string | undefined => {
+    return extractUrl(metadata?.og_url || metadata?.url);
   }, [metadata]);
 
   return (

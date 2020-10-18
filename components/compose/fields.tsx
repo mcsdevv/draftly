@@ -1,19 +1,29 @@
+// * Libraries
+import React from "react";
+
 // * Modulz
 import { Button, Card, Input, Subheading, Textarea } from "@modulz/radix";
 
 // * Components
 import Characters from "@components/characters";
 
+interface ComposeFieldsProps {
+  campaign: string;
+  handleCampaignChange: (e: React.FormEvent<HTMLInputElement>) => void;
+  handleSave: () => void;
+  handleTweetChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
+  saving: boolean;
+  text: string;
+}
+
 const ComposeFields = ({
   campaign,
   handleCampaignChange,
   handleSave,
   handleTweetChange,
-  handleUpdate,
   saving,
-  state,
   text,
-}) => {
+}: ComposeFieldsProps) => {
   return (
     <Card sx={{ width: "100%" }}>
       <Subheading mb={2}>Campaign</Subheading>
@@ -37,7 +47,7 @@ const ComposeFields = ({
         disabled={!campaign || !text}
         isWaiting={saving}
         ml={2}
-        onClick={state === "drafting" ? handleSave : handleUpdate}
+        onClick={handleSave}
         variant="blue"
       >
         Create Draft
