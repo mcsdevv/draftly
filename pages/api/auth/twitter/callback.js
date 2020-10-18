@@ -80,7 +80,8 @@ const twitterCallback = (req, res) => {
                   tokenKey: oauthAccessToken,
                   tokenSecret: oauthAccessTokenSecret,
                   inviteCode,
-                  createdBy: decrypt(req.cookies.uid),
+                  // createdBy: decrypt(req.cookies.uid),
+                  creator: { connect: { uid: decrypt(req.cookies.uid) } },
                 },
               });
 
