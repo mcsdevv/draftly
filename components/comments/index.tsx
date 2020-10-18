@@ -78,10 +78,10 @@ export default function Comments() {
     <Flex
       sx={{
         flexDirection: "column",
-        maxHeight: "700px",
+        height: "100%",
+        maxHeight: "272px",
         overflow: "scroll",
         padding: "0 8px",
-        width: "100%",
       }}
     >
       <Heading as="h2" size={4}>
