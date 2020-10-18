@@ -83,7 +83,7 @@ function Published() {
               handleOnDelete={() => handleDelete(p.twuid)}
               key={p.twuid}
               row={[
-                p.title,
+                p.campaign,
                 p.text,
                 [...scope?.members, ...scope?.owners].find(
                   (m) => m.uid === p.createdBy

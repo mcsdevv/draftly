@@ -1,19 +1,19 @@
 generator client {
-  provider             = "prisma-client-js"
-  experimentalFeatures = ["connectOrCreate"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model teams {
   tuid            String    @id @default("")
   name            String    @default("")
   protected       Boolean
-  handle          String    @default("")
+  handle          String    @unique @default("")
   avatar          String    @default("")
+  reviewsRequired Int       @default(0) @map("reviews_required")
   plan            String    @default("")
   tokenSecret     String    @default("") @map("token_secret")
   tokenKey        String    @default("") @map("token_key")
@@ -21,10 +21,11 @@ model teams {
   updatedAt       DateTime  @default(now()) @map("updated_at")
   createdAt       DateTime  @default(now()) @map("created_at")
   createdBy       String    @map("created_by")
-  reviewsRequired Int       @default(0) @map("reviews_required")
   creator         users     @relation(fields: [createdBy], references: [uid])
   members         members[]
   tweets          tweets[]
+
+  @@index([handle])
 }
 
 model members {
@@ -51,12 +52,11 @@ model tweets {
   retweets         Int
   replies          Int
   favorites        Int
-  url              String?
   creator          users       @relation(fields: [createdBy], references: [uid])
   team             teams       @relation(fields: [tuid], references: [tuid])
-  metadata         metadata?   @relation(fields: [url], references: [url])
   approvals        approvals[]
   comments         comments[]
+  metadata         metadata?
 }
 
 model approvals {
@@ -78,7 +78,8 @@ model comments {
 }
 
 model metadata {
-  url                         String   @unique @default("")
+  twmuid                      String   @id @default("")
+  twuid                       String?  @unique
   og_url                      String?
   og_type                     String?
   og_title                    String?
@@ -112,7 +113,8 @@ model metadata {
   twitter_title               String?
   cardType                    String?
   fallbackImg                 Boolean?
-  tweets                      tweets[]
+  url                         String?
+  tweet                       tweets?  @relation(fields: [twuid], references: [twuid])
 }
 
 model users {

@@ -37,12 +37,14 @@
     "sql-query": "^0.1.27",
     "sql-template-strings": "^2.2.2",
     "swr": "0.3.2",
+    "tldjs": "^2.3.1",
     "twitter": "^1.7.1",
     "uuid": "^8.3.1"
   },
   "scripts": {
     "dev": "next",
-    "build": "next build"
+    "build": "next build",
+    "postinstall": "prisma generate"
   },
   "engines": {
     "node": "10.x"

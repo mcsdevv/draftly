@@ -1,48 +1,44 @@
 // * Libraries
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 // * Hooks
+import useDebounce from "@hooks/use-debounce";
 import useDrafts from "@hooks/use-drafts";
 import usePublished from "@hooks/use-published";
+import useScope from "@hooks/use-scope";
 
 // * Helpers
+import extractUrl from "@lib/client/extractUrl";
 import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 // * Modulz
-import {
-  Button,
-  Container,
-  Flex,
-  Heading,
-  Input,
-  Subheading,
-  Textarea,
-} from "@modulz/radix";
+import { Box, Card, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
-import Characters from "@components/characters";
+import ComposeFields from "@components/compose/fields";
+import Tweet from "@components/tweet";
 
 const ComposeTweet = () => {
   const router = useRouter();
-  const [completed, setCompleted] = useState(false);
   const [createdId, setCreatedId] = useState("");
   const [saving, setSaving] = useState(false);
+  const [campaign, setCampaign] = useState("");
+  const [metadata, setMetadata] = useState<any>(null);
   const [text, setText] = useState("");
-  const [title, setTitle] = useState("");
+
+  // * Initialize hooks
   const { setDrafts } = useDrafts();
   const { setPublished } = usePublished();
-
-  // * Resets state to page defaults
-  const handleCreateAnother = () => {
-    setCompleted(false);
-    setCreatedId("");
-  };
+  const { scope } = useScope();
 
   // * Handles the saving of the tweet to the database
   const handleSaveDraft = async () => {
+    // * Set the state to saving
     setSaving(true);
+
+    // * Get the metadata based on URL's
     const metadata = await getMetadata(text);
     const url = "/api/tweet/draft/create";
     const formattedTweet = removeWww(text);
@@ -50,25 +46,23 @@ const ComposeTweet = () => {
       method: "POST",
       body: JSON.stringify({
         metadata,
-        title,
+        campaign,
         tweet: formattedTweet,
       }),
     });
     if (res.status === 200) {
-      setCompleted(true);
       const newDraft = await res.json();
       setCreatedId(newDraft.twuid);
       setSaving(false);
       setDrafts([]);
       setPublished([]);
-      setTitle("");
-      setText("");
+      handleViewCreatedDraft();
     }
   };
 
-  // * Updates the title on change
-  const handleTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value);
+  // * Updates the campaign on change
+  const handleCampaignChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setCampaign(e.currentTarget.value);
   };
 
   // * Updates the tweet on change
@@ -78,14 +72,30 @@ const ComposeTweet = () => {
     }
   };
 
-  // * Redirects to view all drafts
-  const handleViewDrafts = () => {
-    router.push(
-      "/[handle]/tweets/drafts",
-      `/${router.query.handle}/tweets/drafts/`,
-      { shallow: true }
-    );
-  };
+  // * Debounce tweet to avoid repitive API calls
+  const debouncedTweet = useDebounce(text, 300);
+
+  // * Update metadata when URL has changed
+  useEffect(() => {
+    async function updateMeta() {
+      // * Do not run if no tweet present
+      if (debouncedTweet) {
+        // * Update metadata only when URL has changed
+        if (extractUrl(text) !== metadata?.url) {
+          // * Get updated metadata from API
+          const metadata = await getMetadata(text);
+          if (!metadata.err) {
+            setMetadata(metadata);
+            console.log("Metadata updated.");
+          }
+        }
+      } else {
+        console.log("No tweet present, metadata set to null.");
+        setMetadata(null);
+      }
+    }
+    updateMeta();
+  }, [debouncedTweet]);
 
   // * Redirects to created draft view
   const handleViewCreatedDraft = () => {
@@ -97,78 +107,27 @@ const ComposeTweet = () => {
   };
 
   return (
-    <Flex
-      mx="auto"
-      my={4}
-      sx={{
-        flexDirection: "column",
-        height: "100%",
-        justifyContent: "center",
-      }}
-    >
-      {!completed ? (
-        <>
-          <Container sx={{ width: "640px" }} size={1} mb={4}>
-            <Subheading mb={2}>Tweet Title</Subheading>
-            <Input
-              disabled={saving}
-              mb={4}
-              onChange={handleTitleChange}
-              size={1}
-              type="email"
-              value={title}
-            />
-            <Subheading mb={2}>Tweet Body</Subheading>
-            <Textarea
-              disabled={saving}
-              placeholder="Draft your tweet..."
-              onChange={handleTweetChange}
-              // onKeyDown={handleOnKeyDown}
-              value={text}
-            />
-            <Characters progress={(text.length / 280) * 100} />
-          </Container>
-          <Flex
-            sx={{
-              margin: "0 auto",
-            }}
-          >
-            <Button
-              disabled={!text || !title}
-              isWaiting={saving}
-              ml={2}
-              onClick={handleSaveDraft}
-              variant="blue"
-            >
-              Create Draft
-            </Button>
-          </Flex>
-        </>
-      ) : (
-        <Flex sx={{ flexDirection: "column" }}>
-          <Heading mb={4} as="h2" size={4}>
-            Draft Created!
+    <Card sx={{ height: "fit-content", width: "100%" }}>
+      <Flex sx={{ height: "fit-content", width: "100%" }}>
+        <Card sx={{ width: "100%" }}>
+          <ComposeFields
+            campaign={campaign}
+            handleCampaignChange={handleCampaignChange}
+            handleSave={handleSaveDraft}
+            handleTweetChange={handleTweetChange}
+            saving={saving}
+            text={text}
+          />
+        </Card>
+        <Box ml="16px">
+          <Heading as="h2" size={4}>
+            Campaign - {campaign}
           </Heading>
-          <Button
-            mb={4}
-            sx={{ cursor: "pointer" }}
-            onClick={handleViewCreatedDraft}
-          >
-            View Created Draft
-          </Button>
-          <Button
-            mb={4}
-            sx={{ cursor: "pointer" }}
-            onClick={handleCreateAnother}
-          >
-            Create Another Draft
-          </Button>
-          <Button sx={{ cursor: "pointer" }} onClick={handleViewDrafts}>
-            View Draft Tweets
-          </Button>
-        </Flex>
-      )}
-    </Flex>
+          <Divider mb={2} />
+          <Tweet metadata={metadata} scope={scope} text={text} />
+        </Box>
+      </Flex>
+    </Card>
   );
 };
 

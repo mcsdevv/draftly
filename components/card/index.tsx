@@ -17,50 +17,17 @@ interface CardProps {
   text: string;
 }
 
-const Card = ({
-  editing,
-  editTweet,
-  handleOnChange,
-  metadata,
-  scope,
-  text,
-}: CardProps) => {
+const Card = ({ metadata, scope, text }: CardProps) => {
   // * Removes URL if it is the last item present in the tweet text
   const tweetText = removeUrl(metadata, text);
 
   if (metadata?.cardType === "summary-large") {
-    return (
-      <Large
-        editing={editing}
-        editTweet={editTweet}
-        handleOnChange={handleOnChange}
-        metadata={metadata}
-        scope={scope}
-        text={tweetText}
-      />
-    );
+    return <Large metadata={metadata} scope={scope} text={tweetText} />;
   }
   if (metadata?.cardType === "summary") {
-    return (
-      <Small
-        editing={editing}
-        editTweet={editTweet}
-        handleOnChange={handleOnChange}
-        metadata={metadata}
-        scope={scope}
-        text={tweetText}
-      />
-    );
+    return <Small metadata={metadata} scope={scope} text={tweetText} />;
   }
-  return (
-    <Text
-      editing={editing}
-      editTweet={editTweet}
-      handleOnChange={handleOnChange}
-      scope={scope}
-      text={tweetText}
-    />
-  );
+  return <Text scope={scope} text={tweetText} />;
 };
 
 export default Card;

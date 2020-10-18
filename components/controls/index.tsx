@@ -10,7 +10,6 @@ import {
   Heading,
   Option,
   Select,
-  Subheading,
 } from "@modulz/radix";
 
 interface ControlsProps {
@@ -33,7 +32,7 @@ const Controls = ({
   approvalsRequired,
   disableApprove,
   disablePublish,
-  disableRefresh,
+  // disableRefresh,
   editing,
   handleApprove,
   handleCancelEdit,
@@ -116,28 +115,27 @@ const Controls = ({
           paddingTop: "16px",
         }}
       >
-        <Flex mr={4} sx={{ flexDirection: "column" }}>
-          <Subheading mb={5}>Select Theme</Subheading>
+        <Flex sx={{ flexDirection: "column" }}>
           <Select
             onValueChange={handleOnChange}
             value={theme}
             sx={{ width: "120px" }}
           >
-            <Option label="Default" value="default" />
-            <Option label="Dim" value="dim" />
-            <Option label="Lights Out" value="lightsOut" />
+            <Option label="Default Theme" value="default" />
+            <Option label="Dim Theme" value="dim" />
+            <Option label="Lights Out Theme" value="lightsOut" />
           </Select>
-        </Flex>
-        <Flex mr={4} sx={{ flexDirection: "column" }}>
-          <Button mb={4} sx={{ cursor: "pointer", width: "120px" }}>
+          <Button mt={4} sx={{ cursor: "pointer", width: "120px" }}>
             Request Feedback
           </Button>
-          <Button
+        </Flex>
+        <Flex mr={4} sx={{ flexDirection: "column" }}>
+          {/* <Button
             disabled={disableRefresh}
             sx={{ cursor: "pointer", width: "120px" }}
           >
             Refresh Metadata
-          </Button>
+          </Button> */}
         </Flex>
         <Flex mr={4} sx={{ flexDirection: "column" }}>
           <Button

@@ -8,15 +8,14 @@ import withSentry from "@lib/api/middleware/withSentry";
 import isMember from "@lib/api/middleware/isMember";
 
 const createDraftTweet = async (req, res, uid, tuid) => {
-  const { metadata, title, tweet } = JSON.parse(req.body);
+  const { metadata, campaign, tweet } = JSON.parse(req.body);
 
-  // * Error if either tweet or title are missing
-  if (!title) throw new Error("Malformed request - missing title");
+  // * Error if either tweet or campaign are missing
+  if (!campaign) throw new Error("Malformed request - missing campaign");
   if (!tweet) throw new Error("Malformed request - missing tweet");
 
-  // * Generate unique id set
+  // * Generate unique id for tweet
   const twuid = uuidv4();
-  const twmuid = uuidv4();
 
   // * Insert draft
   const draft = await prisma.tweets.create({
@@ -24,14 +23,16 @@ const createDraftTweet = async (req, res, uid, tuid) => {
       twuid,
       type: "draft",
       text: tweet,
-      title,
+      campaign,
       favorites: 0,
       replies: 0,
       retweets: 0,
       tweetId: "",
       creator: { connect: { uid } },
       team: { connect: { tuid } },
-      metadata: { create: { twmuid, ...metadata } },
+      metadata: {
+        connectOrCreate: { where: { url: metadata.url }, create: metadata },
+      },
     },
     include: { approvals: true, comments: true, creator: true, metadata: true },
   });

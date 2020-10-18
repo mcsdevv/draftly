@@ -4,7 +4,6 @@ import Linkify from "react-linkify";
 // * Components
 import CardBottom from "../../sections/bottom";
 import CardTop from "../../sections/top";
-import Characters from "../../../characters";
 
 // * Styles
 import styles from "./small.module.css";
@@ -15,40 +14,17 @@ interface Scope {
 }
 
 interface SmallProps {
-  editing?: boolean;
-  editTweet?: string;
-  handleOnChange?: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   metadata: any;
   scope: Scope;
   text: string;
 }
 
-const Small = ({
-  editing,
-  editTweet,
-  handleOnChange,
-  metadata,
-  scope,
-  text,
-}: SmallProps) => (
+const Small = ({ metadata, scope, text }: SmallProps) => (
   <div className={styles.small}>
     <CardTop handle={scope?.handle} name={scope?.name} />
     <p className={styles.cardText}>
-      <Linkify>
-        {!editing ? (
-          text
-        ) : (
-          <textarea
-            className={styles.textarea}
-            onChange={handleOnChange}
-            value={editTweet}
-          />
-        )}
-      </Linkify>
+      <Linkify>{text}</Linkify>
     </p>
-    {editing && editTweet && (
-      <Characters progress={(editTweet.length / 280) * 100} />
-    )}
     <a className={styles.cardLink} href={metadata.og_url}>
       <div className={styles.summary}>
         <div className={styles.imageContainer}>

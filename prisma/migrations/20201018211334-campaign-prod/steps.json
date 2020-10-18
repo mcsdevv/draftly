@@ -1,0 +1,142 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "teams",
+          "field": "handle"
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "teams",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[handle]"
+            }
+          ]
+        },
+        "directive": "index"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "tweets",
+      "field": "url",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "metadata"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "metadata"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[url]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "metadata"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[url]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "metadata",
+      "field": "tweets",
+      "type": "tweets",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "metadata",
+      "field": "twmuid"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "metadata",
+      "field": "twuid"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "metadata",
+      "field": "tweet"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "metadata",
+      "field": "url",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "metadata",
+          "field": "url"
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "metadata",
+          "field": "url"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "metadata",
+          "field": "url"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    }
+  ]
+}

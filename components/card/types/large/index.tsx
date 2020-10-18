@@ -1,14 +1,13 @@
 // * Libraries
 import Linkify from "react-linkify";
+import { useMemo } from "react";
 
 // * Components
 import CardBottom from "../../sections/bottom";
 import CardTop from "../../sections/top";
-import Characters from "../../../characters";
 
 // * Helpers
 import extractUrl from "@lib/client/extractUrl";
-import formatUrl from "@lib/client/formatUrl";
 
 // * Styles
 import styles from "./large.module.css";
@@ -19,46 +18,23 @@ interface Scope {
 }
 
 interface LargeProps {
-  editing?: boolean;
-  editTweet?: string;
-  handleOnChange?: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   metadata: any;
   scope: Scope;
   text: string;
 }
 
-const Large = ({
-  editing,
-  editTweet,
-  handleOnChange,
-  metadata,
-  scope,
-  text,
-}: LargeProps) => {
+const Large = ({ metadata, scope, text }: LargeProps) => {
   // * Format URL and remove protocol
-  const getLinkUrl = (): string => {
-    return formatUrl(extractUrl(metadata.og_url || metadata.url));
-  };
+  const linkUrl = useMemo((): string | undefined => {
+    return extractUrl(metadata?.og_url || metadata?.url);
+  }, [metadata]);
 
   return (
     <div className={styles.large}>
       <CardTop handle={scope?.handle} name={scope?.name} />
       <p className={styles.cardText}>
-        <Linkify>
-          {!editing ? (
-            text
-          ) : (
-            <textarea
-              className={styles.textarea}
-              onChange={handleOnChange}
-              value={editTweet}
-            />
-          )}
-        </Linkify>
+        <Linkify>{text}</Linkify>
       </p>
-      {editing && editTweet && (
-        <Characters progress={(editTweet.length / 280) * 100} />
-      )}
       <a className={styles.cardLink} href={metadata.og_url}>
         <div className={styles.cardContainer}>
           <div className={styles.imageContainer}>
@@ -86,7 +62,7 @@ const Large = ({
                   <path d="M7.27 22.054c-1.61 0-3.197-.735-4.225-2.125-.832-1.127-1.176-2.51-.968-3.894s.943-2.605 2.07-3.438l1.478-1.094c.334-.245.805-.175 1.05.158s.177.804-.157 1.05l-1.48 1.095c-.803.593-1.326 1.464-1.475 2.45-.148.99.097 1.975.69 2.778 1.225 1.657 3.57 2.01 5.23.785l3.528-2.608c1.658-1.225 2.01-3.57.785-5.23-.498-.674-1.187-1.15-1.992-1.376-.4-.113-.633-.527-.52-.927.112-.4.528-.63.926-.522 1.13.318 2.096.986 2.794 1.932 1.717 2.324 1.224 5.612-1.1 7.33l-3.53 2.608c-.933.693-2.023 1.026-3.105 1.026z"></path>
                 </g>
               </svg>
-              <span>{getLinkUrl()}</span>
+              <span>{linkUrl}</span>
             </div>
           </div>
         </div>

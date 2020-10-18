@@ -1,28 +1,34 @@
 // * Libraries
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
+import useDebounce from "@hooks/use-debounce";
 import useDrafts from "@hooks/use-drafts";
 import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
 import useTweet from "@hooks/use-tweet";
 
 // * Helpers
+import extractUrl from "@lib/client/extractUrl";
 import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 // * Modulz
-import { Card, Flex } from "@modulz/radix";
+import { Box, Card, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
 import Comments from "@components/comments";
+import ComposeFields from "@components/compose/fields";
 import Controls from "@components/controls";
 import Tweet from "@components/tweet";
 
 const DraftTweet = () => {
+  const [campaign, setCampaign] = useState("");
   const [editing, setEditing] = useState(false);
+  const [metadata, setMetadata] = useState<any>(null);
   const [editTweet, setEditTweet] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const { setDrafts } = useDrafts();
   const { setPublished } = usePublished();
@@ -88,11 +94,41 @@ const DraftTweet = () => {
     setEditTweet(tweet.text);
   };
 
-  const handleOnChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
+  // * Updates the campaign on change
+  const handleCampaignChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setCampaign(e.currentTarget.value);
+  };
+
+  const handleTweetChange = async (e: React.FormEvent<HTMLTextAreaElement>) => {
     if (e.currentTarget.value.length < 281) {
       setEditTweet(e.currentTarget.value);
     }
   };
+
+  // * Debounce tweet to avoid repitive API calls
+  const debouncedTweet = useDebounce(editTweet, 300);
+
+  // * Update metadata when URL has changed
+  useEffect(() => {
+    async function updateMeta() {
+      // * Do not run if no tweet present
+      if (debouncedTweet) {
+        // * Update metadata only when URL has changed
+        if (extractUrl(editTweet) !== metadata?.url) {
+          // * Get updated metadata from API
+          const metadata = await getMetadata(editTweet);
+          if (!metadata.err) {
+            setMetadata(metadata);
+            console.log("Metadata updated.");
+          }
+        }
+      } else {
+        console.log("No tweet present, metadata set to null.");
+        setMetadata(null);
+      }
+    }
+    updateMeta();
+  }, [debouncedTweet]);
 
   const handlePublish = async () => {
     const url = "/api/tweet/published/create";
@@ -122,10 +158,10 @@ const DraftTweet = () => {
     }
 
     // * Changes made, update tweet
+    setSaving(true);
     setEditing(false);
     const metadata = await getMetadata(editTweet);
 
-    console.log("meteteet", metadata);
     const url = "/api/tweet/draft/update";
     const formattedTweet = removeWww(editTweet);
     const res = await fetch(url, {
@@ -145,14 +181,19 @@ const DraftTweet = () => {
   return tweet ? (
     <Card sx={{ height: "fit-content", width: "100%" }}>
       <Flex sx={{ height: "fit-content", width: "100%" }}>
-        <Tweet
-          editing={editing}
-          editTweet={editTweet}
-          handleOnChange={handleOnChange}
-          metadata={tweet.metadata}
-          scope={scope}
-          text={tweet.text}
-        >
+        <Box sx={{ width: "100%" }} mr="16px">
+          {editing ? (
+            <ComposeFields
+              campaign={campaign || tweet.campaign}
+              handleCampaignChange={handleCampaignChange}
+              handleSave={handleUpdate}
+              handleTweetChange={handleTweetChange}
+              saving={saving}
+              text={editing ? editTweet : tweet.text}
+            />
+          ) : (
+            <Comments />
+          )}
           <Controls
             editing={editing}
             disableApprove={disableApprove}
@@ -164,8 +205,18 @@ const DraftTweet = () => {
             handlePublish={handlePublish}
             handleUpdate={handleUpdate}
           />
-        </Tweet>
-        <Comments />
+        </Box>
+        <Box ml="16px">
+          <Heading as="h2" size={4}>
+            Campaign - {tweet.campaign}
+          </Heading>
+          <Divider mb={2} />
+          <Tweet
+            metadata={metadata || tweet?.metadata}
+            scope={scope}
+            text={editing ? editTweet : tweet.text}
+          />
+        </Box>
       </Flex>
     </Card>
   ) : null;
