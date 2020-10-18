@@ -1,31 +1,23 @@
 // * Libraries
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 // * Hooks
+import useDebounce from "@hooks/use-debounce";
 import useDrafts from "@hooks/use-drafts";
 import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
 
 // * Helpers
+import extractUrl from "@lib/client/extractUrl";
 import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 // * Modulz
-import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  Flex,
-  Heading,
-  Input,
-  Subheading,
-  Textarea,
-} from "@modulz/radix";
+import { Box, Card, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
-import Characters from "@components/characters";
+import ComposeFields from "@components/compose/fields";
 import Tweet from "@components/tweet";
 
 const ComposeTweet = () => {
@@ -77,22 +69,33 @@ const ComposeTweet = () => {
   const handleTweetChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     if (e.currentTarget.value.length < 281) {
       setText(e.currentTarget.value);
-      updateMeta(e.currentTarget.value);
     }
   };
 
-  const updateMeta = async (text: string) => {
-    // * Request updated metadata including card type
-    const metadata = await getMetadata(text);
+  // * Debounce tweet to avoid repitive API calls
+  const debouncedTweet = useDebounce(text, 300);
 
-    // * If no error, update local metadata
-    if (!metadata.err) {
-      setMetadata(metadata);
-      console.log("META", metadata);
-    } else {
-      console.log("Error fetching updated metadata:", metadata.err);
+  // * Update metadata when URL has changed
+  useEffect(() => {
+    async function updateMeta() {
+      // * Do not run if no tweet present
+      if (debouncedTweet) {
+        // * Update metadata only when URL has changed
+        if (extractUrl(text) !== metadata?.url) {
+          // * Get updated metadata from API
+          const metadata = await getMetadata(text);
+          if (!metadata.err) {
+            setMetadata(metadata);
+            console.log("Metadata updated.");
+          }
+        }
+      } else {
+        console.log("No tweet present, metadata set to null.");
+        setMetadata(null);
+      }
     }
-  };
+    updateMeta();
+  }, [debouncedTweet]);
 
   // * Redirects to created draft view
   const handleViewCreatedDraft = () => {
@@ -107,32 +110,16 @@ const ComposeTweet = () => {
     <Card sx={{ height: "fit-content", width: "100%" }}>
       <Flex sx={{ height: "fit-content", width: "100%" }}>
         <Card sx={{ width: "100%" }}>
-          <Subheading mb={2}>Campaign</Subheading>
-          <Input
-            disabled={saving}
-            mb={4}
-            onChange={handleCampaignChange}
-            size={1}
-            type="email"
-            value={campaign}
+          <ComposeFields
+            campaign={campaign}
+            handleCampaignChange={handleCampaignChange}
+            handleSave={handleSaveDraft}
+            handleTweetChange={handleTweetChange}
+            handleUpdate={null}
+            saving={saving}
+            state="drafting"
+            text={text}
           />
-          <Subheading mb={2}>Text</Subheading>
-          <Textarea
-            disabled={saving}
-            placeholder="Draft your tweet..."
-            onChange={handleTweetChange}
-            value={text}
-          />
-          <Characters progress={(text.length / 280) * 100} />
-          <Button
-            disabled={!campaign || !text}
-            isWaiting={saving}
-            ml={2}
-            onClick={handleSaveDraft}
-            variant="blue"
-          >
-            Create Draft
-          </Button>
         </Card>
         <Box ml="16px">
           <Heading as="h2" size={4}>

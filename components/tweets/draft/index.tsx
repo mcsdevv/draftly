@@ -15,7 +15,7 @@ import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 // * Modulz
-import { Box, Card, Flex } from "@modulz/radix";
+import { Box, Card, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
 import Comments from "@components/comments";
@@ -102,7 +102,6 @@ const DraftTweet = () => {
     async function updateMeta() {
       // * Do not run if no tweet present
       if (debouncedTweet) {
-        console.log("URL", extractUrl(editTweet));
         // * Update metadata only when URL has changed
         if (extractUrl(editTweet) !== editMetadata?.url) {
           // * Get updated metadata from API
@@ -113,7 +112,8 @@ const DraftTweet = () => {
           }
         }
       } else {
-        console.log("No tweet present, not updating metadata.");
+        console.log("No tweet present, metadata set to null.");
+        setEditMetadata(null);
       }
     }
     updateMeta();
@@ -203,11 +203,17 @@ const DraftTweet = () => {
             handleUpdate={handleUpdate}
           />
         </Box>
-        <Tweet
-          metadata={editMetadata || tweet?.metadata}
-          scope={scope}
-          text={editing ? editTweet : tweet.text}
-        />
+        <Box ml="16px">
+          <Heading as="h2" size={4}>
+            Campaign - {tweet.campaign}
+          </Heading>
+          <Divider mb={2} />
+          <Tweet
+            metadata={editMetadata || tweet?.metadata}
+            scope={scope}
+            text={editing ? editTweet : tweet.text}
+          />
+        </Box>
       </Flex>
     </Card>
   ) : null;
