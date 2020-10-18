@@ -159,6 +159,18 @@ const getCardMetadata = async (req, res) => {
     // * Get card type to include with metadata
     const cardType = await getCardType(post);
 
+    // const imgValid = await fetch("https://via.placeholder.com/150", {
+    //   method: "HEAD",
+    // })
+    //   .then((res) => {
+    //     if (res.ok) {
+    //       console.log("Image exists.");
+    //     } else {
+    //       console.log("Image does not exist.");
+    //     }
+    //   })
+    //   .catch((err) => console.log("Error:", err));
+
     // * Insert metadata
     await prisma.metadata.create({
       data: {
