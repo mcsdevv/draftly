@@ -2,14 +2,16 @@
 import React from "react";
 
 // * Modulz
-import { Button, Card, Input, Subheading, Textarea } from "@modulz/radix";
+import { Button, Card, Flex, Input, Subheading, Textarea } from "@modulz/radix";
 
 // * Components
 import Characters from "@components/characters";
 
 interface ComposeFieldsProps {
   campaign: string;
+  context: string;
   handleCampaignChange: (e: React.FormEvent<HTMLInputElement>) => void;
+  handleReset?: () => void;
   handleSave: () => void;
   handleTweetChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   saving: boolean;
@@ -18,7 +20,9 @@ interface ComposeFieldsProps {
 
 const ComposeFields = ({
   campaign,
+  context,
   handleCampaignChange,
+  handleReset,
   handleSave,
   handleTweetChange,
   saving,
@@ -43,15 +47,27 @@ const ComposeFields = ({
         value={text}
       />
       <Characters progress={(text.length / 280) * 100} />
-      <Button
-        disabled={!campaign || !text}
-        isWaiting={saving}
-        ml={2}
-        onClick={handleSave}
-        variant="blue"
-      >
-        Create Draft
-      </Button>
+      {context === "creating" ? (
+        <Flex sx={{ justifyContent: "center" }} mt={4}>
+          <Button
+            disabled={!campaign && !text}
+            isWaiting={saving}
+            onClick={handleReset}
+            variant="red"
+          >
+            Reset
+          </Button>
+          <Button
+            disabled={!campaign || !text}
+            isWaiting={saving}
+            ml={4}
+            onClick={handleSave}
+            variant="blue"
+          >
+            Create
+          </Button>
+        </Flex>
+      ) : null}
     </Card>
   );
 };

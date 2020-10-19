@@ -60,6 +60,11 @@ const ComposeTweet = () => {
     }
   };
 
+  const handleResetDraft = () => {
+    setCampaign("");
+    setText("");
+  };
+
   // * Updates the campaign on change
   const handleCampaignChange = (e: React.FormEvent<HTMLInputElement>) => {
     setCampaign(e.currentTarget.value);
@@ -112,7 +117,9 @@ const ComposeTweet = () => {
         <Card sx={{ width: "100%" }}>
           <ComposeFields
             campaign={campaign}
+            context="creating"
             handleCampaignChange={handleCampaignChange}
+            handleReset={handleResetDraft}
             handleSave={handleSaveDraft}
             handleTweetChange={handleTweetChange}
             saving={saving}

@@ -185,6 +185,7 @@ const DraftTweet = () => {
           {editing ? (
             <ComposeFields
               campaign={campaign || tweet.campaign}
+              context="updating"
               handleCampaignChange={handleCampaignChange}
               handleSave={handleUpdate}
               handleTweetChange={handleTweetChange}
