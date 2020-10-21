@@ -91,7 +91,10 @@ const DraftTweet = () => {
 
   const handleEdit = () => {
     setEditing(true);
-    setEditTweet(tweet.text);
+    setMetadata(tweet.metadata);
+
+    if (!campaign) setCampaign(tweet.campaign);
+    if (!editTweet) setEditTweet(tweet.text);
   };
 
   // * Updates the campaign on change
@@ -106,11 +109,15 @@ const DraftTweet = () => {
   };
 
   // * Debounce tweet to avoid repitive API calls
-  const debouncedTweet = useDebounce(extractUrl(tweet), 300);
+  const debouncedTweet = useDebounce(
+    extractUrl(editTweet ? editTweet : tweet?.text),
+    300
+  );
 
   // * Update metadata when URL has changed
   useEffect(() => {
     async function updateMeta() {
+      console.log("ping", debouncedTweet);
       // * Do not run if no tweet present
       if (debouncedTweet) {
         // * Update metadata only when URL has changed
@@ -152,7 +159,8 @@ const DraftTweet = () => {
 
   const handleUpdate = async () => {
     // * No changes made, no need to update
-    if (tweet.text === editTweet) {
+    if (tweet.text === editTweet && tweet.campaign === campaign) {
+      alert("der");
       setEditing(false);
       return;
     }
@@ -160,13 +168,13 @@ const DraftTweet = () => {
     // * Changes made, update tweet
     setSaving(true);
     setEditing(false);
-    const metadata = await getMetadata(editTweet);
 
     const url = "/api/tweet/draft/update";
     const formattedTweet = removeWww(editTweet);
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
+        campaign,
         metadata,
         text: formattedTweet,
         twuid,
@@ -174,6 +182,7 @@ const DraftTweet = () => {
     });
     if (res.status === 200) {
       const meta = await res.json();
+      setSaving(false);
       setTweet({ tweet: { ...tweet, metadata: meta, text: formattedTweet } });
     }
   };
@@ -184,13 +193,13 @@ const DraftTweet = () => {
         <Flex sx={{ flexDirection: "column", width: "100%" }} mr="16px">
           {editing ? (
             <ComposeFields
-              campaign={campaign || tweet.campaign}
+              campaign={campaign}
               context="updating"
               handleCampaignChange={handleCampaignChange}
               handleSave={handleUpdate}
               handleTweetChange={handleTweetChange}
               saving={saving}
-              tweet={editing ? editTweet : tweet.text}
+              tweet={editTweet}
             />
           ) : (
             <Comments />
@@ -211,7 +220,7 @@ const DraftTweet = () => {
         </Flex>
         <Box ml="16px">
           <Heading as="h2" size={4}>
-            Campaign - {tweet.campaign}
+            {editing ? campaign : tweet.campaign}
           </Heading>
           <Divider mb={2} />
           <Tweet

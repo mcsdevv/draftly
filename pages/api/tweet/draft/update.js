@@ -14,7 +14,7 @@ const updateDraftTweet = async (req, res) => {
     where: { twuid },
     data: {
       text,
-      metadata: { connect: { url: metadata?.url } },
+      metadata: metadata ? { connect: { url: metadata?.url } } : undefined,
     },
   });
 

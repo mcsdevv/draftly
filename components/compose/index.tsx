@@ -22,7 +22,6 @@ import Tweet from "@components/tweet";
 
 const ComposeTweet = () => {
   const router = useRouter();
-  const [createdId, setCreatedId] = useState("");
   const [saving, setSaving] = useState(false);
   const [campaign, setCampaign] = useState("");
   const [metadata, setMetadata] = useState<any>(null);
@@ -53,11 +52,11 @@ const ComposeTweet = () => {
     });
     if (res.status === 200) {
       const newDraft = await res.json();
-      setCreatedId(newDraft.twuid);
+      const { twuid } = newDraft;
       setSaving(false);
       setDrafts([]);
       setPublished([]);
-      redirectToDraft();
+      redirectToDraft(twuid);
     }
   };
 
@@ -105,10 +104,10 @@ const ComposeTweet = () => {
   }, [debouncedTweet]);
 
   // * Redirects to created draft view
-  const redirectToDraft = () => {
+  const redirectToDraft = (twuid: string) => {
     router.push(
       "/[handle]/tweets/drafts/[twuid]",
-      `/${router.query.handle}/tweets/drafts/${createdId}`,
+      `/${router.query.handle}/tweets/drafts/${twuid}`,
       { shallow: true }
     );
   };

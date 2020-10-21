@@ -30,9 +30,11 @@ const createDraftTweet = async (req, res, uid, tuid) => {
       tweetId: "",
       creator: { connect: { uid } },
       team: { connect: { tuid } },
-      metadata: {
-        connectOrCreate: { where: { url: metadata.url }, create: metadata },
-      },
+      metadata: metadata
+        ? {
+            connectOrCreate: { where: { url: metadata.url }, create: metadata },
+          }
+        : undefined,
     },
     include: { approvals: true, comments: true, creator: true, metadata: true },
   });
