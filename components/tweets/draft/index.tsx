@@ -167,7 +167,6 @@ const DraftTweet = () => {
 
     // * Changes made, update tweet
     setSaving(true);
-    setEditing(false);
 
     const url = "/api/tweet/draft/update";
     const formattedTweet = removeWww(editTweet);
@@ -182,6 +181,7 @@ const DraftTweet = () => {
     });
     if (res.status === 200) {
       const meta = await res.json();
+      setEditing(false);
       setSaving(false);
       setTweet({ tweet: { ...tweet, metadata: meta, text: formattedTweet } });
     }
