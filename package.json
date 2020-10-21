@@ -7,9 +7,9 @@
   "license": "MIT",
   "dependencies": {
     "@modulz/radix": "^0.0.1-beta.43",
-    "@modulz/radix-icons": "^3.0.0",
-    "@prisma/client": "2.8.1",
-    "@sendgrid/mail": "^7.2.6",
+    "@modulz/radix-icons": "^3.1.0",
+    "@prisma/client": "2.9.0",
+    "@sendgrid/mail": "^7.3.0",
     "@sentry/browser": "^5.23.0",
     "@sentry/node": "^5.23.0",
     "@sentry/webpack-plugin": "^1.12.1",
@@ -29,14 +29,14 @@
     "next": "^9.5.5",
     "oauth": "^0.9.15",
     "qs": "^6.9.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "react-linkify": "^1.0.0-alpha",
     "s-ago": "^2.1.0",
     "serverless-mysql": "^1.5.4",
     "sql-query": "^0.1.27",
     "sql-template-strings": "^2.2.2",
-    "swr": "0.3.2",
+    "swr": "0.3.6",
     "tldjs": "^2.3.1",
     "twitter": "^1.7.1",
     "uuid": "^8.3.1"
@@ -50,8 +50,8 @@
     "node": "10.x"
   },
   "devDependencies": {
-    "@prisma/cli": "2.8.1",
-    "@types/react": "^16.9.51",
+    "@prisma/cli": "2.9.0",
+    "@types/react": "^16.9.53",
     "typescript": "^4.0.3"
   }
 }

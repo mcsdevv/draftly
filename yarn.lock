@@ -1292,10 +1292,10 @@
   resolved "https://registry.yarnpkg.com/@modulz/radix-icons/-/radix-icons-2.4.0.tgz#62bb73265d39aa990a3adfb089f00cecbaf791c5"
   integrity sha512-19pLQSJtzVtlOon86QC3gigjoigumIvAch79wXl3/yyaWsip6n2CgPHKu/5hKhjK2qYCr84b0VmZkmj1krAl/w==
 
-"@modulz/radix-icons@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@modulz/radix-icons/-/radix-icons-3.0.0.tgz#5f67fadbe3d1e25f91cbfbf397b744c36baa541e"
-  integrity sha512-/khA69OR48FZD0pxmmctgKn+baIQIoBVRb8VOli9f0ulyAdVfmQUnoMNJpPTohajQlX+K8JcqFzJ6MBr9qenSQ==
+"@modulz/radix-icons@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@modulz/radix-icons/-/radix-icons-3.1.0.tgz#c8f0b3457fd4e0cc47dafea436d525eeb72e6993"
+  integrity sha512-excH405b7GDP5qm6vbwNpBQ+CAqSvcN4uLD6TUp5eIHWrxljEfwE56QusQf3NYAIcc/ec914ZS+HLlq1Rx2D2Q==
 
 "@modulz/radix-system@0.0.1-alpha.11":
   version "0.0.1-alpha.11"
@@ -1372,41 +1372,40 @@
   dependencies:
     mkdirp "^1.0.4"
 
-"@prisma/cli@2.8.1":
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.8.1.tgz#fdfeb56857f2fb08ec9769537279745749effcf7"
-  integrity sha512-mEGJplClGnXI5ki4R0Xq8nq62zcyu7Wzdhybege+cFPZFUbFj0petaPZl/tqta9o5neDyvpU/lDgOwef6mwySg==
+"@prisma/cli@2.9.0":
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.9.0.tgz#c6f6652890783b899f266537e90e69c3481f5474"
+  integrity sha512-wPk4ehyTtVM7ZarWs16MhOc6kwLV/gZFardMvUeh46rlBwrklMdKtNChzzPa3wurrUPQ5KTbuRBz5Mgf7AdD/w==
 
-"@prisma/client@2.8.1":
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.8.1.tgz#6fe87968eed42901cf76c623985222ebc318c292"
-  integrity sha512-apt6ioi2euOZA1O9mPA8AMRjPoPECsva76gMCcHCVgHvhkMNpFkcbn+UTkErJYrTgcRR7CPQt4D+fw8pkAHfjA==
+"@prisma/client@2.9.0":
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.9.0.tgz#acfaca0c5695d7f439e5af54b7cd0f7fb5926340"
+  integrity sha512-VLXw6s13xakIrV9Z8Ftw0j+mbXuvbRkxYv3X5hRZdPN1NAwgeXJmrrTK9MS2HDvW8eGZL7P8OaUSNQ3Sfgvr/Q==
   dependencies:
     pkg-up "^3.1.0"
 
-"@sendgrid/client@^7.2.6":
-  version "7.2.6"
-  resolved "https://registry.yarnpkg.com/@sendgrid/client/-/client-7.2.6.tgz#28374927b5d9b3b351b9426f4a218d23d590c958"
-  integrity sha512-AOB3IVlB76SMYdaLEtWGm6/GwrOv0xlAOkyCqk5+XifJRqL2pl8a9lfxFZ9BEnWrdqPJPJ1/omopj0P7d5ZPmw==
+"@sendgrid/client@^7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@sendgrid/client/-/client-7.3.0.tgz#a19c4ec02da304d16ae2480e121083c82a296144"
+  integrity sha512-vY5IwcyDrOeeqyp5nQePRP2MC+Q+fTk9dpBt8SbUgYbRy4OVkyoROTxo1syRk0u7h7bIDMctLdRJxw/ETFA6tg==
   dependencies:
-    "@sendgrid/helpers" "^7.2.6"
+    "@sendgrid/helpers" "^7.3.0"
     axios "^0.19.2"
 
-"@sendgrid/helpers@^7.2.6":
-  version "7.2.6"
-  resolved "https://registry.yarnpkg.com/@sendgrid/helpers/-/helpers-7.2.6.tgz#5d15b8914940147c0635c9a3d2a93fed8c73dc71"
-  integrity sha512-J2xniPBOVo4ASzx+xc735OovHGj/v9oNrDo1Bb5fwTg/kmUxWxeoKZRkB+KLdciwmTtVrZjYLdQB3pMFIe9lAw==
+"@sendgrid/helpers@^7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@sendgrid/helpers/-/helpers-7.3.0.tgz#c04db123b9ac52d1eb2e6c4308ea3c5816155e93"
+  integrity sha512-X8AOX7Y0YadnCskdD9Nb4JA6J4BYH/qupz/r4OLBY0rQ6DqF/Fz8c4bHLc5YLA+e8Wyag7pEgjNuJ0tKeV2VvQ==
   dependencies:
-    chalk "^2.0.1"
     deepmerge "^4.2.2"
 
-"@sendgrid/mail@^7.2.6":
-  version "7.2.6"
-  resolved "https://registry.yarnpkg.com/@sendgrid/mail/-/mail-7.2.6.tgz#8f6a398ad75fb1ed7a35a9bb18cbdac111637ef6"
-  integrity sha512-eP9MuqEZIgt4bHaoufWqKGUY4Bo7FUgST3WGNYIDXIe1rP2dV6/JR7Ac2Dl9iW22gy15nc58fLGIGa41XbwtuA==
+"@sendgrid/mail@^7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@sendgrid/mail/-/mail-7.3.0.tgz#8c68aa2992412b9c03b97059af0bca90f912295a"
+  integrity sha512-05k7Xl0/5LCyMLGJwSNPsbNZ0ej6EwSbnRyP6CnCAq3MoVRSi7a7wDDPsxF3Gz7F24DVLp/fCN1DKDaZDQxxdw==
   dependencies:
-    "@sendgrid/client" "^7.2.6"
-    "@sendgrid/helpers" "^7.2.6"
+    "@sendgrid/client" "^7.3.0"
+    "@sendgrid/helpers" "^7.3.0"
 
 "@sentry/browser@^5.23.0":
   version "5.23.0"
@@ -1580,10 +1579,10 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/react@^16.9.51":
-  version "16.9.51"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.51.tgz#f8aa51ffa9996f1387f63686696d9b59713d2b60"
-  integrity sha512-lQa12IyO+DMlnSZ3+AGHRUiUcpK47aakMMoBG8f7HGxJT8Yfe+WE128HIXaHOHVPReAW0oDS3KAI0JI2DDe1PQ==
+"@types/react@^16.9.53":
+  version "16.9.53"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.53.tgz#40cd4f8b8d6b9528aedd1fff8fcffe7a112a3d23"
+  integrity sha512-4nW60Sd4L7+WMXH1D6jCdVftuW7j4Za6zdp6tJ33Rqv0nk1ZAmQKML9ZLD4H0dehA3FZxXR/GM8gXplf82oNGw==
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
@@ -2412,7 +2411,7 @@ chalk@4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chalk@^2.0.0, chalk@^2.0.1, chalk@^2.4.2:
+chalk@^2.0.0, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
   integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
@@ -2920,6 +2919,11 @@ delegates@^1.0.0:
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
   integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
 
+dequal@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/dequal/-/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
+  integrity sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug==
+
 des.js@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/des.js/-/des.js-1.0.1.tgz#5382142e1bdc53f85d86d53e5f4aa7deb91e0843"
@@ -3267,11 +3271,6 @@ extsprintf@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
-
-fast-deep-equal@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
-  integrity sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=
 
 fast-deep-equal@^3.1.1:
   version "3.1.1"
@@ -5191,15 +5190,14 @@ re2@^1.15.4:
     nan "^2.14.1"
     node-gyp "^7.0.0"
 
-react-dom@^16.13.1:
-  version "16.13.1"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
-  integrity sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
+react-dom@^17.0.0:
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.0.tgz#f8266e4d9861584553ccbd186d596a1c7dd8dcb4"
+  integrity sha512-OGnFbxCjI2TMAZYMVxi4hqheJiN8rCEVVrL7XIGzCB6beNc4Am8M47HtkvxODZw9QgjmAPKpLba9FTu4fC1byA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.19.1"
+    scheduler "^0.20.0"
 
 react-is@16.13.1, react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
@@ -5229,14 +5227,13 @@ react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@^16.13.1:
-  version "16.13.1"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
-  integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
+react@^17.0.0:
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.0.tgz#ad96d5fa1a33bb9b06d0cc52672f7992d84aa662"
+  integrity sha512-rG9bqS3LMuetoSUKHN8G3fMNuQOePKDThK6+2yXFWtoeTDLVNh/QCaxT+Jr+rNf4lwNXpx+atdn3Aa0oi8/6eQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    prop-types "^15.6.2"
 
 "readable-stream@1 || 2", readable-stream@2.3.7, readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.6, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.3.3, readable-stream@^2.3.6, readable-stream@~2.3.6:
   version "2.3.7"
@@ -5497,10 +5494,10 @@ sass-loader@10.0.2:
     schema-utils "^2.7.1"
     semver "^7.3.2"
 
-scheduler@^0.19.1:
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
-  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
+scheduler@^0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.0.tgz#3ff543696b169613afadb09d3fb3fe998d234dd2"
+  integrity sha512-XegIgta1bIaz2LdaL6eg1GEcE42g0BY9qFXCqlZ/+s2MuEKfigFCW6DEGBlZzeVFlwDmVusrWEyFtBo4sbkkdA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -5921,12 +5918,12 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-swr@0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/swr/-/swr-0.3.2.tgz#1197e06553f71afbc42dba758459f12daea96805"
-  integrity sha512-Bs5Bihq1hQ66O5bdKaL47iZ2nlAaBsd8tTLRLkw9stZeuBEfH7zSuQI95S2TpchL0ybsMq3isWwuso2uPvCfHA==
+swr@0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-0.3.6.tgz#b1d59439e5114fdf95bb408e1c628ff48f967aac"
+  integrity sha512-LHbX9vVQSW8Kgyr86zz2fVVKmmT13qxB61uXuUAg6NT4cGu6afzAzT2SVCGEh8pJAD2o8NTZMgclIUxIAbvk7Q==
   dependencies:
-    fast-deep-equal "2.0.1"
+    dequal "2.0.2"
 
 tabbable@^4.0.0:
   version "4.0.0"
