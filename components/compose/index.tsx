@@ -14,7 +14,7 @@ import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 // * Modulz
-import { Box, Card, Divider, Flex, Heading } from "@modulz/radix";
+import { Box, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
 import ComposeFields from "@components/compose/fields";
