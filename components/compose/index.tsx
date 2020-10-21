@@ -38,10 +38,11 @@ const ComposeTweet = () => {
     // * Set the state to saving
     setSaving(true);
 
-    // * Get the metadata based on URL's
-    const metadata = await getMetadata(text);
+    // * Format URL and tweet by removing www
     const url = "/api/tweet/draft/create";
     const formattedTweet = removeWww(text);
+
+    // * Send request
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -56,7 +57,7 @@ const ComposeTweet = () => {
       setSaving(false);
       setDrafts([]);
       setPublished([]);
-      handleViewCreatedDraft();
+      redirectToDraft();
     }
   };
 
@@ -103,7 +104,7 @@ const ComposeTweet = () => {
   }, [debouncedTweet]);
 
   // * Redirects to created draft view
-  const handleViewCreatedDraft = () => {
+  const redirectToDraft = () => {
     router.push(
       "/[handle]/tweets/drafts/[twuid]",
       `/${router.query.handle}/tweets/drafts/${createdId}`,
