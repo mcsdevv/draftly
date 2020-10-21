@@ -35,6 +35,7 @@ const ComposeFields = ({
         disabled={saving}
         mb={4}
         onChange={handleCampaignChange}
+        placeholder="Campaign..."
         size={1}
         type="email"
         value={campaign}
@@ -42,7 +43,7 @@ const ComposeFields = ({
       <Subheading mb={2}>Text</Subheading>
       <Textarea
         disabled={saving}
-        placeholder="Draft your tweet..."
+        placeholder="Tweet..."
         onChange={handleTweetChange}
         value={text}
       />
