@@ -91,10 +91,12 @@ const DraftTweet = () => {
 
   const handleEdit = () => {
     setEditing(true);
-    setMetadata(tweet.metadata);
 
     if (!campaign) setCampaign(tweet.campaign);
-    if (!editTweet) setEditTweet(tweet.text);
+    if (!editTweet) {
+      setEditTweet(tweet.text);
+      setMetadata(tweet.metadata);
+    }
   };
 
   // * Updates the campaign on change
@@ -130,7 +132,7 @@ const DraftTweet = () => {
           }
         }
       } else {
-        console.log("No tweet present, metadata set to null.");
+        console.log("No tweet present, metadata set to null.", editTweet);
         setMetadata(null);
       }
     }
@@ -160,7 +162,6 @@ const DraftTweet = () => {
   const handleUpdate = async () => {
     // * No changes made, no need to update
     if (tweet.text === editTweet && tweet.campaign === campaign) {
-      alert("der");
       setEditing(false);
       return;
     }
@@ -224,7 +225,7 @@ const DraftTweet = () => {
           </Heading>
           <Divider mb={2} />
           <Tweet
-            metadata={metadata || tweet?.metadata}
+            metadata={editTweet ? metadata : tweet?.metadata}
             scope={scope}
             text={editing ? editTweet : tweet.text}
           />
