@@ -24,7 +24,7 @@ interface ComposeFieldsProps {
   handleSave: () => void;
   handleTweetChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   saving: boolean;
-  text: string;
+  tweet: string;
 }
 
 const ComposeFields = ({
@@ -35,7 +35,7 @@ const ComposeFields = ({
   handleSave,
   handleTweetChange,
   saving,
-  text,
+  tweet,
 }: ComposeFieldsProps) => {
   return (
     <Box sx={{ height: "fit-content", width: "100%" }}>
@@ -59,13 +59,13 @@ const ComposeFields = ({
           disabled={saving}
           placeholder="Tweet..."
           onChange={handleTweetChange}
-          value={text}
+          value={tweet}
         />
-        <Characters progress={(text.length / 280) * 100} />
+        <Characters progress={(tweet.length / 280) * 100} />
         {context === "creating" ? (
           <Flex sx={{ justifyContent: "center" }} mt={4}>
             <Button
-              disabled={!campaign && !text}
+              disabled={!campaign && !tweet}
               isWaiting={saving}
               onClick={handleReset}
               variant="red"
@@ -73,7 +73,7 @@ const ComposeFields = ({
               Reset
             </Button>
             <Button
-              disabled={!campaign || !text}
+              disabled={!campaign || !tweet}
               isWaiting={saving}
               ml={4}
               onClick={handleSave}

@@ -106,7 +106,7 @@ const DraftTweet = () => {
   };
 
   // * Debounce tweet to avoid repitive API calls
-  const debouncedTweet = useDebounce(metadata?.url, 300);
+  const debouncedTweet = useDebounce(extractUrl(tweet), 300);
 
   // * Update metadata when URL has changed
   useEffect(() => {
@@ -190,7 +190,7 @@ const DraftTweet = () => {
               handleSave={handleUpdate}
               handleTweetChange={handleTweetChange}
               saving={saving}
-              text={editing ? editTweet : tweet.text}
+              tweet={editing ? editTweet : tweet.text}
             />
           ) : (
             <Comments />

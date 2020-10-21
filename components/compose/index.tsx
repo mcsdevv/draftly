@@ -26,7 +26,7 @@ const ComposeTweet = () => {
   const [saving, setSaving] = useState(false);
   const [campaign, setCampaign] = useState("");
   const [metadata, setMetadata] = useState<any>(null);
-  const [text, setText] = useState("");
+  const [tweet, setTweet] = useState("");
 
   // * Initialize hooks
   const { setDrafts } = useDrafts();
@@ -40,7 +40,7 @@ const ComposeTweet = () => {
 
     // * Format URL and tweet by removing www
     const url = "/api/tweet/draft/create";
-    const formattedTweet = removeWww(text);
+    const formattedTweet = removeWww(tweet);
 
     // * Send request
     const res = await fetch(url, {
@@ -64,7 +64,7 @@ const ComposeTweet = () => {
   const handleResetDraft = () => {
     setCampaign("");
     setMetadata(null);
-    setText("");
+    setTweet("");
   };
 
   // * Updates the campaign on change
@@ -75,12 +75,12 @@ const ComposeTweet = () => {
   // * Updates the tweet on change
   const handleTweetChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     if (e.currentTarget.value.length < 281) {
-      setText(e.currentTarget.value);
+      setTweet(e.currentTarget.value);
     }
   };
 
   // * Debounce tweet to avoid repitive API calls
-  const debouncedTweet = useDebounce(metadata?.url, 300);
+  const debouncedTweet = useDebounce(extractUrl(tweet), 300);
 
   // * Update metadata when URL has changed
   useEffect(() => {
@@ -88,9 +88,9 @@ const ComposeTweet = () => {
       // * Do not run if no tweet present
       if (debouncedTweet) {
         // * Update metadata only when URL has changed
-        if (extractUrl(text) !== metadata?.url) {
+        if (extractUrl(tweet) !== metadata?.url) {
           // * Get updated metadata from API
-          const metadata = await getMetadata(text);
+          const metadata = await getMetadata(tweet);
           if (!metadata.err) {
             setMetadata(metadata);
             console.log("Metadata updated.");
@@ -124,14 +124,14 @@ const ComposeTweet = () => {
           handleSave={handleSaveDraft}
           handleTweetChange={handleTweetChange}
           saving={saving}
-          text={text}
+          tweet={tweet}
         />
         <Box ml="16px">
           <Heading as="h2" size={4} truncate>
             {campaign || "New Campaign..."}
           </Heading>
           <Divider mb={2} />
-          <Tweet metadata={metadata} scope={scope} text={text} />
+          <Tweet metadata={metadata} scope={scope} text={tweet} />
         </Box>
       </Flex>
     </Box>
