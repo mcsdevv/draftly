@@ -114,18 +114,16 @@ const ComposeTweet = () => {
   return (
     <Card sx={{ height: "fit-content", width: "100%" }}>
       <Flex sx={{ height: "fit-content", width: "100%" }}>
-        <Card sx={{ width: "100%" }}>
-          <ComposeFields
-            campaign={campaign}
-            context="creating"
-            handleCampaignChange={handleCampaignChange}
-            handleReset={handleResetDraft}
-            handleSave={handleSaveDraft}
-            handleTweetChange={handleTweetChange}
-            saving={saving}
-            text={text}
-          />
-        </Card>
+        <ComposeFields
+          campaign={campaign}
+          context="creating"
+          handleCampaignChange={handleCampaignChange}
+          handleReset={handleResetDraft}
+          handleSave={handleSaveDraft}
+          handleTweetChange={handleTweetChange}
+          saving={saving}
+          text={text}
+        />
         <Box ml="16px">
           <Heading as="h2" size={4}>
             Campaign - {campaign}
