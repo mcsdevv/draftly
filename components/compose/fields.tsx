@@ -40,7 +40,7 @@ const ComposeFields = ({
         type="email"
         value={campaign}
       />
-      <Subheading mb={2}>Text</Subheading>
+      <Subheading mb={2}>Tweet</Subheading>
       <Textarea
         disabled={saving}
         placeholder="Tweet..."
