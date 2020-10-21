@@ -15,7 +15,7 @@ import getMetadata from "@lib/client/getMetadata";
 import removeWww from "@lib/client/removeWww";
 
 // * Modulz
-import { Box, Card, Divider, Flex, Heading } from "@modulz/radix";
+import { Box, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
 import Comments from "@components/comments";
@@ -179,9 +179,9 @@ const DraftTweet = () => {
   };
 
   return tweet ? (
-    <Card sx={{ height: "fit-content", width: "100%" }}>
-      <Flex sx={{ height: "fit-content", width: "100%" }}>
-        <Box sx={{ width: "100%" }} mr="16px">
+    <Box sx={{ height: "fit-content", width: "100%" }}>
+      <Flex sx={{ height: "576px", width: "100%" }}>
+        <Flex sx={{ flexDirection: "column", width: "100%" }} mr="16px">
           {editing ? (
             <ComposeFields
               campaign={campaign || tweet.campaign}
@@ -195,18 +195,20 @@ const DraftTweet = () => {
           ) : (
             <Comments />
           )}
-          <Controls
-            editing={editing}
-            disableApprove={disableApprove}
-            disableRefresh={tweet?.metadata?.cardType === "text"}
-            handleApprove={handleApprove}
-            handleCancelEdit={handleCancelEdit}
-            handleDelete={handleDelete}
-            handleEdit={handleEdit}
-            handlePublish={handlePublish}
-            handleUpdate={handleUpdate}
-          />
-        </Box>
+          <Box mt="auto">
+            <Controls
+              editing={editing}
+              disableApprove={disableApprove}
+              disableRefresh={tweet?.metadata?.cardType === "text"}
+              handleApprove={handleApprove}
+              handleCancelEdit={handleCancelEdit}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+              handlePublish={handlePublish}
+              handleUpdate={handleUpdate}
+            />
+          </Box>
+        </Flex>
         <Box ml="16px">
           <Heading as="h2" size={4}>
             Campaign - {tweet.campaign}
@@ -219,7 +221,7 @@ const DraftTweet = () => {
           />
         </Box>
       </Flex>
-    </Card>
+    </Box>
   ) : null;
 };
 

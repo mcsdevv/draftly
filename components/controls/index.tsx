@@ -3,8 +3,8 @@ import { useState } from "react";
 
 // * Modulz
 import {
+  Box,
   Button,
-  Card,
   Divider,
   Flex,
   Heading,
@@ -105,7 +105,7 @@ const Controls = ({
   };
 
   return (
-    <Card sx={{ width: "100%" }} mt={4}>
+    <Box sx={{ width: "100%" }} mt={4}>
       <Heading as="h2" size={4}>
         Controls
       </Heading>
@@ -176,7 +176,7 @@ const Controls = ({
           </Button>
         </Flex>
       </Flex>
-    </Card>
+    </Box>
   );
 };
 

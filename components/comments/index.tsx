@@ -79,9 +79,7 @@ export default function Comments() {
       sx={{
         flexDirection: "column",
         height: "100%",
-        maxHeight: "272px",
         overflow: "scroll",
-        padding: "0 8px",
       }}
     >
       <Heading as="h2" size={4}>

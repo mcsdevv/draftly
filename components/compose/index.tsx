@@ -63,6 +63,7 @@ const ComposeTweet = () => {
 
   const handleResetDraft = () => {
     setCampaign("");
+    setMetadata(null);
     setText("");
   };
 
@@ -113,7 +114,7 @@ const ComposeTweet = () => {
   };
 
   return (
-    <Card sx={{ height: "fit-content", width: "100%" }}>
+    <Box sx={{ height: "fit-content", width: "100%" }}>
       <Flex sx={{ height: "fit-content", width: "100%" }}>
         <ComposeFields
           campaign={campaign}
@@ -126,14 +127,14 @@ const ComposeTweet = () => {
           text={text}
         />
         <Box ml="16px">
-          <Heading as="h2" size={4}>
-            Campaign - {campaign}
+          <Heading as="h2" size={4} truncate>
+            {campaign || "New Campaign..."}
           </Heading>
           <Divider mb={2} />
           <Tweet metadata={metadata} scope={scope} text={text} />
         </Box>
       </Flex>
-    </Card>
+    </Box>
   );
 };
 

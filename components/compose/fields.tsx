@@ -2,7 +2,16 @@
 import React from "react";
 
 // * Modulz
-import { Button, Card, Flex, Input, Subheading, Textarea } from "@modulz/radix";
+import {
+  Button,
+  Box,
+  Divider,
+  Flex,
+  Heading,
+  Input,
+  Subheading,
+  Textarea,
+} from "@modulz/radix";
 
 // * Components
 import Characters from "@components/characters";
@@ -29,47 +38,53 @@ const ComposeFields = ({
   text,
 }: ComposeFieldsProps) => {
   return (
-    <Card sx={{ width: "100%" }}>
-      <Subheading mb={2}>Campaign</Subheading>
-      <Input
-        disabled={saving}
-        mb={4}
-        onChange={handleCampaignChange}
-        placeholder="Campaign..."
-        size={1}
-        type="email"
-        value={campaign}
-      />
-      <Subheading mb={2}>Tweet</Subheading>
-      <Textarea
-        disabled={saving}
-        placeholder="Tweet..."
-        onChange={handleTweetChange}
-        value={text}
-      />
-      <Characters progress={(text.length / 280) * 100} />
-      {context === "creating" ? (
-        <Flex sx={{ justifyContent: "center" }} mt={4}>
-          <Button
-            disabled={!campaign && !text}
-            isWaiting={saving}
-            onClick={handleReset}
-            variant="red"
-          >
-            Reset
-          </Button>
-          <Button
-            disabled={!campaign || !text}
-            isWaiting={saving}
-            ml={4}
-            onClick={handleSave}
-            variant="blue"
-          >
-            Create
-          </Button>
-        </Flex>
-      ) : null}
-    </Card>
+    <Box sx={{ height: "fit-content", width: "100%" }}>
+      <Heading as="h2" size={4}>
+        Compose
+      </Heading>
+      <Divider mb={2} />
+      <Box sx={{ width: "100%" }}>
+        <Subheading mb={2}>Campaign</Subheading>
+        <Input
+          disabled={saving}
+          mb={4}
+          onChange={handleCampaignChange}
+          placeholder="Campaign..."
+          size={1}
+          type="email"
+          value={campaign}
+        />
+        <Subheading mb={2}>Tweet</Subheading>
+        <Textarea
+          disabled={saving}
+          placeholder="Tweet..."
+          onChange={handleTweetChange}
+          value={text}
+        />
+        <Characters progress={(text.length / 280) * 100} />
+        {context === "creating" ? (
+          <Flex sx={{ justifyContent: "center" }} mt={4}>
+            <Button
+              disabled={!campaign && !text}
+              isWaiting={saving}
+              onClick={handleReset}
+              variant="red"
+            >
+              Reset
+            </Button>
+            <Button
+              disabled={!campaign || !text}
+              isWaiting={saving}
+              ml={4}
+              onClick={handleSave}
+              variant="blue"
+            >
+              Create
+            </Button>
+          </Flex>
+        ) : null}
+      </Box>
+    </Box>
   );
 };
 
