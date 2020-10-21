@@ -106,7 +106,7 @@ const DraftTweet = () => {
   };
 
   // * Debounce tweet to avoid repitive API calls
-  const debouncedTweet = useDebounce(editTweet, 300);
+  const debouncedTweet = useDebounce(metadata?.url, 300);
 
   // * Update metadata when URL has changed
   useEffect(() => {

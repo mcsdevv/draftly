@@ -80,7 +80,7 @@ const ComposeTweet = () => {
   };
 
   // * Debounce tweet to avoid repitive API calls
-  const debouncedTweet = useDebounce(text, 300);
+  const debouncedTweet = useDebounce(metadata?.url, 300);
 
   // * Update metadata when URL has changed
   useEffect(() => {
