@@ -1,6 +1,6 @@
 generator client {
-  provider             = "prisma-client-js"
-  experimentalFeatures = ["connectOrCreate"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["connectOrCreate"]
 }
 
 datasource db {
@@ -26,7 +26,7 @@ model teams {
   members         members[]
   tweets          tweets[]
 
-  @@index([handle])
+  @@index([handle], name: "teams.handle_index")
 }
 
 model members {
@@ -72,12 +72,12 @@ model approvals {
 
 model comments {
   tcuid   String   @id
-  twuid   String
-  uid     String   @default("")
+  twuid   String?
   addedAt DateTime @default(now()) @map("added_at")
-  addedBy users    @relation(fields: [uid], references: [uid])
   comment String
-  tweet   tweets   @relation(fields: [twuid], references: [twuid])
+  uid     String
+  tweet   tweets?  @relation(fields: [twuid], references: [twuid])
+  addedBy users    @relation(fields: [uid], references: [uid])
 }
 
 model metadata {
@@ -125,8 +125,8 @@ model users {
   picture   String     @default("")
   createdAt DateTime   @default(now()) @map("created_at")
   updatedAt DateTime   @default(now()) @map("updated_at")
+  comments  comments[]
   members   members[]
   teams     teams[]
   tweets    tweets[]
-  comments  comments[]
 }
