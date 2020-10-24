@@ -81,9 +81,7 @@ function Drafts() {
               row={[
                 d.campaign,
                 d.text,
-                [...scope?.members, ...scope?.owners].find(
-                  (m) => m.uid === d.createdBy
-                )?.name,
+                d.creator.name,
                 ago(new Date(d.createdAt)),
                 ago(new Date(d.updatedAt)),
               ]}

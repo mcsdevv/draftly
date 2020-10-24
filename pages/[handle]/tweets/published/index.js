@@ -85,9 +85,7 @@ function Published() {
               row={[
                 p.campaign,
                 p.text,
-                [...scope?.members, ...scope?.owners].find(
-                  (m) => m.uid === p.createdBy
-                )?.name,
+                p.creator.name,
                 ago(new Date(p.createdAt)),
                 ago(new Date(p.updatedAt)),
               ]}
