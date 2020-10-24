@@ -183,10 +183,10 @@ const DraftTweet = () => {
       }),
     });
     if (res.status === 200) {
-      const meta = await res.json();
+      const updatedTweet = await res.json();
       setEditing(false);
       setSaving(false);
-      setTweet({ tweet: { ...tweet, metadata: meta, text: formattedTweet } });
+      setTweet({ tweet: { ...updatedTweet } });
     }
   };
 

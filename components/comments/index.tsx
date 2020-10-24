@@ -79,7 +79,7 @@ export default function Comments() {
       <Divider mb={2} />
       {comments?.map((c: any) => (
         <Comment
-          addedAt={c.added_at}
+          addedAt={c.addedAt}
           addedBy={c.addedBy?.name}
           avatar={c.addedBy?.picture}
           comment={c.comment}
