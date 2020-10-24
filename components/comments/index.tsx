@@ -66,14 +66,7 @@ export default function Comments() {
       });
     }
   };
-
-  // TODO Add to @lib
-  const getAddedByProperty = (uid: string, property: string) => {
-    const members = [...scope.members, ...scope.owners];
-    const commenter = members.find((m) => m.uid === uid);
-    return commenter[property];
-  };
-
+  console.log("sfcafa", comments);
   return (
     <Flex
       sx={{
@@ -89,8 +82,8 @@ export default function Comments() {
       {comments?.map((c: any) => (
         <Comment
           addedAt={c.added_at}
-          addedBy={getAddedByProperty(c.added_by, "name")}
-          avatar={getAddedByProperty(c.added_by, "picture")}
+          addedBy={c.addedBy?.name}
+          avatar={c.addedBy?.picture}
           comment={c.comment}
           handleDeleteComment={() => handleDeleteComment(c.tcuid)}
           key={c.tcuid}

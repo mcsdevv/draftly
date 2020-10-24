@@ -14,7 +14,7 @@ const getSingleTweet = async (req, res, _uid, _tuid) => {
     where: { twuid },
     include: {
       approvals: true,
-      comments: true,
+      comments: { include: { addedBy: true } },
       creator: true,
       metadata: true,
     },

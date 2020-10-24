@@ -14,15 +14,16 @@ const createTweetComment = async (req, res, uid) => {
   // * Insert comment
   const commentInserted = await prisma.comments.create({
     data: {
-      addedBy: uid,
+      addedBy: { connect: { uid } },
       comment,
       tcuid,
-      twuid,
+      tweet: { connect: { twuid } },
     },
+    include: { addedBy: true },
   });
 
   console.log("Added comment to:", twuid);
-  res.status(200).json(...commentInserted);
+  res.status(200).json(commentInserted);
 };
 
 export default verify(withSentry(createTweetComment));

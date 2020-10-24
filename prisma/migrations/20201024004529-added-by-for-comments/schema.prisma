@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model teams {
@@ -73,7 +73,7 @@ model approvals {
 model comments {
   tcuid   String   @id
   twuid   String
-  uid     String   @default("")
+  uid     String
   addedAt DateTime @default(now()) @map("added_at")
   addedBy users    @relation(fields: [uid], references: [uid])
   comment String

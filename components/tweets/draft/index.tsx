@@ -93,6 +93,8 @@ const DraftTweet = () => {
     setEditing(true);
 
     if (!campaign) setCampaign(tweet.campaign);
+
+    // * Has not been edited before, so initialize metadata
     if (!editTweet) {
       setEditTweet(tweet.text);
       setMetadata(tweet.metadata);
@@ -225,9 +227,9 @@ const DraftTweet = () => {
           </Heading>
           <Divider mb={2} />
           <Tweet
-            metadata={editTweet ? metadata : tweet?.metadata}
+            metadata={editing ? metadata : tweet?.metadata}
             scope={scope}
-            text={editing ? editTweet : tweet.text}
+            text={editing ? editTweet : tweet?.text}
           />
         </Box>
       </Flex>
