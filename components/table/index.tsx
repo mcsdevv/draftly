@@ -34,7 +34,7 @@ const Table = ({
     <TableModulz cellSpacing="1" cellPadding="0">
       <Thead>
         <Tr>
-          <Th sx={{ width: "160px" }}>Title</Th>
+          <Th sx={{ width: "160px" }}>Campaign</Th>
           <Th sx={{ width: "160px" }}>Text</Th>
           <Th sx={{ width: "136px" }}>Created By</Th>
           <Th sx={{ width: "96px" }}>Created At</Th>
