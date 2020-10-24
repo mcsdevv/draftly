@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
-import useScope from "@hooks/use-scope";
 import useTweet from "@hooks/use-tweet";
 
 // * Modulz
@@ -14,7 +13,6 @@ import Comment from "./comment";
 
 export default function Comments() {
   const [comment, setComment] = useState("");
-  const { scope } = useScope();
   const router = useRouter();
 
   // * Get twuid from route query
@@ -66,7 +64,7 @@ export default function Comments() {
       });
     }
   };
-  console.log("sfcafa", comments);
+
   return (
     <Flex
       sx={{
