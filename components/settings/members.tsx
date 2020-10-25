@@ -36,7 +36,7 @@ export default function Members() {
       console.log("Invite sent!");
     }
   };
-
+  console.log("scope", scope);
   // TODO Validate email before sending
   return (
     <>
@@ -62,23 +62,23 @@ export default function Members() {
           Enter the email of the person you want to invite.
         </Text>
         <Subheading mb={2} mt={4}>
-          Team Owners
+          Owners
         </Subheading>
         <List>
           {scope?.owners.map((o: any) => (
             <ListItem key={o.uid}>
               <Text>
-                - {o.name} ({o.email})
+                - {o.user.name} ({o.user.email})
               </Text>
             </ListItem>
           ))}
         </List>
-        <Subheading mb={2}>Team Members</Subheading>
+        <Subheading mb={2}>Members</Subheading>
         <List>
           {scope?.members.map((o: any) => (
             <ListItem key={o.uid}>
               <Text>
-                - {o.name} ({o.email})
+                - {o.user.name} ({o.user.email})
               </Text>
             </ListItem>
           ))}
