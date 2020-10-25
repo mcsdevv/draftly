@@ -1,0 +1,142 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "teams",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[handle]"
+            },
+            {
+              "name": "name",
+              "value": "\"teams.handle_index\""
+            }
+          ]
+        },
+        "directive": "index"
+      }
+    },
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "teams",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[handle]"
+            }
+          ]
+        },
+        "directive": "index"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "members",
+      "field": "tmuid",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "tmuid"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "tmuid"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "tmuid"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "UpdateField",
+      "model": "members",
+      "field": "uid",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "members",
+      "field": "tuid",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "members",
+      "field": "team",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "members",
+      "field": "user",
+      "arity": "Optional"
+    },
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "members"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "UpdateField",
+      "model": "tweets",
+      "field": "tuid",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "tweets",
+      "field": "team",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "comments",
+      "field": "twuid",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "comments",
+      "field": "tweet",
+      "arity": "Optional"
+    }
+  ]
+}
