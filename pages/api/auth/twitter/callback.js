@@ -80,17 +80,18 @@ const twitterCallback = (req, res) => {
                   tokenKey: oauthAccessToken,
                   tokenSecret: oauthAccessTokenSecret,
                   inviteCode,
-                  // createdBy: decrypt(req.cookies.uid),
                   creator: { connect: { uid: decrypt(req.cookies.uid) } },
                 },
               });
 
               // * Insert team member as a team owner
+              // ! tmuid required because Prisma sucks and hates composite keys https://github.com/prisma/prisma/discussions/2149
               await prisma.members.create({
                 data: {
                   role: "owner",
                   team: { connect: { tuid } },
                   user: { connect: { uid: decrypt(req.cookies.uid) } },
+                  tmuid: `${decrypt(req.cookies.uid)}_${tuid}`,
                 },
               });
 

@@ -29,19 +29,9 @@ model teams {
   @@index([handle], name: "teams.handle_index")
 }
 
-model members {
-  uid  String @default("")
-  tuid String @default("")
-  role String @default("member")
-  team teams  @relation(fields: [tuid], references: [tuid])
-  user users  @relation(fields: [uid], references: [uid])
-
-  @@id([uid, tuid])
-}
-
 model tweets {
   twuid            String      @id @default("")
-  tuid             String      @default("")
+  tuid             String?     @default("")
   campaign         String      @default("")
   type             String
   text             String
@@ -55,7 +45,7 @@ model tweets {
   favorites        Int
   url              String?
   creator          users       @relation(fields: [createdBy], references: [uid])
-  team             teams       @relation(fields: [tuid], references: [tuid])
+  team             teams?      @relation(fields: [tuid], references: [tuid])
   metadata         metadata?   @relation(fields: [url], references: [url])
   approvals        approvals[]
   comments         comments[]
@@ -129,4 +119,13 @@ model users {
   members   members[]
   teams     teams[]
   tweets    tweets[]
+}
+
+model members {
+  uid   String? @default("")
+  tuid  String? @default("")
+  role  String  @default("member")
+  tmuid String  @id
+  team  teams?  @relation(fields: [tuid], references: [tuid])
+  user  users?  @relation(fields: [uid], references: [uid])
 }
