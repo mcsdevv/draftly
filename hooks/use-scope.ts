@@ -64,7 +64,6 @@ export default function useScope() {
           setScope({ ...newScope });
         } else {
           // TODO Complete the handling of this case
-          console.log("user not a member of this team...");
         }
       }
     }

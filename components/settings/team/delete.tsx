@@ -37,14 +37,15 @@ export default function DeleteTeam() {
     if (status === 200) {
       const filteredTeams = teams.filter((t: any) => t.tuid !== scope.tuid);
       setUser({ user, teams: filteredTeams });
-      setDrafts([]);
-      setPublished([]);
       if (filteredTeams) {
+        Cookies.set("tuid", filteredTeams[0].tuid);
         setScope(filteredTeams[0]);
       } else {
         Cookies.remove("tuid");
         setScope(null);
       }
+      setDrafts([]);
+      setPublished([]);
       router.push("/dashboard");
     }
   };
