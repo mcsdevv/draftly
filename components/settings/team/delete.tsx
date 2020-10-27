@@ -36,8 +36,9 @@ export default function DeleteTeam() {
     });
     if (status === 200) {
       const filteredTeams = teams.filter((t: any) => t.tuid !== scope.tuid);
+      console.log("ft", filteredTeams, !!filteredTeams);
       setUser({ user, teams: filteredTeams });
-      if (filteredTeams) {
+      if (filteredTeams?.length) {
         Cookies.set("tuid", filteredTeams[0].tuid);
         setScope(filteredTeams[0]);
       } else {
@@ -61,7 +62,7 @@ export default function DeleteTeam() {
           value={teamName}
         />
         <Button
-          disabled={teamName !== scope.name}
+          disabled={teamName !== scope?.name}
           ml={2}
           onClick={handleOnSubmitDelete}
           size={1}

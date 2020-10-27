@@ -48,7 +48,7 @@ export default function useScope() {
   useEffect(() => {
     function setNewScope() {
       // * Set first team as default scope if no handle (example - /dashboard)
-      if (!handle && teams) {
+      if (!handle && teams?.length) {
         const newScope = teams[0];
         if (newScope) {
           Cookies.set("tuid", newScope?.tuid);
@@ -57,7 +57,7 @@ export default function useScope() {
       }
 
       // * If handle and teams present, select team and update scope
-      if (handle && teams) {
+      if (handle && teams?.length) {
         const newScope = teams.find((t: any) => t.handle === handle);
         if (newScope) {
           Cookies.set("tuid", newScope?.tuid);

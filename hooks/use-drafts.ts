@@ -18,6 +18,8 @@ export default function useDrafts(limit: number = 10, page: number = 1): any {
     page,
   });
 
+  console.log('TUID', tuid);
+
   const { data, mutate: setDrafts } = useSWR(
     tuid ? `/api/tweets/drafts?${query}` : null,
     fetcher

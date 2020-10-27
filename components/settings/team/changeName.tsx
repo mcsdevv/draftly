@@ -22,7 +22,9 @@ export default function ChangeTeamName() {
 
   useEffect(() => {
     function getScopeName() {
-      setName(scope.name);
+      if (scope !== null) {
+        setName(scope?.name);
+      }
     }
     getScopeName();
   }, [scope]);
@@ -55,7 +57,7 @@ export default function ChangeTeamName() {
           value={name}
         />
         <Button
-          disabled={name === scope.name}
+          disabled={name === scope?.name}
           ml={2}
           onClick={handleOnSubmitName}
           size={1}

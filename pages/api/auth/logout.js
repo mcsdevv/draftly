@@ -2,7 +2,7 @@ import cookie from "cookie";
 import withSentry from "@lib/api/middleware/withSentry";
 
 const logout = async (_req, res) => {
-  // TODO Move to lib
+  // TODO DELETE
   const cookieOptions = (http = false) => {
     return {
       httpOnly: http,
