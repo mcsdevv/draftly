@@ -16,7 +16,7 @@ import {
 
 export default function Reviews() {
   const { scope, setScope } = useScope();
-  const [reviews, setReviews] = useState(scope?.reviewsRequired.toString());
+  const [reviews, setReviews] = useState(scope?.reviewsRequired?.toString());
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setReviews(e.currentTarget.value);
   };
@@ -46,7 +46,7 @@ export default function Reviews() {
           value={reviews}
         />
         <Button
-          disabled={reviews === scope?.reviewsRequired.toString()}
+          disabled={reviews === scope?.reviewsRequired?.toString()}
           ml={2}
           onClick={handleOnSubmitReviews}
           size={1}
