@@ -10,6 +10,7 @@ import {
   Heading,
   Input,
   Subheading,
+  Text,
   Textarea,
 } from "@modulz/radix";
 
@@ -47,13 +48,15 @@ const ComposeFields = ({
         <Subheading mb={2}>Campaign</Subheading>
         <Input
           disabled={saving}
-          mb={4}
           onChange={handleCampaignChange}
           placeholder="Campaign..."
           size={1}
           type="email"
           value={campaign}
         />
+        <Text my={2} mb={4} as="p" sx={{ color: "gray600" }}>
+          Enter a campaign name for your tweet.
+        </Text>
         <Subheading mb={2}>Tweet</Subheading>
         <Textarea
           disabled={saving}
@@ -62,6 +65,9 @@ const ComposeFields = ({
           value={tweet}
         />
         <Characters progress={(tweet.length / 280) * 100} />
+        <Text mt={2} as="p" sx={{ color: "gray600" }}>
+          Enter the text required for your tweet.
+        </Text>
         {context === "creating" ? (
           <Flex sx={{ justifyContent: "center" }} mt={4}>
             <Button
