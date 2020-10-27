@@ -41,18 +41,20 @@ const Scope = () => {
     updateScope(scopeDetails.handle, { ...scopeDetails });
   };
 
-  return scope !== null && teams?.length ? (
-    <Select onValueChange={handleOnChange} value={scope?.handle}>
-      {teams?.map((o: any) => (
-        <Option key={o.name} value={o.handle} label={o.name} />
-      ))}
-      <Option value="new" label="+ Add New Team" />
-    </Select>
-  ) : (
-    <Link href="/api/auth/twitter/connect" noMargin width="120px">
-      + Add New Team
-    </Link>
-  );
+  return scope !== null && teams ? (
+    teams?.length ? (
+      <Select onValueChange={handleOnChange} value={scope?.handle}>
+        {teams?.map((o: any) => (
+          <Option key={o.name} value={o.handle} label={o.name} />
+        ))}
+        <Option value="new" label="+ Add New Team" />
+      </Select>
+    ) : (
+      <Link href="/api/auth/twitter/connect" noMargin width="120px">
+        + Add New Team
+      </Link>
+    )
+  ) : null;
 };
 
 export default Scope;
