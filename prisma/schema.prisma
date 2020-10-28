@@ -12,7 +12,7 @@ model teams {
   tuid            String    @id @default("")
   name            String    @default("")
   protected       Boolean
-  handle          String    @default("")
+  handle          String    @unique @default("")
   avatar          String    @default("")
   plan            String    @default("")
   tokenSecret     String    @default("") @map("token_secret")
