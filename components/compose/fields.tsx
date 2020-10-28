@@ -54,7 +54,7 @@ const ComposeFields = ({
           type="email"
           value={campaign}
         />
-        <Text my={2} mb={4} as="p" sx={{ color: "gray600" }}>
+        <Text mt={2} mb={4} as="p" sx={{ color: "gray600" }}>
           Enter a campaign name for your tweet.
         </Text>
         <Subheading mb={2}>Tweet</Subheading>
