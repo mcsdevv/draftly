@@ -11,9 +11,9 @@ import {
 import { ArrowLeftIcon, ArrowRightIcon } from "@modulz/radix-icons";
 
 // * Components
-import Row from "@components/table/row";
+import TweetsRow from "@components/table/tweets/row";
 
-interface TableProps {
+interface TweetsTableProps {
   children: React.ReactNode;
   handleNextPage?: () => void;
   handlePreviousPage?: () => void;
@@ -22,14 +22,14 @@ interface TableProps {
   pageMax: number;
 }
 
-const Table = ({
+const TweetsTable = ({
   children,
   handleNextPage,
   handlePreviousPage,
   loading,
   pageNumber,
   pageMax,
-}: TableProps) => (
+}: TweetsTableProps) => (
   <>
     <TableModulz cellSpacing="1" cellPadding="0">
       <Thead>
@@ -46,16 +46,16 @@ const Table = ({
       <tbody>
         {loading ? (
           <>
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
           </>
         ) : (
           children
@@ -103,4 +103,4 @@ const Table = ({
   </>
 );
 
-export default Table;
+export default TweetsTable;

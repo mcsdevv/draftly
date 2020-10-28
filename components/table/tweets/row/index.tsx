@@ -8,7 +8,7 @@ import useScope from "@hooks/use-scope";
 import { Box, IconButton, Tr, Td } from "@modulz/radix";
 import { ArrowRightIcon, TrashIcon } from "@modulz/radix-icons";
 
-interface RowProps {
+interface TweetsRowProps {
   handleOnDelete?: () => void;
   loading?: boolean;
   row?: string[];
@@ -16,7 +16,13 @@ interface RowProps {
   type?: string;
 }
 
-const Table = ({ handleOnDelete, loading, row, twuid, type }: RowProps) => {
+const TweetsRow = ({
+  handleOnDelete,
+  loading,
+  row,
+  twuid,
+  type,
+}: TweetsRowProps) => {
   const { scope } = useScope();
   const handle = scope?.handle;
   return !loading ? (
@@ -130,4 +136,4 @@ const Table = ({ handleOnDelete, loading, row, twuid, type }: RowProps) => {
   );
 };
 
-export default Table;
+export default TweetsRow;
