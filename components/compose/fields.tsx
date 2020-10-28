@@ -5,9 +5,7 @@ import React from "react";
 import {
   Button,
   Box,
-  Divider,
   Flex,
-  Heading,
   Input,
   Subheading,
   Text,
@@ -40,10 +38,6 @@ const ComposeFields = ({
 }: ComposeFieldsProps) => {
   return (
     <Box sx={{ height: "fit-content", width: "100%" }}>
-      <Heading as="h2" size={4}>
-        Compose
-      </Heading>
-      <Divider mb={2} />
       <Box sx={{ width: "100%" }}>
         <Subheading mb={2}>Campaign</Subheading>
         <Input

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import useTweet from "@hooks/use-tweet";
 
 // * Modulz
-import { Button, Divider, Flex, Heading, Input } from "@modulz/radix";
+import { Button, Flex, Input } from "@modulz/radix";
 
 // * Components
 import Comment from "./comment";
@@ -73,10 +73,6 @@ export default function Comments() {
         overflow: "scroll",
       }}
     >
-      <Heading as="h2" size={4}>
-        Comments
-      </Heading>
-      <Divider mb={2} />
       {comments?.map((c: any) => (
         <Comment
           addedAt={c.addedAt}

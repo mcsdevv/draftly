@@ -2,15 +2,7 @@
 import { useState } from "react";
 
 // * Modulz
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Heading,
-  Option,
-  Select,
-} from "@modulz/radix";
+import { Box, Button, Flex, Option, Select } from "@modulz/radix";
 
 interface ControlsProps {
   approvals?: number;
@@ -106,10 +98,6 @@ const Controls = ({
 
   return (
     <Box sx={{ width: "100%" }} mt={4}>
-      <Heading as="h2" size={4}>
-        Controls
-      </Heading>
-      <Divider mb={2} />
       <Flex
         sx={{
           paddingTop: "16px",
