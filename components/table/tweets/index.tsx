@@ -1,13 +1,5 @@
 // * Modulz
-import {
-  Flex,
-  IconButton,
-  Text,
-  Table as TableModulz,
-  Thead,
-  Tr,
-  Th,
-} from "@modulz/radix";
+import { Flex, IconButton, Text, Table, Thead, Tr, Th } from "@modulz/radix";
 import { ArrowLeftIcon, ArrowRightIcon } from "@modulz/radix-icons";
 
 // * Components
@@ -31,7 +23,7 @@ const TweetsTable = ({
   pageMax,
 }: TweetsTableProps) => (
   <>
-    <TableModulz cellSpacing="1" cellPadding="0">
+    <Table cellSpacing="1" cellPadding="0">
       <Thead>
         <Tr>
           <Th sx={{ width: "160px" }}>Campaign</Th>
@@ -61,7 +53,7 @@ const TweetsTable = ({
           children
         )}
       </tbody>
-    </TableModulz>
+    </Table>
     {!loading && (
       <Flex
         sx={{

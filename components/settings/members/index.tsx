@@ -10,11 +10,13 @@ import {
   Container,
   Flex,
   Input,
-  List,
-  ListItem,
   Subheading,
   Text,
 } from "@modulz/radix";
+
+// * Components
+import MembersTable from "@components/table/members";
+import MembersRow from "@components/table/members/row";
 
 export default function Members() {
   const [memberEmail, setMemberEmail] = useState("");
@@ -64,7 +66,7 @@ export default function Members() {
         <Subheading mb={2} mt={4}>
           Owners
         </Subheading>
-        <List>
+        {/* <List>
           {scope?.owners.map((o: any) => (
             <ListItem key={o.uid}>
               <Text>
@@ -72,17 +74,32 @@ export default function Members() {
               </Text>
             </ListItem>
           ))}
-        </List>
-        <Subheading mb={2}>Members</Subheading>
-        <List>
-          {scope?.members.map((o: any) => (
-            <ListItem key={o.uid}>
-              <Text>
-                - {o.user.name} ({o.user.email})
-              </Text>
-            </ListItem>
+        </List> */}
+        <MembersTable loading={!scope?.owners} type="owners">
+          {scope?.owners.map((o: any) => (
+            <MembersRow
+              handleDowngradeMember={() => handleDowngradeMember(d.uid)}
+              handleRemoveMember={() => handleRemoveMember(d.uid)}
+              key={o.user.name}
+              row={[o.user.name, o.user.email]}
+              type="owner"
+            />
           ))}
-        </List>
+        </MembersTable>
+        <Subheading mb={2} mt={4}>
+          Members
+        </Subheading>
+        <MembersTable loading={!scope?.owners} type="owners">
+          {scope?.members.map((o: any) => (
+            <MembersRow
+              handleRemoveMember={() => handleRemoveMember(d.uid)}
+              handleUpgradeMember={() => handleUpgradeMember(d.uid)}
+              key={o.user.name}
+              row={[o.user.name, o.user.email]}
+              type="owner"
+            />
+          ))}
+        </MembersTable>
       </Container>
     </>
   );
