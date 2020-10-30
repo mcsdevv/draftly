@@ -21,9 +21,18 @@ import MembersRow from "@components/table/members/row";
 export default function Members() {
   const [memberEmail, setMemberEmail] = useState("");
   const { scope } = useScope();
+
+  console.log("scope", scope);
+
+  // * Handle downgrading an owner to the member role
+  const handleDowngradeMember = (id: string) => {};
+
+  // * Handle on change event for email entry
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     setMemberEmail(e.currentTarget.value);
   };
+
+  // * Handle submit event for invite by email
   const handleOnSubmit = async () => {
     const res = await fetch(`/api/team/invite/send`, {
       method: "POST",
@@ -38,7 +47,23 @@ export default function Members() {
       console.log("Invite sent!");
     }
   };
-  console.log("scope", scope);
+
+  // * Handle removing a member or owner from a team
+  const handleRemoveMember = async (tmuid: string) => {
+    const res = await fetch(`/api/team/member/delete`, {
+      method: "POST",
+      body: JSON.stringify({
+        tmuid,
+      }),
+    });
+    if (res.ok) {
+      console.log("Member removed from team.");
+    }
+  };
+
+  // * Handle upgrading an owner to the member role
+  const handleUpgradeMember = (id: string) => {};
+
   // TODO Validate email before sending
   return (
     <>
@@ -66,20 +91,11 @@ export default function Members() {
         <Subheading mb={2} mt={4}>
           Owners
         </Subheading>
-        {/* <List>
-          {scope?.owners.map((o: any) => (
-            <ListItem key={o.uid}>
-              <Text>
-                - {o.user.name} ({o.user.email})
-              </Text>
-            </ListItem>
-          ))}
-        </List> */}
         <MembersTable loading={!scope?.owners} type="owners">
           {scope?.owners.map((o: any) => (
             <MembersRow
-              handleDowngradeMember={() => handleDowngradeMember(d.uid)}
-              handleRemoveMember={() => handleRemoveMember(d.uid)}
+              handleDowngradeMember={() => handleDowngradeMember(o.user.uid)}
+              handleRemoveMember={() => handleRemoveMember(o.user.uid)}
               key={o.user.name}
               row={[o.user.name, o.user.email]}
               type="owner"
@@ -89,14 +105,14 @@ export default function Members() {
         <Subheading mb={2} mt={4}>
           Members
         </Subheading>
-        <MembersTable loading={!scope?.owners} type="owners">
-          {scope?.members.map((o: any) => (
+        <MembersTable loading={!scope?.members} type="members">
+          {scope?.members.map((m: any) => (
             <MembersRow
-              handleRemoveMember={() => handleRemoveMember(d.uid)}
-              handleUpgradeMember={() => handleUpgradeMember(d.uid)}
-              key={o.user.name}
-              row={[o.user.name, o.user.email]}
-              type="owner"
+              handleRemoveMember={() => handleRemoveMember(m.user.uid)}
+              handleUpgradeMember={() => handleUpgradeMember(m.user.uid)}
+              key={m.user.name}
+              row={[m.user.name, m.user.email]}
+              type="member"
             />
           ))}
         </MembersTable>
