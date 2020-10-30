@@ -1,14 +1,9 @@
-// * Libraries
-import Link from "next/link";
-
-// * Hooks
-import useScope from "@hooks/use-scope";
-
 // * Modulz
 import { Box, IconButton, Tr, Td } from "@modulz/radix";
-import { ArrowRightIcon, TrashIcon } from "@modulz/radix-icons";
+import { ArrowDownIcon, ArrowUpIcon, TrashIcon } from "@modulz/radix-icons";
 
 interface MembersRowProps {
+  activeUser: boolean;
   handleDowngradeMember?: () => void;
   handleRemoveMember?: () => void;
   handleUpgradeMember?: () => void;
@@ -19,6 +14,7 @@ interface MembersRowProps {
 }
 
 const MembersRow = ({
+  activeUser,
   handleDowngradeMember,
   handleRemoveMember,
   handleUpgradeMember,
@@ -26,8 +22,6 @@ const MembersRow = ({
   row,
   type,
 }: MembersRowProps) => {
-  const { scope } = useScope();
-  const handle = scope?.handle;
   return !loading ? (
     <Tr>
       {row?.map((r, i) => (
@@ -48,16 +42,18 @@ const MembersRow = ({
       ))}
       <Td>
         <IconButton
+          disabled={activeUser}
           sx={{ cursor: "pointer", marginLeft: "4px" }}
           onClick={
             type === "member" ? handleUpgradeMember : handleDowngradeMember
           }
         >
-          <TrashIcon />
+          {type === "member" ? <ArrowUpIcon /> : <ArrowDownIcon />}
         </IconButton>
       </Td>
       <Td>
         <IconButton
+          disabled={activeUser}
           sx={{ cursor: "pointer", marginLeft: "4px" }}
           onClick={handleRemoveMember}
         >

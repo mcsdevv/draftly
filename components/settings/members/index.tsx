@@ -3,6 +3,7 @@ import { useState } from "react";
 
 // * Hooks
 import useScope from "@hooks/use-scope";
+import useUser from "@hooks/use-user";
 
 // * Modulz
 import {
@@ -21,11 +22,24 @@ import MembersRow from "@components/table/members/row";
 export default function Members() {
   const [memberEmail, setMemberEmail] = useState("");
   const { setScope, scope } = useScope();
-
-  console.log("scope", scope);
+  const { user } = useUser();
 
   // * Handle downgrading an owner to the member role
-  const handleDowngradeMember = (id: string) => {};
+  const handleDowngradeMember = async (tmuid: string) => {
+    const res = await fetch(`/api/team/member/downgrade`, {
+      method: "POST",
+      body: JSON.stringify({
+        tmuid,
+      }),
+    });
+    if (res.ok) {
+      console.log("Member upgraded in team.");
+      const member = await res.json();
+      const filteredMembers = [...scope.members, member];
+      const filteredOwners = scope.owners.filter((o: any) => o.tmuid !== tmuid);
+      setScope({ ...scope, members: filteredMembers, owners: filteredOwners });
+    }
+  };
 
   // * Handle on change event for email entry
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -61,15 +75,29 @@ export default function Members() {
       const filteredMembers = scope.members.filter(
         (m: any) => m.tmuid !== tmuid
       );
-      const filteredOwners = scope.members.filter(
-        (o: any) => o.tmuid !== tmuid
-      );
+      const filteredOwners = scope.owners.filter((o: any) => o.tmuid !== tmuid);
       setScope({ ...scope, members: filteredMembers, owners: filteredOwners });
     }
   };
 
   // * Handle upgrading an owner to the member role
-  const handleUpgradeMember = (id: string) => {};
+  const handleUpgradeMember = async (tmuid: string) => {
+    const res = await fetch(`/api/team/member/upgrade`, {
+      method: "POST",
+      body: JSON.stringify({
+        tmuid,
+      }),
+    });
+    if (res.ok) {
+      console.log("Member upgraded in team.");
+      const owner = await res.json();
+      const filteredMembers = scope.members.filter(
+        (m: any) => m.tmuid !== tmuid
+      );
+      const filteredOwners = [...scope.owners, owner];
+      setScope({ ...scope, members: filteredMembers, owners: filteredOwners });
+    }
+  };
 
   // TODO Validate email before sending
   return (
@@ -98,12 +126,13 @@ export default function Members() {
         <Subheading mb={2} mt={4}>
           Owners
         </Subheading>
-        <MembersTable loading={!scope?.owners} type="owners">
+        <MembersTable loading={!scope?.owners} type="owner">
           {scope?.owners.map((o: any) => (
             <MembersRow
+              activeUser={user.uid === o.user.uid}
               handleDowngradeMember={() => handleDowngradeMember(o.tmuid)}
               handleRemoveMember={() => handleRemoveMember(o.tmuid)}
-              key={o.user.name}
+              key={o.user.email}
               row={[o.user.name, o.user.email]}
               type="owner"
             />
@@ -112,12 +141,13 @@ export default function Members() {
         <Subheading mb={2} mt={4}>
           Members
         </Subheading>
-        <MembersTable loading={!scope?.members} type="members">
+        <MembersTable loading={!scope?.members} type="member">
           {scope?.members.map((m: any) => (
             <MembersRow
+              activeUser={user.uid === m.user.uid}
               handleRemoveMember={() => handleRemoveMember(m.tmuid)}
               handleUpgradeMember={() => handleUpgradeMember(m.tmuid)}
-              key={m.user.name}
+              key={m.user.email}
               row={[m.user.name, m.user.email]}
               type="member"
             />
