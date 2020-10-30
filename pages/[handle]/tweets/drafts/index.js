@@ -12,8 +12,8 @@ import { Container, Flex, Heading } from "@modulz/radix";
 // * Components
 import DashboardLayout from "@components/layouts/pages/dashboard";
 import Link from "@components/link";
-import Row from "@components/table/row";
-import Table from "@components/table";
+import TweetsRow from "@components/table/tweets/row";
+import TweetsTable from "@components//table/tweets";
 
 function Drafts() {
   const [limit, setLimit] = useState(10);
@@ -67,7 +67,7 @@ function Drafts() {
           </Link>
         </Flex>
       ) : (
-        <Table
+        <TweetsTable
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           loading={draftsPages === undefined}
@@ -75,7 +75,7 @@ function Drafts() {
           pageMax={draftsPages}
         >
           {drafts?.map((d) => (
-            <Row
+            <TweetsRow
               handleOnDelete={() => handleDelete(d.twuid)}
               key={d.twuid}
               row={[
@@ -89,7 +89,7 @@ function Drafts() {
               type="drafts"
             />
           ))}
-        </Table>
+        </TweetsTable>
       )}
     </Container>
   );

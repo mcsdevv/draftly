@@ -1,19 +1,11 @@
 // * Modulz
-import {
-  Flex,
-  IconButton,
-  Text,
-  Table as TableModulz,
-  Thead,
-  Tr,
-  Th,
-} from "@modulz/radix";
+import { Flex, IconButton, Text, Table, Thead, Tr, Th } from "@modulz/radix";
 import { ArrowLeftIcon, ArrowRightIcon } from "@modulz/radix-icons";
 
 // * Components
-import Row from "@components/table/row";
+import TweetsRow from "@components/table/tweets/row";
 
-interface TableProps {
+interface TweetsTableProps {
   children: React.ReactNode;
   handleNextPage?: () => void;
   handlePreviousPage?: () => void;
@@ -22,16 +14,16 @@ interface TableProps {
   pageMax: number;
 }
 
-const Table = ({
+const TweetsTable = ({
   children,
   handleNextPage,
   handlePreviousPage,
   loading,
   pageNumber,
   pageMax,
-}: TableProps) => (
+}: TweetsTableProps) => (
   <>
-    <TableModulz cellSpacing="1" cellPadding="0">
+    <Table cellSpacing="1" cellPadding="0">
       <Thead>
         <Tr>
           <Th sx={{ width: "160px" }}>Campaign</Th>
@@ -46,22 +38,22 @@ const Table = ({
       <tbody>
         {loading ? (
           <>
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
-            <Row loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
+            <TweetsRow loading />
           </>
         ) : (
           children
         )}
       </tbody>
-    </TableModulz>
+    </Table>
     {!loading && (
       <Flex
         sx={{
@@ -103,4 +95,4 @@ const Table = ({
   </>
 );
 
-export default Table;
+export default TweetsTable;

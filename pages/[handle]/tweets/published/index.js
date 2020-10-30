@@ -12,8 +12,8 @@ import { Container, Flex, Heading } from "@modulz/radix";
 // * Components
 import DashboardLayout from "@components/layouts/pages/dashboard";
 import Link from "@components/link";
-import Table from "@components/table";
-import Row from "@components/table/row";
+import TweetsTable from "@components/table/tweets";
+import TweetsRow from "@components/table/tweets/row";
 
 function Published() {
   const [limit, setLimit] = useState(10);
@@ -71,7 +71,7 @@ function Published() {
           </Link>
         </Flex>
       ) : (
-        <Table
+        <TweetsTable
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           loading={publishedPages === undefined}
@@ -79,7 +79,7 @@ function Published() {
           pageMax={publishedPages}
         >
           {published?.map((p) => (
-            <Row
+            <TweetsRow
               handleOnDelete={() => handleDelete(p.twuid)}
               key={p.twuid}
               row={[
@@ -93,7 +93,7 @@ function Published() {
               type="published"
             />
           ))}
-        </Table>
+        </TweetsTable>
       )}
     </Container>
   );
