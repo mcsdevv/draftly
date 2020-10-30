@@ -3,7 +3,7 @@ import { Box, IconButton, Tr, Td } from "@modulz/radix";
 import { ArrowDownIcon, ArrowUpIcon, TrashIcon } from "@modulz/radix-icons";
 
 interface MembersRowProps {
-  activeUser: boolean;
+  activeUser?: boolean;
   handleDowngradeMember?: () => void;
   handleRemoveMember?: () => void;
   handleUpgradeMember?: () => void;
