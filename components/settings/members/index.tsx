@@ -20,7 +20,7 @@ import MembersRow from "@components/table/members/row";
 
 export default function Members() {
   const [memberEmail, setMemberEmail] = useState("");
-  const { scope } = useScope();
+  const { setScope, scope } = useScope();
 
   console.log("scope", scope);
 
@@ -58,6 +58,13 @@ export default function Members() {
     });
     if (res.ok) {
       console.log("Member removed from team.");
+      const filteredMembers = scope.members.filter(
+        (m: any) => m.tmuid !== tmuid
+      );
+      const filteredOwners = scope.members.filter(
+        (o: any) => o.tmuid !== tmuid
+      );
+      setScope({ ...scope, members: filteredMembers, owners: filteredOwners });
     }
   };
 
@@ -94,8 +101,8 @@ export default function Members() {
         <MembersTable loading={!scope?.owners} type="owners">
           {scope?.owners.map((o: any) => (
             <MembersRow
-              handleDowngradeMember={() => handleDowngradeMember(o.user.uid)}
-              handleRemoveMember={() => handleRemoveMember(o.user.uid)}
+              handleDowngradeMember={() => handleDowngradeMember(o.tmuid)}
+              handleRemoveMember={() => handleRemoveMember(o.tmuid)}
               key={o.user.name}
               row={[o.user.name, o.user.email]}
               type="owner"
@@ -108,8 +115,8 @@ export default function Members() {
         <MembersTable loading={!scope?.members} type="members">
           {scope?.members.map((m: any) => (
             <MembersRow
-              handleRemoveMember={() => handleRemoveMember(m.user.uid)}
-              handleUpgradeMember={() => handleUpgradeMember(m.user.uid)}
+              handleRemoveMember={() => handleRemoveMember(m.tmuid)}
+              handleUpgradeMember={() => handleUpgradeMember(m.tmuid)}
               key={m.user.name}
               row={[m.user.name, m.user.email]}
               type="member"
