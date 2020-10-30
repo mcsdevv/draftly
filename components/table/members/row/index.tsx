@@ -31,9 +31,8 @@ const MembersRow = ({
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              maxWidth: "160px",
               margin: 0,
-              width: "fit-content",
+              width: "160px",
             }}
           >
             {r}
@@ -43,7 +42,7 @@ const MembersRow = ({
       <Td>
         <IconButton
           disabled={activeUser}
-          sx={{ cursor: "pointer", marginLeft: "4px" }}
+          sx={{ cursor: "pointer", marginLeft: "4px", width: "60px" }}
           onClick={
             type === "member" ? handleUpgradeMember : handleDowngradeMember
           }
@@ -54,7 +53,7 @@ const MembersRow = ({
       <Td>
         <IconButton
           disabled={activeUser}
-          sx={{ cursor: "pointer", marginLeft: "4px" }}
+          sx={{ cursor: "pointer", marginLeft: "4px", width: "60px" }}
           onClick={handleRemoveMember}
         >
           <TrashIcon />
@@ -87,8 +86,8 @@ const MembersRow = ({
         <Box
           sx={{
             bg: "gray200",
-            height: "24px",
-            maxWidth: "160px",
+            height: "60px",
+            maxWidth: "136px",
             width: "100%",
           }}
         />
@@ -97,7 +96,7 @@ const MembersRow = ({
         <Box
           sx={{
             bg: "gray200",
-            height: "24px",
+            height: "60px",
             width: "100%",
           }}
         />
