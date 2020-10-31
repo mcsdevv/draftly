@@ -21,6 +21,7 @@ import { Box, Divider, Flex, Heading } from "@modulz/radix";
 import Comments from "@components/comments";
 import ComposeFields from "@components/compose/fields";
 import Controls from "@components/controls";
+import Tab from "@components/tab";
 import Tweet from "@components/tweet";
 
 const DraftTweet = () => {
@@ -29,6 +30,7 @@ const DraftTweet = () => {
   const [metadata, setMetadata] = useState<any>(null);
   const [editTweet, setEditTweet] = useState("");
   const [saving, setSaving] = useState(false);
+  const [tab, setTab] = useState("tweet");
 
   const { setDrafts } = useDrafts();
   const { setPublished } = usePublished();
@@ -192,40 +194,52 @@ const DraftTweet = () => {
 
   return tweet ? (
     <Box sx={{ height: "fit-content", width: "100%" }}>
-      <Flex sx={{ height: "576px", width: "100%" }}>
+      <Flex sx={{ height: "521px", width: "100%" }}>
         <Flex sx={{ flexDirection: "column", width: "100%" }} mr="16px">
-          {editing ? (
-            <ComposeFields
-              campaign={campaign}
-              context="updating"
-              handleCampaignChange={handleCampaignChange}
-              handleSave={handleUpdate}
-              handleTweetChange={handleTweetChange}
-              saving={saving}
-              tweet={editTweet}
+          <Flex mb={4}>
+            <Tab
+              handleOnClick={() => setTab("tweet")}
+              name="Tweet"
+              selected={tab === "tweet"}
             />
+            <Tab
+              handleOnClick={() => setTab("comments")}
+              name="Comments"
+              selected={tab === "comments"}
+            />
+          </Flex>
+          {tab === "tweet" ? (
+            <>
+              <ComposeFields
+                campaign={campaign}
+                context="updating"
+                handleCampaignChange={handleCampaignChange}
+                handleSave={handleUpdate}
+                handleTweetChange={handleTweetChange}
+                saving={saving}
+                tweet={editTweet}
+              />
+              <Controls
+                editing={editing}
+                disableApprove={disableApprove}
+                disableRefresh={tweet?.metadata?.cardType === "text"}
+                handleApprove={handleApprove}
+                handleCancelEdit={handleCancelEdit}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+                handlePublish={handlePublish}
+                handleUpdate={handleUpdate}
+              />
+            </>
           ) : (
             <Comments />
           )}
-          <Box mt="auto">
-            <Controls
-              editing={editing}
-              disableApprove={disableApprove}
-              disableRefresh={tweet?.metadata?.cardType === "text"}
-              handleApprove={handleApprove}
-              handleCancelEdit={handleCancelEdit}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-              handlePublish={handlePublish}
-              handleUpdate={handleUpdate}
-            />
-          </Box>
         </Flex>
         <Box ml="16px">
           <Heading as="h2" size={4}>
             {editing ? campaign : tweet.campaign}
           </Heading>
-          <Divider mb={2} />
+          <Divider mb={4} />
           <Tweet
             metadata={editing ? metadata : tweet?.metadata}
             scope={scope}
