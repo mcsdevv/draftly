@@ -1,21 +1,9 @@
 // * Libraries
 import ago from "s-ago";
-import React, { useRef } from "react";
 
 // * Modulz
-import {
-  Box,
-  Button,
-  Divider,
-  DropdownMenu,
-  Grid,
-  List,
-  ListItem,
-  Menu,
-  MenuItem,
-  Subheading,
-  Text,
-} from "@modulz/radix";
+import { Box, Divider, Flex, Grid, Subheading, Text } from "@modulz/radix";
+import { CheckIcon, Cross2Icon, UpdateIcon } from "@modulz/radix-icons";
 
 interface InformationProps {
   approvedBy: string[];
@@ -34,7 +22,7 @@ const Information = ({
 }: InformationProps) => {
   return (
     <Box>
-      <Grid mb={4} sx={{ gridTemplateColumns: "1fr 1fr" }}>
+      <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
         <Box>
           <Subheading>Created By</Subheading>
           <Text>{createdBy}</Text>
@@ -44,7 +32,7 @@ const Information = ({
           <Text>{ago(new Date(createdAt))}</Text>
         </Box>
       </Grid>
-      <Grid mb={4} sx={{ gridTemplateColumns: "1fr 1fr" }}>
+      <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
         <Box>
           <Subheading>Reviews Required</Subheading>
           <Text>{reviewsRequired}</Text>
@@ -55,54 +43,57 @@ const Information = ({
         </Box>
       </Grid>
       <Divider mb={4} />
-      <Grid mb={4} sx={{ gridTemplateColumns: "1fr 1fr" }}>
+      <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
         <Box>
-          <Subheading>Request Review</Subheading>
-          <List>
-            <ListItem variant="selected">Jonboy Jones</ListItem>
-            <ListItem variant="selected">Michael Derps</ListItem>
-            <ListItem>Bitty Cat</ListItem>
-            <ListItem variant="selected">Wee Maki</ListItem>
-            <ListItem>Dufty Woo</ListItem>
-          </List>
+          <Subheading mb={1}>Requested Reviews</Subheading>
+          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
+            <Text as="p">Michael Derps</Text>
+            <Flex sx={{ alignItems: "center" }}>
+              <Box mr={1}>
+                <UpdateIcon style={{ height: 12, width: 12 }} />
+              </Box>
+              <CheckIcon />
+            </Flex>
+          </Flex>
+          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
+            <Text as="p">Jonboy Jones</Text>
+            <Flex sx={{ alignItems: "center" }}>
+              <Box mr={1}>
+                <UpdateIcon style={{ height: 12, width: 12 }} />
+              </Box>
+              <CheckIcon />
+            </Flex>
+          </Flex>
+          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
+            <Text as="p">Bitty Cat</Text>
+            <Cross2Icon />
+          </Flex>
+          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
+            <Text as="p">Wee Maki</Text>
+            <Cross2Icon />
+          </Flex>
+          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
+            <Text as="p">Dufty Woo</Text>
+            <Cross2Icon />
+          </Flex>
         </Box>
-
         <Box>
           <Subheading mb={1}>Approved By</Subheading>
-          <DropdownMenu
-            button={<Button>View Approvals</Button>}
-            menu={
-              <Menu isOpen={false}>
-                <MenuItem label="Michael Gray" />
-              </Menu>
-            }
-          />
+          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
+            <Text as="p">Michael Derps</Text>
+            <Flex sx={{ alignItems: "center" }}>
+              <Box mr={1}>
+                <UpdateIcon style={{ height: 12, width: 12 }} />
+              </Box>
+              <CheckIcon />
+            </Flex>
+          </Flex>
+          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
+            <Text as="p">Jonboy Jones</Text>
+            <Cross2Icon />
+          </Flex>
         </Box>
       </Grid>
-      {/* <Grid mb={4} sx={{ gridTemplateColumns: "1fr 1fr" }}>
-        <Box>
-          <Subheading mb={1}>Request Review</Subheading>
-          <DropdownMenu
-            button={<Button>Select Members</Button>}
-            menu={
-              <Menu isOpen={false}>
-                <MenuItem label="Michael Gray" />
-              </Menu>
-            }
-          />
-        </Box>
-        <Box>
-          <Subheading mb={1}>Approved By</Subheading>
-          <DropdownMenu
-            button={<Button>View Approvals</Button>}
-            menu={
-              <Menu isOpen={false}>
-                <MenuItem label="Michael Gray" />
-              </Menu>
-            }
-          />
-        </Box>
-      </Grid> */}
     </Box>
   );
 };
