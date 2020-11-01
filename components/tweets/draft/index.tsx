@@ -21,6 +21,7 @@ import { Box, Divider, Flex, Heading } from "@modulz/radix";
 import Comments from "@components/comments";
 import ComposeFields from "@components/compose/fields";
 import Controls from "@components/controls";
+import Information from "@components/information";
 import Tab from "@components/tab";
 import Tweet from "@components/tweet";
 
@@ -195,7 +196,7 @@ const DraftTweet = () => {
   return tweet ? (
     <Box sx={{ height: "fit-content", width: "100%" }}>
       <Flex sx={{ height: "521px", width: "100%" }}>
-        <Flex sx={{ flexDirection: "column", width: "100%" }} mr="16px">
+        <Flex sx={{ flexDirection: "column", width: "100%" }}>
           <Flex mb={4}>
             <Tab
               handleOnClick={() => setTab("tweet")}
@@ -209,16 +210,32 @@ const DraftTweet = () => {
             />
           </Flex>
           {tab === "tweet" ? (
-            <>
-              <ComposeFields
-                campaign={campaign}
-                context="updating"
-                handleCampaignChange={handleCampaignChange}
-                handleSave={handleUpdate}
-                handleTweetChange={handleTweetChange}
-                saving={saving}
-                tweet={editTweet}
-              />
+            <Flex
+              sx={{
+                flexDirection: "column",
+                height: "100%",
+                justifyContent: "space-between",
+              }}
+            >
+              {editing ? (
+                <ComposeFields
+                  campaign={campaign}
+                  context="updating"
+                  handleCampaignChange={handleCampaignChange}
+                  handleSave={handleUpdate}
+                  handleTweetChange={handleTweetChange}
+                  saving={saving}
+                  tweet={editTweet}
+                />
+              ) : (
+                <Information
+                  approvedBy={tweet.approvedBy}
+                  createdAt={tweet.createdAt}
+                  createdBy={tweet.creator.name}
+                  lastUpdated={tweet.updatedAt}
+                  reviewsRequired={scope.reviewsRequired}
+                />
+              )}
               <Controls
                 editing={editing}
                 disableApprove={disableApprove}
@@ -230,7 +247,7 @@ const DraftTweet = () => {
                 handlePublish={handlePublish}
                 handleUpdate={handleUpdate}
               />
-            </>
+            </Flex>
           ) : (
             <Comments />
           )}
