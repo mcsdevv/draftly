@@ -1,25 +1,60 @@
 // * Libraries
 import ago from "s-ago";
+import { useMemo } from "react";
 
 // * Modulz
-import { Box, Divider, Flex, Grid, Subheading, Text } from "@modulz/radix";
-import { CheckIcon, Cross2Icon, UpdateIcon } from "@modulz/radix-icons";
+import { Box, Divider, Grid, Subheading, Text } from "@modulz/radix";
+
+// * Components
+import Reviews from "@components/information/reviews";
 
 interface InformationProps {
-  approvedBy: string[];
+  approvals: any[];
   createdAt: Date;
   createdBy: string;
   lastUpdated: Date;
+  members: any[];
   reviewsRequired: number;
 }
 
 const Information = ({
-  approvedBy,
+  approvals,
   createdAt,
   createdBy,
   lastUpdated,
+  members,
   reviewsRequired,
 }: InformationProps) => {
+  // * All members of the team that have approved
+  const approved = useMemo(
+    () =>
+      members.filter((m) => {
+        const approval = approvals.find((a) => a.uid === m.uid);
+        if (approval?.state === "approved") return m;
+      }),
+    [approvals, members]
+  );
+
+  // * All members of the team that have been requested to review
+  const requested = useMemo(
+    () =>
+      members.filter((m) => {
+        const approval = approvals.find((a) => a.uid === m.uid);
+        if (approval?.state === "requested") return m;
+      }),
+    [approvals, members]
+  );
+
+  // * All members of the team that have NOT been requested to review
+  const unrequested = useMemo(
+    () =>
+      members.filter((m) => {
+        const approval = approvals.find((a) => a.uid === m.uid);
+        if (!approval) return m;
+      }),
+    [approvals, members]
+  );
+
   return (
     <Box>
       <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
@@ -43,57 +78,11 @@ const Information = ({
         </Box>
       </Grid>
       <Divider mb={4} />
-      <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
-        <Box>
-          <Subheading mb={1}>Requested Reviews</Subheading>
-          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
-            <Text as="p">Michael Derps</Text>
-            <Flex sx={{ alignItems: "center" }}>
-              <Box mr={1}>
-                <UpdateIcon style={{ height: 12, width: 12 }} />
-              </Box>
-              <CheckIcon />
-            </Flex>
-          </Flex>
-          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
-            <Text as="p">Jonboy Jones</Text>
-            <Flex sx={{ alignItems: "center" }}>
-              <Box mr={1}>
-                <UpdateIcon style={{ height: 12, width: 12 }} />
-              </Box>
-              <CheckIcon />
-            </Flex>
-          </Flex>
-          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
-            <Text as="p">Bitty Cat</Text>
-            <Cross2Icon />
-          </Flex>
-          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
-            <Text as="p">Wee Maki</Text>
-            <Cross2Icon />
-          </Flex>
-          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
-            <Text as="p">Dufty Woo</Text>
-            <Cross2Icon />
-          </Flex>
-        </Box>
-        <Box>
-          <Subheading mb={1}>Approved By</Subheading>
-          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
-            <Text as="p">Michael Derps</Text>
-            <Flex sx={{ alignItems: "center" }}>
-              <Box mr={1}>
-                <UpdateIcon style={{ height: 12, width: 12 }} />
-              </Box>
-              <CheckIcon />
-            </Flex>
-          </Flex>
-          <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
-            <Text as="p">Jonboy Jones</Text>
-            <Cross2Icon />
-          </Flex>
-        </Box>
-      </Grid>
+      <Reviews
+        approved={approved}
+        requested={requested}
+        unrequested={unrequested}
+      />
     </Box>
   );
 };
