@@ -1,5 +1,5 @@
 // * Modulz
-import { Box, Flex, Text } from "@modulz/radix";
+import { Avatar, Box, Flex, Text } from "@modulz/radix";
 import { CheckIcon, UpdateIcon } from "@modulz/radix-icons";
 
 interface RequestedProps {
@@ -9,7 +9,15 @@ interface RequestedProps {
 const Requested = ({ user }: RequestedProps) => {
   return (
     <Flex sx={{ alignItems: "center", justifyContent: "space-between" }}>
-      <Text as="p">{user.name}</Text>
+      <Flex sx={{ alignItems: "center" }}>
+        <Avatar
+          alt={user.name}
+          sx={{ height: 20, width: 20 }}
+          mr={1}
+          src={user.picture}
+        />
+        <Text as="p">{user.name}</Text>
+      </Flex>
       <Flex sx={{ alignItems: "center" }}>
         <Box mr={1}>
           <UpdateIcon style={{ height: 12, width: 12 }} />
