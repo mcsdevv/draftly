@@ -18,7 +18,7 @@ const Unrequested = ({ user }: UnrequestedProps) => {
         />
         <Text as="p">{user.name}</Text>
       </Flex>
-      <Cross2Icon />
+      <Cross2Icon style={{ cursor: "pointer" }} />
     </Flex>
   );
 };

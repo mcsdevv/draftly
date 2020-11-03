@@ -20,9 +20,9 @@ const Requested = ({ user }: RequestedProps) => {
       </Flex>
       <Flex sx={{ alignItems: "center" }}>
         <Box mr={1}>
-          <UpdateIcon style={{ height: 12, width: 12 }} />
+          <UpdateIcon style={{ cursor: "pointer", height: 12, width: 12 }} />
         </Box>
-        <CheckIcon />
+        <CheckIcon style={{ cursor: "pointer" }} />
       </Flex>
     </Flex>
   );

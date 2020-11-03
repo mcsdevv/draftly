@@ -18,7 +18,7 @@ const Approved = ({ user }: ApprovedProps) => {
         />
         <Text as="p">{user.name}</Text>
       </Flex>
-      <UpdateIcon style={{ height: 12, width: 12 }} />
+      <UpdateIcon style={{ cursor: "pointer", height: 12, width: 12 }} />
     </Flex>
   );
 };
