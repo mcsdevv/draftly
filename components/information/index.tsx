@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { Box, Divider, Grid, Subheading, Text } from "@modulz/radix";
 
 // * Components
-import Reviews from "@components/information/reviews";
+import Approvals from "@components/information/approvals";
 
 interface InformationProps {
   approvals: any[];
@@ -15,6 +15,7 @@ interface InformationProps {
   lastUpdated: Date;
   members: any[];
   reviewsRequired: number;
+  twuid: string;
 }
 
 const Information = ({
@@ -24,6 +25,7 @@ const Information = ({
   lastUpdated,
   members,
   reviewsRequired,
+  twuid,
 }: InformationProps) => {
   // * All members of the team that have approved
   const approved = useMemo(
@@ -78,10 +80,11 @@ const Information = ({
         </Box>
       </Grid>
       <Divider mb={4} />
-      <Reviews
+      <Approvals
         approved={approved}
         requested={requested}
         unrequested={unrequested}
+        twuid={twuid}
       />
     </Box>
   );

@@ -2,26 +2,32 @@
 import { Box, Grid, Subheading } from "@modulz/radix";
 
 // * Components
-import Approved from "@components/information/reviews/approved";
-import Requested from "@components/information/reviews/requested";
-import Unrequested from "@components/information/reviews/unrequested";
+import Approved from "@components/information/approvals/approved";
+import Requested from "@components/information/approvals/requested";
+import Unrequested from "@components/information/approvals/unrequested";
 
 interface ReviewsProps {
   approved: any[];
   requested: any[];
   unrequested: any[];
+  twuid: string;
 }
 
-const Reviews = ({ approved, requested, unrequested }: ReviewsProps) => {
+const Approvals = ({
+  approved,
+  requested,
+  unrequested,
+  twuid,
+}: ReviewsProps) => {
   return (
     <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
       <Box>
-        <Subheading mb={1}>Requested Reviews</Subheading>
+        <Subheading mb={1}>Requested Approvals</Subheading>
         {requested.map((r) => (
           <Requested key={r.uid} user={r.user} />
         ))}
         {unrequested.map((u) => (
-          <Unrequested key={u.uid} user={u.user} />
+          <Unrequested key={u.uid} user={u.user} twuid={twuid} />
         ))}
       </Box>
       <Box>
@@ -34,4 +40,4 @@ const Reviews = ({ approved, requested, unrequested }: ReviewsProps) => {
   );
 };
 
-export default Reviews;
+export default Approvals;
