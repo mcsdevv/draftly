@@ -193,7 +193,7 @@ const DraftTweet = () => {
     }
   };
 
-  console.log("tw", tweet);
+  console.log("tw", scope);
 
   return tweet ? (
     <Box sx={{ height: "fit-content", width: "100%" }}>
@@ -237,7 +237,8 @@ const DraftTweet = () => {
                   lastUpdated={tweet.updatedAt}
                   members={[...scope.members, ...scope.owners]}
                   reviewsRequired={scope.reviewsRequired}
-                  twuid={tweet.twuid}
+                  team={scope}
+                  tweet={tweet}
                 />
               )}
               <Controls

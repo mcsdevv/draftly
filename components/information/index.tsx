@@ -15,7 +15,8 @@ interface InformationProps {
   lastUpdated: Date;
   members: any[];
   reviewsRequired: number;
-  twuid: string;
+  team: any;
+  tweet: any;
 }
 
 const Information = ({
@@ -25,7 +26,8 @@ const Information = ({
   lastUpdated,
   members,
   reviewsRequired,
-  twuid,
+  team,
+  tweet,
 }: InformationProps) => {
   // * All members of the team that have approved
   const approved = useMemo(
@@ -82,9 +84,11 @@ const Information = ({
       <Divider mb={4} />
       <Approvals
         approved={approved}
+        campaign={tweet.campaign}
         requested={requested}
         unrequested={unrequested}
-        twuid={twuid}
+        team={team}
+        tweet={tweet}
       />
     </Box>
   );

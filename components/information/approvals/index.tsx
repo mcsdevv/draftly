@@ -8,26 +8,29 @@ import Unrequested from "@components/information/approvals/unrequested";
 
 interface ReviewsProps {
   approved: any[];
+  campaign: string;
   requested: any[];
   unrequested: any[];
-  twuid: string;
+  team: any;
+  tweet: any;
 }
 
 const Approvals = ({
   approved,
   requested,
   unrequested,
-  twuid,
+  team,
+  tweet,
 }: ReviewsProps) => {
   return (
     <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
       <Box>
         <Subheading mb={1}>Requested Approvals</Subheading>
         {requested.map((r) => (
-          <Requested key={r.uid} user={r.user} />
+          <Requested key={r.uid} team={team} user={r.user} tweet={tweet} />
         ))}
         {unrequested.map((u) => (
-          <Unrequested key={u.uid} user={u.user} twuid={twuid} />
+          <Unrequested key={u.uid} user={u.user} twuid={tweet.twuid} />
         ))}
       </Box>
       <Box>
