@@ -3,7 +3,15 @@ import ago from "s-ago";
 import { useMemo } from "react";
 
 // * Modulz
-import { Box, Divider, Grid, Subheading, Text } from "@modulz/radix";
+import {
+  Avatar,
+  Box,
+  Divider,
+  Flex,
+  Grid,
+  Subheading,
+  Text,
+} from "@modulz/radix";
 
 // * Components
 import Approvals from "@components/information/approvals";
@@ -11,7 +19,7 @@ import Approvals from "@components/information/approvals";
 interface InformationProps {
   approvals: any[];
   createdAt: Date;
-  createdBy: string;
+  createdBy: any;
   lastUpdated: Date;
   members: any[];
   reviewsRequired: number;
@@ -63,21 +71,29 @@ const Information = ({
     <Box>
       <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
         <Box>
-          <Subheading>Created By</Subheading>
-          <Text>{createdBy}</Text>
+          <Subheading mb={1}>Created By</Subheading>
+          <Flex sx={{ alignItems: "center" }}>
+            <Avatar
+              alt={createdBy.name}
+              sx={{ height: 20, width: 20 }}
+              mr={1}
+              src={createdBy.picture}
+            />
+            <Text as="p">{createdBy.name}</Text>
+          </Flex>
         </Box>
         <Box>
-          <Subheading>Created At</Subheading>
+          <Subheading mb={1}>Created At</Subheading>
           <Text>{ago(new Date(createdAt))}</Text>
         </Box>
       </Grid>
       <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
         <Box>
-          <Subheading>Reviews Required</Subheading>
+          <Subheading mb={1}>Approvals Required</Subheading>
           <Text>{reviewsRequired}</Text>
         </Box>
         <Box>
-          <Subheading>Last Updated</Subheading>
+          <Subheading mb={1}>Last Updated</Subheading>
           <Text>{ago(new Date(lastUpdated))}</Text>
         </Box>
       </Grid>
@@ -90,6 +106,7 @@ const Information = ({
         team={team}
         tweet={tweet}
       />
+      <Divider mb={4} />
     </Box>
   );
 };

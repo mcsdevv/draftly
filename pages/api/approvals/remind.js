@@ -14,7 +14,7 @@ const sendApprovalReminder = async (req, res) => {
   // * Compose message
   const msg = {
     to: email,
-    from: "invites@draftly.app",
+    from: "approvals@draftly.app",
     subject: `Draftly - Approval requested for the ${campaign} tweet on the ${team} team`,
     text: `Hello ${name}, click this button to view the ${campaign} tweet.`,
     html: `<strong>Hello ${name}, click this button to view the ${campaign} tweet. <br/> </strong><a href=${process.env.AUTH0_REDIRECT_URI}/${team}/tweets/drafts/${twuid}>View</a>`,

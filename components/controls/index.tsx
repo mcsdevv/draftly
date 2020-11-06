@@ -2,7 +2,15 @@
 import { useState } from "react";
 
 // * Modulz
-import { Box, Button, Flex, Option, Select } from "@modulz/radix";
+import {
+  Box,
+  Button,
+  Grid,
+  Flex,
+  Option,
+  Select,
+  Subheading,
+} from "@modulz/radix";
 
 interface ControlsProps {
   approvals?: number;
@@ -100,54 +108,42 @@ const Controls = ({
     <Box sx={{ width: "100%" }} mt={4}>
       <Flex
         sx={{
+          justifyContent: "space-between",
           paddingTop: "16px",
         }}
       >
-        <Flex sx={{ flexDirection: "column" }}>
+        <Grid>
+          <Subheading mb={1}>Theme</Subheading>
           <Select
             onValueChange={handleOnChange}
             value={theme}
             sx={{ width: "120px" }}
           >
-            <Option label="Default Theme" value="default" />
-            <Option label="Dim Theme" value="dim" />
-            <Option label="Lights Out Theme" value="lightsOut" />
+            <Option label="Default" value="default" />
+            <Option label="Dim" value="dim" />
+            <Option label="Lights" value="lightsOut" />
           </Select>
-          <Button mt={4} sx={{ cursor: "pointer", width: "120px" }}>
-            Request Feedback
-          </Button>
-        </Flex>
-        <Flex mr={4} sx={{ flexDirection: "column" }}>
-          {/* <Button
-            disabled={disableRefresh}
-            sx={{ cursor: "pointer", width: "120px" }}
-          >
-            Refresh Metadata
-          </Button> */}
-        </Flex>
-        <Flex mr={4} sx={{ flexDirection: "column" }}>
+        </Grid>
+        <Grid>
           <Button
-            mb={4}
-            sx={{ cursor: "pointer", width: "120px" }}
+            sx={{ cursor: "pointer", width: 80 }}
             onClick={!editing ? handleEdit : handleUpdate}
           >
             {!editing ? "Edit" : "Update"}
           </Button>
           <Button
-            sx={{ cursor: "pointer", width: "120px" }}
+            sx={{ cursor: "pointer", width: 80 }}
             onClick={!editing ? handleDelete : handleCancelEdit}
             variant="red"
           >
             {!editing ? "Delete" : "Cancel"}
           </Button>
-        </Flex>
-        <Flex sx={{ flexDirection: "column" }}>
+        </Grid>
+        <Grid>
           <Button
-            sx={{ cursor: "pointer", width: "120px" }}
+            sx={{ cursor: "pointer", width: 80 }}
             disabled={disableApprove}
-            mb={4}
             onClick={handleApprove}
-            variant="green"
           >
             {approvalsRequired &&
               approvalsRequired > 0 &&
@@ -155,14 +151,13 @@ const Controls = ({
             Approve
           </Button>
           <Button
-            sx={{ cursor: "pointer" }}
+            sx={{ cursor: "pointer", width: 80 }}
             disabled={disablePublish}
             onClick={handlePublish}
-            variant="blue"
           >
             Publish
           </Button>
-        </Flex>
+        </Grid>
       </Flex>
     </Box>
   );

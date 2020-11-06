@@ -26,18 +26,22 @@ const Approvals = ({
     <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
       <Box>
         <Subheading mb={1}>Requested Approvals</Subheading>
-        {requested.map((r) => (
-          <Requested key={r.uid} team={team} user={r.user} tweet={tweet} />
-        ))}
-        {unrequested.map((u) => (
-          <Unrequested key={u.uid} user={u.user} twuid={tweet.twuid} />
-        ))}
+        <Box sx={{ height: 144, overflow: "scroll" }}>
+          {requested.map((r) => (
+            <Requested key={r.uid} team={team} user={r.user} tweet={tweet} />
+          ))}
+          {unrequested.map((u) => (
+            <Unrequested key={u.uid} user={u.user} twuid={tweet.twuid} />
+          ))}
+        </Box>
       </Box>
       <Box>
         <Subheading mb={1}>Approved By</Subheading>
-        {approved.map((a) => (
-          <Approved key={a.uid} user={a.user} />
-        ))}
+        <Box sx={{ height: 144, overflow: "scroll" }}>
+          {approved.map((a) => (
+            <Approved key={a.uid} user={a.user} />
+          ))}
+        </Box>
       </Box>
     </Grid>
   );

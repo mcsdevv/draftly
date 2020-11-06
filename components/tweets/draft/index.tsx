@@ -233,7 +233,7 @@ const DraftTweet = () => {
                 <Information
                   approvals={tweet.approvals}
                   createdAt={tweet.createdAt}
-                  createdBy={tweet.creator.name}
+                  createdBy={tweet.creator}
                   lastUpdated={tweet.updatedAt}
                   members={[...scope.members, ...scope.owners]}
                   reviewsRequired={scope.reviewsRequired}
