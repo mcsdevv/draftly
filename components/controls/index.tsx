@@ -11,15 +11,14 @@ import useUser from "@hooks/use-user";
 import { Box, Button, Flex, Tooltip } from "@modulz/radix";
 
 interface ControlsProps {
-  approvals?: number;
-  approvalsRequired?: number;
-  editing?: boolean;
+  approvals: number;
+  approvalsRequired: number;
+  editing: boolean;
   handleApprove?: () => void;
-  handleCancelEdit?: () => void;
+  handleCancelEdit: () => void;
   handleDelete: () => void;
-  handleEdit?: () => void;
-  handlePublish?: () => void;
-  handleUpdate: () => void;
+  handleEdit: () => void;
+  handlePublish: () => void;
 }
 
 const Controls = ({
@@ -31,7 +30,6 @@ const Controls = ({
   handleDelete,
   handleEdit,
   handlePublish,
-  handleUpdate,
 }: ControlsProps) => {
   // * Box component surrounds buttons to allow for tooltips to be shown on disabled button.
   // * Initialize hooks
