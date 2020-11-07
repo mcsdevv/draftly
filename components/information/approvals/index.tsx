@@ -22,6 +22,7 @@ const Approvals = ({
   team,
   tweet,
 }: ReviewsProps) => {
+  console.log(approved);
   return (
     <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
       <Box>
@@ -39,7 +40,12 @@ const Approvals = ({
         <Subheading mb={1}>Approved By</Subheading>
         <Box sx={{ height: 144, overflow: "scroll" }}>
           {approved.map((a) => (
-            <Approved key={a.uid} user={a.user} />
+            <Approved
+              key={a.uid}
+              user={a.user}
+              tauid={a.tauid}
+              twuid={a.twuid}
+            />
           ))}
         </Box>
       </Box>

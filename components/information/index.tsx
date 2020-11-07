@@ -106,6 +106,8 @@ const Information = ({
   const approved = useMemo(
     () =>
       members.filter((m) => {
+        console.log("app", approvals);
+        // TODO Why does this always return the member not approval?
         const approval = approvals.find((a) => a.uid === m.uid);
         if (approval?.state === "approved") return m;
       }),
