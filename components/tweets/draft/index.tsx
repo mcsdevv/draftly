@@ -239,13 +239,14 @@ const DraftTweet = () => {
                 />
               )}
               <Controls
+                approvals={tweet.approvals}
+                approvalsRequired={tweet.reviewsRequired}
                 editing={editing}
                 handleApprove={handleApprove}
                 handleCancelEdit={handleCancelEdit}
                 handleDelete={handleDelete}
                 handleEdit={handleEdit}
                 handlePublish={handlePublish}
-                handleUpdate={handleUpdate}
               />
             </Flex>
           ) : (
