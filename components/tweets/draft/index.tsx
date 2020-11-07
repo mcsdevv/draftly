@@ -192,7 +192,7 @@ const DraftTweet = () => {
 
   return tweet ? (
     <Box sx={{ height: "fit-content", width: "100%" }}>
-      <Flex sx={{ height: "521px", width: "100%" }}>
+      <Flex sx={{ height: 532, width: "100%" }}>
         <Flex sx={{ flexDirection: "column", width: "100%" }}>
           <Flex mb={4}>
             <Tab

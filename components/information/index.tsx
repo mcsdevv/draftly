@@ -149,7 +149,9 @@ const Information = ({
         </Box>
         <Box>
           <Subheading mb={1}>Created At</Subheading>
-          <Text>{ago(new Date(createdAt))}</Text>
+          <Text sx={{ textTransform: "capitalize" }}>
+            {ago(new Date(createdAt))}
+          </Text>
         </Box>
       </Grid>
       <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
@@ -159,7 +161,9 @@ const Information = ({
         </Box>
         <Box>
           <Subheading mb={1}>Last Updated</Subheading>
-          <Text>{ago(new Date(lastUpdated))}</Text>
+          <Text sx={{ textTransform: "capitalize" }}>
+            {ago(new Date(lastUpdated))}
+          </Text>
         </Box>
       </Grid>
       <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
@@ -177,7 +181,7 @@ const Information = ({
         </Box>
         <Box>
           <Subheading mb={1}>Type</Subheading>
-          <Text sx={{ textDecoration: "capitalize" }}>{tweet.type}</Text>
+          <Text sx={{ textTransform: "capitalize" }}>{tweet.type}</Text>
         </Box>
       </Grid>
       <Divider mb={4} />
