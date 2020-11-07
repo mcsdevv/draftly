@@ -26,7 +26,7 @@ const Approvals = ({
   return (
     <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
       <Box>
-        <Subheading mb={1}>Requested Approvals</Subheading>
+        <Subheading mb={1}>Approvals Requested</Subheading>
         <Box sx={{ height: 144, overflow: "scroll" }}>
           {requested.map((r) => (
             <Requested key={r.uid} team={team} user={r.user} tweet={tweet} />
