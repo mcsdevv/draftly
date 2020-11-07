@@ -1,5 +1,5 @@
 // * Libraries
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
@@ -26,6 +26,7 @@ import Tab from "@components/tab";
 import Tweet from "@components/tweet";
 
 const DraftTweet = () => {
+  // * Initialize state
   const [campaign, setCampaign] = useState("");
   const [editing, setEditing] = useState(false);
   const [metadata, setMetadata] = useState<any>(null);
@@ -33,6 +34,7 @@ const DraftTweet = () => {
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState("tweet");
 
+  // * Initialize hooks
   const { setDrafts } = useDrafts();
   const { setPublished } = usePublished();
   const { scope } = useScope();
@@ -43,13 +45,6 @@ const DraftTweet = () => {
 
   // * Get tweet from twuid
   const { setTweet, tweet } = useTweet(twuid?.toString());
-
-  const disableApprove = useMemo(() => {
-    return (
-      tweet?.createdBy === scope?.uid ||
-      tweet?.approvals.find((a: any) => a.uid === scope?.uid)
-    );
-  }, [scope, tweet]);
 
   const handleApprove = async () => {
     const url = "/api/tweet/draft/approve";
@@ -238,8 +233,6 @@ const DraftTweet = () => {
               )}
               <Controls
                 editing={editing}
-                disableApprove={disableApprove}
-                disableRefresh={tweet?.metadata?.cardType === "text"}
                 handleApprove={handleApprove}
                 handleCancelEdit={handleCancelEdit}
                 handleDelete={handleDelete}
