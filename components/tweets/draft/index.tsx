@@ -1,5 +1,5 @@
 // * Libraries
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
@@ -8,7 +8,6 @@ import useDrafts from "@hooks/use-drafts";
 import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
 import useTweet from "@hooks/use-tweet";
-import useUser from "@hooks/use-user";
 
 // * Helpers
 import extractUrl from "@lib/client/extractUrl";
@@ -40,59 +39,12 @@ const DraftTweet = () => {
   const { setPublished } = usePublished();
   const { scope } = useScope();
   const router = useRouter();
-  const { user } = useUser();
 
   // * Get twuid from route query
   const { twuid } = router.query;
 
   // * Get tweet from twuid
   const { setTweet, tweet } = useTweet(twuid?.toString());
-
-  // * Calculate the correct approval state
-  const approvalStatus = useMemo(() => {
-    // * Disable approval if user is creator
-    if (tweet?.createdBy === user?.uid) {
-      return {
-        label: "You cannot approve your own tweet.",
-        status: false,
-      };
-    }
-
-    // * Disable approval if user has already approved
-    if (tweet?.approvals.find((a: any) => a.uid === user?.uid)) {
-      return {
-        label: "You have already approved this tweet.",
-        status: false,
-      };
-    }
-
-    // * Enable approval
-    return {
-      label: "Click to approve this tweet.",
-      status: true,
-    };
-  }, [scope, tweet]);
-
-  // * Calculate the correct approval state
-  const publishStatus = useMemo(() => {
-    const approvals = tweet?.approvals.filter(
-      (a: any) => a.status === "requested"
-    );
-    console.log(tweet, approvals, scope?.reviewsRequired);
-    // * Disable publish if required reviews not present
-    if (approvals.length < scope?.reviewsRequired) {
-      return {
-        label: "Insufficient approvals to publish.",
-        status: false,
-      };
-    }
-
-    // * Enable publish
-    return {
-      label: "Click to publish this tweet.",
-      status: true,
-    };
-  }, [scope, tweet]);
 
   const handleApprove = async () => {
     const url = "/api/tweet/draft/approve";
@@ -280,7 +232,6 @@ const DraftTweet = () => {
                 />
               )}
               <Controls
-                approvalStatus={approvalStatus}
                 editing={editing}
                 handleApprove={handleApprove}
                 handleCancelEdit={handleCancelEdit}
@@ -288,7 +239,6 @@ const DraftTweet = () => {
                 handleEdit={handleEdit}
                 handlePublish={handlePublish}
                 handleUpdate={handleUpdate}
-                publishStatus={publishStatus}
               />
             </Flex>
           ) : (
