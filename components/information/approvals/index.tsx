@@ -32,7 +32,7 @@ const Approvals = ({
             <Requested key={r.uid} team={team} user={r.user} tweet={tweet} />
           ))}
           {unrequested.map((u) => (
-            <Unrequested key={u.uid} user={u.user} twuid={tweet.twuid} />
+            <Unrequested key={u.uid} team={team} user={u.user} tweet={tweet} />
           ))}
         </Box>
       </Box>

@@ -12,7 +12,12 @@ const deleteApprovalRequest = async (req, res) => {
 
   // * Delete approval
   const approvalDeleted = await prisma.approvals.delete({
-    where: { tauid_twuid: `${tauid}_${twuid}` },
+    where: {
+      tauid_twuid: {
+        tauid,
+        twuid,
+      },
+    },
     select: {
       tweet: {
         include: {
@@ -25,7 +30,7 @@ const deleteApprovalRequest = async (req, res) => {
     },
   });
 
-  console.log("Approval requested from:", uid);
+  console.log("Approval deleted:", tauid);
   res.status(200).json(approvalDeleted);
 };
 

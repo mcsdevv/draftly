@@ -6,12 +6,13 @@ import { Avatar, Flex, Text } from "@modulz/radix";
 import { Cross2Icon } from "@modulz/radix-icons";
 
 interface UnrequestedProps {
+  team: any;
+  tweet: any;
   user: any;
-  twuid: string;
 }
 
-const Unrequested = ({ user, twuid }: UnrequestedProps) => {
-  const { setTweet } = useTweet(twuid);
+const Unrequested = ({ team, tweet, user }: UnrequestedProps) => {
+  const { setTweet } = useTweet(tweet.twuid);
 
   // * Request approval from user
   const handleRequestApproval = async () => {
@@ -19,8 +20,12 @@ const Unrequested = ({ user, twuid }: UnrequestedProps) => {
     const res = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
+        campaign: tweet.campaign,
+        email: user.email,
+        name: user.name,
+        team: team.handle,
+        twuid: tweet.twuid,
         uid: user.uid,
-        twuid,
       }),
     });
     if (res.status === 200) {

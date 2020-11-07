@@ -105,12 +105,17 @@ const Information = ({
   // * All members of the team that have approved
   const approved = useMemo(
     () =>
-      members.filter((m) => {
-        console.log("app", approvals);
-        // TODO Why does this always return the member not approval?
-        const approval = approvals.find((a) => a.uid === m.uid);
-        if (approval?.state === "approved") return m;
-      }),
+      members
+        .filter((m) => {
+          // * Filter out members that have not approved the tweet
+          const approval = approvals.find((a) => a.uid === m.uid);
+          if (approval?.state === "approved") return m;
+        })
+        .map((m) => {
+          // * Add the approval data to each member object
+          const approval = approvals.find((a) => a.uid === m.uid);
+          return { ...m, ...approval };
+        }),
     [approvals, members]
   );
 
