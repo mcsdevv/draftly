@@ -27,10 +27,10 @@ import Tweet from "@components/tweet";
 
 const DraftTweet = () => {
   // * Initialize state
-  const [campaign, setCampaign] = useState("");
   const [editing, setEditing] = useState(false);
+  const [editCampaign, setEditCampaign] = useState("");
+  const [editTweet, setEditTweet] = useState<any>("");
   const [metadata, setMetadata] = useState<any>(null);
-  const [editTweet, setEditTweet] = useState("");
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState("tweet");
 
@@ -89,7 +89,7 @@ const DraftTweet = () => {
 
   const handleEdit = () => {
     setEditing(true);
-    if (!campaign) setCampaign(tweet.campaign);
+    if (!editCampaign) setEditCampaign(tweet.campaign);
 
     // * Has not been edited before, so initialize metadata
     if (!editTweet) {
@@ -100,7 +100,7 @@ const DraftTweet = () => {
 
   // * Updates the campaign on change
   const handleCampaignChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setCampaign(e.currentTarget.value);
+    setEditCampaign(e.currentTarget.value);
   };
 
   const handleTweetChange = async (e: React.FormEvent<HTMLTextAreaElement>) => {
@@ -152,27 +152,31 @@ const DraftTweet = () => {
     }
   };
 
-  const handleUpdate = async (newTweet: any) => {
-    console.log("OLD", tweet.text);
-    console.log("NEW", newTweet.text);
+  const handleReset = () => {
+    setEditCampaign("");
+    setEditTweet("");
+  };
 
+  const handleUpdate = async () => {
     // TODO Why this shit out of date? editTweet never current...
+    console.log("OLD", tweet.text);
+    console.log("NEW", editTweet);
 
     // * No changes made, no need to update
-    // if (tweet.text === newTweet.text && tweet.campaign === newTweet.campaign) {
-    //   setEditing(false);
-    //   return;
-    // }
+    if (tweet.text === editTweet && tweet.campaign === editCampaign) {
+      setEditing(false);
+      return;
+    }
 
     // * Changes made, update tweet
     setSaving(true);
 
     const url = "/api/tweet/draft/update";
-    const formattedTweet = removeWww(newTweet.text);
+    const formattedTweet = removeWww(editTweet);
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
-        campaign,
+        campaign: editCampaign,
         metadata,
         text: formattedTweet,
         twuid,
@@ -213,9 +217,10 @@ const DraftTweet = () => {
             >
               {editing ? (
                 <ComposeFields
-                  campaign={campaign}
+                  campaign={editCampaign}
                   context="updating"
                   handleCampaignChange={handleCampaignChange}
+                  handleReset={handleReset}
                   handleUpdate={handleUpdate}
                   handleTweetChange={handleTweetChange}
                   saving={saving}
@@ -234,9 +239,7 @@ const DraftTweet = () => {
                 />
               )}
               <Controls
-                campaign={campaign}
                 editing={editing}
-                editTweet={editTweet}
                 handleApprove={handleApprove}
                 handleCancelEdit={handleCancelEdit}
                 handleDelete={handleDelete}
@@ -251,7 +254,7 @@ const DraftTweet = () => {
         </Flex>
         <Box ml="16px">
           <Heading as="h2" size={4}>
-            {editing ? campaign : tweet.campaign}
+            {editing ? editCampaign : tweet.campaign}
           </Heading>
           <Divider mb={4} />
           <Tweet

@@ -13,23 +13,19 @@ import { Box, Button, Flex, Tooltip } from "@modulz/radix";
 interface ControlsProps {
   approvals?: number;
   approvalsRequired?: number;
-  campaign: string;
   editing?: boolean;
-  editTweet: string;
   handleApprove?: () => void;
   handleCancelEdit?: () => void;
   handleDelete: () => void;
   handleEdit?: () => void;
   handlePublish?: () => void;
-  handleUpdate: ({ c, t }: any) => void;
+  handleUpdate: () => void;
 }
 
 const Controls = ({
   approvals,
   approvalsRequired,
-  campaign,
   editing,
-  editTweet,
   handleApprove,
   handleCancelEdit,
   handleDelete,
@@ -38,9 +34,6 @@ const Controls = ({
   handleUpdate,
 }: ControlsProps) => {
   // * Box component surrounds buttons to allow for tooltips to be shown on disabled button.
-  const handleOnUpdate = () => {
-    handleUpdate({ campaign, text: editTweet });
-  };
   // * Initialize hooks
   const { scope } = useScope();
   const router = useRouter();
@@ -83,18 +76,8 @@ const Controls = ({
     const isOwner = scope.owners.find((o: any) => o.uid === user.uid);
     const creator = tweet.creator.uid === user.uid;
 
-    // * Default state, not editing but owner or creator
-    if (!editing && (isOwner || creator)) {
-      return {
-        disabled: false,
-        label: "Click to delete this tweet.",
-        onClick: handleDelete,
-        text: "Delete",
-      };
-    }
-
-    // * Default state, not editing but NOT owner
-    if (!editing && !isOwner) {
+    // * Default state, only owners or creators can delete
+    if (!isOwner && !creator) {
       return {
         disabled: true,
         label: "Only owners can delete tweets.",
@@ -103,11 +86,12 @@ const Controls = ({
       };
     }
 
-    // * Secondary state, already editing
+    // * Secondary state, not editing but owner or creator
     return {
-      label: "Click to cancel your edit.",
-      onClick: handleCancelEdit,
-      text: "Cancel",
+      disabled: false,
+      label: "Click to delete this tweet.",
+      onClick: handleDelete,
+      text: "Delete",
     };
   }, [editing]);
 
@@ -122,11 +106,11 @@ const Controls = ({
       };
     }
 
-    // * Secondary state, already editing
+    // * Secondary state, exit out of editing
     return {
-      label: "Click to confirm your edit.",
-      onClick: handleOnUpdate,
-      text: "Update",
+      label: "Click to cancel your edit.",
+      onClick: handleCancelEdit,
+      text: "Cancel",
     };
   }, [editing]);
 
