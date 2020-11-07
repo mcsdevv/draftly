@@ -34,6 +34,7 @@ const Controls = ({
   handleUpdate,
 }: ControlsProps) => {
   // * Box component surrounds buttons to allow for tooltips to be shown on disabled button.
+
   // * Initialize hooks
   const { scope } = useScope();
   const router = useRouter();
