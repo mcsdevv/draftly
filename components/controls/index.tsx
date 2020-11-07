@@ -105,59 +105,38 @@ const Controls = ({
   };
 
   return (
-    <Box sx={{ width: "100%" }} mt={4}>
-      <Flex
-        sx={{
-          justifyContent: "space-between",
-          paddingTop: "16px",
-        }}
-      >
-        <Grid>
-          <Subheading mb={1}>Theme</Subheading>
-          <Select
-            onValueChange={handleOnChange}
-            value={theme}
-            sx={{ width: "120px" }}
-          >
-            <Option label="Default" value="default" />
-            <Option label="Dim" value="dim" />
-            <Option label="Lights" value="lightsOut" />
-          </Select>
-        </Grid>
-        <Grid>
-          <Button
-            sx={{ cursor: "pointer", width: 80 }}
-            onClick={!editing ? handleEdit : handleUpdate}
-          >
-            {!editing ? "Edit" : "Update"}
-          </Button>
-          <Button
-            sx={{ cursor: "pointer", width: 80 }}
-            onClick={!editing ? handleDelete : handleCancelEdit}
-            variant="red"
-          >
-            {!editing ? "Delete" : "Cancel"}
-          </Button>
-        </Grid>
-        <Grid>
-          <Button
-            sx={{ cursor: "pointer", width: 80 }}
-            disabled={disableApprove}
-            onClick={handleApprove}
-          >
-            {approvalsRequired &&
-              approvalsRequired > 0 &&
-              `${approvals} / ${approvalsRequired}`}{" "}
-            Approve
-          </Button>
-          <Button
-            sx={{ cursor: "pointer", width: 80 }}
-            disabled={disablePublish}
-            onClick={handlePublish}
-          >
-            Publish
-          </Button>
-        </Grid>
+    <Box>
+      <Flex sx={{ justifyContent: "space-between" }}>
+        <Button
+          sx={{ cursor: "pointer", width: 100 }}
+          onClick={!editing ? handleEdit : handleUpdate}
+        >
+          {!editing ? "Edit" : "Update"}
+        </Button>
+        <Button
+          sx={{ cursor: "pointer", width: 100 }}
+          disabled={disableApprove}
+          onClick={handleApprove}
+        >
+          {approvalsRequired &&
+            approvalsRequired > 0 &&
+            `${approvals} / ${approvalsRequired}`}{" "}
+          Approve
+        </Button>
+        <Button
+          sx={{ cursor: "pointer", width: 100 }}
+          disabled={disablePublish}
+          onClick={handlePublish}
+        >
+          Publish
+        </Button>
+        <Button
+          sx={{ cursor: "pointer", width: 100 }}
+          onClick={!editing ? handleDelete : handleCancelEdit}
+          variant="red"
+        >
+          {!editing ? "Delete" : "Cancel"}
+        </Button>
       </Flex>
     </Box>
   );
