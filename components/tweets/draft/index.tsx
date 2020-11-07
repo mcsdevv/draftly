@@ -21,6 +21,8 @@ import { Box, Divider, Flex, Heading } from "@modulz/radix";
 import Comments from "@components/comments";
 import ComposeFields from "@components/compose/fields";
 import Controls from "@components/controls";
+import Information from "@components/information";
+import Tab from "@components/tab";
 import Tweet from "@components/tweet";
 
 const DraftTweet = () => {
@@ -29,6 +31,7 @@ const DraftTweet = () => {
   const [metadata, setMetadata] = useState<any>(null);
   const [editTweet, setEditTweet] = useState("");
   const [saving, setSaving] = useState(false);
+  const [tab, setTab] = useState("tweet");
 
   const { setDrafts } = useDrafts();
   const { setPublished } = usePublished();
@@ -91,7 +94,6 @@ const DraftTweet = () => {
 
   const handleEdit = () => {
     setEditing(true);
-
     if (!campaign) setCampaign(tweet.campaign);
 
     // * Has not been edited before, so initialize metadata
@@ -113,15 +115,11 @@ const DraftTweet = () => {
   };
 
   // * Debounce tweet to avoid repitive API calls
-  const debouncedTweet = useDebounce(
-    extractUrl(editTweet ? editTweet : tweet?.text),
-    300
-  );
+  const debouncedTweet = useDebounce(editTweet ? editTweet : tweet?.text, 300);
 
   // * Update metadata when URL has changed
   useEffect(() => {
     async function updateMeta() {
-      console.log("ping", debouncedTweet);
       // * Do not run if no tweet present
       if (debouncedTweet) {
         // * Update metadata only when URL has changed
@@ -180,10 +178,12 @@ const DraftTweet = () => {
         metadata,
         text: formattedTweet,
         twuid,
+        urlRemoved: !!tweet?.url && !metadata?.url,
       }),
     });
     if (res.status === 200) {
       const updatedTweet = await res.json();
+      console.log("UPDATED", updatedTweet);
       setEditing(false);
       setSaving(false);
       setTweet({ tweet: { ...updatedTweet } });
@@ -192,40 +192,71 @@ const DraftTweet = () => {
 
   return tweet ? (
     <Box sx={{ height: "fit-content", width: "100%" }}>
-      <Flex sx={{ height: "576px", width: "100%" }}>
-        <Flex sx={{ flexDirection: "column", width: "100%" }} mr="16px">
-          {editing ? (
-            <ComposeFields
-              campaign={campaign}
-              context="updating"
-              handleCampaignChange={handleCampaignChange}
-              handleSave={handleUpdate}
-              handleTweetChange={handleTweetChange}
-              saving={saving}
-              tweet={editTweet}
+      <Flex sx={{ height: 532, width: "100%" }}>
+        <Flex sx={{ flexDirection: "column", width: "100%" }}>
+          <Flex mb={4}>
+            <Tab
+              handleOnClick={() => setTab("tweet")}
+              name="Tweet"
+              selected={tab === "tweet"}
             />
+            <Tab
+              handleOnClick={() => setTab("comments")}
+              name="Comments"
+              selected={tab === "comments"}
+            />
+          </Flex>
+          {tab === "tweet" ? (
+            <Flex
+              sx={{
+                flexDirection: "column",
+                height: "100%",
+                justifyContent: "space-between",
+              }}
+            >
+              {editing ? (
+                <ComposeFields
+                  campaign={campaign}
+                  context="updating"
+                  handleCampaignChange={handleCampaignChange}
+                  handleSave={handleUpdate}
+                  handleTweetChange={handleTweetChange}
+                  saving={saving}
+                  tweet={editTweet}
+                />
+              ) : (
+                <Information
+                  approvals={tweet.approvals}
+                  createdAt={tweet.createdAt}
+                  createdBy={tweet.creator}
+                  lastUpdated={tweet.updatedAt}
+                  members={[...scope.members, ...scope.owners]}
+                  reviewsRequired={scope.reviewsRequired}
+                  team={scope}
+                  tweet={tweet}
+                />
+              )}
+              <Controls
+                editing={editing}
+                disableApprove={disableApprove}
+                disableRefresh={tweet?.metadata?.cardType === "text"}
+                handleApprove={handleApprove}
+                handleCancelEdit={handleCancelEdit}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+                handlePublish={handlePublish}
+                handleUpdate={handleUpdate}
+              />
+            </Flex>
           ) : (
             <Comments />
           )}
-          <Box mt="auto">
-            <Controls
-              editing={editing}
-              disableApprove={disableApprove}
-              disableRefresh={tweet?.metadata?.cardType === "text"}
-              handleApprove={handleApprove}
-              handleCancelEdit={handleCancelEdit}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-              handlePublish={handlePublish}
-              handleUpdate={handleUpdate}
-            />
-          </Box>
         </Flex>
         <Box ml="16px">
           <Heading as="h2" size={4}>
             {editing ? campaign : tweet.campaign}
           </Heading>
-          <Divider mb={2} />
+          <Divider mb={4} />
           <Tweet
             metadata={editing ? metadata : tweet?.metadata}
             scope={scope}
