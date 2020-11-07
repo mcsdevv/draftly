@@ -8,6 +8,7 @@ import useDrafts from "@hooks/use-drafts";
 import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
 import useTweet from "@hooks/use-tweet";
+import useUser from "@hooks/use-user";
 
 // * Helpers
 import extractUrl from "@lib/client/extractUrl";
@@ -26,6 +27,7 @@ import Tab from "@components/tab";
 import Tweet from "@components/tweet";
 
 const DraftTweet = () => {
+  // * Initialize state
   const [campaign, setCampaign] = useState("");
   const [editing, setEditing] = useState(false);
   const [metadata, setMetadata] = useState<any>(null);
@@ -33,10 +35,12 @@ const DraftTweet = () => {
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState("tweet");
 
+  // * Initialize hooks
   const { setDrafts } = useDrafts();
   const { setPublished } = usePublished();
   const { scope } = useScope();
   const router = useRouter();
+  const { user } = useUser();
 
   // * Get twuid from route query
   const { twuid } = router.query;
@@ -44,11 +48,50 @@ const DraftTweet = () => {
   // * Get tweet from twuid
   const { setTweet, tweet } = useTweet(twuid?.toString());
 
-  const disableApprove = useMemo(() => {
-    return (
-      tweet?.createdBy === scope?.uid ||
-      tweet?.approvals.find((a: any) => a.uid === scope?.uid)
+  // * Calculate the correct approval state
+  const approvalStatus = useMemo(() => {
+    // * Disable approval if user is creator
+    if (tweet?.createdBy === user?.uid) {
+      return {
+        label: "You cannot approve your own tweet.",
+        status: false,
+      };
+    }
+
+    // * Disable approval if user has already approved
+    if (tweet?.approvals.find((a: any) => a.uid === user?.uid)) {
+      return {
+        label: "You have already approved this tweet.",
+        status: false,
+      };
+    }
+
+    // * Enable approval
+    return {
+      label: "Click to approve this tweet.",
+      status: true,
+    };
+  }, [scope, tweet]);
+
+  // * Calculate the correct approval state
+  const publishStatus = useMemo(() => {
+    const approvals = tweet?.approvals.filter(
+      (a: any) => a.status === "requested"
     );
+    console.log(tweet, approvals, scope?.reviewsRequired);
+    // * Disable publish if required reviews not present
+    if (approvals.length < scope?.reviewsRequired) {
+      return {
+        label: "Insufficient approvals to publish.",
+        status: false,
+      };
+    }
+
+    // * Enable publish
+    return {
+      label: "Click to publish this tweet.",
+      status: true,
+    };
   }, [scope, tweet]);
 
   const handleApprove = async () => {
@@ -237,15 +280,15 @@ const DraftTweet = () => {
                 />
               )}
               <Controls
+                approvalStatus={approvalStatus}
                 editing={editing}
-                disableApprove={disableApprove}
-                disableRefresh={tweet?.metadata?.cardType === "text"}
                 handleApprove={handleApprove}
                 handleCancelEdit={handleCancelEdit}
                 handleDelete={handleDelete}
                 handleEdit={handleEdit}
                 handlePublish={handlePublish}
                 handleUpdate={handleUpdate}
+                publishStatus={publishStatus}
               />
             </Flex>
           ) : (

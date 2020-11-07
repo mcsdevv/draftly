@@ -12,7 +12,7 @@ const updateReviewsRequired = async (req, res, _uid, tuid) => {
   // * Update reviews required to publish tweets
   await prisma.teams.update({
     where: { tuid },
-    data: { reviewsRequired: reviews },
+    data: { reviewsRequired: parseInt(reviews) },
   });
 
   console.log("Team reviews required updated for:", tuid);

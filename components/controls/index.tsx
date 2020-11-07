@@ -1,12 +1,10 @@
 // * Modulz
-import { Box, Button, Flex } from "@modulz/radix";
+import { Box, Button, Flex, Tooltip } from "@modulz/radix";
 
 interface ControlsProps {
   approvals?: number;
   approvalsRequired?: number;
-  disableApprove?: boolean;
-  disablePublish?: boolean;
-  disableRefresh?: boolean;
+  approvalStatus: any;
   editing?: boolean;
   handleApprove?: () => void;
   handleCancelEdit?: () => void;
@@ -14,14 +12,13 @@ interface ControlsProps {
   handleEdit?: () => void;
   handlePublish?: () => void;
   handleUpdate?: () => void;
+  publishStatus: any;
 }
 
 const Controls = ({
   approvals,
   approvalsRequired,
-  disableApprove,
-  disablePublish,
-  // disableRefresh,
+  approvalStatus,
   editing,
   handleApprove,
   handleCancelEdit,
@@ -29,7 +26,9 @@ const Controls = ({
   handleEdit,
   handlePublish,
   handleUpdate,
+  publishStatus,
 }: ControlsProps) => {
+  // * Box component surrounds buttons to allow for tooltips to be shown on disabled button.
   return (
     <Box>
       <Flex sx={{ justifyContent: "space-between" }}>
@@ -39,23 +38,31 @@ const Controls = ({
         >
           {!editing ? "Edit" : "Update"}
         </Button>
-        <Button
-          sx={{ cursor: "pointer", width: 100 }}
-          disabled={disableApprove}
-          onClick={handleApprove}
-        >
-          {approvalsRequired &&
-            approvalsRequired > 0 &&
-            `${approvals} / ${approvalsRequired}`}{" "}
-          Approve
-        </Button>
-        <Button
-          sx={{ cursor: "pointer", width: 100 }}
-          disabled={disablePublish}
-          onClick={handlePublish}
-        >
-          Publish
-        </Button>
+        <Tooltip label={approvalStatus.label} align="center">
+          <Box>
+            <Button
+              sx={{ cursor: "pointer", width: 100 }}
+              disabled={!approvalStatus.status}
+              onClick={handleApprove}
+            >
+              {approvalsRequired &&
+                approvalsRequired > 0 &&
+                `${approvals} / ${approvalsRequired}`}{" "}
+              Approve
+            </Button>
+          </Box>
+        </Tooltip>
+        <Tooltip label={publishStatus.label} align="center">
+          <Box>
+            <Button
+              sx={{ cursor: "pointer", width: 100 }}
+              disabled={!publishStatus.status}
+              onClick={handlePublish}
+            >
+              Publish
+            </Button>
+          </Box>
+        </Tooltip>
         <Button
           sx={{ cursor: "pointer", width: 100 }}
           onClick={!editing ? handleDelete : handleCancelEdit}
