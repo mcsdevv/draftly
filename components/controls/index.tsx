@@ -72,13 +72,14 @@ const Controls = ({
 
   // * Calculate the correct edit state
   const deleteStatus = useMemo(() => {
-    // * Find user as owner within the team
+    // * Find user as owner within the team and creator of tweet
     const isOwner = scope.owners.find((o: any) => o.uid === user.uid);
+    const creator = tweet.creator.uid === user.uid;
 
-    // * Default state, not editing but owner
-    if (!editing && isOwner) {
+    // * Default state, not editing but owner or creator
+    if (!editing && (isOwner || creator)) {
       return {
-        disabled: !isOwner,
+        disabled: false,
         label: "Click to delete this tweet.",
         onClick: handleDelete,
         text: "Delete",
@@ -86,10 +87,10 @@ const Controls = ({
     }
 
     // * Default state, not editing but NOT owner
-    if (!editing && isOwner) {
+    if (!editing && !isOwner) {
       return {
-        disabled: !isOwner,
-        label: "Click to delete this tweet.",
+        disabled: true,
+        label: "Only owners can delete tweets.",
         onClick: handleDelete,
         text: "Delete",
       };
