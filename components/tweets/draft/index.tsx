@@ -109,7 +109,6 @@ const DraftTweet = () => {
   };
 
   const handleTweetChange = async (e: React.FormEvent<HTMLTextAreaElement>) => {
-    console.log(tweet?.url);
     if (e.currentTarget.value.length < 281) {
       setEditTweet(e.currentTarget.value);
     }
@@ -184,6 +183,7 @@ const DraftTweet = () => {
     });
     if (res.status === 200) {
       const updatedTweet = await res.json();
+      console.log("UPDATED", updatedTweet);
       setEditing(false);
       setSaving(false);
       setTweet({ tweet: { ...updatedTweet } });
