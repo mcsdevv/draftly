@@ -94,7 +94,6 @@ const DraftTweet = () => {
 
   const handleEdit = () => {
     setEditing(true);
-
     if (!campaign) setCampaign(tweet.campaign);
 
     // * Has not been edited before, so initialize metadata
@@ -110,21 +109,18 @@ const DraftTweet = () => {
   };
 
   const handleTweetChange = async (e: React.FormEvent<HTMLTextAreaElement>) => {
+    console.log(tweet?.url);
     if (e.currentTarget.value.length < 281) {
       setEditTweet(e.currentTarget.value);
     }
   };
 
   // * Debounce tweet to avoid repitive API calls
-  const debouncedTweet = useDebounce(
-    extractUrl(editTweet ? editTweet : tweet?.text),
-    300
-  );
+  const debouncedTweet = useDebounce(editTweet ? editTweet : tweet?.text, 300);
 
   // * Update metadata when URL has changed
   useEffect(() => {
     async function updateMeta() {
-      console.log("ping", debouncedTweet);
       // * Do not run if no tweet present
       if (debouncedTweet) {
         // * Update metadata only when URL has changed
@@ -183,6 +179,7 @@ const DraftTweet = () => {
         metadata,
         text: formattedTweet,
         twuid,
+        urlRemoved: !!tweet?.url && !metadata?.url,
       }),
     });
     if (res.status === 200) {
@@ -192,8 +189,6 @@ const DraftTweet = () => {
       setTweet({ tweet: { ...updatedTweet } });
     }
   };
-
-  console.log("tw", scope);
 
   return tweet ? (
     <Box sx={{ height: "fit-content", width: "100%" }}>

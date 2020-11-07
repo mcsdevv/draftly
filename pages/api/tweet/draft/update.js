@@ -7,7 +7,7 @@ import withSentry from "@lib/api/middleware/withSentry";
 import isMember from "@lib/api/middleware/isMember";
 
 const updateDraftTweet = async (req, res) => {
-  const { campaign, metadata, text, twuid } = JSON.parse(req.body);
+  const { campaign, metadata, text, twuid, urlRemoved } = JSON.parse(req.body);
 
   // * Update draft tweet
   const draft = await prisma.tweets.update({
@@ -15,13 +15,15 @@ const updateDraftTweet = async (req, res) => {
     data: {
       campaign,
       text,
-      metadata: metadata ? { connect: { url: metadata?.url } } : undefined,
+      metadata: metadata?.url
+        ? { connect: { url: metadata.url } }
+        : { disconnect: urlRemoved ? true : undefined },
     },
     include: {
       approvals: true,
       comments: { include: { addedBy: true } },
       creator: true,
-      metadata: true,
+      metadata: metadata?.url ? true : undefined,
     },
   });
 
