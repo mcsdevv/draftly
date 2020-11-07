@@ -33,7 +33,7 @@ export default function Members() {
       }),
     });
     if (res.ok) {
-      console.log("Member upgraded in team.");
+      console.log("Member downgraded in team.");
       const member = await res.json();
       const filteredMembers = [...scope.members, member];
       const filteredOwners = scope.owners.filter((o: any) => o.tmuid !== tmuid);

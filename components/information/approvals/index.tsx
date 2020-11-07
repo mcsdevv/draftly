@@ -22,7 +22,6 @@ const Approvals = ({
   team,
   tweet,
 }: ReviewsProps) => {
-  console.log(approved);
   return (
     <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
       <Box>

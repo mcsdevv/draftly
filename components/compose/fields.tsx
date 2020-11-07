@@ -20,7 +20,7 @@ interface ComposeFieldsProps {
   context: string;
   handleCampaignChange: (e: React.FormEvent<HTMLInputElement>) => void;
   handleReset?: () => void;
-  handleSave: () => void;
+  handleUpdate: ({ c, t }: any) => void;
   handleTweetChange: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   saving: boolean;
   tweet: string;
@@ -31,11 +31,14 @@ const ComposeFields = ({
   context,
   handleCampaignChange,
   handleReset,
-  handleSave,
+  handleUpdate,
   handleTweetChange,
   saving,
   tweet,
 }: ComposeFieldsProps) => {
+  const handleOnUpdate = () => {
+    handleUpdate({ campaign, tweet });
+  };
   return (
     <Box sx={{ height: "fit-content", width: "100%" }}>
       <Box sx={{ width: "100%" }}>
@@ -76,7 +79,7 @@ const ComposeFields = ({
               disabled={!campaign || !tweet}
               isWaiting={saving}
               ml={4}
-              onClick={handleSave}
+              onClick={handleOnUpdate}
               variant="blue"
             >
               Create

@@ -36,7 +36,6 @@ export default function DeleteTeam() {
     });
     if (status === 200) {
       const filteredTeams = teams.filter((t: any) => t.tuid !== scope.tuid);
-      console.log("ft", filteredTeams, !!filteredTeams);
       setUser({ user, teams: filteredTeams });
       if (filteredTeams?.length) {
         Cookies.set("tuid", filteredTeams[0].tuid);

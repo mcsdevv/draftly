@@ -14,8 +14,6 @@ interface ApprovedProps {
 const Approved = ({ user, tauid, twuid }: ApprovedProps) => {
   const { setTweet } = useTweet(twuid);
 
-  console.log(tauid, twuid);
-
   // * Remove approval a reminder for the approval
   const handleApprovalDelete = async () => {
     const url = "/api/approvals/delete";

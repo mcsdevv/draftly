@@ -8,8 +8,6 @@ import withSentry from "@lib/api/middleware/withSentry";
 const deleteApprovalRequest = async (req, res) => {
   const { tauid, twuid } = JSON.parse(req.body);
 
-  console.log(tauid, twuid);
-
   // * Delete approval
   const approvalDeleted = await prisma.approvals.delete({
     where: {

@@ -123,11 +123,9 @@ const DraftTweet = () => {
           const metadata = await getMetadata(editTweet);
           if (!metadata.err) {
             setMetadata(metadata);
-            console.log("Metadata updated.");
           }
         }
       } else {
-        console.log("No tweet present, metadata set to null.", editTweet);
         setMetadata(null);
       }
     }
@@ -154,18 +152,23 @@ const DraftTweet = () => {
     }
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (newTweet: any) => {
+    console.log("OLD", tweet.text);
+    console.log("NEW", newTweet.text);
+
+    // TODO Why this shit out of date? editTweet never current...
+
     // * No changes made, no need to update
-    if (tweet.text === editTweet && tweet.campaign === campaign) {
-      setEditing(false);
-      return;
-    }
+    // if (tweet.text === newTweet.text && tweet.campaign === newTweet.campaign) {
+    //   setEditing(false);
+    //   return;
+    // }
 
     // * Changes made, update tweet
     setSaving(true);
 
     const url = "/api/tweet/draft/update";
-    const formattedTweet = removeWww(editTweet);
+    const formattedTweet = removeWww(newTweet.text);
     const res = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
@@ -178,7 +181,6 @@ const DraftTweet = () => {
     });
     if (res.status === 200) {
       const updatedTweet = await res.json();
-      console.log("UPDATED", updatedTweet);
       setEditing(false);
       setSaving(false);
       setTweet({ tweet: { ...updatedTweet } });
@@ -214,7 +216,7 @@ const DraftTweet = () => {
                   campaign={campaign}
                   context="updating"
                   handleCampaignChange={handleCampaignChange}
-                  handleSave={handleUpdate}
+                  handleUpdate={handleUpdate}
                   handleTweetChange={handleTweetChange}
                   saving={saving}
                   tweet={editTweet}
@@ -232,7 +234,9 @@ const DraftTweet = () => {
                 />
               )}
               <Controls
+                campaign={campaign}
                 editing={editing}
+                editTweet={editTweet}
                 handleApprove={handleApprove}
                 handleCancelEdit={handleCancelEdit}
                 handleDelete={handleDelete}

@@ -92,11 +92,9 @@ const ComposeTweet = () => {
           const metadata = await getMetadata(tweet);
           if (!metadata.err) {
             setMetadata(metadata);
-            console.log("Metadata updated.");
           }
         }
       } else {
-        console.log("No tweet present, metadata set to null.");
         setMetadata(null);
       }
     }
@@ -120,7 +118,7 @@ const ComposeTweet = () => {
           context="creating"
           handleCampaignChange={handleCampaignChange}
           handleReset={handleResetDraft}
-          handleSave={handleSaveDraft}
+          handleUpdate={handleSaveDraft}
           handleTweetChange={handleTweetChange}
           saving={saving}
           tweet={tweet}

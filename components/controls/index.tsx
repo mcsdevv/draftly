@@ -13,19 +13,23 @@ import { Box, Button, Flex, Tooltip } from "@modulz/radix";
 interface ControlsProps {
   approvals?: number;
   approvalsRequired?: number;
+  campaign: string;
   editing?: boolean;
+  editTweet: string;
   handleApprove?: () => void;
   handleCancelEdit?: () => void;
   handleDelete: () => void;
   handleEdit?: () => void;
   handlePublish?: () => void;
-  handleUpdate?: () => void;
+  handleUpdate: ({ c, t }: any) => void;
 }
 
 const Controls = ({
   approvals,
   approvalsRequired,
+  campaign,
   editing,
+  editTweet,
   handleApprove,
   handleCancelEdit,
   handleDelete,
@@ -34,7 +38,9 @@ const Controls = ({
   handleUpdate,
 }: ControlsProps) => {
   // * Box component surrounds buttons to allow for tooltips to be shown on disabled button.
-
+  const handleOnUpdate = () => {
+    handleUpdate({ campaign, text: editTweet });
+  };
   // * Initialize hooks
   const { scope } = useScope();
   const router = useRouter();
@@ -119,7 +125,7 @@ const Controls = ({
     // * Secondary state, already editing
     return {
       label: "Click to confirm your edit.",
-      onClick: handleUpdate,
+      onClick: handleOnUpdate,
       text: "Update",
     };
   }, [editing]);
