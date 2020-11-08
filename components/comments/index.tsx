@@ -58,9 +58,9 @@ export default function Comments() {
     });
     setComment("");
     if (res.status === 200) {
-      const publishedComment = await res.json();
+      const json = await res.json();
       setTweet({
-        tweet: { ...tweet, comments: [publishedComment, ...tweet.comments] },
+        tweet: { ...tweet, comments: json.tweet.comments },
       });
     }
   };

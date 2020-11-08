@@ -19,7 +19,10 @@ const createTweetComment = async (req, res, uid) => {
       tcuid,
       tweet: { connect: { twuid } },
     },
-    include: { addedBy: true },
+    include: {
+      addedBy: true,
+      tweet: { include: { comments: { include: { addedBy: true } } } },
+    },
   });
 
   console.log(commentInserted);
