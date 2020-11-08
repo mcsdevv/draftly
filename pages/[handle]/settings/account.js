@@ -6,6 +6,7 @@ import useUser from "@hooks/use-user";
 import DashboardLayout from "@components/layouts/pages/dashboard";
 import SettingsLayout from "@components/layouts/components/settings";
 import ChangeUserName from "@components/settings/user/changeName";
+import ChangeUserPicture from "@components/settings/user/changePicture";
 import DeleteUser from "@components/settings/user/delete";
 
 function AccountSettings() {
@@ -15,6 +16,7 @@ function AccountSettings() {
   return scope && user ? (
     <>
       <ChangeUserName loading={!!user} />
+      <ChangeUserPicture loading={!!user} />
       <DeleteUser loading={!!user} />
     </>
   ) : null;
