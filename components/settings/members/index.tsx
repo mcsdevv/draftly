@@ -112,10 +112,12 @@ export default function Members() {
             value={memberEmail}
           />
           <Button
+            sx={{ cursor: "pointer", width: 100 }}
             disabled={memberEmail === ""}
             ml={2}
             onClick={handleOnSubmit}
             size={1}
+            variant="blue"
           >
             Submit
           </Button>

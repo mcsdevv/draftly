@@ -49,10 +49,12 @@ export default function ChangeUserName() {
           value={name}
         />
         <Button
+          sx={{ cursor: "pointer", width: 100 }}
           disabled={user?.name === name}
           ml={2}
           onClick={handleOnSubmitName}
           size={1}
+          variant="blue"
         >
           Submit
         </Button>

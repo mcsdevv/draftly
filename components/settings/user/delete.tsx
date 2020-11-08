@@ -53,10 +53,12 @@ export default function DeleteUser() {
           value={userName}
         />
         <Button
+          sx={{ cursor: "pointer", width: 100 }}
           disabled={user && userName !== user.name}
           ml={2}
           onClick={handleOnSubmitDelete}
           size={1}
+          variant="blue"
         >
           Submit
         </Button>

@@ -61,10 +61,12 @@ export default function DeleteTeam() {
           value={teamName}
         />
         <Button
+          sx={{ cursor: "pointer", width: 100 }}
           disabled={teamName !== scope?.name}
           ml={2}
           onClick={handleOnSubmitDelete}
           size={1}
+          variant="blue"
         >
           Submit
         </Button>

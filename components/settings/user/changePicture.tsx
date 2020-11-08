@@ -49,10 +49,12 @@ export default function ChangeUserPicture() {
           value={picture}
         />
         <Button
+          sx={{ cursor: "pointer", width: 100 }}
           disabled={user?.picture === picture}
           ml={2}
           onClick={handleOnSubmitPicture}
           size={1}
+          variant="blue"
         >
           Submit
         </Button>

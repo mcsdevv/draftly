@@ -46,10 +46,12 @@ export default function Reviews() {
           value={reviews}
         />
         <Button
+          sx={{ cursor: "pointer", width: 100 }}
           disabled={reviews === scope?.reviewsRequired?.toString()}
           ml={2}
           onClick={handleOnSubmitReviews}
           size={1}
+          variant="blue"
         >
           Submit
         </Button>
