@@ -22,6 +22,8 @@ const createTweetComment = async (req, res, uid) => {
     include: { addedBy: true },
   });
 
+  console.log(commentInserted);
+
   console.log("Added comment to:", twuid);
   res.status(200).json(commentInserted);
 };
