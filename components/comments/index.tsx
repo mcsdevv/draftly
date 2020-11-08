@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import useTweet from "@hooks/use-tweet";
 
 // * Modulz
-import { Button, Flex, Input } from "@modulz/radix";
+import { Button, Flex, Input, Text } from "@modulz/radix";
 
 // * Components
 import Comment from "./comment";
@@ -73,21 +73,42 @@ export default function Comments() {
         overflow: "scroll",
       }}
     >
-      {comments?.map((c: any) => (
-        <Comment
-          addedAt={c.addedAt}
-          addedBy={c.addedBy?.name}
-          avatar={c.addedBy?.picture}
-          comment={c.comment}
-          handleDeleteComment={() => handleDeleteComment(c.tcuid)}
-          key={c.tcuid}
-        />
-      ))}
+      {comments?.length > 0 ? (
+        comments.map((c: any) => (
+          <Comment
+            addedAt={c.addedAt}
+            addedBy={c.addedBy?.name}
+            avatar={c.addedBy?.picture}
+            comment={c.comment}
+            handleDeleteComment={() => handleDeleteComment(c.tcuid)}
+            key={c.tcuid}
+          />
+        ))
+      ) : (
+        <Flex
+          sx={{
+            alignItems: "center",
+            height: "100%",
+            justifyContent: "center",
+          }}
+        >
+          <Text as="p" mb={4}>
+            No comments present - why not add one?
+          </Text>
+        </Flex>
+      )}
       <Flex sx={{ marginTop: "auto" }} mt={4}>
-        <Input onChange={handleOnChange} size={1} value={comment} />
+        <Input
+          onChange={handleOnChange}
+          size={1}
+          mb="1px"
+          ml="1px"
+          value={comment}
+        />
         <Button
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: "pointer", width: 100 }}
           disabled={comment === ""}
+          mb="1px"
           ml={2}
           onClick={handleSubmitComment}
           size={1}
