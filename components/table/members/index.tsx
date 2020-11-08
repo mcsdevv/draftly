@@ -16,7 +16,7 @@ const MembersTable = ({ children, loading, type }: MembersTableProps) => (
       <Tr>
         <Th sx={{ width: "160px" }}>Name</Th>
         <Th sx={{ width: "160px" }}>Email</Th>
-        <Th sx={{ width: "60px" }}>
+        <Th sx={{ width: "80px" }}>
           {type === "member" ? "Upgrade" : "Downgrade"}
         </Th>
         <Th sx={{ width: "60px" }}>Remove</Th>

@@ -32,17 +32,17 @@ const MembersRow = ({
               overflow: "hidden",
               textOverflow: "ellipsis",
               margin: 0,
-              width: "160px",
+              width: 160,
             }}
           >
             {r}
           </Box>
         </Td>
       ))}
-      <Td>
+      <Td pr="0" sx={{ width: 60 }}>
         <IconButton
           disabled={activeUser}
-          sx={{ cursor: "pointer", marginLeft: "4px", width: "60px" }}
+          sx={{ cursor: "pointer" }}
           onClick={
             type === "member" ? handleUpgradeMember : handleDowngradeMember
           }
@@ -50,10 +50,10 @@ const MembersRow = ({
           {type === "member" ? <ArrowUpIcon /> : <ArrowDownIcon />}
         </IconButton>
       </Td>
-      <Td>
+      <Td pr="0" sx={{ width: 60 }}>
         <IconButton
           disabled={activeUser}
-          sx={{ cursor: "pointer", marginLeft: "4px", width: "60px" }}
+          sx={{ cursor: "pointer" }}
           onClick={handleRemoveMember}
         >
           <TrashIcon />
