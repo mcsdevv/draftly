@@ -1,5 +1,5 @@
 // * Libraries
-const Twitter = require("twitter");
+const Twitter = require("twitter-v2");
 import prisma from "@lib/api/db/prisma";
 
 // * Middleware
@@ -20,62 +20,46 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
   });
 
   // * Create new Twitter client with account and application keys
-  const twitterClient = new Twitter({
+  const client = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token_key: keys.tokenKey,
+    access_token: keys.tokenKey,
     access_token_secret: keys.tokenSecret,
   });
 
-  // * Get tweet details including basic metrics
-  twitterClient.get("statuses/show", { id: tweetId }, async function (
-    error,
-    tweet,
-    _response
-  ) {
-    if (error) {
-      throw new Error("Error getting metrics for tweet.");
-    }
-
-    // * Get all tweet mentions for the account (limit of 800 since status posted)
-    twitterClient.get(
-      "statuses/mentions_timeline",
-      { since_id: tweetId, trim_user: true },
-      async function (error, mentions, _response) {
-        if (error) {
-          throw new Error(`Error getting replies for tweet: ${twuid}`);
-        }
-
-        // * Filter the mentions for the relevant tweet only
-        const filteredMentions = mentions.filter(
-          (m) => m.in_reply_to_status_id_str === tweetId
-        );
-
-        // * Number of replies is the filtered mentions length
-        const replies = filteredMentions.length;
-
-        // * Update the metrics for the row
-        await prisma.tweets.update({
-          where: { twuid },
-          data: {
-            favorites: tweet.favorite_count,
-            replies,
-            retweets: tweet.retweet_count,
-          },
-        });
-
-        const metrics = {
-          favorites: tweet.favorite_count,
-          replies,
-          retweets: tweet.retweet_count,
-          metrics_updated_at: Date.now(),
-        };
-
-        console.log("Retrieved metrics for tweet:", twuid);
-        res.status(200).json(metrics);
-      }
-    );
+  // * Query client for both public and private metrics
+  const { data } = await client.get("tweets", {
+    ids: tweetId,
+    tweet: {
+      fields: ["non_public_metrics", "public_metrics"],
+    },
   });
+
+  // * Destructure array to flatten then extract objects
+  const [flat] = data;
+  const { non_public_metrics, public_metrics } = flat;
+
+  console.log("FLAT", flat);
+
+  // * Create metrics object to add to database
+  const metrics = {
+    impressions: non_public_metrics.impression_count,
+    retweets: public_metrics.retweet_count,
+    quoteRetweets: public_metrics.quote_count,
+    likes: public_metrics.like_count,
+    replies: public_metrics.reply_count,
+    urlClicks: non_public_metrics.url_link_clicks,
+    profileClicks: non_public_metrics.user_profile_clicks,
+  };
+
+  // * Update tweet in database with latest metrics
+  await prisma.tweets.update({
+    where: { twuid },
+    data: { ...metrics },
+  });
+
+  console.log("Retrieved metrics for tweet:", twuid);
+  res.status(200).json(metrics);
 };
 
 export default verify(isMember(withSentry(getTweetMetrics)));

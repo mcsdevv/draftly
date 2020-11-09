@@ -1,6 +1,6 @@
 generator client {
-  provider             = "prisma-client-js"
-  experimentalFeatures = ["connectOrCreate"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["connectOrCreate"]
 }
 
 datasource db {
@@ -12,7 +12,7 @@ model teams {
   tuid            String    @id @default("")
   name            String    @default("")
   protected       Boolean
-  handle          String    @default("")
+  handle          String    @unique @default("")
   avatar          String    @default("")
   plan            String    @default("")
   tokenSecret     String    @default("") @map("token_secret")
@@ -26,36 +26,30 @@ model teams {
   members         members[]
   tweets          tweets[]
 
-  @@index([handle])
-}
-
-model members {
-  uid  String @default("")
-  tuid String @default("")
-  role String @default("member")
-  team teams  @relation(fields: [tuid], references: [tuid])
-  user users  @relation(fields: [uid], references: [uid])
-
-  @@id([uid, tuid])
+  @@index([handle], name: "teams.handle_index")
 }
 
 model tweets {
   twuid            String      @id @default("")
-  tuid             String      @default("")
+  tuid             String?     @default("")
   campaign         String      @default("")
   type             String
   text             String
   createdAt        DateTime    @default(now()) @map("created_at")
   createdBy        String      @map("created_by")
-  updatedAt        DateTime    @default(now()) @map("updated_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
   metricsUpdatedAt DateTime    @default(now()) @map("metrics_updated_at")
   tweetId          String      @map("tweet_id")
-  retweets         Int
-  replies          Int
-  favorites        Int
+  impressions      Int         @default(0)
+  retweets         Int         @default(0)
+  quoteRetweets    Int         @default(0) @map("quote_retweets")
+  likes            Int         @default(0)
+  replies          Int         @default(0)
+  urlClicks        Int         @default(0) @map("url_clicks")
+  profileClicks    Int         @default(0) @map("profile_clicks")
   url              String?
   creator          users       @relation(fields: [createdBy], references: [uid])
-  team             teams       @relation(fields: [tuid], references: [tuid])
+  team             teams?      @relation(fields: [tuid], references: [tuid])
   metadata         metadata?   @relation(fields: [url], references: [url])
   approvals        approvals[]
   comments         comments[]
@@ -65,6 +59,7 @@ model approvals {
   tauid String
   twuid String
   uid   String
+  state String @default("requested")
   tweet tweets @relation(fields: [twuid], references: [twuid])
 
   @@id([tauid, twuid])
@@ -72,12 +67,12 @@ model approvals {
 
 model comments {
   tcuid   String   @id
-  twuid   String
-  uid     String
+  twuid   String?
   addedAt DateTime @default(now()) @map("added_at")
-  addedBy users    @relation(fields: [uid], references: [uid])
   comment String
-  tweet   tweets   @relation(fields: [twuid], references: [twuid])
+  uid     String
+  tweet   tweets?  @relation(fields: [twuid], references: [twuid])
+  addedBy users    @relation(fields: [uid], references: [uid])
 }
 
 model metadata {
@@ -124,9 +119,18 @@ model users {
   name      String     @default("")
   picture   String     @default("")
   createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @default(now()) @map("updated_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  comments  comments[]
   members   members[]
   teams     teams[]
   tweets    tweets[]
-  comments  comments[]
+}
+
+model members {
+  uid   String? @default("")
+  tuid  String? @default("")
+  role  String  @default("member")
+  tmuid String  @id @default("")
+  team  teams?  @relation(fields: [tuid], references: [tuid])
+  user  users?  @relation(fields: [uid], references: [uid])
 }

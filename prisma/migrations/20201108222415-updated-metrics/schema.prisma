@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["connectOrCreate"]
 }
 
 datasource db {
@@ -13,7 +14,6 @@ model teams {
   protected       Boolean
   handle          String    @unique @default("")
   avatar          String    @default("")
-  reviewsRequired Int       @default(0) @map("reviews_required")
   plan            String    @default("")
   tokenSecret     String    @default("") @map("token_secret")
   tokenKey        String    @default("") @map("token_key")
@@ -21,46 +21,45 @@ model teams {
   updatedAt       DateTime  @default(now()) @map("updated_at")
   createdAt       DateTime  @default(now()) @map("created_at")
   createdBy       String    @map("created_by")
+  reviewsRequired Int       @default(0) @map("reviews_required")
+  creator         users     @relation(fields: [createdBy], references: [uid])
   members         members[]
   tweets          tweets[]
 
-  @@index([handle])
-}
-
-model members {
-  uid  String @default("")
-  tuid String @default("")
-  role String @default("member")
-  team teams  @relation(fields: [tuid], references: [tuid])
-  user users  @relation(fields: [uid], references: [uid])
-
-  @@id([uid, tuid])
+  @@index([handle], name: "teams.handle_index")
 }
 
 model tweets {
   twuid            String      @id @default("")
-  tuid             String      @default("")
-  title            String
+  tuid             String?     @default("")
+  campaign         String      @default("")
   type             String
   text             String
   createdAt        DateTime    @default(now()) @map("created_at")
   createdBy        String      @map("created_by")
-  updatedAt        DateTime    @default(now()) @map("updated_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
   metricsUpdatedAt DateTime    @default(now()) @map("metrics_updated_at")
   tweetId          String      @map("tweet_id")
-  retweets         Int
-  replies          Int
-  favorites        Int
-  team             teams       @relation(fields: [tuid], references: [tuid])
+  impressions      Int         @default(0)
+  retweets         Int         @default(0)
+  quoteRetweets    Int         @default(0) @map("quote_retweets")
+  likes            Int         @default(0)
+  replies          Int         @default(0)
+  urlClicks        Int         @default(0) @map("url_clicks")
+  profileClicks    Int         @default(0) @map("profileClicks")
+  url              String?
+  creator          users       @relation(fields: [createdBy], references: [uid])
+  team             teams?      @relation(fields: [tuid], references: [tuid])
+  metadata         metadata?   @relation(fields: [url], references: [url])
   approvals        approvals[]
   comments         comments[]
-  metadata         metadata?
 }
 
 model approvals {
   tauid String
   twuid String
   uid   String
+  state String @default("requested")
   tweet tweets @relation(fields: [twuid], references: [twuid])
 
   @@id([tauid, twuid])
@@ -68,16 +67,16 @@ model approvals {
 
 model comments {
   tcuid   String   @id
-  twuid   String
+  twuid   String?
   addedAt DateTime @default(now()) @map("added_at")
-  addedBy String   @map("added_by")
   comment String
-  tweets  tweets   @relation(fields: [twuid], references: [twuid])
+  uid     String
+  tweet   tweets?  @relation(fields: [twuid], references: [twuid])
+  addedBy users    @relation(fields: [uid], references: [uid])
 }
 
 model metadata {
-  twmuid                      String   @id @default("")
-  twuid                       String?  @unique
+  url                         String   @unique @default("")
   og_url                      String?
   og_type                     String?
   og_title                    String?
@@ -111,16 +110,27 @@ model metadata {
   twitter_title               String?
   cardType                    String?
   fallbackImg                 Boolean?
-  url                         String?
-  tweet                       tweets?  @relation(fields: [twuid], references: [twuid])
+  tweets                      tweets[]
 }
 
 model users {
-  uid       String    @id @default("")
-  email     String    @unique @default("")
-  name      String    @default("")
-  picture   String    @default("")
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @default(now()) @map("updated_at")
+  uid       String     @id @default("")
+  email     String     @unique @default("")
+  name      String     @default("")
+  picture   String     @default("")
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  comments  comments[]
   members   members[]
+  teams     teams[]
+  tweets    tweets[]
+}
+
+model members {
+  uid   String? @default("")
+  tuid  String? @default("")
+  role  String  @default("member")
+  tmuid String  @id @default("")
+  team  teams?  @relation(fields: [tuid], references: [tuid])
+  user  users?  @relation(fields: [uid], references: [uid])
 }

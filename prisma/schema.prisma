@@ -40,9 +40,13 @@ model tweets {
   updatedAt        DateTime    @updatedAt @map("updated_at")
   metricsUpdatedAt DateTime    @default(now()) @map("metrics_updated_at")
   tweetId          String      @map("tweet_id")
-  retweets         Int
-  replies          Int
-  favorites        Int
+  impressions      Int         @default(0)
+  retweets         Int         @default(0)
+  quoteRetweets    Int         @default(0) @map("quote_retweets")
+  likes            Int         @default(0)
+  replies          Int         @default(0)
+  urlClicks        Int         @default(0) @map("url_clicks")
+  profileClicks    Int         @default(0) @map("profile_clicks")
   url              String?
   creator          users       @relation(fields: [createdBy], references: [uid])
   team             teams?      @relation(fields: [tuid], references: [tuid])

@@ -34,6 +34,7 @@ const createPublishedTweet = async (req, res, _uid, tuid) => {
     _response
   ) {
     if (error) {
+      console.log("ERROR", error);
       throw new Error(error);
     }
 

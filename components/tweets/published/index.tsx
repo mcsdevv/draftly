@@ -1,4 +1,5 @@
 // * Libraries
+import { useState } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
@@ -7,14 +8,20 @@ import useScope from "@hooks/use-scope";
 import useTweet from "@hooks/use-tweet";
 
 // * Modulz
-import { Card, Flex } from "@modulz/radix";
+import { Box, Divider, Flex, Heading } from "@modulz/radix";
 
 // * Components
 import Comments from "@components/comments";
-import Metrics from "@components/metrics";
+import Controls from "@components/controls/published";
+import Information from "@components/information/published";
+import Tab from "@components/tab";
 import Tweet from "@components/tweet";
 
 const PublishedTweet = () => {
+  // * Initialize state
+  const [tab, setTab] = useState("tweet");
+
+  // * Initialize hooks
   const { scope } = useScope();
   const { setPublished } = usePublished();
   const router = useRouter();
@@ -44,15 +51,56 @@ const PublishedTweet = () => {
     }
   };
 
-  return tweet && twuid ? (
-    <Card sx={{ height: "fit-content", width: "100%" }}>
-      <Flex sx={{ height: "fit-content", width: "100%" }}>
-        <Tweet metadata={tweet.metadata} scope={scope} text={tweet.text}>
-          <Metrics handleDelete={handleDelete} />
-        </Tweet>
-        <Comments />
+  return tweet ? (
+    <Box sx={{ height: "fit-content", width: "100%" }}>
+      <Flex sx={{ height: 532, width: "100%" }}>
+        <Flex sx={{ flexDirection: "column", width: "100%" }}>
+          <Flex mb={4}>
+            <Tab
+              handleOnClick={() => setTab("tweet")}
+              name="Tweet"
+              selected={tab === "tweet"}
+            />
+            <Tab
+              handleOnClick={() => setTab("comments")}
+              name="Comments"
+              selected={tab === "comments"}
+            />
+          </Flex>
+          {tab === "tweet" ? (
+            <Flex
+              sx={{
+                flexDirection: "column",
+                height: "100%",
+                justifyContent: "space-between",
+              }}
+            >
+              <Information
+                approvals={tweet.approvals}
+                createdAt={tweet.createdAt}
+                createdBy={tweet.creator}
+                lastUpdated={tweet.updatedAt}
+                members={[...scope.members, ...scope.owners]}
+                reviewsRequired={scope.reviewsRequired}
+                team={scope}
+                tweet={tweet}
+              />
+              <Controls />
+            </Flex>
+          ) : (
+            <Comments />
+          )}
+        </Flex>
+        {/* <Metrics handleDelete={handleDelete} /> */}
+        <Box ml="16px">
+          <Heading as="h2" size={4}>
+            {tweet.campaign}
+          </Heading>
+          <Divider mb={4} />
+          <Tweet metadata={tweet.metadata} scope={scope} text={tweet.text} />
+        </Box>
       </Flex>
-    </Card>
+    </Box>
   ) : null;
 };
 

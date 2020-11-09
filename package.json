@@ -8,7 +8,7 @@
   "dependencies": {
     "@modulz/radix": "^0.0.1-beta.43",
     "@modulz/radix-icons": "^3.1.0",
-    "@prisma/client": "2.10.0",
+    "@prisma/client": "2.10.2",
     "@sendgrid/mail": "^7.3.0",
     "@sentry/browser": "^5.23.0",
     "@sentry/node": "^5.23.0",
@@ -39,18 +39,23 @@
     "swr": "0.3.6",
     "tldjs": "^2.3.1",
     "twitter": "^1.7.1",
+    "twitter-v2": "^0.1.2",
     "uuid": "^8.3.1"
   },
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db-introspect": "prisma introspect",
+    "db-generate": "prisma generate",
+    "db-save": "prisma migrate save --experimental",
+    "db-up": "prisma migrate up --experimental"
   },
   "engines": {
     "node": "10.x"
   },
   "devDependencies": {
-    "@prisma/cli": "2.10.0",
+    "@prisma/cli": "2.10.2",
     "@types/react": "^16.9.55",
     "typescript": "^4.0.3"
   }

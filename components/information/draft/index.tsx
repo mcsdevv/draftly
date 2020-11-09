@@ -16,7 +16,7 @@ import {
 } from "@modulz/radix";
 
 // * Components
-import Approvals from "@components/information/approvals";
+import Approvals from "@components/information/draft/approvals";
 
 interface InformationProps {
   approvals: any[];

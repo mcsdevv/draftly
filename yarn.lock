@@ -1226,30 +1226,30 @@
   resolved "https://registry.yarnpkg.com/@prisma/bar/-/bar-0.0.0.tgz#9daff159a1a09abf7665a8b6e40ddc1fdc1ed4f7"
   integrity sha512-3nez9n/vMyAr4+nmqj6Xh3cGZbreYHr3RWX0vgtrFRpiN6otuCzL+9HW8MW/DfZNuFz5YyIdfwnRSPueUZPoWQ==
 
-"@prisma/cli@2.10.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.10.0.tgz#a51baf3a38c9e12c7fec489b675c1d4efc8aff05"
-  integrity sha512-qJl891HvroM1oEWYeG8+h/JJ+wNi4MCyh7x+HAnmrIYGFW45QAsCWjHbn0mUuCSXCy3KwiN/iAwaY2Fr7ZNJEw==
+"@prisma/cli@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.10.2.tgz#74191358fac59c82193adced84b94a2cabe1d420"
+  integrity sha512-fpWwJNA5VO66d4RZpbvY6bXV5bisYCIa/Ae0TWPxXCKPyErbHQa0+vznq0M6v++VpfQC0v32E3k+2GIv18JlCQ==
   dependencies:
     "@prisma/bar" "^0.0.0"
-    "@prisma/engines" "2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c"
+    "@prisma/engines" "2.10.1-6-7d0087eadc7265e12d4b8d8c3516b02c4c965111"
 
-"@prisma/client@2.10.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.10.0.tgz#967223bb1e1b21ddea9a098dc9758f7ace03d828"
-  integrity sha512-TZoT5SYmCkVqMt8rKp3NAUm6UTqjNUMp2W94IcVn2d5DVkOR5TZGkxP/u8KuSoY3KQWIG+KQy/azIKetKxc+LQ==
+"@prisma/client@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.10.2.tgz#2f37f3ea9aefa24cd80f1ff2e196250a5ec7ba75"
+  integrity sha512-55YKXgm5IQP/roKZCTn8ySFjgNwMSS/x3kOcUuDzpDtHXGpSXUkpeH6eqwnj6iq17DLxYqqw8gDGb4+WnIlohw==
   dependencies:
-    "@prisma/engines-version" "2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c"
+    "@prisma/engines-version" "2.10.1-6-7d0087eadc7265e12d4b8d8c3516b02c4c965111"
 
-"@prisma/engines-version@2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c":
-  version "2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c"
-  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c.tgz#4d02db85e5a7250676a648d3eab0d579455c1eea"
-  integrity sha512-8dW/oSDBv3fovNzTn2sjpITgD4IhHYPnmkbPp4Gv4rqjB14tpB0OuU1xkygVRIRJisTBRoYyjfiVaaWea/e57A==
+"@prisma/engines-version@2.10.1-6-7d0087eadc7265e12d4b8d8c3516b02c4c965111":
+  version "2.10.1-6-7d0087eadc7265e12d4b8d8c3516b02c4c965111"
+  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-2.10.1-6-7d0087eadc7265e12d4b8d8c3516b02c4c965111.tgz#7f96aa61085fc803f81b3df0fa32297909ce4b08"
+  integrity sha512-OuOSTvEzXJwCJzNqZ9N/+J3lO64HgX9uGiVOuvlTrRSXoLZk0Q2IiLAx8qhY1U7jPpHJ7LTlZuGNScimqonpJg==
 
-"@prisma/engines@2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c":
-  version "2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c"
-  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-2.10.0-16-af1ae11a423edfb5d24092a85be11fa77c5e499c.tgz#3a981953cef6fc0524fd7a8f8c5d714202b9c26b"
-  integrity sha512-59htYpsqdVVe7aElozUZ3/eV/ujwrUvaE+KVcNyzFh0yFIL7FLbSly55KWlyUdDWyB+0eTyd/yV7E/iKYnOF/Q==
+"@prisma/engines@2.10.1-6-7d0087eadc7265e12d4b8d8c3516b02c4c965111":
+  version "2.10.1-6-7d0087eadc7265e12d4b8d8c3516b02c4c965111"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-2.10.1-6-7d0087eadc7265e12d4b8d8c3516b02c4c965111.tgz#614e82316270333d31a1581e533ef0c275b2b5f6"
+  integrity sha512-F/I8mmYMQnEFX47jl7Su8Pmvpua1wti9Uq3IUlSCqLQsrOmuMj+GKQ5nYEewmcynqBlyVcpUyxF5iAWbmUVdjw==
 
 "@sendgrid/client@^7.3.0":
   version "7.3.0"
@@ -2581,6 +2581,11 @@ crypto-browserify@3.12.0, crypto-browserify@^3.11.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
     randomfill "^1.0.3"
+
+crypto@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/crypto/-/crypto-1.0.1.tgz#2af1b7cad8175d24c8a1b0778255794a21803037"
+  integrity sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==
 
 css-color-keywords@^1.0.0:
   version "1.0.0"
@@ -4721,6 +4726,11 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
+oauth-1.0a@2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/oauth-1.0a/-/oauth-1.0a-2.2.6.tgz#eadbccdb3bceea412d24586e6f39b2b412f0e491"
+  integrity sha512-6bkxv3N4Gu5lty4viIcIAnq5GbxECviMBeKR3WX/q87SPQ8E8aursPZUtsXDnxCs787af09WPRBLqYrf/lwoYQ==
+
 oauth-sign@~0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
@@ -5772,6 +5782,13 @@ split-string@^3.0.1, split-string@^3.0.2:
   dependencies:
     extend-shallow "^3.0.0"
 
+split@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/split/-/split-1.0.1.tgz#605bd9be303aa59fb35f9229fbea0ddec9ea07d9"
+  integrity sha512-mTyOoPbrivtXnwnIxZRFYRrPNtEFKlpB2fvjSnCQUiAA6qAZzqwna5envK4uk6OIeP17CsdF3rSBGYVBsU0Tkg==
+  dependencies:
+    through "2"
+
 sql-query@^0.1.27:
   version "0.1.27"
   resolved "https://registry.yarnpkg.com/sql-query/-/sql-query-0.1.27.tgz#f854672e1e3c09df773d8b343c6ad0902f92d905"
@@ -6109,6 +6126,11 @@ through2@^2.0.0:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
 
+through@2:
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
+  integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
+
 timers-browserify@^2.0.4:
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.11.tgz#800b1f3eee272e5bc53ee465a04d0e804c31211f"
@@ -6216,6 +6238,17 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
+
+twitter-v2@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/twitter-v2/-/twitter-v2-0.1.2.tgz#3510a9a55e035350dcaa195642830af2da153d69"
+  integrity sha512-DyPW57foYv2eE6XCeM+jSC1/Ig5E8wSxZXJJL0bX6mH6owIrda31EXKz/G1Q4PAf+YOQ9a6FRmDbvp+3sZwv3g==
+  dependencies:
+    abort-controller "3.0.0"
+    crypto "1.0.1"
+    node-fetch "2.6.0"
+    oauth-1.0a "2.2.6"
+    split "1.0.1"
 
 twitter@^1.7.1:
   version "1.7.1"
