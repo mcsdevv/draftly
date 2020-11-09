@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
+import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
 import useTweet from "@hooks/use-tweet";
 import useUser from "@hooks/use-user";
@@ -14,8 +15,9 @@ import { Box, Button, Flex, Tooltip } from "@modulz/radix";
 const Controls = () => {
   // * Box component surrounds buttons to allow for tooltips to be shown on disabled button.
   // * Initialize hooks
-  const { scope } = useScope();
   const router = useRouter();
+  const { scope } = useScope();
+  const { setPublished } = usePublished();
   const { user } = useUser();
 
   // * Get twuid from route query
@@ -28,8 +30,23 @@ const Controls = () => {
     console.log("Copied");
   };
 
-  const handleDelete = () => {
-    console.log("Modal?");
+  const handleDelete = async () => {
+    const url = "/api/tweet/published/delete";
+    const res = await fetch(url, {
+      method: "DELETE",
+      body: JSON.stringify({
+        tweetId: tweet.tweetId,
+        twuid,
+      }),
+    });
+    if (res.status === 200) {
+      setPublished([]);
+      router.push(
+        "/[handle]/tweets/published",
+        `/${router.query.handle}/tweets/published/`,
+        { shallow: true }
+      );
+    }
   };
 
   const handleRefresh = () => {

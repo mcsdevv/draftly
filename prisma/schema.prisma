@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://doadmin:jukoext49vlfnsdb@draftly-prod-do-user-8096180-0.b.db.ondigitalocean.com:25061/draftly-prod-pool?sslmode=require"
 }
 
 model teams {

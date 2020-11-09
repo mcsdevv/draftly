@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
-import usePublished from "@hooks/use-published";
 import useScope from "@hooks/use-scope";
 import useTweet from "@hooks/use-tweet";
 
@@ -23,7 +22,6 @@ const PublishedTweet = () => {
 
   // * Initialize hooks
   const { scope } = useScope();
-  const { setPublished } = usePublished();
   const router = useRouter();
 
   // * Get twuid from route query
@@ -31,25 +29,6 @@ const PublishedTweet = () => {
 
   // * Get tweet from twuid
   const { tweet } = useTweet(twuid?.toString());
-
-  const handleDelete = async () => {
-    const url = "/api/tweet/published/delete";
-    const res = await fetch(url, {
-      method: "DELETE",
-      body: JSON.stringify({
-        tweetId: tweet.tweetId,
-        twuid,
-      }),
-    });
-    if (res.status === 200) {
-      setPublished([]);
-      router.push(
-        "/[handle]/tweets/published",
-        `/${router.query.handle}/tweets/published/`,
-        { shallow: true }
-      );
-    }
-  };
 
   return tweet ? (
     <Box sx={{ height: "fit-content", width: "100%" }}>
@@ -76,13 +55,8 @@ const PublishedTweet = () => {
               }}
             >
               <Information
-                approvals={tweet.approvals}
                 createdAt={tweet.createdAt}
                 createdBy={tweet.creator}
-                lastUpdated={tweet.updatedAt}
-                members={[...scope.members, ...scope.owners]}
-                reviewsRequired={scope.reviewsRequired}
-                team={scope}
                 tweet={tweet}
               />
               <Controls />

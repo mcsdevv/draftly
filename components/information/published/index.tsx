@@ -1,6 +1,6 @@
 // * Libraries
 import ago from "s-ago";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 // * Modulz
 import {
@@ -16,23 +16,12 @@ import {
 } from "@modulz/radix";
 
 interface InformationProps {
-  approvals: any[];
   createdAt: Date;
   createdBy: any;
-  lastUpdated: Date;
-  members: any[];
-  reviewsRequired: number;
-  team: any;
   tweet: any;
 }
 
-const Information = ({
-  approvals,
-  createdAt,
-  createdBy,
-  members,
-  tweet,
-}: InformationProps) => {
+const Information = ({ createdAt, createdBy, tweet }: InformationProps) => {
   // * Initialize theme to the default
   const [theme, setTheme] = useState("default");
 
@@ -96,43 +85,6 @@ const Information = ({
     lightsOut: lightsOutTheme,
   };
 
-  // * All members of the team that have approved
-  const approved = useMemo(
-    () =>
-      members
-        .filter((m) => {
-          // * Filter out members that have not approved the tweet
-          const approval = approvals.find((a) => a.uid === m.uid);
-          if (approval?.state === "approved") return m;
-        })
-        .map((m) => {
-          // * Add the approval data to each member object
-          const approval = approvals.find((a) => a.uid === m.uid);
-          return { ...m, ...approval };
-        }),
-    [approvals, members]
-  );
-
-  // * All members of the team that have been requested to review
-  const requested = useMemo(
-    () =>
-      members.filter((m) => {
-        const approval = approvals.find((a) => a.uid === m.uid);
-        if (approval?.state === "requested") return m;
-      }),
-    [approvals, members]
-  );
-
-  // * All members of the team that have NOT been requested to review
-  const unrequested = useMemo(
-    () =>
-      members.filter((m) => {
-        const approval = approvals.find((a) => a.uid === m.uid);
-        if (!approval) return m;
-      }),
-    [approvals, members]
-  );
-
   return (
     <Box>
       <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
@@ -169,8 +121,26 @@ const Information = ({
       </Grid>
       <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
         <Box>
+          <Subheading mb={1}>Theme</Subheading>
+          <Select
+            onValueChange={handleOnChange}
+            value={theme}
+            sx={{ width: "120px" }}
+          >
+            <Option label="Default" value="default" />
+            <Option label="Dim" value="dim" />
+            <Option label="Lights" value="lightsOut" />
+          </Select>
+        </Box>
+        <Box>
           <Subheading mb={1}>Impressions</Subheading>
           <Text>{tweet.impressions}</Text>
+        </Box>
+      </Grid>
+      <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
+        <Box>
+          <Subheading mb={1}>Likes</Subheading>
+          <Text>{tweet.likes}</Text>
         </Box>
         <Box>
           <Subheading mb={1}>Replies</Subheading>
@@ -185,18 +155,6 @@ const Information = ({
         <Box>
           <Subheading mb={1}>Quotes Retweets</Subheading>
           <Text>{tweet.quoteRetweets}</Text>
-        </Box>
-      </Grid>
-      <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
-        <Box>
-          <Subheading mb={1}>Likes</Subheading>
-          <Text>{tweet.likes}</Text>
-        </Box>
-        <Box>
-          <Subheading mb={1}>Metadata Type</Subheading>
-          <Text sx={{ textTransform: "capitalize" }}>
-            {tweet.metadata.cardType}
-          </Text>
         </Box>
       </Grid>
       <Grid mb={4} sx={{ gap: 20, gridTemplateColumns: "1fr 1fr" }}>
