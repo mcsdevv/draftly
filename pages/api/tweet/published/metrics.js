@@ -39,8 +39,6 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
   const [flat] = data;
   const { non_public_metrics, public_metrics } = flat;
 
-  console.log("FLAT", flat);
-
   // * Create metrics object to add to database
   const metrics = {
     impressions: non_public_metrics.impression_count,

@@ -1,11 +1,10 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["connectOrCreate"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://doadmin:jukoext49vlfnsdb@draftly-prod-do-user-8096180-0.b.db.ondigitalocean.com:25061/draftly-prod-pool?sslmode=require"
+  url      = env("DATABASE_URL")
 }
 
 model teams {

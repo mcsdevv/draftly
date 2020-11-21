@@ -65,7 +65,6 @@ const PublishedTweet = () => {
             <Comments />
           )}
         </Flex>
-        {/* <Metrics handleDelete={handleDelete} /> */}
         <Box ml="16px">
           <Heading as="h2" size={4}>
             {tweet.campaign}

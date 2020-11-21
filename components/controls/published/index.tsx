@@ -1,6 +1,5 @@
 // * Libraries
-import Link from "next/link";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 
 // * Hooks
@@ -24,7 +23,25 @@ const Controls = () => {
   const { twuid } = router.query;
 
   // * Get tweet from twuid
-  const { tweet } = useTweet(twuid?.toString());
+  const { setTweet, tweet } = useTweet(twuid?.toString());
+
+  // * Update metrics on page load, serve stale until then
+  useEffect(() => {
+    getMetrics();
+  }, []);
+
+  // * Gets metrics for the specified tweet and mutates SWR
+  const getMetrics = async () => {
+    const url = "/api/tweet/published/metrics";
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ tweetId: tweet.tweetId, twuid }),
+    });
+    if (res.status === 200) {
+      const newMetrics = await res.json();
+      setTweet({ tweet: { ...tweet, ...newMetrics } });
+    }
+  };
 
   const handleCopy = () => {
     console.log("Copied");
@@ -50,7 +67,7 @@ const Controls = () => {
   };
 
   const handleRefresh = () => {
-    console.log("Modal?");
+    getMetrics();
   };
 
   const isOwner = useMemo(
@@ -62,11 +79,12 @@ const Controls = () => {
       <Flex sx={{ justifyContent: "space-between" }}>
         <Tooltip label="Click to view this tweet live." align="center">
           <Box>
-            <Link
+            <a
               href={`https://twitter.com/${scope.handle}/status/${tweet.tweetId}`}
+              target="_blank"
             >
               <Button sx={{ cursor: "pointer", width: 100 }}>View</Button>
-            </Link>
+            </a>
           </Box>
         </Tooltip>
         <Tooltip label="Click to copy a link to the tweet." align="center">
