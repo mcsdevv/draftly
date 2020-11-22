@@ -27,6 +27,9 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
     access_token_secret: keys.tokenSecret,
   });
 
+  console.log("TWEET ID", tweetId);
+  console.log("KEYS", keys);
+
   // * Query client for both public and private metrics
   const { data } = await client.get("tweets", {
     ids: tweetId,

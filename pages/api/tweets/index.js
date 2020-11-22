@@ -11,12 +11,6 @@ const getAllTweets = async (req, res, _uid, tuid) => {
 
   const tweets = await prisma.tweets.findMany({
     where: { tuid },
-    include: {
-      approvals: true,
-      comments: true,
-      creator: true,
-      metadata: true,
-    },
   });
 
   // * Format draft tweets
