@@ -27,26 +27,18 @@ const Controls = () => {
 
   // * Update metrics on page load, serve stale until then
   useEffect(() => {
-    getMetrics();
+    handleRefreshMetrics();
   }, []);
 
-  // * Gets metrics for the specified tweet and mutates SWR
-  const getMetrics = async () => {
-    const url = "/api/tweet/published/metrics";
-    const res = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify({ tweetId: tweet.tweetId, twuid }),
-    });
-    if (res.status === 200) {
-      const newMetrics = await res.json();
-      setTweet({ tweet: { ...tweet, ...newMetrics } });
-    }
-  };
-
+  // * Copies tweet URL to clipboard
   const handleCopy = () => {
-    console.log("Copied");
+    navigator.clipboard.writeText(
+      `https://twitter.com/${scope.handle}/status/${tweet.tweetId}`
+    );
   };
 
+  // * Deletes tweet from both app and Twitter
+  // TODO Modal to give the option of either
   const handleDelete = async () => {
     const url = "/api/tweet/published/delete";
     const res = await fetch(url, {
@@ -66,8 +58,17 @@ const Controls = () => {
     }
   };
 
-  const handleRefresh = () => {
-    getMetrics();
+  // * Gets metrics for the specified tweet and mutates SWR
+  const handleRefreshMetrics = async () => {
+    const url = "/api/tweet/published/metrics";
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ tweetId: tweet.tweetId, twuid }),
+    });
+    if (res.status === 200) {
+      const newMetrics = await res.json();
+      setTweet({ tweet: { ...tweet, ...newMetrics } });
+    }
   };
 
   const isOwner = useMemo(
@@ -98,7 +99,7 @@ const Controls = () => {
           <Box>
             <Button
               sx={{ cursor: "pointer", width: 100 }}
-              onClick={handleRefresh}
+              onClick={handleRefreshMetrics}
             >
               Refresh
             </Button>
