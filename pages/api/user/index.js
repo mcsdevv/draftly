@@ -8,6 +8,7 @@ import withSentry from "@lib/api/middleware/withSentry";
 const getUserDetails = async (_req, res, uid) => {
   console.time("PROFILE");
   console.time("USER");
+
   // * Select user with matching uid
   const user = await prisma.users.findOne({
     where: { uid },

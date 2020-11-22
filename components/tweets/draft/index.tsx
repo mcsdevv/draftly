@@ -20,8 +20,8 @@ import { Box, Divider, Flex, Heading } from "@modulz/radix";
 // * Components
 import Comments from "@components/comments";
 import ComposeFields from "@components/compose/fields";
-import Controls from "@components/controls";
-import Information from "@components/information";
+import Controls from "@components/controls/draft";
+import Information from "@components/information/draft";
 import Tab from "@components/tab";
 import Tweet from "@components/tweet";
 

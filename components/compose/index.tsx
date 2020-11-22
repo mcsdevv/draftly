@@ -127,7 +127,7 @@ const ComposeTweet = () => {
           <Heading as="h2" size={4} truncate>
             {campaign || "New Campaign..."}
           </Heading>
-          <Divider mb={2} />
+          <Divider mb={4} />
           <Tweet metadata={metadata} scope={scope} text={tweet} />
         </Box>
       </Flex>

@@ -2,6 +2,28 @@
   "version": "0.3.14-fixed",
   "steps": [
     {
+      "tag": "CreateSource",
+      "source": "db"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Source",
+        "source": "db"
+      },
+      "argument": "provider",
+      "value": "\"postgresql\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Source",
+        "source": "db"
+      },
+      "argument": "url",
+      "value": "\"***\""
+    },
+    {
       "tag": "CreateModel",
       "model": "teams"
     },
@@ -161,63 +183,6 @@
       },
       "argument": "",
       "value": "\"\""
-    },
-    {
-      "tag": "CreateField",
-      "model": "teams",
-      "field": "reviewsRequired",
-      "type": "Int",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "teams",
-          "field": "reviewsRequired"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "teams",
-          "field": "reviewsRequired"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "0"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "teams",
-          "field": "reviewsRequired"
-        },
-        "directive": "map"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "teams",
-          "field": "reviewsRequired"
-        },
-        "directive": "map"
-      },
-      "argument": "",
-      "value": "\"reviews_required\""
     },
     {
       "tag": "CreateField",
@@ -571,6 +536,109 @@
     {
       "tag": "CreateField",
       "model": "teams",
+      "field": "reviewsRequired",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "teams",
+          "field": "reviewsRequired"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "teams",
+          "field": "reviewsRequired"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "teams",
+          "field": "reviewsRequired"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "teams",
+          "field": "reviewsRequired"
+        },
+        "directive": "map"
+      },
+      "argument": "",
+      "value": "\"reviews_required\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "teams",
+      "field": "creator",
+      "type": "users",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "teams",
+          "field": "creator"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "teams",
+          "field": "creator"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[createdBy]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "teams",
+          "field": "creator"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[uid]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "teams",
       "field": "members",
       "type": "members",
       "arity": "List"
@@ -592,226 +660,15 @@
             {
               "name": "",
               "value": "[handle]"
+            },
+            {
+              "name": "name",
+              "value": "\"teams.handle_index\""
             }
           ]
         },
         "directive": "index"
       }
-    },
-    {
-      "tag": "CreateModel",
-      "model": "members"
-    },
-    {
-      "tag": "CreateField",
-      "model": "members",
-      "field": "uid",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "uid"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "uid"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "\"\""
-    },
-    {
-      "tag": "CreateField",
-      "model": "members",
-      "field": "tuid",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "tuid"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "tuid"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "\"\""
-    },
-    {
-      "tag": "CreateField",
-      "model": "members",
-      "field": "role",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "role"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "role"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "\"member\""
-    },
-    {
-      "tag": "CreateField",
-      "model": "members",
-      "field": "team",
-      "type": "teams",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "team"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "team"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[tuid]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "team"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[tuid]"
-    },
-    {
-      "tag": "CreateField",
-      "model": "members",
-      "field": "user",
-      "type": "users",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "user"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "user"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[uid]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "members",
-          "field": "user"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[uid]"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Model",
-          "model": "members"
-        },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Model",
-          "model": "members"
-        },
-        "directive": "id"
-      },
-      "argument": "",
-      "value": "[uid, tuid]"
     },
     {
       "tag": "CreateModel",
@@ -865,7 +722,7 @@
       "model": "tweets",
       "field": "tuid",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -895,9 +752,34 @@
     {
       "tag": "CreateField",
       "model": "tweets",
-      "field": "title",
+      "field": "campaign",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "campaign"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "campaign"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
     },
     {
       "tag": "CreateField",
@@ -1017,22 +899,8 @@
           "model": "tweets",
           "field": "updatedAt"
         },
-        "directive": "default"
+        "directive": "updatedAt"
       }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "tweets",
-          "field": "updatedAt"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "now()"
     },
     {
       "tag": "CreateDirective",
@@ -1151,9 +1019,155 @@
     {
       "tag": "CreateField",
       "model": "tweets",
+      "field": "impressions",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "impressions"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "impressions"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
+    },
+    {
+      "tag": "CreateField",
+      "model": "tweets",
       "field": "retweets",
       "type": "Int",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "retweets"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "retweets"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
+    },
+    {
+      "tag": "CreateField",
+      "model": "tweets",
+      "field": "quoteRetweets",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "quoteRetweets"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "quoteRetweets"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "quoteRetweets"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "quoteRetweets"
+        },
+        "directive": "map"
+      },
+      "argument": "",
+      "value": "\"quote_retweets\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "tweets",
+      "field": "likes",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "likes"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "likes"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
     },
     {
       "tag": "CreateField",
@@ -1163,18 +1177,203 @@
       "arity": "Required"
     },
     {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "replies"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "replies"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
+    },
+    {
       "tag": "CreateField",
       "model": "tweets",
-      "field": "favorites",
+      "field": "urlClicks",
       "type": "Int",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "urlClicks"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "urlClicks"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "urlClicks"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "urlClicks"
+        },
+        "directive": "map"
+      },
+      "argument": "",
+      "value": "\"url_clicks\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "tweets",
+      "field": "profileClicks",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "profileClicks"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "profileClicks"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "profileClicks"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "profileClicks"
+        },
+        "directive": "map"
+      },
+      "argument": "",
+      "value": "\"profile_clicks\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "tweets",
+      "field": "url",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "tweets",
+      "field": "creator",
+      "type": "users",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "creator"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "creator"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[createdBy]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "creator"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[uid]"
     },
     {
       "tag": "CreateField",
       "model": "tweets",
       "field": "team",
       "type": "teams",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -1218,6 +1417,52 @@
     {
       "tag": "CreateField",
       "model": "tweets",
+      "field": "metadata",
+      "type": "metadata",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "metadata"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "metadata"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[url]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "tweets",
+          "field": "metadata"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[url]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "tweets",
       "field": "approvals",
       "type": "approvals",
       "arity": "List"
@@ -1228,13 +1473,6 @@
       "field": "comments",
       "type": "comments",
       "arity": "List"
-    },
-    {
-      "tag": "CreateField",
-      "model": "tweets",
-      "field": "metadata",
-      "type": "metadata",
-      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -1260,6 +1498,38 @@
       "field": "uid",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "approvals",
+      "field": "state",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "approvals",
+          "field": "state"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "approvals",
+          "field": "state"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"requested\""
     },
     {
       "tag": "CreateField",
@@ -1357,7 +1627,7 @@
       "model": "comments",
       "field": "twuid",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -1419,38 +1689,6 @@
     {
       "tag": "CreateField",
       "model": "comments",
-      "field": "addedBy",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "comments",
-          "field": "addedBy"
-        },
-        "directive": "map"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "comments",
-          "field": "addedBy"
-        },
-        "directive": "map"
-      },
-      "argument": "",
-      "value": "\"added_by\""
-    },
-    {
-      "tag": "CreateField",
-      "model": "comments",
       "field": "comment",
       "type": "String",
       "arity": "Required"
@@ -1458,9 +1696,16 @@
     {
       "tag": "CreateField",
       "model": "comments",
-      "field": "tweets",
-      "type": "tweets",
+      "field": "uid",
+      "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "comments",
+      "field": "tweet",
+      "type": "tweets",
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -1468,7 +1713,7 @@
         "path": {
           "tag": "Field",
           "model": "comments",
-          "field": "tweets"
+          "field": "tweet"
         },
         "directive": "relation"
       }
@@ -1480,7 +1725,7 @@
         "path": {
           "tag": "Field",
           "model": "comments",
-          "field": "tweets"
+          "field": "tweet"
         },
         "directive": "relation"
       },
@@ -1494,12 +1739,58 @@
         "path": {
           "tag": "Field",
           "model": "comments",
-          "field": "tweets"
+          "field": "tweet"
         },
         "directive": "relation"
       },
       "argument": "references",
       "value": "[twuid]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "comments",
+      "field": "addedBy",
+      "type": "users",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "comments",
+          "field": "addedBy"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "comments",
+          "field": "addedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[uid]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "comments",
+          "field": "addedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[uid]"
     },
     {
       "tag": "CreateModel",
@@ -1508,7 +1799,7 @@
     {
       "tag": "CreateField",
       "model": "metadata",
-      "field": "twmuid",
+      "field": "url",
       "type": "String",
       "arity": "Required"
     },
@@ -1518,9 +1809,9 @@
         "path": {
           "tag": "Field",
           "model": "metadata",
-          "field": "twmuid"
+          "field": "url"
         },
-        "directive": "id"
+        "directive": "unique"
       }
     },
     {
@@ -1529,7 +1820,7 @@
         "path": {
           "tag": "Field",
           "model": "metadata",
-          "field": "twmuid"
+          "field": "url"
         },
         "directive": "default"
       }
@@ -1541,30 +1832,12 @@
         "path": {
           "tag": "Field",
           "model": "metadata",
-          "field": "twmuid"
+          "field": "url"
         },
         "directive": "default"
       },
       "argument": "",
       "value": "\"\""
-    },
-    {
-      "tag": "CreateField",
-      "model": "metadata",
-      "field": "twuid",
-      "type": "String",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "metadata",
-          "field": "twuid"
-        },
-        "directive": "unique"
-      }
     },
     {
       "tag": "CreateField",
@@ -1800,55 +2073,9 @@
     {
       "tag": "CreateField",
       "model": "metadata",
-      "field": "url",
-      "type": "String",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "metadata",
-      "field": "tweet",
+      "field": "tweets",
       "type": "tweets",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "metadata",
-          "field": "tweet"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "metadata",
-          "field": "tweet"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[twuid]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "metadata",
-          "field": "tweet"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[twuid]"
+      "arity": "List"
     },
     {
       "tag": "CreateModel",
@@ -2076,22 +2303,8 @@
           "model": "users",
           "field": "updatedAt"
         },
-        "directive": "default"
+        "directive": "updatedAt"
       }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "users",
-          "field": "updatedAt"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "now()"
     },
     {
       "tag": "CreateDirective",
@@ -2121,37 +2334,265 @@
     {
       "tag": "CreateField",
       "model": "users",
+      "field": "comments",
+      "type": "comments",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "users",
       "field": "members",
       "type": "members",
       "arity": "List"
     },
     {
-      "tag": "DeleteModel",
-      "model": "Team"
+      "tag": "CreateField",
+      "model": "users",
+      "field": "teams",
+      "type": "teams",
+      "arity": "List"
     },
     {
-      "tag": "DeleteModel",
-      "model": "Membership"
+      "tag": "CreateField",
+      "model": "users",
+      "field": "tweets",
+      "type": "tweets",
+      "arity": "List"
     },
     {
-      "tag": "DeleteModel",
-      "model": "Tweet"
+      "tag": "CreateModel",
+      "model": "members"
     },
     {
-      "tag": "DeleteModel",
-      "model": "Approval"
+      "tag": "CreateField",
+      "model": "members",
+      "field": "uid",
+      "type": "String",
+      "arity": "Optional"
     },
     {
-      "tag": "DeleteModel",
-      "model": "Comment"
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "uid"
+        },
+        "directive": "default"
+      }
     },
     {
-      "tag": "DeleteModel",
-      "model": "Metadata"
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "uid"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
     },
     {
-      "tag": "DeleteModel",
-      "model": "User"
+      "tag": "CreateField",
+      "model": "members",
+      "field": "tuid",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "tuid"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "tuid"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "members",
+      "field": "role",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "role"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "role"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"member\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "members",
+      "field": "tmuid",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "tmuid"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "tmuid"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "tmuid"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "members",
+      "field": "team",
+      "type": "teams",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "team"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "team"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[tuid]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "team"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[tuid]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "members",
+      "field": "user",
+      "type": "users",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "user"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[uid]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "members",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[uid]"
     }
   ]
 }

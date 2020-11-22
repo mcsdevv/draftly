@@ -2,9 +2,9 @@
 import { Box, Grid, Subheading } from "@modulz/radix";
 
 // * Components
-import Approved from "@components/information/approvals/approved";
-import Requested from "@components/information/approvals/requested";
-import Unrequested from "@components/information/approvals/unrequested";
+import Approved from "@components/information/draft/approvals/approved";
+import Requested from "@components/information/draft/approvals/requested";
+import Unrequested from "@components/information/draft/approvals/unrequested";
 
 interface ReviewsProps {
   approved: any[];

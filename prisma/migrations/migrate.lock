@@ -1,10 +1,3 @@
 # Prisma Migrate lockfile v1
 
-20201004220558-model-renaming
-20201004225901-review-type
-20201007000907-creator
-20201010190557-title-to-campaign
-20201018211334-campaign-prod
-20201024004529-added-by-for-comments
-20201025111202-allow-null-foreign-keys-and-add-tmuid
-20201102004844-add-state-to-approvals
+20201122004953-minor
