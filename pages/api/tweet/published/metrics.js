@@ -11,7 +11,7 @@ const getTweetMetrics = async (req, res, _uid, tuid) => {
   const { tweetId, twuid } = JSON.parse(req.body);
 
   // * Get keys to post tweet
-  const keys = await prisma.teams.findOne({
+  const keys = await prisma.teams.findUnique({
     where: { tuid },
     select: {
       tokenKey: true,

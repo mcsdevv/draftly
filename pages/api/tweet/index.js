@@ -10,7 +10,7 @@ const getSingleTweet = async (req, res, _uid, _tuid) => {
   const { twuid } = req.query;
 
   // * Get tweet from table
-  const tweet = await prisma.tweets.findOne({
+  const tweet = await prisma.tweets.findUnique({
     where: { twuid },
     include: {
       approvals: true,

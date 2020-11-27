@@ -10,7 +10,7 @@ const getUserDetails = async (_req, res, uid) => {
   console.time("USER");
 
   // * Select user with matching uid
-  const user = await prisma.users.findOne({
+  const user = await prisma.users.findUnique({
     where: { uid },
   });
   console.timeEnd("USER");

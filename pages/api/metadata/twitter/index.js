@@ -15,7 +15,7 @@ const getCardMetadata = async (req, res) => {
   const { url } = JSON.parse(req.body);
 
   // * Check the 'cards' table for a URL match
-  const metadata = await prisma.metadata.findOne({
+  const metadata = await prisma.metadata.findUnique({
     where: { url },
   });
 

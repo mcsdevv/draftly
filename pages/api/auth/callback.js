@@ -49,7 +49,7 @@ const authCallback = async (req, res) => {
         let uid;
 
         // * Check if this is an existing user
-        const user = await prisma.users.findOne({
+        const user = await prisma.users.findUnique({
           where: { email: id_token.email },
         });
 
@@ -74,7 +74,7 @@ const authCallback = async (req, res) => {
           const { invited_to } = req.cookies;
 
           // * Get the team associated with invite
-          const team = await prisma.teams.findOne({
+          const team = await prisma.teams.findUnique({
             where: { tuid: invited_to },
             include: {
               members: true,

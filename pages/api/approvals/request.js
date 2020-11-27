@@ -18,7 +18,7 @@ const createApprovalRequest = async (req, res) => {
       tauid,
       uid,
       state: "requested",
-      tweet: { connect: { twuid } },
+      twuid,
     },
     select: {
       tweet: {

@@ -11,7 +11,7 @@ const deletePublishedTweet = async (req, res, _uid, tuid) => {
   const { tweetId, twuid } = JSON.parse(req.body);
 
   // * Get keys to post tweet
-  const keys = await prisma.teams.findOne({
+  const keys = await prisma.teams.findUnique({
     where: { tuid },
     select: {
       tokenKey: true,
@@ -28,24 +28,24 @@ const deletePublishedTweet = async (req, res, _uid, tuid) => {
   });
 
   // * Delete tweet from Twitter account
-  twitterClient.post("statuses/destroy", { id: tweetId }, async function (
-    error,
-    tweet,
-    _response
-  ) {
-    if (error) {
-      throw new Error(error);
+  twitterClient.post(
+    "statuses/destroy",
+    { id: tweetId },
+    async function (error, tweet, _response) {
+      if (error) {
+        throw new Error(error);
+      }
+
+      // * Delete published tweet and meta
+      await prisma.tweets.deleteMany({
+        where: { twuid },
+      });
+
+      // * Send response
+      console.log("Deleted tweet:", twuid);
+      res.status(200).json(twuid);
     }
-
-    // * Delete published tweet and meta
-    await prisma.tweets.deleteMany({
-      where: { twuid },
-    });
-
-    // * Send response
-    console.log("Deleted tweet:", twuid);
-    res.status(200).json(twuid);
-  });
+  );
 };
 
 export default verify(isMember(withSentry(deletePublishedTweet)));

@@ -16,7 +16,7 @@ const acceptInvite = async (req, res) => {
   // * Differing action if user exists and is logged in
   if (id_token && uid) {
     // * Check code matches that of team, else error
-    const inviteCode = await prisma.teams.findOne({
+    const inviteCode = await prisma.teams.findUnique({
       where: { tuid },
       select: { inviteCode: true },
     });
@@ -32,7 +32,7 @@ const acceptInvite = async (req, res) => {
     const uidDecrypted = decrypt(uid);
 
     // * Check the user is not currently a member of the team
-    const team = await prisma.teams.findOne({
+    const team = await prisma.teams.findUnique({
       where: { members: { some: { uid } }, tuid },
       include: {
         members: {

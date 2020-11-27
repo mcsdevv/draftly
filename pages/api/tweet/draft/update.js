@@ -15,9 +15,7 @@ const updateDraftTweet = async (req, res) => {
     data: {
       campaign,
       text,
-      metadata: metadata?.url
-        ? { connect: { url: metadata.url } }
-        : { disconnect: urlRemoved ? true : undefined },
+      url: metadata?.url,
     },
     include: {
       approvals: true,

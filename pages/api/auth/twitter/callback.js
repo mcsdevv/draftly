@@ -42,7 +42,7 @@ const twitterCallback = (req, res) => {
             const accountData = JSON.parse(data);
 
             // * Check if the team exists currently
-            const team = await prisma.teams.findOne({
+            const team = await prisma.teams.findUnique({
               where: { handle: accountData.screen_name },
             });
 
@@ -80,7 +80,7 @@ const twitterCallback = (req, res) => {
                   tokenKey: oauthAccessToken,
                   tokenSecret: oauthAccessTokenSecret,
                   inviteCode,
-                  creator: { connect: { uid: decrypt(req.cookies.uid) } },
+                  uid: decrypt(req.cookies.uid),
                 },
               });
 
@@ -89,8 +89,8 @@ const twitterCallback = (req, res) => {
               await prisma.members.create({
                 data: {
                   role: "owner",
-                  team: { connect: { tuid } },
-                  user: { connect: { uid: decrypt(req.cookies.uid) } },
+                  tuid,
+                  uid: decrypt(req.cookies.uid),
                   tmuid: `${decrypt(req.cookies.uid)}_${tuid}`,
                 },
               });

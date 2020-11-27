@@ -11,7 +11,7 @@ const createPublishedTweet = async (req, res, _uid, tuid) => {
   const { text, twuid } = JSON.parse(req.body);
 
   // * Get keys to post tweet
-  const keys = await prisma.teams.findOne({
+  const keys = await prisma.teams.findUnique({
     where: { tuid },
     select: {
       tokenKey: true,
@@ -28,25 +28,25 @@ const createPublishedTweet = async (req, res, _uid, tuid) => {
   });
 
   // * Post tweet
-  twitterClient.post("statuses/update", { status: text }, async function (
-    error,
-    tweet,
-    _response
-  ) {
-    if (error) {
-      console.log("ERROR", error);
-      throw new Error(error);
+  twitterClient.post(
+    "statuses/update",
+    { status: text },
+    async function (error, tweet, _response) {
+      if (error) {
+        console.log("ERROR", error);
+        throw new Error(error);
+      }
+
+      // * Update the tweet type to published and set the tweetId
+      await prisma.tweets.update({
+        where: { twuid },
+        data: { type: "published", tweetId: tweet.id_str },
+      });
+
+      console.log("Published tweet created for:", tuid);
+      res.status(200).json(text);
     }
-
-    // * Update the tweet type to published and set the tweetId
-    await prisma.tweets.update({
-      where: { twuid },
-      data: { type: "published", tweetId: tweet.id_str },
-    });
-
-    console.log("Published tweet created for:", tuid);
-    res.status(200).json(text);
-  });
+  );
 };
 
 export default verify(isMember(withSentry(createPublishedTweet)));
