@@ -14,10 +14,10 @@ const createTweetComment = async (req, res, uid) => {
   // * Insert comment
   const commentInserted = await prisma.comments.create({
     data: {
-      addedBy: { connect: { uid } },
+      uid,
       comment,
       tcuid,
-      tweet: { connect: { twuid } },
+      twuid,
     },
     include: {
       addedBy: true,
