@@ -48,9 +48,6 @@
     "db-save": "prisma migrate save --experimental",
     "db-up": "prisma migrate up --experimental"
   },
-  "engines": {
-    "node": "10.x"
-  },
   "devDependencies": {
     "@prisma/cli": "2.12.1",
     "@types/react": "^17.0.0",
