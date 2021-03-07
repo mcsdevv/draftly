@@ -33,7 +33,7 @@
     "react-dom": "^17.0.0",
     "react-linkify": "^1.0.0-alpha",
     "s-ago": "^2.1.0",
-    "swr": "0.3.9",
+    "swr": "0.4.2",
     "tldjs": "^2.3.1",
     "twitter": "^1.7.1",
     "twitter-v2": "^1.0.7",
