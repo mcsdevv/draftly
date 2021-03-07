@@ -17,7 +17,6 @@
     "@types/js-cookie": "^2.2.6",
     "@types/react-linkify": "^1.0.0",
     "@types/uuid": "^8.3.0",
-    "@zeit/next-source-maps": "0.0.4-canary.1",
     "cheerio": "^1.0.0-rc.3",
     "classnames": "^2.2.6",
     "cookie": "^0.4.0",
