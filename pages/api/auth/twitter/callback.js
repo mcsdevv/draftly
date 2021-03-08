@@ -80,7 +80,11 @@ const twitterCallback = (req, res) => {
                   tokenKey: oauthAccessToken,
                   tokenSecret: oauthAccessTokenSecret,
                   inviteCode,
-                  uid: decrypt(req.cookies.uid),
+                  creator: {
+                    connect: {
+                      uid: decrypt(req.cookies.uid),
+                    },
+                  },
                 },
               });
 
