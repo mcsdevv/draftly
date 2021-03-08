@@ -17,7 +17,6 @@ function SettingsLayout({ children }: SettingsLayoutProps) {
         <Tab name="Account" />
         <Tab name="Team" />
         <Tab name="Members" />
-        <Tab name="Plan" />
       </Flex>
       {children}
     </Container>
