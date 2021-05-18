@@ -17,7 +17,7 @@ function MembersSettings() {
 }
 
 MembersSettings.getLayout = (page) => (
-  <DashboardLayout name="Settings - Account">
+  <DashboardLayout name="Settings - Members">
     <SettingsLayout>{page}</SettingsLayout>
   </DashboardLayout>
 );

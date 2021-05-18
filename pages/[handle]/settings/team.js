@@ -23,7 +23,7 @@ function TeamSettings() {
 }
 
 TeamSettings.getLayout = (page) => (
-  <DashboardLayout name="Settings - Account">
+  <DashboardLayout name="Settings - Team">
     <SettingsLayout>{page}</SettingsLayout>
   </DashboardLayout>
 );
