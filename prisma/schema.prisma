@@ -10,11 +10,6 @@ datasource db {
   shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
 }
 
-// datasource db {
-//   provider = "mysql"
-//   url = "mysql://s5fzwakyjur9:pscale_pw_YLCM_QMiR9v3sj1dLgUGPVvLQRBrEOAIzMMmdrHcgp0@5sovhg05wzxq.us-east-1.psdb.cloud/draftly?sslaccept=strict"
-// }
-
 model teams {
   tuid            String    @id @default("")
   name            String    @default("")
