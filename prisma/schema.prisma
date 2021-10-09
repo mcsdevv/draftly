@@ -1,11 +1,19 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  referentialIntegrity = "prisma"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
 }
+
+// datasource db {
+//   provider = "mysql"
+//   url = "mysql://s5fzwakyjur9:pscale_pw_YLCM_QMiR9v3sj1dLgUGPVvLQRBrEOAIzMMmdrHcgp0@5sovhg05wzxq.us-east-1.psdb.cloud/draftly?sslaccept=strict"
+// }
 
 model teams {
   tuid            String    @id @default("")
